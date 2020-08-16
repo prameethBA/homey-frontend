@@ -1,8 +1,9 @@
-import Nav from './componets/nav.js'
-import Comp from './componets/main.js'
+import Nav from './componets/navigation-bar.js'
+import Comp from './componets/footer.js'
 
 let UI = `
-    Initial Page will be here
+    <navigation-bar></navigation-bar>
+    <footer-c></footer-c>
 `
 
 document.querySelector('#root').innerHTML = UI

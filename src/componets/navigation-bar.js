@@ -1,12 +1,21 @@
 import Base from './Base.js'
 
 const style = `
-    h1 {
-        color : red;
+    header {
+        position: absolute;
+        top:0;
+        left:0;
+        right:0;
+        background-color: #111111;
+        color: #eeeeee;
     }
 `
 const content = `
-    <h1>Lakmal</h1>
+    <header>
+        <nav>
+            <h3>Homey</h3>
+        </nav
+    </header>
 `
 
 export default class Nav extends Base {
@@ -17,4 +26,4 @@ export default class Nav extends Base {
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
     }
 }
-window.customElements.define('nav-c', Nav)
+window.customElements.define('navigation-bar', Nav)
