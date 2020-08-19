@@ -60,7 +60,9 @@ export default class Nav extends Base {
     connectedCallback() {
         this.shadowRoot
             .querySelector('#login-button')
-            .addEventListener('click', clicked())
+            .addEventListener('click', () => {
+                dispatchEvent(new Event('login-form'))
+            })
     }
 }
 window.customElements.define('navigation-bar', Nav)
