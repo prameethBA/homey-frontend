@@ -42,6 +42,12 @@ export default class UserComp extends Base {
         this.render(style, content)
         this.attachShadow({ mode: 'open' })
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+        if (this.getAttribute('mirror') == 'true') {
+            this.shadowRoot.querySelector('.container').innerHTML = `
+            <div><slot name="title" ></slot></div>
+            <div><slot name="image" ></slot></div>
+            `
+        }
     }
 }
 window.customElements.define('user-comp', UserComp)
