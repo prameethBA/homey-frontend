@@ -1,5 +1,5 @@
 import Base from './Base.js'
-// import SignUpForm from './signup-form.js'
+import SignUpForm from './signup-form.js'
 
 const style = `
     .form {
@@ -110,7 +110,7 @@ const content = `
     
 `
 
-export default class LoginForm extends Base {
+export default class SignUpForm extends Base {
     constructor() {
         super()
 
@@ -127,4 +127,4 @@ export default class LoginForm extends Base {
             })
     }
 }
-window.customElements.define('login-form', LoginForm)
+window.customElements.define('signup-form', SignUpForm)
