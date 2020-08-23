@@ -69,42 +69,6 @@ const content = `
     </div>
 
     <div class="form">
-        <h2>Login</h2>
-        <img src="" />
-
-        <div class="container">
-            <div class="row">
-                <label for="email">Email</label>
-                <input id="email" name="email" title="Email : someone@somthing.com" />
-            </div>
-            <div class="row">
-                <label for="password">Password</label>
-                <input id="password" name="password" title= "Password : pass@123" />
-            </div>
-            <div class="row">
-                <input type="checkbox" id="remember"> Remember me
-            </div>
-            <div class="row">
-                <a title="Reset Password">Forgot Password ? </a>
-                |
-                <a title="Create Account" id="signup"> Sign Up </a>
-            </div>
-
-            <div class="hr-separator">
-            </div>
-
-            <div class="row">
-                <span>or</span>
-            </div>
-            
-            <div class="row">
-                <button class="google">Google</button>
-            </div>
-            <div class="row">
-                <button class="facebook">Facebook</button>
-            </div>
-    
-        </div>
     </div>
 
 `
@@ -118,13 +82,45 @@ export default class LoginForm extends Base {
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
     }
 
-    connectedCallback() {
-        this.shadowRoot
-            .querySelector('#backdrop')
-            .addEventListener('click', () => {
-                dispatchEvent(new Event('exit-login-form'))
-            })
+    loadLoginContent() {
+        this.shadowRoot.querySelector('.form').innerHTML = `
+            <h2>Login</h2>
+            <img src="" />
 
+            <div class="container">
+                <div class="row">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" title="Email : someone@somthing.com" />
+                </div>
+                <div class="row">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" title= "Password : pass@123" />
+                </div>
+                <div class="row">
+                    <input type="checkbox" id="remember"> Remember me
+                </div>
+                <div class="row">
+                    <a title="Reset Password">Forgot Password ? </a>
+                    |
+                    <a title="Create Account" id="signup"> Sign Up </a>
+                </div>
+
+                <div class="hr-separator">
+                </div>
+
+                <div class="row">
+                    <span>or</span>
+                </div>
+                
+                <div class="row">
+                    <button class="google">Continue with Google</button>
+                </div>
+                <div class="row">
+                    <button class="facebook">Continue with Facebook</button>
+                </div>
+
+            </div>
+        `
         this.shadowRoot
             .querySelector('#signup')
             .addEventListener('click', async () => {
@@ -132,6 +128,19 @@ export default class LoginForm extends Base {
                 this.shadowRoot.querySelector(
                     '.form'
                 ).innerHTML = `<signup-form></signup-form>`
+
+                addEventListener('load-login-content', () => {
+                    this.loadLoginContent()
+                })
+            })
+    }
+    connectedCallback() {
+        this.loadLoginContent()
+
+        this.shadowRoot
+            .querySelector('#backdrop')
+            .addEventListener('click', () => {
+                dispatchEvent(new Event('exit-login-form'))
             })
     }
 }

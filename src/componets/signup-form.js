@@ -71,6 +71,14 @@ const content = `
 
     <div class="container">
         <div class="row">
+            <div class="name">
+                <label for="firstName">First Name</label>
+                <input id="firstName" name="firstName" title="First Name : Joe" />
+                <label for="lastName">Last Name</label>
+                <input id="lastName" name="lastName" title="Last Name : Does" />
+            </div>
+        </div>
+        <div class="row">
             <label for="email">Email</label>
             <input id="email" name="email" title="Email : someone@somthing.com" />
         </div>
@@ -79,12 +87,16 @@ const content = `
             <input id="password" name="password" title= "Password : pass@123" />
         </div>
         <div class="row">
-            <input type="checkbox" id="remember"> Remember me
+            <label for="confirmPassword">Confirm Password</label>
+            <input id="confirmPassword" name="confirmPassword" title= "Confirm Password : pass@123" />
         </div>
         <div class="row">
-            <a title="Reset Password">Forgot Password ? </a>
+            <input type="checkbox" id="remember"> accept <a>terms</a> and <a>conditions</a>
+        </div>
+        <div class="row">
+            <a title="Login" class="load-login-content">Already have an account ? </a>
             |
-            <a title="Create Account"> Sign Up </a>
+            <button title="Log in" class="load-login-content"> Login </button>
         </div>
 
         <div class="hr-separator">
@@ -95,10 +107,10 @@ const content = `
         </div>
         
         <div class="row">
-            <button class="google">Google</button>
+            <button class="google">SignUp with Google</button>
         </div>
         <div class="row">
-            <button class="facebook">Facebook</button>
+            <button class="facebook">SignUp with Facebook</button>
         </div>
 
     </div>
@@ -114,6 +126,14 @@ export default class SignUpForm extends Base {
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
     }
 
-    connectedCallback() {}
+    connectedCallback() {
+        this.shadowRoot
+            .querySelectorAll('.load-login-content')
+            .forEach(item => {
+                item.addEventListener('click', () => {
+                    dispatchEvent(new Event('load-login-content'))
+                })
+            })
+    }
 }
 window.customElements.define('signup-form', SignUpForm)
