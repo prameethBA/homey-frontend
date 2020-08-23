@@ -1,10 +1,9 @@
 import Base from './componets/Base.js'
 import { _ } from './assets/js/main-library.js'
 
-import Nav from './componets/navigation-bar.js'
-import Comp from './componets/footer.js'
-import UserComp from './componets/user-comp.js'
-import LoginForm from './componets/login-form.js'
+import './componets/navigation-bar.js'
+import './componets/footer.js'
+import './componets/user-comp.js'
 
 const style = `
     .container {
@@ -50,7 +49,8 @@ export default class UI extends Base {
         this.attachShadow({ mode: 'open' })
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
 
-        addEventListener('login-form', () => {
+        addEventListener('login-form', async () => {
+            await import('./componets/login-form.js')
             this.shadowRoot.querySelector('#login-form').style.display = 'flex'
             addEventListener('exit-login-form', () => {
                 this.shadowRoot.querySelector('#login-form').style.display =
