@@ -94,6 +94,9 @@ const content = `
             <input type="checkbox" id="remember"> accept <a>terms</a> and <a>conditions</a>
         </div>
         <div class="row">
+            <button id="signUp"> Sign Up </button>
+        </div>
+        <div class="row">
             <a title="Login" class="load-login-content">Already have an account ? </a>
             |
             <button title="Log in" class="load-login-content"> Login </button>

@@ -100,6 +100,9 @@ export default class LoginForm extends Base {
                     <input type="checkbox" id="remember"> Remember me
                 </div>
                 <div class="row">
+                    <button id="login"> Login </button>
+                </div>
+                <div class="row">
                     <a title="Reset Password">Forgot Password ? </a>
                     |
                     <a title="Create Account" id="signup"> Sign Up </a>
