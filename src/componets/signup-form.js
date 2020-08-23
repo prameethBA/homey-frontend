@@ -73,22 +73,22 @@ const content = `
         <div class="row">
             <div class="name">
                 <label for="firstName">First Name</label>
-                <input id="firstName" name="firstName" title="First Name : Joe" />
+                <input type="text" id="firstName" name="firstName" title="First Name : Joe" />
                 <label for="lastName">Last Name</label>
-                <input id="lastName" name="lastName" title="Last Name : Does" />
+                <input type="text" id="lastName" name="lastName" title="Last Name : Does" />
             </div>
         </div>
         <div class="row">
             <label for="email">Email</label>
-            <input id="email" name="email" title="Email : someone@somthing.com" />
+            <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
         </div>
         <div class="row">
             <label for="password">Password</label>
-            <input id="password" name="password" title= "Password : pass@123" />
+            <input type="password" id="password" name="password" title= "Password : pass@123" />
         </div>
         <div class="row">
             <label for="confirmPassword">Confirm Password</label>
-            <input id="confirmPassword" name="confirmPassword" title= "Confirm Password : pass@123" />
+            <input type="password" id="confirmPassword" name="confirmPassword" title= "Confirm Password : pass@123" />
         </div>
         <div class="row">
             <input type="checkbox" id="remember"> accept <a>terms</a> and <a>conditions</a>

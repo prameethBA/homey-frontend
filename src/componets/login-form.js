@@ -90,11 +90,11 @@ export default class LoginForm extends Base {
             <div class="container">
                 <div class="row">
                     <label for="email">Email</label>
-                    <input id="email" name="email" title="Email : someone@somthing.com" />
+                    <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
                 </div>
                 <div class="row">
                     <label for="password">Password</label>
-                    <input id="password" name="password" title= "Password : pass@123" />
+                    <input type="password" id="password" name="password" title= "Password : pass@123" />
                 </div>
                 <div class="row">
                     <input type="checkbox" id="remember"> Remember me
@@ -103,7 +103,7 @@ export default class LoginForm extends Base {
                     <button id="login"> Login </button>
                 </div>
                 <div class="row">
-                    <a title="Reset Password">Forgot Password ? </a>
+                    <a title="Reset Password" id="reset">Forgot Password ? </a>
                     |
                     <a title="Create Account" id="signup"> Sign Up </a>
                 </div>
@@ -131,6 +131,19 @@ export default class LoginForm extends Base {
                 this.shadowRoot.querySelector(
                     '.form'
                 ).innerHTML = `<signup-form></signup-form>`
+
+                addEventListener('load-login-content', () => {
+                    this.loadLoginContent()
+                })
+            })
+
+        this.shadowRoot
+            .querySelector('#reset')
+            .addEventListener('click', async () => {
+                await import('./reset-password.js')
+                this.shadowRoot.querySelector(
+                    '.form'
+                ).innerHTML = `<reset-password></reset-password>`
 
                 addEventListener('load-login-content', () => {
                     this.loadLoginContent()
