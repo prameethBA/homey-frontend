@@ -1,5 +1,4 @@
 import Base from './Base.js'
-import SignUpForm from './signup-form.js'
 
 const style = `
     .form {
@@ -66,46 +65,42 @@ const style = `
 
 `
 const content = `
-    <div id="backdrop" title="Click to close this form">
-    </div>
+   
+    <h2>SignUp</h2>
+    <img src="" />
 
-    <div class="form">
-        <h2>Login</h2>
-        <img src="" />
-
-        <div class="container">
-            <div class="row">
-                <label for="email">Email</label>
-                <input id="email" name="email" title="Email : someone@somthing.com" />
-            </div>
-            <div class="row">
-                <label for="password">Password</label>
-                <input id="password" name="password" title= "Password : pass@123" />
-            </div>
-            <div class="row">
-                <input type="checkbox" id="remember"> Remember me
-            </div>
-            <div class="row">
-                <a title="Reset Password">Forgot Password ? </a>
-                |
-                <a title="Create Account"> Sign Up </a>
-            </div>
-
-            <div class="hr-separator">
-            </div>
-
-            <div class="row">
-                <span>or</span>
-            </div>
-            
-            <div class="row">
-                <button class="google">Google</button>
-            </div>
-            <div class="row">
-                <button class="facebook">Facebook</button>
-            </div>
-
+    <div class="container">
+        <div class="row">
+            <label for="email">Email</label>
+            <input id="email" name="email" title="Email : someone@somthing.com" />
         </div>
+        <div class="row">
+            <label for="password">Password</label>
+            <input id="password" name="password" title= "Password : pass@123" />
+        </div>
+        <div class="row">
+            <input type="checkbox" id="remember"> Remember me
+        </div>
+        <div class="row">
+            <a title="Reset Password">Forgot Password ? </a>
+            |
+            <a title="Create Account"> Sign Up </a>
+        </div>
+
+        <div class="hr-separator">
+        </div>
+
+        <div class="row">
+            <span>or</span>
+        </div>
+        
+        <div class="row">
+            <button class="google">Google</button>
+        </div>
+        <div class="row">
+            <button class="facebook">Facebook</button>
+        </div>
+
     </div>
     
 `
@@ -119,12 +114,6 @@ export default class SignUpForm extends Base {
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
     }
 
-    connectedCallback() {
-        this.shadowRoot
-            .querySelector('#backdrop')
-            .addEventListener('click', () => {
-                dispatchEvent(new Event('exit-login-form'))
-            })
-    }
+    connectedCallback() {}
 }
 window.customElements.define('signup-form', SignUpForm)

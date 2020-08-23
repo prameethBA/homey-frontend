@@ -1,5 +1,4 @@
 import Base from './Base.js'
-// import SignUpForm from './signup-form.js'
 
 const style = `
     .form {
@@ -88,7 +87,7 @@ const content = `
             <div class="row">
                 <a title="Reset Password">Forgot Password ? </a>
                 |
-                <a title="Create Account"> Sign Up </a>
+                <a title="Create Account" id="signup"> Sign Up </a>
             </div>
 
             <div class="hr-separator">
@@ -104,10 +103,10 @@ const content = `
             <div class="row">
                 <button class="facebook">Facebook</button>
             </div>
-
+    
         </div>
     </div>
-    
+
 `
 
 export default class LoginForm extends Base {
@@ -124,6 +123,15 @@ export default class LoginForm extends Base {
             .querySelector('#backdrop')
             .addEventListener('click', () => {
                 dispatchEvent(new Event('exit-login-form'))
+            })
+
+        this.shadowRoot
+            .querySelector('#signup')
+            .addEventListener('click', async () => {
+                await import('./signup-form.js')
+                this.shadowRoot.querySelector(
+                    '.form'
+                ).innerHTML = `<signup-form></signup-form>`
             })
     }
 }
