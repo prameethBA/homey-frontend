@@ -1,3 +1,20 @@
+import Router from './assets/js/Router.js'
+const router = new Router()
+
+// the get() method would store the '/' logic and callback in an array;
+router.get('/', function () {
+    // code to be executed if '/' is matched
+    console.log('home')
+})
+
+// here get() method would push '/another-page' and the callback to the existing array
+router.get('/login', function () {
+    // code to be executed if '/another-page' is matched
+    console.log('login')
+})
+
+router.init() // this method will process the logics
+
 import Base from './componets/Base.js'
 import { _ } from './assets/js/main-library.js'
 
