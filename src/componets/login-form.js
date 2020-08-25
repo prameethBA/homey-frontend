@@ -132,11 +132,18 @@ export default class LoginForm extends Base {
                 this.shadowRoot.querySelector(
                     '.form'
                 ).innerHTML = `<signup-form></signup-form>`
-
-                addEventListener('load-login-content', () => {
-                    this.loadLoginContent()
-                })
             })
+
+        addEventListener('signup-form', async () => {
+            await import('./signup-form.js')
+            this.shadowRoot.querySelector(
+                '.form'
+            ).innerHTML = `<signup-form></signup-form>`
+        })
+
+        addEventListener('load-login-content', () => {
+            this.loadLoginContent()
+        })
 
         this.shadowRoot
             .querySelector('#reset')
@@ -145,10 +152,6 @@ export default class LoginForm extends Base {
                 this.shadowRoot.querySelector(
                     '.form'
                 ).innerHTML = `<reset-password></reset-password>`
-
-                addEventListener('load-login-content', () => {
-                    this.loadLoginContent()
-                })
             })
     }
     connectedCallback() {

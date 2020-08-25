@@ -1,26 +1,16 @@
-import Router from './assets/js/Router.js'
-const router = new Router()
-
-// the get() method would store the '/' logic and callback in an array;
-router.get('/', function () {
-    // code to be executed if '/' is matched
-    console.log('home')
-})
-
-// here get() method would push '/another-page' and the callback to the existing array
-router.get('/login', function () {
-    // code to be executed if '/another-page' is matched
-    console.log('login')
-})
-
-router.init() // this method will process the logics
-
 import Base from './componets/Base.js'
 import { _ } from './assets/js/main-library.js'
+import Router from './assets/js/Router.js'
 
 import './componets/navigation-bar.js'
 import './componets/footer.js'
 import './componets/user-comp.js'
+
+const router = new Router()
+
+router.get('/', async () => {
+    console.log('home')
+})
 
 const style = `
     .container {
@@ -58,7 +48,7 @@ const content = `
 <footer-c></footer-c>
 `
 
-export default class UI extends Base {
+class UI extends Base {
     constructor() {
         super()
 
@@ -67,15 +57,29 @@ export default class UI extends Base {
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
 
         addEventListener('login-form', async () => {
+            this.setPath('/login')
             await import('./componets/login-form.js')
             this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+
             addEventListener('exit-login-form', () => {
                 this.shadowRoot.querySelector('#login-form').style.display =
                     'none'
             })
+        })
+
+        router.get('/signup', async () => {
+            await import('./componets/login-form.js')
+            this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+            dispatchEvent(new Event('signup-form'))
         })
     }
 }
 window.customElements.define('ui-c', UI)
 
 _('#root').innerHTML = '<ui-c></ui-c>'
+
+router.get('/login', () => {
+    dispatchEvent(new Event('login-form'))
+})
+
+router.init() // this method will process the logics
