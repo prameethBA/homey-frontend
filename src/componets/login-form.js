@@ -83,6 +83,7 @@ export default class LoginForm extends Base {
     }
 
     loadLoginContent() {
+        this.setPath('/login')
         this.shadowRoot.querySelector('.form').innerHTML = `
             <h2>Login</h2>
             <img src="" />
@@ -157,6 +158,8 @@ export default class LoginForm extends Base {
             .querySelector('#backdrop')
             .addEventListener('click', () => {
                 dispatchEvent(new Event('exit-login-form'))
+                this.loadLoginContent()
+                this.setPath('/')
             })
     }
 }

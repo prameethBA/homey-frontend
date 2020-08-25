@@ -24,11 +24,13 @@ export default class ResetPassword extends Base {
         this.render(style, content)
         this.attachShadow({ mode: 'open' })
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+
+        this.setPath('/reset-password')
     }
 
     connectedCallback() {
         this.shadowRoot
-            .querySelectorAll('#reset')
+            .querySelector('#reset')
             .addEventListener('click', () => {
                 dispatchEvent(new Event('load-password-reset'))
             })

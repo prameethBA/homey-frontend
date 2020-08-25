@@ -127,6 +127,8 @@ export default class SignUpForm extends Base {
         this.render(style, content)
         this.attachShadow({ mode: 'open' })
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+
+        this.setPath('/signup')
     }
 
     connectedCallback() {

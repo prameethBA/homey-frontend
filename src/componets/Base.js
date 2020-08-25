@@ -9,4 +9,7 @@ export default class Base extends HTMLElement {
         if (content === null) content = ''
         this.template.innerHTML = this.styled(style) + content
     }
+    setPath(path) {
+        window.history.pushState({}, '', path)
+    }
 }
