@@ -1,6 +1,8 @@
 export default class Base extends HTMLElement {
     template = document.createElement('template')
 
+    state = {}
+
     styled(style) {
         if (style === null) return ' '
         return '<style>' + style + '</style>'
