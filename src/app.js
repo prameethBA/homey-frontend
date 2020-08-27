@@ -2,9 +2,9 @@ import Base from './componets/Base.js'
 import { _ } from './assets/js/main-library.js'
 import Router from './assets/js/Router.js'
 
-import './componets/navigation-bar.js'
-import './componets/footer.js'
-import './componets/user-comp.js'
+import './componets/home/navigation-bar.js'
+import './componets/home/footer.js'
+import './componets/home/user-comp.js'
 
 const router = new Router()
 
@@ -65,14 +65,14 @@ class UI extends Base {
 
         addEventListener('login-form', async () => {
             this.setPath('/login')
-            await import('./componets/login-form.js')
+            await import('./componets/home/login-form.js')
             this.shadowRoot.querySelector('#login-form').style.display = 'flex'
 
             exitForm()
         })
 
         router.get('/signup', async () => {
-            await import('./componets/login-form.js')
+            await import('./componets/home/login-form.js')
             this.shadowRoot.querySelector('#login-form').style.display = 'flex'
             dispatchEvent(new Event('signup-form'))
 
@@ -80,7 +80,7 @@ class UI extends Base {
         })
 
         router.get('/reset-password', async () => {
-            await import('./componets/login-form.js')
+            await import('./componets/home/login-form.js')
             this.shadowRoot.querySelector('#login-form').style.display = 'flex'
             dispatchEvent(new Event('reset-password-form'))
 
