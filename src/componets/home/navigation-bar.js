@@ -13,6 +13,7 @@ const style = `
     
     .logo {
         margin-left: 2em;
+        cursor: pointer;
     }
 
     nav {
@@ -63,6 +64,11 @@ export default class Nav extends Base {
             .addEventListener('click', () => {
                 dispatchEvent(new Event('login-form'))
             })
+
+        this.shadowRoot.querySelector('.logo').addEventListener('click', () => {
+            this.setPath('/')
+            dispatchEvent(new Event('reload-home'))
+        })
     }
 }
 window.customElements.define('navigation-bar', Nav)

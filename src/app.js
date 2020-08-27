@@ -31,16 +31,20 @@ const style = `
         display: none;
     }
 
+    user-comp {
+        cursor: pointer;
+    }
+
 `
 const content = `
 <navigation-bar></navigation-bar>
-    <div class="container">
-        <user-comp mirror="true">
-            <img slot="image" async src="https://www.zricks.com/img/UpdatesBlog/44b94c9d-ab13-401d-9e5b-86a00f9da6496%20Must%20Follow%20Tips%20to%20Market%20a%20Luxury%20Home.jpg" alt="Image"></img>
+    <div class="container" id="mainContainer">
+        <user-comp mirror="true" route="/property-owner">
+            <img slot="image" defer src="https://www.zricks.com/img/UpdatesBlog/44b94c9d-ab13-401d-9e5b-86a00f9da6496%20Must%20Follow%20Tips%20to%20Market%20a%20Luxury%20Home.jpg" alt="Image"></img>
             <h1 slot="title">Rent or Lease your own property</h1>
         </user-comp>
-        <user-comp mirror="true">
-            <img slot="image" async src="https://s3.amazonaws.com/clients.granalacantadvertiser.images/wp-content/uploads/2017/06/14072232/2236775_2_O.jpg" alt="Image"></img>
+        <user-comp mirror="true" route="/tenant">
+            <img slot="image" defer src="https://s3.amazonaws.com/clients.granalacantadvertiser.images/wp-content/uploads/2017/06/14072232/2236775_2_O.jpg" alt="Image"></img>
             <h1 slot="title">Looking for a place</h1>
         </user-comp>
     </div>
@@ -86,6 +90,37 @@ class UI extends Base {
 
             exitForm()
         })
+    }
+
+    connectedCallback() {
+        addEventListener('reload-home', () => {
+            this.render(style, content)
+            this.shadowRoot.innerHTML = ''
+            this.shadowRoot.append(this.template.content)
+
+            this.shadowRoot.querySelectorAll('user-comp').forEach(item =>
+                item.addEventListener('click', async () => {
+                    this.setPath(item.getAttribute('route'))
+                    this.shadowRoot.querySelector('#mainContainer').innerHTML =
+                        item.getAttribute('route') === '/tenant'
+                            ? `<user-tenant></user-tenant>`
+                            : `<user-property-owner></user-property-owner>`
+                })
+            )
+        })
+
+        this.shadowRoot.querySelectorAll('user-comp').forEach(item =>
+            item.addEventListener('click', async () => {
+                this.setPath(item.getAttribute('route'))
+                await import(
+                    './componets/user' + item.getAttribute('route') + '.js'
+                )
+                this.shadowRoot.querySelector('#mainContainer').innerHTML =
+                    item.getAttribute('route') === '/tenant'
+                        ? `<user-tenant></user-tenant>`
+                        : `<user-property-owner></user-property-owner>`
+            })
+        )
     }
 }
 window.customElements.define('ui-c', UI)
