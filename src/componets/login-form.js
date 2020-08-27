@@ -125,34 +125,36 @@ export default class LoginForm extends Base {
 
             </div>
         `
-        this.shadowRoot
-            .querySelector('#signup')
-            .addEventListener('click', async () => {
-                await import('./signup-form.js')
-                this.shadowRoot.querySelector(
-                    '.form'
-                ).innerHTML = `<signup-form></signup-form>`
-            })
-
-        addEventListener('signup-form', async () => {
+        const loadSignUpFrom = async () => {
             await import('./signup-form.js')
             this.shadowRoot.querySelector(
                 '.form'
             ).innerHTML = `<signup-form></signup-form>`
-        })
+        }
+
+        this.shadowRoot
+            .querySelector('#signup')
+            .addEventListener('click', () => loadSignUpFrom())
+
+        addEventListener('signup-form', () => loadSignUpFrom())
 
         addEventListener('load-login-content', () => {
             this.loadLoginContent()
+            console.log('load')
         })
+
+        const loadResetFrom = async () => {
+            await import('./reset-password.js')
+            this.shadowRoot.querySelector(
+                '.form'
+            ).innerHTML = `<reset-password></reset-password>`
+        }
 
         this.shadowRoot
             .querySelector('#reset')
-            .addEventListener('click', async () => {
-                await import('./reset-password.js')
-                this.shadowRoot.querySelector(
-                    '.form'
-                ).innerHTML = `<reset-password></reset-password>`
-            })
+            .addEventListener('click', () => loadResetFrom())
+
+        addEventListener('reset-password-form', () => loadResetFrom())
     }
     connectedCallback() {
         this.loadLoginContent()

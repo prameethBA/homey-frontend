@@ -56,21 +56,35 @@ class UI extends Base {
         this.attachShadow({ mode: 'open' })
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
 
+        const exitForm = () => {
+            addEventListener('exit-login-form', () => {
+                this.shadowRoot.querySelector('#login-form').style.display =
+                    'none'
+            })
+        }
+
         addEventListener('login-form', async () => {
             this.setPath('/login')
             await import('./componets/login-form.js')
             this.shadowRoot.querySelector('#login-form').style.display = 'flex'
 
-            addEventListener('exit-login-form', () => {
-                this.shadowRoot.querySelector('#login-form').style.display =
-                    'none'
-            })
+            exitForm()
         })
 
         router.get('/signup', async () => {
             await import('./componets/login-form.js')
             this.shadowRoot.querySelector('#login-form').style.display = 'flex'
             dispatchEvent(new Event('signup-form'))
+
+            exitForm()
+        })
+
+        router.get('/reset-password', async () => {
+            await import('./componets/login-form.js')
+            this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+            dispatchEvent(new Event('reset-password-form'))
+
+            exitForm()
         })
     }
 }
