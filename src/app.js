@@ -133,16 +133,16 @@ router.get('/login', () => {
 
 router.init() // this method will process the logics
 
-// Register ServiceWorker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker
-            .register('./sw.js')
-            .then(registration => {
-                console.log('Service Worker is registered', registration.scope)
-            })
-            .catch(err => {
-                console.error('Registration failed:', err)
-            })
-    })
-}
+// // Register ServiceWorker
+// if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', () => {
+//         navigator.serviceWorker
+//             .register('./sw.js')
+//             .then(registration => {
+//                 console.log('Service Worker is registered', registration.scope)
+//             })
+//             .catch(err => {
+//                 console.error('Registration failed:', err)
+//             })
+//     })
+// }
