@@ -1,15 +1,13 @@
 import Base from './../Base.js'
 
+import './property-view.js'
+
 const style = `
 
 
 `
 const content = `
-    <main>
-        <div>
-            Copyright | ${new Date().getFullYear()} | homey.lk
-        </div>
-    </main>
+    <property-view></property-view>
 `
 
 export default class PrimaryUser extends Base {
