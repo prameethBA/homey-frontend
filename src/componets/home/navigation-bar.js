@@ -1,4 +1,4 @@
-import Base from './../Base.js'
+import Base from "./../Base.js"
 
 const style = `
     header {
@@ -62,15 +62,15 @@ const content = `
 `
 
 export default class Nav extends Base {
-    constructor() {
-        super()
-        this.render(style, content)
-        this.attachShadow({ mode: 'open' })
-        this.shadowRoot.appendChild(this.template.content.cloneNode(true))
-    }
+  constructor() {
+    super()
+    this.render(style, content)
+    this.attachShadow({ mode: "open" })
+    this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+  }
 
-    connectedCallback() {
-        this.state.loginContent = `
+  connectedCallback() {
+    this.state.loginContent = `
         <div class='login-content'>
             <ul>
                 <li>Own Properties</li>
@@ -83,24 +83,21 @@ export default class Nav extends Base {
         </div>
         
         `
-        this.shadowRoot
-            .querySelector('#login-button')
-            .addEventListener('click', () => {
-                dispatchEvent(new Event('login-form'))
-            })
+    this.shadowRoot
+      .querySelector("#login-button")
+      .addEventListener("click", () => {
+        dispatchEvent(new Event("login-form"))
+      })
 
-        if (localStorage.login !== true) {
-            this.shadowRoot.querySelector('#login-button').style.display =
-                'none'
-            this.shadowRoot.querySelector(
-                'nav'
-            ).innerHTML += this.state.loginContent
-        }
-
-        this.shadowRoot.querySelector('.logo').addEventListener('click', () => {
-            this.setPath('/')
-            dispatchEvent(new Event('reload-home'))
-        })
+    if (localStorage.login !== true) {
+      this.shadowRoot.querySelector("#login-button").style.display = "none"
+      this.shadowRoot.querySelector("nav").innerHTML += this.state.loginContent
     }
+
+    this.shadowRoot.querySelector(".logo").addEventListener("click", () => {
+      this.setPath("/")
+      dispatchEvent(new Event("reload-home"))
+    })
+  }
 }
-window.customElements.define('navigation-bar', Nav)
+window.customElements.define("navigation-bar", Nav)
