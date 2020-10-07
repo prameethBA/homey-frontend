@@ -3,13 +3,14 @@ import Base from './../Base.js'
 const style = `
 footer {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 0.5em 0;
-    text-align: center;
-    color: #eeeeee;
-    background-color: #000000;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.5em 0;
+  text-align: center;
+  color: #eeeeee;
+  background-color: #001f3f;
+  
 }
 
 
@@ -23,12 +24,12 @@ const content = `
 `
 
 export default class Footer extends Base {
-    constructor() {
-        super()
+  constructor() {
+    super()
 
-        this.render(style, content)
-        this.attachShadow({ mode: 'open' })
-        this.shadowRoot.appendChild(this.template.content.cloneNode(true))
-    }
+    this.render(style, content)
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+  }
 }
 window.customElements.define('footer-c', Footer)
