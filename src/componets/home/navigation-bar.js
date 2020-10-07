@@ -27,6 +27,8 @@ ul li{
 
 li:hover {
   background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0%0D%0AaD0iMzkwcHgiIGhlaWdodD0iNTBweCIgdmlld0JveD0iMCAwIDM5MCA1MCIgZW5hYmxlLWJhY2tn%0D%0Acm91bmQ9Im5ldyAwIDAgMzkwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0i%0D%0Abm9uZSIgc3Ryb2tlPSIjZDk0ZjVjIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW1pdGVybGlt%0D%0AaXQ9IjEwIiBkPSJNMCw0Ny41ODVjMCwwLDk3LjUsMCwxMzAsMAoJYzEzLjc1LDAsMjguNzQtMzgu%0D%0ANzc4LDQ2LjE2OC0xOS40MTZDMTkyLjY2OSw0Ni41LDI0My42MDMsNDcuNTg1LDI2MCw0Ny41ODVj%0D%0AMzEuODIxLDAsMTMwLDAsMTMwLDAiLz4KPC9zdmc+Cg==");
+  background-repeat: no-repeat;
+  background-size: auto;
   animation: line 2s;
 }
 
@@ -72,15 +74,15 @@ const content = `
 `
 
 export default class Nav extends Base {
-  constructor() {
-    super()
-    this.render(style, content)
-    this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(this.template.content.cloneNode(true))
-  }
+    constructor() {
+        super()
+        this.render(style, content)
+        this.attachShadow({ mode: 'open' })
+        this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+    }
 
-  connectedCallback() {
-    this.state.loginContent = `
+    connectedCallback() {
+        this.state.loginContent = `
         <div class='login-content'>
             <ul>
                 <li>Own Properties</li>
@@ -93,21 +95,24 @@ export default class Nav extends Base {
         </div>
         
         `
-    this.shadowRoot
-      .querySelector('#login-button')
-      .addEventListener('click', () => {
-        dispatchEvent(new Event('login-form'))
-      })
+        this.shadowRoot
+            .querySelector('#login-button')
+            .addEventListener('click', () => {
+                dispatchEvent(new Event('login-form'))
+            })
 
-    if (localStorage.login !== true) {
-      this.shadowRoot.querySelector('#login-button').style.display = 'none'
-      this.shadowRoot.querySelector('nav').innerHTML += this.state.loginContent
+        if (localStorage.login !== true) {
+            this.shadowRoot.querySelector('#login-button').style.display =
+                'none'
+            this.shadowRoot.querySelector(
+                'nav'
+            ).innerHTML += this.state.loginContent
+        }
+
+        this.shadowRoot.querySelector('.logo').addEventListener('click', () => {
+            this.setPath('/')
+            dispatchEvent(new Event('reload-home'))
+        })
     }
-
-    this.shadowRoot.querySelector('.logo').addEventListener('click', () => {
-      this.setPath('/')
-      dispatchEvent(new Event('reload-home'))
-    })
-  }
 }
 window.customElements.define('navigation-bar', Nav)

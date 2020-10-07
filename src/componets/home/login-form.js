@@ -11,7 +11,6 @@ const style = `
         background-color: rgba(0,0,0,0.9);
         color: #eeeeee;
         padding: 0.5em 2em;
-        padding-bottom: 3em;
     }
 
     h2 {
@@ -32,7 +31,7 @@ const style = `
 
     input {
         outline: none;
-        margin-bottom: 25px; 
+        padding-bottom: 0.1em; 
     }
 
     #text{
@@ -133,17 +132,17 @@ const content = `
 `
 
 export default class LoginForm extends Base {
-  constructor() {
-    super()
+    constructor() {
+        super()
 
-    this.render(style, content)
-    this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(this.template.content.cloneNode(true))
-  }
+        this.render(style, content)
+        this.attachShadow({ mode: 'open' })
+        this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+    }
 
-  loadLoginContent() {
-    this.setPath('/login')
-    this.shadowRoot.querySelector('.form').innerHTML = `
+    loadLoginContent() {
+        this.setPath('/login')
+        this.shadowRoot.querySelector('.form').innerHTML = `
     <img class="img" src="../assets/images/avatar.svg">        
     <h2>Login</h2>
             
@@ -185,66 +184,73 @@ export default class LoginForm extends Base {
 
             </div>
         `
-    const loadSignUpFrom = async () => {
-      await import('./signup-form.js')
-      this.shadowRoot.querySelector(
-        '.form'
-      ).innerHTML = `<signup-form></signup-form>`
-    }
+        const loadSignUpFrom = async () => {
+            await import('./signup-form.js')
+            this.shadowRoot.querySelector(
+                '.form'
+            ).innerHTML = `<signup-form></signup-form>`
+        }
 
-    this.shadowRoot
-      .querySelector('#signup')
-      .addEventListener('click', () => loadSignUpFrom())
+        this.shadowRoot
+            .querySelector('#signup')
+            .addEventListener('click', () => loadSignUpFrom())
 
-    addEventListener('signup-form', () => loadSignUpFrom())
+        addEventListener('signup-form', () => loadSignUpFrom())
 
-    addEventListener('load-login-content', () => {
-      this.loadLoginContent()
-      console.log('load')
-    })
-
-    const loadResetFrom = async () => {
-      await import('./reset-password.js')
-      this.shadowRoot.querySelector(
-        '.form'
-      ).innerHTML = `<reset-password></reset-password>`
-    }
-
-    this.shadowRoot
-      .querySelector('#reset')
-      .addEventListener('click', () => loadResetFrom())
-
-    addEventListener('reset-password-form', () => loadResetFrom())
-  }
-  connectedCallback() {
-    this.loadLoginContent()
-
-    this.shadowRoot.querySelector('#backdrop').addEventListener('click', () => {
-      dispatchEvent(new Event('exit-login-form'))
-      this.loadLoginContent()
-      this.setPath('/')
-    })
-
-    this.shadowRoot.querySelector('#login').addEventListener('click', () => {
-      // API call for login
-      fetch('http://homey-api.atwebpages.com/login/0112224448/password', {
-        method: 'POST',
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          console.table(JSON.parse(res))
-          if (res.status == 200) {
-            if (res.data.login === true) {
-              localStorage.login = true
-              localStorage.token = res.data.token
-            } else {
-              console.log('login failed function')
-            }
-          } else {
-            console.log(res.data.message)
-          }
+        addEventListener('load-login-content', () => {
+            this.loadLoginContent()
+            console.log('load')
         })
-    })
-  }
+
+        const loadResetFrom = async () => {
+            await import('./reset-password.js')
+            this.shadowRoot.querySelector(
+                '.form'
+            ).innerHTML = `<reset-password></reset-password>`
+        }
+
+        this.shadowRoot
+            .querySelector('#reset')
+            .addEventListener('click', () => loadResetFrom())
+
+        addEventListener('reset-password-form', () => loadResetFrom())
+    }
+    connectedCallback() {
+        this.loadLoginContent()
+
+        this.shadowRoot
+            .querySelector('#backdrop')
+            .addEventListener('click', () => {
+                dispatchEvent(new Event('exit-login-form'))
+                this.loadLoginContent()
+                this.setPath('/')
+            })
+
+        this.shadowRoot
+            .querySelector('#login')
+            .addEventListener('click', () => {
+                // API call for login
+                fetch(
+                    'http://homey-api.atwebpages.com/login/0112224448/password',
+                    {
+                        method: 'POST'
+                    }
+                )
+                    .then(res => res.json())
+                    .then(res => {
+                        console.table(JSON.parse(res))
+                        if (res.status == 200) {
+                            if (res.data.login === true) {
+                                localStorage.login = true
+                                localStorage.token = res.data.token
+                            } else {
+                                console.log('login failed function')
+                            }
+                        } else {
+                            console.log(res.data.message)
+                        }
+                    })
+            })
+    }
 }
 window.customElements.define('login-form', LoginForm)
