@@ -1,4 +1,4 @@
-import Base from "./../Base.js"
+import Base from './../Base.js'
 
 const style = `
 div {
@@ -12,6 +12,8 @@ div {
     display: grid;
     grid-template-columns: auto auto;
 }
+
+
 
 
 ::slotted(img) {
@@ -40,15 +42,15 @@ export default class UserComp extends Base {
     super()
 
     this.render(style, content)
-    this.attachShadow({ mode: "open" })
+    this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(this.template.content.cloneNode(true))
-    this.state.mirror = this.getAttribute("mirror") === "true" ? true : false
+    this.state.mirror = this.getAttribute('mirror') === 'true' ? true : false
     if (this.state.mirror) {
-      this.shadowRoot.querySelector(".container").innerHTML = `
+      this.shadowRoot.querySelector('.container').innerHTML = `
             <div><slot name="title" ></slot></div>
             <div><slot name="image" ></slot></div>
             `
     }
   }
 }
-window.customElements.define("user-comp", UserComp)
+window.customElements.define('user-comp', UserComp)
