@@ -9,7 +9,7 @@ import './componets/home/user-comp.js'
 const router = new Router()
 
 router.get('/', async () => {
-  console.log('home')
+    console.log('home')
 })
 
 const style = `
@@ -53,82 +53,83 @@ const content = `
 `
 
 class UI extends Base {
-  constructor() {
-    super()
+    constructor() {
+        super()
 
-    this.render(style, content)
-    this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+        this.render(style, content)
+        this.attachShadow({ mode: 'open' })
+        this.shadowRoot.appendChild(this.template.content.cloneNode(true))
 
-    const exitForm = () => {
-      addEventListener('exit-login-form', () => {
-        this.shadowRoot.querySelector('#login-form').style.display = 'none'
-      })
+        const exitForm = () => {
+            addEventListener('exit-login-form', () => {
+                this.shadowRoot.querySelector('#login-form').style.display =
+                    'none'
+            })
+        }
+
+        addEventListener('login-form', async () => {
+            this.setPath('/login')
+            await import('./componets/home/login-form.js')
+            this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+
+            exitForm()
+        })
+
+        router.get('/signup', async () => {
+            await import('./componets/home/login-form.js')
+            this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+            dispatchEvent(new Event('signup-form'))
+
+            exitForm()
+        })
+
+        router.get('/reset-password', async () => {
+            await import('./componets/home/login-form.js')
+            this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+            dispatchEvent(new Event('reset-password-form'))
+
+            exitForm()
+        })
     }
 
-    addEventListener('login-form', async () => {
-      this.setPath('/login')
-      await import('./componets/home/login-form.js')
-      this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+    connectedCallback() {
+        addEventListener('reload-home', () => {
+            this.render(style, content)
+            this.shadowRoot.innerHTML = ''
+            this.shadowRoot.append(this.template.content)
 
-      exitForm()
-    })
-
-    router.get('/signup', async () => {
-      await import('./componets/home/login-form.js')
-      this.shadowRoot.querySelector('#login-form').style.display = 'flex'
-      dispatchEvent(new Event('signup-form'))
-
-      exitForm()
-    })
-
-    router.get('/reset-password', async () => {
-      await import('./componets/home/login-form.js')
-      this.shadowRoot.querySelector('#login-form').style.display = 'flex'
-      dispatchEvent(new Event('reset-password-form'))
-
-      exitForm()
-    })
-  }
-
-  connectedCallback() {
-    addEventListener('reload-home', () => {
-      this.render(style, content)
-      this.shadowRoot.innerHTML = ''
-      this.shadowRoot.append(this.template.content)
-
-      this.shadowRoot.querySelectorAll('user-comp').forEach((item) =>
-        item.addEventListener('click', async () => {
-          this.setPath(item.getAttribute('route'))
-          //if (localStorage.login === true) {
-          await import('./componets/user/primary-user.js')
-          this.shadowRoot.querySelector(
-            '#mainContainer'
-          ).innerHTML = `<primary-user></primary-user>`
-          //} else dispatchEvent(new Event("login-form"));
+            this.shadowRoot.querySelectorAll('user-comp').forEach(item =>
+                item.addEventListener('click', async () => {
+                    this.setPath(item.getAttribute('route'))
+                    //if (localStorage.login === true) {
+                    await import('./componets/user/primary-user.js')
+                    this.shadowRoot.querySelector(
+                        '#mainContainer'
+                    ).innerHTML = `<primary-user></primary-user>`
+                    //} else dispatchEvent(new Event("login-form"));
+                })
+            )
         })
-      )
-    })
 
-    this.shadowRoot.querySelectorAll('user-comp').forEach((item) =>
-      item.addEventListener('click', async () => {
-        this.setPath(item.getAttribute('route'))
-        //if (localStorage.login === true) {
-        await import('./componets/user/primary-user.js')
-        this.shadowRoot.querySelector(
-          '#mainContainer'
-        ).innerHTML = `<primary-user></primary-user>`
-        //} else dispatchEvent(new Event("login-form"));
-      })
-    )
-  }
+        this.shadowRoot.querySelectorAll('user-comp').forEach(item =>
+            item.addEventListener('click', async () => {
+                this.setPath(item.getAttribute('route'))
+                //if (localStorage.login === true) {
+                await import('./componets/user/primary-user.js')
+                this.shadowRoot.querySelector(
+                    '#mainContainer'
+                ).innerHTML = `<primary-user></primary-user>`
+                //} else dispatchEvent(new Event("login-form"));
+            })
+        )
+    }
 }
 window.customElements.define('ui-c', UI)
 
 _('#root').innerHTML = '<ui-c></ui-c>'
 
 router.get('/login', () => {
-  dispatchEvent(new Event('login-form'))
+    dispatchEvent(new Event('login-form'))
 })
 
 router.init() // this method will process the logics
