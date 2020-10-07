@@ -32,42 +32,93 @@ const style = `
 
     input {
         outline: none;
+        margin-bottom: 25px;
+    }
+
+    #firstName,#lastName, #email,#password, #confirmPassword {
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        background: #eeeeee;
+        padding: 0.5rem 0.7rem;
+        font-size: 1.2rem;
+        color: #555;
+        font-family: 'poppins', sans-serif;
     }
 
     label {
         display: block;
+        margin-bottom: 5px;
     }
 
     .hr-separator {
         width: 100%;
-        height: 2px;
+        height: 5px;
         background-color: #eeeeee;
-        margin: 2em 0;
+        margin: 1em 0;
     }
 
     button {
         width: 100%;
+        margin-bottom: 25px;
+        display: block;
+        width: 100%;
+        height: 50px;
+        border-radius: 25px;
+        outline: none;
+        border: none;
+        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+        background-size: 200%;
+        font-size: 0.8rem;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        text-transform: uppercase;
+        margin: 1rem 0;
+        cursor: pointer;
+        transition: 1s;
     }
-
+    button:hover{
+        background-position: right;
+        color: black;
+    }
     .google {
-        background-color: #eeeeee;
         color: blue;
+        background-image: url("../assets/images/google.svg");
     }
 
     .facebook {
-        background-color: blue;
-        color: #eeeeee;
+        color: red;
+        background-image: url("../assets/images/facebook.svg");
     }
 
     a {
         cursor: pointer;
+        width: 100%;
+        text-align: right;
+        text-decoration: none;
+        color: #999;
+        font-size: 0.9rem;
+        transition: .3s;
+    }
+
+    a:hover{
+        color: #F4D03F;
+    }
+
+
+    .img{
+        margin-left:80px;
+        width:100px;
+        height:100px
     }
 
 `
 const content = `
-   
+    <img class="img" src="../assets/images/signup.png">
     <h2>SignUp</h2>
-    <img src="" />
 
     <div class="container">
         <div class="row">
@@ -110,10 +161,10 @@ const content = `
         </div>
         
         <div class="row">
-            <button class="google">SignUp with Google</button>
+            <button class="google"><img class="img2" src="../assets/images/google.svg">SignUp with Google</button>
         </div>
         <div class="row">
-            <button class="facebook">SignUp with Facebook</button>
+            <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">SignUp with Facebook</button>
         </div>
 
     </div>
@@ -121,24 +172,22 @@ const content = `
 `
 
 export default class SignUpForm extends Base {
-    constructor() {
-        super()
+  constructor() {
+    super()
 
-        this.render(style, content)
-        this.attachShadow({ mode: 'open' })
-        this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+    this.render(style, content)
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(this.template.content.cloneNode(true))
 
-        this.setPath('/signup')
-    }
+    this.setPath('/signup')
+  }
 
-    connectedCallback() {
-        this.shadowRoot
-            .querySelectorAll('.load-login-content')
-            .forEach(item => {
-                item.addEventListener('click', () => {
-                    dispatchEvent(new Event('load-login-content'))
-                })
-            })
-    }
+  connectedCallback() {
+    this.shadowRoot.querySelectorAll('.load-login-content').forEach((item) => {
+      item.addEventListener('click', () => {
+        dispatchEvent(new Event('load-login-content'))
+      })
+    })
+  }
 }
 window.customElements.define('signup-form', SignUpForm)
