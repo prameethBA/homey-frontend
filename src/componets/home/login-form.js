@@ -166,6 +166,32 @@ export default class LoginForm extends Base {
                 this.loadLoginContent()
                 this.setPath('/')
             })
+
+        this.shadowRoot
+            .querySelector('#login')
+            .addEventListener('click', () => {
+                // API call for login
+                fetch(
+                    'http://homey-api.atwebpages.com/login/0112224448/password',
+                    {
+                        method: 'POST'
+                    }
+                )
+                    .then(res => res.json())
+                    .then(res => {
+                        console.table(JSON.parse(res))
+                        if (res.status == 200) {
+                            if (res.data.login === true) {
+                                localStorage.login = true
+                                localStorage.token = res.data.token
+                            } else {
+                                console.log('login failed function')
+                            }
+                        } else {
+                            console.log(res.data.message)
+                        }
+                    })
+            })
     }
 }
 window.customElements.define('login-form', LoginForm)
