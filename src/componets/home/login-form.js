@@ -114,7 +114,6 @@ const style = `
     }
 
     .img{
-        
         margin-left:115px;
         width:100px;
         height:100px
