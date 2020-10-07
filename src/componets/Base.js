@@ -3,6 +3,8 @@ export default class Base extends HTMLElement {
 
     state = {}
 
+    _qs = id => this.shadowRoot.querySelector(id)
+
     styled(style) {
         if (style === null) return ' '
         return '<style>' + style + '</style>'

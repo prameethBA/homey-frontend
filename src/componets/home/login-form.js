@@ -150,11 +150,11 @@ export default class LoginForm extends Base {
             <div class="container">
                 <div class="row">
                     <label for="email">Email</label>
-                    <input id="text" type="email" id="email" name="email" title="Email : someone@somthing.com" />
+                    <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
                 </div>
                 <div class="row">
                     <label for="password">Password</label>
-                    <input id="text" type="password" id="password" name="password" title= "Password : pass@123" />
+                    <input type="password" id="password" name="password" title= "Password : pass@123" />
                 </div>
                 <div class="row">
                     <input type="checkbox" id="remember"> Remember me
@@ -228,28 +228,38 @@ export default class LoginForm extends Base {
 
         this.shadowRoot
             .querySelector('#login')
-            .addEventListener('click', () => {
+            .addEventListener('click', async () => {
+                const userName = this._qs('#email').value
+                const password = this._qs('#password').value
+
                 // API call for login
-                fetch(
-                    'http://homey-api.atwebpages.com/login/0112224448/password',
-                    {
-                        method: 'POST'
-                    }
-                )
-                    .then(res => res.json())
-                    .then(res => {
-                        console.table(JSON.parse(res))
-                        if (res.status == 200) {
-                            if (res.data.login === true) {
-                                localStorage.login = true
-                                localStorage.token = res.data.token
-                            } else {
-                                console.log('login failed function')
-                            }
+                try {
+                    const res = await fetch(
+                        'http://homey-api.atwebpages.com/login/' +
+                            userName +
+                            '/' +
+                            password,
+                        { method: 'POST' }
+                    )
+                    const json = await res.json()
+                    if (json.status == 200) {
+                        if (json.data.login === 'true') {
+                            localStorage.login = true
+                            localStorage.token = json.data.tokentoken
+                            console.log('Login succesfull')
                         } else {
-                            console.log(res.data.message)
+                            localStorage.login = false
+                            localStorage.token = null
+                            console.log('login failed function')
                         }
-                    })
+                    } else {
+                        localStorage.login = false
+                        localStorage.token = null
+                        console.log('login failed function')
+                    }
+                } catch (err) {
+                    console.log(err)
+                }
             })
     }
 }
