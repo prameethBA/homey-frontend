@@ -14,6 +14,8 @@ div {
 }
 
 
+
+
 ::slotted(img) {
     width: 15em;
     height: 20em;
@@ -36,20 +38,19 @@ const content = `
 `
 
 export default class UserComp extends Base {
-    constructor() {
-        super()
+  constructor() {
+    super()
 
-        this.render(style, content)
-        this.attachShadow({ mode: 'open' })
-        this.shadowRoot.appendChild(this.template.content.cloneNode(true))
-        this.state.mirror =
-            this.getAttribute('mirror') === 'true' ? true : false
-        if (this.state.mirror) {
-            this.shadowRoot.querySelector('.container').innerHTML = `
+    this.render(style, content)
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+    this.state.mirror = this.getAttribute('mirror') === 'true' ? true : false
+    if (this.state.mirror) {
+      this.shadowRoot.querySelector('.container').innerHTML = `
             <div><slot name="title" ></slot></div>
             <div><slot name="image" ></slot></div>
             `
-        }
     }
+  }
 }
 window.customElements.define('user-comp', UserComp)
