@@ -24,7 +24,7 @@ const style = `
         z-index: 1;
         background-color: rgba(0,0,0,0.7);
         width: 100%;
-        height: 100%;
+        height: 90%;
         padding: 0px; 
         margin: 0px; 
         cursor: pointer;
@@ -32,22 +32,22 @@ const style = `
 
     input {
         outline: none;
-        margin-bottom: 25px;
+        margin-bottom: 2.5px;
     }
 
     #firstName,#lastName, #email,#password, #confirmPassword {
-        left: 0;
-        top: 0;
         width: 100%;
-        height: 100%;
         border: none;
         outline: none;
         background: #eeeeee;
-        padding: 0.5rem 0.7rem;
+        padding: 0.1rem 0.7rem;
         font-size: 1.2rem;
         color: #555;
         font-family: 'poppins', sans-serif;
     }
+
+
+
 
     label {
         display: block;
@@ -117,7 +117,7 @@ const style = `
 
 `
 const content = `
-    <img class="img" src="../assets/images/signup.png">
+    
     <h2>SignUp</h2>
 
     <div class="container">
@@ -142,7 +142,7 @@ const content = `
             <input type="password" id="confirmPassword" name="confirmPassword" title= "Confirm Password : pass@123" />
         </div>
         <div class="row">
-            <input type="checkbox" id="remember"> accept <a>terms</a> and <a>conditions</a>
+            <input type="checkbox" id="remember"><a> accept terms and conditions</a>
         </div>
         <div class="row">
             <button id="signUp"> Sign Up </button>
