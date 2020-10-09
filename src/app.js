@@ -13,6 +13,14 @@ router.get('/', async () => {
 })
 
 const style = `
+
+    #mainContainer {
+        padding:0;
+        margin:0;
+        width:100%;
+        height:100%;
+    }
+
     .container {
         display: flex;
         width:100%;
@@ -20,7 +28,7 @@ const style = `
         flex-direction: row;
         justify-content: center;
         position: absolute;
-        top: 60%;
+        top: 80%;
         left: 50%;
         z-index: 1;
         transform: translate(-50%, -50%);
@@ -41,16 +49,18 @@ const style = `
 `
 const content = `
 <navigation-bar></navigation-bar>
-    <div class="container" id="mainContainer">
-        <user-comp mirror="true" route="/">
-            <img slot="image" defer src="https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg=" alt="Image"></img>
-            <h1 slot="title">Rent or Lease your own property</h1>
-        </user-comp>
-        <user-comp mirror="true" route="/">
-            <img slot="image" defer src="https://s3.amazonaws.com/clients.granalacantadvertiser.images/wp-content/uploads/2017/06/14072232/2236775_2_O.jpg" alt="Image"></img>
-            <h1 slot="title">Looking for a place</h1>
-        </user-comp>
-    </div>
+    <div id="mainContainer">
+        <div class="container">
+            <user-comp mirror="true" route="/">
+                <img slot="image" defer src="https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg=" alt="Image"></img>
+                <h1 slot="title">Rent or Lease your own property</h1>
+            </user-comp>
+            <user-comp mirror="true" route="/">
+                <img slot="image" defer src="https://s3.amazonaws.com/clients.granalacantadvertiser.images/wp-content/uploads/2017/06/14072232/2236775_2_O.jpg" alt="Image"></img>
+                <h1 slot="title">Looking for a place</h1>
+            </user-comp>
+        </div>
+    <div>
     <login-form id="login-form"></login-form>
 <footer-c></footer-c>
 `
