@@ -1,26 +1,73 @@
 import Base from './../Base.js'
 
+// const style = `
+// .container {
+//   position: realtive;
+//     display: flex;
+//     width:100%;
+//     height:100%;
+//     top: 80%;
+//     z-index: 1;
+
+//     padding: 3em;
+//     background-color: rgba(0, 0, 0, 0.9);
+//     color: #eeeeee;
+//   }
+//   .row {
+//     padding-bottom: 1em;
+//     background-color: #f1f1f1;
+//   width: 100px;
+//   margin: 10px;
+//   text-align: center;
+//   line-height: 75px;
+//   font-size: 30px;
+//   }
+//   #add-property {
+//     width: 100%;
+//     margin-bottom: 25px;
+//     width: 100%;
+//     height: 50px;
+//     border-radius: 25px;
+//     outline: none;
+//     border: none;
+//     background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+//     background-size: 200%;
+//     font-size: 0.8rem;
+//     color: #fff;
+//     font-family: 'Poppins', sans-serif;
+//     text-transform: uppercase;
+//     margin: 1rem 0;
+//     cursor: pointer;
+//     transition: 1s;
+//   }
+//   button:hover {
+//     background-position: right;
+//     color: black;
+//   }
+  
+
+// `
+
 const style = `
-.container {
-    padding-top: 100px;
-    padding-bottom: 100px;
-    padding-left: 100px;
-    padding-right: 100px;
-    background-color: rgba(0, 0, 0, 0.9);
-    color: #eeeeee;
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    width:100%;
+    height:100%;
+    top: 80%;
+    z-index: 1;
   }
-  .row1,
-  .row2,
-  .row3,
-  .row4,
-  .row5,
-  .row6 {
-    padding-bottom: 1em;
+
+  .row {
+    display : inline-block;
+    padding: 1em;
   }
+
   #add-property {
     width: 100%;
     margin-bottom: 25px;
-    display: block;
     width: 100%;
     height: 50px;
     border-radius: 25px;
@@ -36,17 +83,17 @@ const style = `
     cursor: pointer;
     transition: 1s;
   }
+
   button:hover {
     background-position: right;
     color: black;
   }
-  
 
-`
+` 
 
 const content = `
 <div class="container">
-<div class="row1">
+<div class="row">
   <label for="title">Title</label>
   <input
     type="text"
@@ -65,7 +112,7 @@ const content = `
   />
 </div>
 
-<div class="row2" style="display: block">
+<div class="row">
   <label for="period">Minimum Period</label>
   <input
     type="text"
@@ -91,17 +138,17 @@ const content = `
   </select>
 </div>
 
-<div class="row3" style="display: block">
+<div class="row">
   <label for="discription">Discription</label>
   <textarea
     name="discription"
     title="Enter discription about your property"
-    rows="5"
+    row="5"
     cols="50"
   ></textarea>
 </div>
 
-<div class="row4" style="display: block">
+<div class="row">
   <label for="facilities">Facilities</label>
   <input type="checkbox" name="electricity" />Electricity
   <input type="checkbox" name="water" />Water Supply
@@ -116,7 +163,7 @@ const content = `
   <input type="checkbox" name="vehicle-parking" />Vehicle Parking
 </div>
 
-<div class="row5" style="display: block">
+<div class="row">
   <label for="images">Images</label>
   <input
     type="text"
@@ -127,7 +174,7 @@ const content = `
   <button id="upload-images">Upload Images</button>
 </div>
 
-<div class="row6" style="display: block">
+<div class="row">
   <button id="add-property">Add Property</button>
 </div>
 </div>
