@@ -121,27 +121,27 @@ class UI extends Base {
       this.shadowRoot.querySelectorAll('user-comp').forEach((item) =>
         item.addEventListener('click', async () => {
           this.setPath(item.getAttribute('route'))
-          //if (localStorage.login === true) {
+          // if (localStorage.login === true) {
           await import('./componets/user/primary-user.js')
           this.shadowRoot.querySelector(
             '#mainContainer'
           ).innerHTML = `<primary-user></primary-user>`
-          //} else dispatchEvent(new Event("login-form"));
+          // } else dispatchEvent(new Event("login-form"));
         })
       )
     })
 
-    this.shadowRoot.querySelectorAll('user-comp').forEach((item) =>
-      item.addEventListener('click', async () => {
-        this.setPath(item.getAttribute('route'))
-        //if (localStorage.login === true) {
-        await import('./componets/user/primary-user.js')
-        this.shadowRoot.querySelector(
-          '#mainContainer'
-        ).innerHTML = `<primary-user></primary-user>`
-        //} else dispatchEvent(new Event("login-form"));
-      })
-    )
+    // this.shadowRoot.querySelectorAll('user-comp').forEach((item) =>
+    //   item.addEventListener('click', async () => {
+    //     this.setPath(item.getAttribute('route'))
+    //     if (localStorage.login === true) {
+    //     await import('./componets/user/primary-user.js')
+    //     this.shadowRoot.querySelector(
+    //       '#mainContainer'
+    //     ).innerHTML = `<primary-user></primary-user>`
+    //     } else dispatchEvent(new Event("login-form"));
+    //   })
+    // )
   }
 }
 window.customElements.define('ui-c', UI)
