@@ -2,7 +2,7 @@ import Base from './../Base.js'
 
 export default class Nav extends Base {
 
-  style = `
+  css = `
   
   *{
     margin: 0;
@@ -104,8 +104,7 @@ export default class Nav extends Base {
         </div>
     
       `
-    this.shadowRoot
-      .querySelector('#login-button')
+    this._qs('#login-button')
       .addEventListener('click', () => {
         dispatchEvent(new Event('login-form'))
       })
@@ -115,7 +114,7 @@ export default class Nav extends Base {
       this._qs('nav').innerHTML = this.state.loginContent
     }
 
-    this.shadowRoot.querySelector('.logo').addEventListener('click', () => {
+    this._qs('.logo').addEventListener('click', () => {
       this.setPath('/')
       dispatchEvent(new Event('reload-home'))
     })

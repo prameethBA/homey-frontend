@@ -4,7 +4,7 @@ export default class Base extends HTMLElement {
     state = {}
 
     styled() {
-        return '<style>' + this.style + '</style>'
+        return '<style>' + this.css + '</style>'
     }
     render() {
         this.template.innerHTML = this.styled() + this.content

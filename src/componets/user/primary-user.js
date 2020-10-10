@@ -5,7 +5,7 @@ import './property-view.js'
 
 
 export default class PrimaryUser extends Base {
-    style = `
+    css = `
 
 
     `

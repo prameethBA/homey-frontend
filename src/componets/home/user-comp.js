@@ -3,7 +3,7 @@ import Base from './../Base.js'
 
 export default class UserComp extends Base {
 
-  style = `
+  css = `
   div {
       display: inline;
   }

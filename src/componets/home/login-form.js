@@ -2,7 +2,7 @@ import Base from './../Base.js'
 
 export default class LoginForm extends Base {
 
-  style = `
+  css = `
     .form {
         z-index: 2;
         position: absolute;
@@ -135,110 +135,112 @@ content = `
     this.mount()
   }
 
-  loadLoginContent() {
-    this.setPath('/login')
-    this.shadowRoot.querySelector('.form').innerHTML = `
-    <img class="img" src="../assets/images/avatar.svg">        
-    <h2>Login</h2>
+  // loadLoginContent() {
+  //   this.setPath('/login')
+  //   this.shadowRoot.querySelector('.form').innerHTML = `
+  //   <img class="img" src="../assets/images/avatar.svg">        
+  //   <h2>Login</h2>
             
 
-            <div class="container">
-                <div class="row">
-                    <label for="email">Email</label>
-                    <input id="text" type="email" id="email" name="email" title="Email : someone@somthing.com" />
-                </div>
-                <div class="row">
-                    <label for="password">Password</label>
-                    <input id="text" type="password" id="password" name="password" title= "Password : pass@123" />
-                </div>
-                <div class="row">
-                    <input type="checkbox" id="remember"> Remember me
-                </div>
-                <div class="row">
-                    <button id="login"> Login </button>
-                </div>
-                <div class="row">
-                    <a title="Reset Password" id="reset">Forgot Password ? </a>
-                    |
-                    <a title="Create new Account" id="signup"> Sign Up </a>
-                </div>
+  //           <div class="container">
+  //               <div class="row">
+  //                   <label for="email">Email</label>
+  //                   <input id="text" type="email" id="email" name="email" title="Email : someone@somthing.com" />
+  //               </div>
+  //               <div class="row">
+  //                   <label for="password">Password</label>
+  //                   <input id="text" type="password" id="password" name="password" title= "Password : pass@123" />
+  //               </div>
+  //               <div class="row">
+  //                   <input type="checkbox" id="remember"> Remember me
+  //               </div>
+  //               <div class="row">
+  //                   <button id="login"> Login </button>
+  //               </div>
+  //               <div class="row">
+  //                   <a title="Reset Password" id="reset">Forgot Password ? </a>
+  //                   |
+  //                   <a title="Create new Account" id="signup"> Sign Up </a>
+  //               </div>
 
-                <div class="hr-separator">
-                </div>
+  //               <div class="hr-separator">
+  //               </div>
 
-                <div class="row">
-                    <span>or</span>
-                </div>
+  //               <div class="row">
+  //                   <span>or</span>
+  //               </div>
                 
-                <div class="row">
-                    <button class="google"><img class="img2" src="../assets/images/google.svg">Continue with Google</button>
-                </div>
-                <div class="row">
-                    <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">Continue with Facebook</button>
-                </div>
+  //               <div class="row">
+  //                   <button class="google"><img class="img2" src="../assets/images/google.svg">Continue with Google</button>
+  //               </div>
+  //               <div class="row">
+  //                   <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">Continue with Facebook</button>
+  //               </div>
 
-            </div>
-        `
-    const loadSignUpFrom = async () => {
-      await import('./signup-form.js')
-      this.shadowRoot.querySelector(
-        '.form'
-      ).innerHTML = `<signup-form></signup-form>`
-    }
+  //           </div>
+  //       `
+  //   const loadSignUpFrom = async () => {
+  //     await import('./signup-form.js')
+  //     this.shadowRoot.querySelector(
+  //       '.form'
+  //     ).innerHTML = `<signup-form></signup-form>`
+  //   }
 
-    this.shadowRoot
-      .querySelector('#signup')
-      .addEventListener('click', () => loadSignUpFrom())
+  //   this.shadowRoot
+  //     .querySelector('#signup')
+  //     .addEventListener('click', () => loadSignUpFrom())
 
-    addEventListener('signup-form', () => loadSignUpFrom())
+  //   addEventListener('signup-form', () => loadSignUpFrom())
 
-    addEventListener('load-login-content', () => {
-      this.loadLoginContent()
-      console.log('load')
-    })
+  //   addEventListener('load-login-content', () => {
+  //     this.loadLoginContent()
+  //     console.log('load')
+  //   })
 
-    const loadResetFrom = async () => {
-      await import('./reset-password.js')
-      this.shadowRoot.querySelector(
-        '.form'
-      ).innerHTML = `<reset-password></reset-password>`
-    }
+  //   const loadResetFrom = async () => {
+  //     await import('./reset-password.js')
+  //     this.shadowRoot.querySelector(
+  //       '.form'
+  //     ).innerHTML = `<reset-password></reset-password>`
+  //   }
 
-    this.shadowRoot
-      .querySelector('#reset')
-      .addEventListener('click', () => loadResetFrom())
+  //   this.shadowRoot
+  //     .querySelector('#reset')
+  //     .addEventListener('click', () => loadResetFrom())
 
-    addEventListener('reset-password-form', () => loadResetFrom())
-  }
-  connectedCallback() {
-    this.loadLoginContent()
+  //   addEventListener('reset-password-form', () => loadResetFrom())
+  // }
+  // connectedCallback() {
+  //   this.loadLoginContent()
 
-    this.shadowRoot.querySelector('#backdrop').addEventListener('click', () => {
-      dispatchEvent(new Event('exit-login-form'))
-      this.loadLoginContent()
-      this.setPath('/')
-    })
+  //   this.shadowRoot.querySelector('#backdrop').addEventListener('click', () => {
+  //     dispatchEvent(new Event('exit-login-form'))
+  //     this.loadLoginContent()
+  //     this.setPath('/')
+  //   })
 
-    this.shadowRoot.querySelector('#login').addEventListener('click', () => {
-      // API call for login
-      fetch('http://homey-api.atwebpages.com/login/0112224448/password', {
-        method: 'POST',
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          console.table(JSON.parse(res))
-          if (res.status == 200) {
-            if (res.data.login === true) {
-              localStorage.login = true
-              localStorage.token = res.data.token
-            } else {
-              console.log('login failed function')
-            }
-          } else {
-            console.log(res.data.message)
-          }
-        })
-    })
-  }
+  //   this.shadowRoot.querySelector('#login').addEventListener('click', () => {
+  //     // API call for login
+  //     fetch('http://homey-api.atwebpages.com/login/0112224448/password', {
+  //       method: 'POST',
+  //     })
+  //       .then((res) => res.json())
+  //       .then((res) => {
+  //         console.table(JSON.parse(res))
+  //         if (res.status == 200) {
+  //           if (res.data.login === true) {
+  //             localStorage.login = true
+  //             localStorage.token = res.data.token
+  //           } else {
+  //             console.log('login failed function')
+  //           }
+  //         } else {
+  //           console.log(res.data.message)
+  //         }
+  //       })
+  //   })
+  // }
+
 }
+
 window.customElements.define('login-form', LoginForm)

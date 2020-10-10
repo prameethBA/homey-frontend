@@ -2,7 +2,7 @@ import Base from './../Base.js'
 
 export default class ResetPassword extends Base {
 
-  style = `
+  css = `
     button {
         width: 100%;
         margin-bottom: 25px;

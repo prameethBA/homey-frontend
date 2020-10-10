@@ -6,6 +6,8 @@ import './componets/home/navigation-bar.js'
 import './componets/home/footer.js'
 import './componets/home/user-comp.js'
 
+import './componets/home/login-form.js'
+
 const router = new Router()
 
 router.get('/', async () => {
@@ -15,7 +17,7 @@ router.get('/', async () => {
 
 class UI extends Base {
   
-  style = `
+  css = `
   
       #mainContainer {
           padding:0;
@@ -74,21 +76,20 @@ class UI extends Base {
 
   //   const exitForm = () => {
   //     addEventListener('exit-login-form', () => {
-  //       this.shadowRoot.querySelector('#login-form').style.display = 'none'
+  //       this._qs('#login-form').style.display = 'none'
   //     })
   //   }
 
-  //   addEventListener('login-form', async () => {
-  //     this.setPath('/login')
-  //     await import('./componets/home/login-form.js')
-  //     this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+    addEventListener('login-form', async () => {
+      this.setPath('/login')
+      this._qs('#login-form').style.display = 'flex'
 
-  //     exitForm()
-  //   })
+    //   exitForm()
+    })
 
   //   router.get('/signup', async () => {
   //     await import('./componets/home/login-form.js')
-  //     this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+  //     this._qs('#login-form').style.display = 'flex'
   //     dispatchEvent(new Event('signup-form'))
 
   //     exitForm()
@@ -96,7 +97,7 @@ class UI extends Base {
 
   //   router.get('/reset-password', async () => {
   //     await import('./componets/home/login-form.js')
-  //     this.shadowRoot.querySelector('#login-form').style.display = 'flex'
+  //     this._qs('#login-form').style.display = 'flex'
   //     dispatchEvent(new Event('reset-password-form'))
 
   //     exitForm()
@@ -107,7 +108,7 @@ class UI extends Base {
   //   //This is used for developing purpose only
   //   router.get('/add-property', async () => {
   //     await import('./componets/property/add-property.js')
-  //     this.shadowRoot.querySelector(
+  //     this._qs(
   //       '#mainContainer'
   //     ).innerHTML = `<add-property></add-property>`
   //   })
@@ -117,12 +118,12 @@ class UI extends Base {
   //     this.shadowRoot.innerHTML = ''
   //     this.shadowRoot.append(this.template.content)
 
-  //     this.shadowRoot.querySelectorAll('user-comp').forEach((item) =>
+  //     this._qsAll('user-comp').forEach((item) =>
   //       item.addEventListener('click', async () => {
   //         this.setPath(item.getAttribute('route'))
   //         // if (localStorage.login === true) {
   //         await import('./componets/user/primary-user.js')
-  //         this.shadowRoot.querySelector(
+  //         this._qs(
   //           '#mainContainer'
   //         ).innerHTML = `<primary-user></primary-user>`
   //         // } else dispatchEvent(new Event("login-form"));
@@ -130,12 +131,12 @@ class UI extends Base {
   //     )
   //   })
 
-    // this.shadowRoot.querySelectorAll('user-comp').forEach((item) =>
+    // this._qsAll('user-comp').forEach((item) =>
     //   item.addEventListener('click', async () => {
     //     this.setPath(item.getAttribute('route'))
     //     if (localStorage.login === true) {
     //     await import('./componets/user/primary-user.js')
-    //     this.shadowRoot.querySelector(
+    //     this._qs(
     //       '#mainContainer'
     //     ).innerHTML = `<primary-user></primary-user>`
     //     } else dispatchEvent(new Event("login-form"));

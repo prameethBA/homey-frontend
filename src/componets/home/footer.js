@@ -2,7 +2,7 @@ import Base from './../Base.js'
 
 export default class Footer extends Base {
 
-  style = `
+  css = `
     footer {
       position: absolute;
       left: 0;

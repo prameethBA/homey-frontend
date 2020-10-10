@@ -2,7 +2,7 @@ import Base from './../Base.js'
 
 export default class AddProperty extends Base {
 
-  style = `
+  css = `
     .container {
       display: flex;
       flex-wrap: wrap;

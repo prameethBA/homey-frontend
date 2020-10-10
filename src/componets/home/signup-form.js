@@ -4,7 +4,7 @@ import Base from './../Base.js'
 
 export default class SignUpForm extends Base {
 
-    style = `
+    css = `
         .form {
             z-index: 2;
             position: absolute;

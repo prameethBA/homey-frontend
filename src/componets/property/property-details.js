@@ -2,11 +2,11 @@ import Base from './../Base.js'
 
 export default class PropertyDetails extends Base {
 
-  style =  `
+  css =  `
 
   `
 
-content = `
+  content = `
 
   `
     constructor() {

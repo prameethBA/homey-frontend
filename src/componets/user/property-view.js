@@ -2,7 +2,7 @@ import Base from './../Base.js'
 
 export default class PropertyView extends Base {
 
-    style = `
+    css = `
 
 
     `
