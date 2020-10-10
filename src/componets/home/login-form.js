@@ -179,66 +179,66 @@ content = `
 
             </div>
         `
-    // const loadSignUpFrom = async () => {
-    //   await import('./signup-form.js')
-    //   this._qs(
-    //     '.form'
-    //   ).innerHTML = `<signup-form></signup-form>`
-    // }
+    const loadSignUpFrom = async () => {
+      await import('./signup-form.js')
+      this._qs(
+        '.form'
+      ).innerHTML = `<signup-form></signup-form>`
+    }
 
-    // this.shadowRoot
-    //   .querySelector('#signup')
-    //   .addEventListener('click', () => loadSignUpFrom())
+    this.shadowRoot
+      .querySelector('#signup')
+      .addEventListener('click', () => loadSignUpFrom())
 
-    // addEventListener('signup-form', () => loadSignUpFrom())
+    addEventListener('signup-form', () => loadSignUpFrom())
 
-    // addEventListener('load-login-content', () => {
-    //   this.loadLoginContent()
-    //   console.log('load')
-    // })
+    addEventListener('load-login-content', () => {
+      this.loadLoginContent()
+      console.log('load')
+    })
 
-    // const loadResetFrom = async () => {
-    //   await import('./reset-password.js')
-    //   this._qs(
-    //     '.form'
-    //   ).innerHTML = `<reset-password></reset-password>`
-    // }
+    const loadResetFrom = async () => {
+      await import('./reset-password.js')
+      this._qs(
+        '.form'
+      ).innerHTML = `<reset-password></reset-password>`
+    }
 
-    // this.shadowRoot
-    //   .querySelector('#reset')
-    //   .addEventListener('click', () => loadResetFrom())
+    this.shadowRoot
+      .querySelector('#reset')
+      .addEventListener('click', () => loadResetFrom())
 
-    // addEventListener('reset-password-form', () => loadResetFrom())
+    addEventListener('reset-password-form', () => loadResetFrom())
   }
   connectedCallback() {
     this.loadLoginContent()
 
-    // this._qs('#backdrop').addEventListener('click', () => {
-    //   dispatchEvent(new Event('exit-login-form'))
-    //   this.loadLoginContent()
-    //   this.setPath('/')
-    // })
+    this._qs('#backdrop').addEventListener('click', () => {
+      dispatchEvent(new Event('exit-login-form'))
+      this.loadLoginContent()
+      this.setPath('/')
+    })
 
-    // this._qs('#login').addEventListener('click', () => {
-    //   // API call for login
-    //   fetch('http://homey-api.atwebpages.com/login/0112224448/password', {
-    //     method: 'POST',
-    //   })
-    //     .then((res) => res.json())
-    //     .then((res) => {
-    //       console.table(JSON.parse(res))
-    //       if (res.status == 200) {
-    //         if (res.data.login === true) {
-    //           localStorage.login = true
-    //           localStorage.token = res.data.token
-    //         } else {
-    //           console.log('login failed function')
-    //         }
-    //       } else {
-    //         console.log(res.data.message)
-    //       }
-    //     })
-    // })
+    this._qs('#login').addEventListener('click', () => {
+      // API call for login
+      fetch('http://homey-api.atwebpages.com/login/0112224448/password', {
+        method: 'POST',
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.table(JSON.parse(res))
+          if (res.status == 200) {
+            if (res.data.login === true) {
+              localStorage.login = true
+              localStorage.token = res.data.token
+            } else {
+              console.log('login failed function')
+            }
+          } else {
+            console.log(res.data.message)
+          }
+        })
+    })
   }
 
 }

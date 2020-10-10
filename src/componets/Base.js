@@ -23,6 +23,10 @@ export default class Base extends HTMLElement {
         return this.shadowRoot.querySelector(selector)
     }
 
+    _qsAll(selector) {
+        return this.shadowRoot.querySelectorAll(selector)
+    }
+
     setLoader = () => dispatchEvent(new Event('pre-load'))
 
     stopLoader = () => dispatchEvent(new Event('stop-pre-load'))

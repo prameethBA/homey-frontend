@@ -6,11 +6,13 @@ import './componets/home/navigation-bar.js'
 import './componets/home/footer.js'
 import './componets/home/user-comp.js'
 
-// const router = new Router()
+// localStorage.login = false;
 
-// router.get('/', async () => {
-//   console.log('home')
-// })
+const router = new Router()
+
+router.get('/', async () => {
+  console.log('home')
+})
 
 
 class UI extends Base {
@@ -79,66 +81,66 @@ class UI extends Base {
           // this.setPath('/' + form)
           this._qs('#login-form').style.display = 'flex'
 
-          // If the form is Login don't dispatch a Event
-          // if(form != 'login') dispatchEvent(new Event(form + '-form'))
+          dispatchEvent(new Event(form + '-form'))
 
           // Listen for exit-login-form Event for unset the visilility of Login Form
-          // addEventListener('exit-login-form', () => {
-          //   this._qs('#login-form').style.display = 'none'
-          // })
+          addEventListener('exit-login-form', () => {
+            this._qs('#login-form').style.display = 'none'
+          })
         })
         .catch(err=>console.log(err))
       this.stopLoader()
     }
 
+    const loadHome = async () => {
+        this._qsAll('user-comp').forEach((item) =>
+        item.addEventListener('click', async () => {
+          this.setPath(item.getAttribute('route'))
+          if (localStorage.login == 'true') {
+            await import('./componets/user/primary-user.js')
+              .then(()=>{
+                this._qs(
+                  '#mainContainer'
+                ).innerHTML = `<primary-user></primary-user>`
+              })
+              .catch(err =>console.log(err))
+          } else dispatchEvent(new Event("login-form"));
+        })
+      )
+    }
+
     // Listen for login-form Event to set visible Login Form
-    addEventListener('login-form', loadForm('login'))
+    addEventListener('login-form', ()=>loadForm('login'))
+
+    // Listen for /login route to set visible Login Form
+    router.get('/login', () => loadForm('login'))
 
     // Listen for /signup route to set visible SignUp Form
-    // router.get('/signup', () => loadForm('signup'))
+    router.get('/signup', () => loadForm('signup'))
 
-    // // Listen for /reset-password route to set visible Reser Password Form
-    // router.get('/reset-password', () => loadForm('reset-password'))
+    // Listen for /reset-password route to set visible Reser Password Form
+    router.get('/reset-password', () => loadForm('reset-password'))
 
+    // Add Event Listern for user-comp then load PrimaryUser component
+    loadHome()
 
-  // connectedCallback() {
-  //   //This is used for developing purpose only
-  //   router.get('/add-property', async () => {
-  //     await import('./componets/property/add-property.js')
-  //     this._qs(
-  //       '#mainContainer'
-  //     ).innerHTML = `<add-property></add-property>`
-  //   })
+  }
 
-  //   addEventListener('reload-home', () => {
-  //     this.render(style, content)
-  //     this.shadowRoot.innerHTML = ''
-  //     this.shadowRoot.append(this.template.content)
+  connectedCallback(){
+    //This is used for developing purpose only
+    router.get('/add-property', async () => {
+      await import('./componets/property/add-property.js')
+      this._qs(
+        '#mainContainer'
+      ).innerHTML = `<add-property></add-property>`
+    })
 
-  //     this._qsAll('user-comp').forEach((item) =>
-  //       item.addEventListener('click', async () => {
-  //         this.setPath(item.getAttribute('route'))
-  //         // if (localStorage.login === true) {
-  //         await import('./componets/user/primary-user.js')
-  //         this._qs(
-  //           '#mainContainer'
-  //         ).innerHTML = `<primary-user></primary-user>`
-  //         // } else dispatchEvent(new Event("login-form"));
-  //       })
-  //     )
-  //   })
-
-    // this._qsAll('user-comp').forEach((item) =>
-    //   item.addEventListener('click', async () => {
-    //     this.setPath(item.getAttribute('route'))
-    //     if (localStorage.login === true) {
-    //     await import('./componets/user/primary-user.js')
-    //     this._qs(
-    //       '#mainContainer'
-    //     ).innerHTML = `<primary-user></primary-user>`
-    //     } else dispatchEvent(new Event("login-form"));
-    //   })
-    // )
+    addEventListener('reload-home', () => {
+      this.render()
+      console.log(this.shadowRoot.innerHTML)
+      this.shadowRoot.append(this.template.content)
+      this.loadHome
+    })
   }
   
 }
@@ -147,11 +149,7 @@ window.customElements.define('ui-c', UI)
 
 document.getElementById('root').innerHTML = '<ui-c></ui-c>'
 
-// router.get('/login', () => {
-//   dispatchEvent(new Event('login-form'))
-// })
-
-// router.init() // this method will process the logics
+router.init() // this method will process the logics
 
 // // Register ServiceWorker
 // if ('serviceWorker' in navigator) {
