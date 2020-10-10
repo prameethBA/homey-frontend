@@ -1,9 +1,13 @@
 export default class Router {
     constructor() {
+        this.preRoutes = [
+            '/','/login','/signup','/reset-password','/adds','/profile','/settings'
+        ]
         this.routes = []
     }
 
-    get(uri, callback) {
+    get(uri, callback) { 
+        
         // ensure that the parameters are not empty
         if (!uri || !callback) throw new Error('uri or callback must be given')
 
@@ -25,6 +29,12 @@ export default class Router {
             callback
         }
         this.routes.push(route)
+        
+        // If route defined then no need to compare all of the routes; imediately call the init() method
+        if(this.preRoutes.includes(uri)) {
+            this.init()
+            this.routes = []
+        }
     }
 
     init() {
