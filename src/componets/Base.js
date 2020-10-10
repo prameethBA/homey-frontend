@@ -4,11 +4,9 @@ export default class Base extends HTMLElement {
     state = {}
 
     styled() {
-        if (this.style === null) return ' '
         return '<style>' + this.style + '</style>'
     }
     render() {
-        if (this.content === null) this.content = ''
         this.template.innerHTML = this.styled() + this.content
     }
     mount() {
@@ -24,4 +22,5 @@ export default class Base extends HTMLElement {
     _qs(selector) {
         return this.shadowRoot.querySelector(selector)
     }
+    
 }

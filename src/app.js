@@ -1,5 +1,5 @@
 import Base from './componets/Base.js'
-import { _ } from './assets/js/main-library.js'
+// import { _ } from './assets/js/main-library.js'
 import Router from './assets/js/Router.js'
 
 import './componets/home/navigation-bar.js'
@@ -142,10 +142,12 @@ class UI extends Base {
     //   })
     // )
   }
+  
 }
+
 window.customElements.define('ui-c', UI)
 
-_('#root').innerHTML = '<ui-c></ui-c>'
+document.getElementById('root').innerHTML = '<ui-c></ui-c>'
 
 router.get('/login', () => {
   dispatchEvent(new Event('login-form'))

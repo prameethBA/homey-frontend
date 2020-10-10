@@ -10,9 +10,19 @@ export default class Nav extends Base {
     font-family: Century Gothic;
   }
   
-  
+  nav {
+    display: flex;
+  }
+
+  .logo {
+    padding: 1em;
+    display: flex;
+  }
+
   ul{
-    float:right;
+    top: 1em;
+    right: 1em;
+    position: absolute;
     list-style-type:none;
   }
   ul li{
@@ -44,25 +54,27 @@ export default class Nav extends Base {
     0% {
       background-position-x: 390px;
     }
+  }
   
   #login-button {
-          height: 2.5em;
-          width: 10em;
-          margin: auto 2em;
-          text-transform: uppercase;
-          color: #eeeeee;
-          background-color: #239710;
-          border: none;
-          box-shadow: 1px 1px 5px 1px rgba(23,97,10,0.64);
-          outline: none;
-          cursor: pointer;
-          transition: 0.4s;
-      }
+      height: 2.5em;
+      width: 10em;
+      margin: auto 2em;
+      margin-left: auto;
+      text-transform: uppercase;
+      color: #eeeeee;
+      background-color: #239710;
+      border: none;
+      box-shadow: 1px 1px 5px 1px rgba(23,97,10,0.64);
+      outline: none;
+      cursor: pointer;
+      transition: 0.4s;
+  }
       
-      #login-button:hover {
-          background-color: #34a832;
-      }
-  
+  #login-button:hover {
+      background-color: #34a832;
+  }
+
   `
   content = `
       <header>
@@ -80,6 +92,7 @@ export default class Nav extends Base {
   connectedCallback() {
     this.state.loginContent = `
         <div class='login-content'>
+            <h3 class="logo">Homey</h3>
             <ul>
                 <li>Own Properties</li>
                 <li>Payments</li>
@@ -89,17 +102,17 @@ export default class Nav extends Base {
                 <li>Logout</li>
             </ul>
         </div>
-        
-        `
+    
+      `
     this.shadowRoot
       .querySelector('#login-button')
       .addEventListener('click', () => {
         dispatchEvent(new Event('login-form'))
       })
 
-    if (localStorage.login !== true) {
-      this.shadowRoot.querySelector('#login-button').style.display = 'none'
-      this.shadowRoot.querySelector('nav').innerHTML += this.state.loginContent
+    if (localStorage.login == 'true') {
+      this._qs('#login-button').style.display = 'none'
+      this._qs('nav').innerHTML = this.state.loginContent
     }
 
     this.shadowRoot.querySelector('.logo').addEventListener('click', () => {
@@ -107,5 +120,7 @@ export default class Nav extends Base {
       dispatchEvent(new Event('reload-home'))
     })
   }
+
 }
+
 window.customElements.define('navigation-bar', Nav)
