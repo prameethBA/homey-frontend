@@ -6,13 +6,11 @@ import './componets/home/navigation-bar.js'
 import './componets/home/footer.js'
 import './componets/home/user-comp.js'
 
-import './componets/home/login-form.js'
+// const router = new Router()
 
-const router = new Router()
-
-router.get('/', async () => {
-  console.log('home')
-})
+// router.get('/', async () => {
+//   console.log('home')
+// })
 
 
 class UI extends Base {
@@ -74,35 +72,34 @@ class UI extends Base {
     super()
     this.mount()
 
-  //   const exitForm = () => {
-  //     addEventListener('exit-login-form', () => {
-  //       this._qs('#login-form').style.display = 'none'
-  //     })
-  //   }
+    const loadForm = async (form) => {
+      this.setLoader()
+      await import('./componets/home/login-form.js')
+        .then(() =>{
+          // this.setPath('/' + form)
+          this._qs('#login-form').style.display = 'flex'
 
-    addEventListener('login-form', async () => {
-      this.setPath('/login')
-      this._qs('#login-form').style.display = 'flex'
+          // If the form is Login don't dispatch a Event
+          // if(form != 'login') dispatchEvent(new Event(form + '-form'))
 
-    //   exitForm()
-    })
+          // Listen for exit-login-form Event for unset the visilility of Login Form
+          // addEventListener('exit-login-form', () => {
+          //   this._qs('#login-form').style.display = 'none'
+          // })
+        })
+        .catch(err=>console.log(err))
+      this.stopLoader()
+    }
 
-  //   router.get('/signup', async () => {
-  //     await import('./componets/home/login-form.js')
-  //     this._qs('#login-form').style.display = 'flex'
-  //     dispatchEvent(new Event('signup-form'))
+    // Listen for login-form Event to set visible Login Form
+    addEventListener('login-form', loadForm('login'))
 
-  //     exitForm()
-  //   })
+    // Listen for /signup route to set visible SignUp Form
+    // router.get('/signup', () => loadForm('signup'))
 
-  //   router.get('/reset-password', async () => {
-  //     await import('./componets/home/login-form.js')
-  //     this._qs('#login-form').style.display = 'flex'
-  //     dispatchEvent(new Event('reset-password-form'))
+    // // Listen for /reset-password route to set visible Reser Password Form
+    // router.get('/reset-password', () => loadForm('reset-password'))
 
-  //     exitForm()
-  //   })
-  // }
 
   // connectedCallback() {
   //   //This is used for developing purpose only
@@ -150,11 +147,11 @@ window.customElements.define('ui-c', UI)
 
 document.getElementById('root').innerHTML = '<ui-c></ui-c>'
 
-router.get('/login', () => {
-  dispatchEvent(new Event('login-form'))
-})
+// router.get('/login', () => {
+//   dispatchEvent(new Event('login-form'))
+// })
 
-router.init() // this method will process the logics
+// router.init() // this method will process the logics
 
 // // Register ServiceWorker
 // if ('serviceWorker' in navigator) {

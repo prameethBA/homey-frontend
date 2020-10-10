@@ -34,11 +34,12 @@
                 document.getElementById("loader").style.backgroundColor = 'transparent'
             })
             window.addEventListener('pre-load', ()=>{
-                document.getElementById("loader").style. transition = '1s'
+                document.getElementById("loader").style.transition = '1s'
                 document.getElementById("loader").style.color = '#ffffff'
                 document.getElementById("loader").style.backgroundColor = 'orangered'
             })
             window.addEventListener('stop-pre-load', ()=>{
+                document.getElementById("loader").style.transition = 'all 2s ease-in-out'
                 document.getElementById("loader").style.color = 'transparent'
                 document.getElementById("loader").style.backgroundColor = 'transparent'
             })
