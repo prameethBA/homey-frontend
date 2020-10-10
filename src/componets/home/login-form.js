@@ -1,6 +1,8 @@
 import Base from './../Base.js'
 
-const style = `
+export default class LoginForm extends Base {
+
+  style = `
     .form {
         z-index: 2;
         position: absolute;
@@ -119,11 +121,8 @@ const style = `
         height:100px
     }
 
-
-    
-
 `
-const content = `
+content = `
     <div id="backdrop" title="Click to close this form">
     </div>
 
@@ -131,14 +130,9 @@ const content = `
     </div>
 
 `
-
-export default class LoginForm extends Base {
   constructor() {
     super()
-
-    this.render(style, content)
-    this.attachShadow({ mode: 'open' })
-    this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+    this.mount()
   }
 
   loadLoginContent() {

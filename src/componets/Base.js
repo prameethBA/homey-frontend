@@ -19,4 +19,9 @@ export default class Base extends HTMLElement {
     setPath(path) {
         window.history.pushState({}, '', path)
     }
+
+    // Helpers
+    _qs(selector) {
+        return this.shadowRoot.querySelector(selector)
+    }
 }
