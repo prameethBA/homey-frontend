@@ -240,6 +240,7 @@ content = `
               console.log('login failed function')
               dispatchEvent(new Event('login-failed'))
             }
+            return new Promise((resolve, reject)=>reject())
         })
         .catch(err => {
             if(err.status== '404') return err.json()
