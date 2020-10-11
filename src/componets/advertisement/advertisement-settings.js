@@ -1,21 +1,21 @@
 import Base from './../Base.js'
 
-const style =  `
-
-`
-
-
-const content = `
-
-`
-
 export default class AdvertisementSettings extends Base {
+
+  css =  `
+
+`
+
+
+  content = `
+
+`
     constructor() {
       super()
-  
-      this.render(style, content)
-      this.attachShadow({ mode: 'open' })
-      this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+      this.mount()
+
     }
+
   }
+  
   window.customElements.define('advertisement-settings', AdvertisementSettings)

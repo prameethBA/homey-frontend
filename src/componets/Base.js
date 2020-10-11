@@ -3,15 +3,32 @@ export default class Base extends HTMLElement {
 
     state = {}
 
-    styled(style) {
-        if (style === null) return ' '
-        return '<style>' + style + '</style>'
+    styled() {
+        return '<style>' + this.css + '</style>'
     }
-    render(style, content) {
-        if (content === null) content = ''
-        this.template.innerHTML = this.styled(style) + content
+    render() {
+        this.template.innerHTML = this.styled() + this.content
+    }
+    mount() {
+        this.render()
+        this.attachShadow({ mode: 'open' })
+        this.shadowRoot.appendChild(this.template.content.cloneNode(true))
     }
     setPath(path) {
         window.history.pushState({}, '', path)
     }
+
+    // Helpers
+    _qs(selector) {
+        return this.shadowRoot.querySelector(selector)
+    }
+
+    _qsAll(selector) {
+        return this.shadowRoot.querySelectorAll(selector)
+    }
+
+    setLoader = () => dispatchEvent(new Event('pre-load'))
+
+    stopLoader = () => dispatchEvent(new Event('stop-pre-load'))
+    
 }

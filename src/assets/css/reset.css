@@ -203,6 +203,7 @@ audio:not([controls]) {
 body {
   background-image: url('../images/background.jpg');
   background-size: cover;
+  transition: all 10s;
 }
 
 html {
