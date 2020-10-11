@@ -133,52 +133,55 @@ content = `
   constructor() {
     super()
     this.mount()
+
+    this.setPath('/login')
   }
 
-  loadLoginContent() {
-    this.setPath('/login')
+  loginFormContent() {
     this._qs('.form').innerHTML = `
     <img class="img" src="../assets/images/avatar.svg">        
     <h2>Login</h2>
-            
+    <div class="container">
+        <div class="row">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
+        </div>
+        <div class="row">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" title= "Password : pass@123" />
+        </div>
+        <div class="row">
+            <input type="checkbox" id="remember"> Remember me
+        </div>
+        <div class="row">
+            <button id="login"> Login </button>
+        </div>
+        <div class="row">
+            <a title="Reset Password" id="reset">Forgot Password ? </a>
+            |
+            <a title="Create new Account" id="signup"> Sign Up </a>
+        </div>
 
-            <div class="container">
-                <div class="row">
-                    <label for="email">Email</label>
-                    <input id="text" type="email" id="email" name="email" title="Email : someone@somthing.com" />
-                </div>
-                <div class="row">
-                    <label for="password">Password</label>
-                    <input id="text" type="password" id="password" name="password" title= "Password : pass@123" />
-                </div>
-                <div class="row">
-                    <input type="checkbox" id="remember"> Remember me
-                </div>
-                <div class="row">
-                    <button id="login"> Login </button>
-                </div>
-                <div class="row">
-                    <a title="Reset Password" id="reset">Forgot Password ? </a>
-                    |
-                    <a title="Create new Account" id="signup"> Sign Up </a>
-                </div>
+        <div class="hr-separator">
+        </div>
 
-                <div class="hr-separator">
-                </div>
+        <div class="row">
+            <span>or</span>
+        </div>
+        
+        <div class="row">
+            <button class="google"><img class="img2" src="../assets/images/google.svg">Continue with Google</button>
+        </div>
+        <div class="row">
+            <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">Continue with Facebook</button>
+        </div>
 
-                <div class="row">
-                    <span>or</span>
-                </div>
-                
-                <div class="row">
-                    <button class="google"><img class="img2" src="../assets/images/google.svg">Continue with Google</button>
-                </div>
-                <div class="row">
-                    <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">Continue with Facebook</button>
-                </div>
-
-            </div>
+    </div>
         `
+  }
+
+  loadEvents() {
+    
     // Method to load Signup form
     const loadSignUpFrom = async () => {
       await import('./signup-form.js')
@@ -190,7 +193,7 @@ content = `
 
     addEventListener('signup-form', () => loadSignUpFrom())
 
-    addEventListener('load-login-content', () => this.loadLoginContent())
+    addEventListener('load-login-content', () => this.loadEvents())
 
     // Method to load password reset form
     const loadResetFrom = async () => {
@@ -206,21 +209,27 @@ content = `
   }
   
   connectedCallback() {
-    this.loadLoginContent()
+   
+    this.loginFormContent()
+    this.loadEvents()
 
     this._qs('#backdrop').addEventListener('click', () => {
       dispatchEvent(new Event('exit-login-form'))
-      this.loadLoginContent()
+      this.loadEvents()
       this.setPath('/')
     })
 
     this._qs('#login').addEventListener('click', () => {
       // API call for login
-      fetch('http://homey-api.atwebpages.com/login/0112224448/password', {
+      let userName = this._qs('#email').value
+      const password = this._qs('#password').value
+      userName == '' ? userName = "invlid" : null
+      fetch('http://homey-api.atwebpages.com/login/' + userName + '/' + password, {
         method: 'POST',
       })
         .then((res) => {
             if(res.status == '201') return res.json()
+            else throw res
         })
         .then((res) => {
             if (res.data.login === 'true') {
@@ -233,7 +242,17 @@ content = `
             }
         })
         .catch(err => {
-            console.log(err)
+            if(err.status== '404') return err.json()
+            console.log("Error Code : " + err)
+            dispatchEvent(new Event('login-failed'))
+        })
+        .then(res=> {
+            localStorage.login = false
+            localStorage.token = ''
+            console.log(res.data.message)
+        })
+        .catch(err=>{
+            console.log("Error Code : " + err)
             dispatchEvent(new Event('login-failed'))
         })
     })
