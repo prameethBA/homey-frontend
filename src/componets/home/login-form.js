@@ -179,37 +179,32 @@ content = `
 
             </div>
         `
+    // Method to load Signup form
     const loadSignUpFrom = async () => {
       await import('./signup-form.js')
-      this._qs(
-        '.form'
-      ).innerHTML = `<signup-form></signup-form>`
+        .then(() => this._qs('.form').innerHTML = `<signup-form></signup-form>`)
+        .catch(err=>console.log(err))
     }
 
-    this.shadowRoot
-      .querySelector('#signup')
-      .addEventListener('click', () => loadSignUpFrom())
+    this._qs('#signup').addEventListener('click', () => loadSignUpFrom())
 
     addEventListener('signup-form', () => loadSignUpFrom())
 
-    addEventListener('load-login-content', () => {
-      this.loadLoginContent()
-      console.log('load')
-    })
+    addEventListener('load-login-content', () => this.loadLoginContent())
 
+    // Method to load password reset form
     const loadResetFrom = async () => {
       await import('./reset-password.js')
-      this._qs(
-        '.form'
-      ).innerHTML = `<reset-password></reset-password>`
+        .then(() => this._qs('.form').innerHTML = `<reset-password></reset-password>`)
+        .catch(err => console.log(err))
     }
 
-    this.shadowRoot
-      .querySelector('#reset')
-      .addEventListener('click', () => loadResetFrom())
+    this._qs('#reset').addEventListener('click', () => loadResetFrom())
 
     addEventListener('reset-password-form', () => loadResetFrom())
+
   }
+  
   connectedCallback() {
     this.loadLoginContent()
 

@@ -14,12 +14,11 @@ router.get('/', async () => {
   console.log('home')
 })
 
-
 class UI extends Base {
   
   css = `
-  
-      #mainContainer {
+      
+      #wrap, #mainContainer {
           padding:0;
           margin:0;
           width:100%;
@@ -53,21 +52,23 @@ class UI extends Base {
   
   `
   content = `
-  <navigation-bar></navigation-bar>
-      <div id="mainContainer">
-          <div class="container">
-              <user-comp mirror="true" route="/">
-                  <img slot="image" defer src="https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg=" alt="Image"></img>
-                  <h1 slot="title">Rent or Lease your own property</h1>
-              </user-comp>
-              <user-comp mirror="true" route="/">
-                  <img slot="image" defer src="https://s3.amazonaws.com/clients.granalacantadvertiser.images/wp-content/uploads/2017/06/14072232/2236775_2_O.jpg" alt="Image"></img>
-                  <h1 slot="title">Looking for a place</h1>
-              </user-comp>
-          </div>
-      <div>
-      <login-form id="login-form"></login-form>
-  <footer-c></footer-c>
+  <div id="wrap">
+    <navigation-bar></navigation-bar>
+        <div id="mainContainer">
+            <div class="container">
+                <user-comp mirror="true" route="/">
+                    <img slot="image" defer src="https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg=" alt="Image"></img>
+                    <h1 slot="title">Rent or Lease your own property</h1>
+                </user-comp>
+                <user-comp mirror="true" route="/">
+                    <img slot="image" defer src="https://s3.amazonaws.com/clients.granalacantadvertiser.images/wp-content/uploads/2017/06/14072232/2236775_2_O.jpg" alt="Image"></img>
+                    <h1 slot="title">Looking for a place</h1>
+                </user-comp>
+            </div>
+        <div>
+        <login-form id="login-form"></login-form>
+    <footer-c></footer-c>
+  </div>
   `
   
   constructor() {
@@ -98,11 +99,7 @@ class UI extends Base {
           this.setPath(item.getAttribute('route'))
           if (localStorage.login == 'true') {
             await import('./componets/user/primary-user.js')
-              .then(()=>{
-                this._qs(
-                  '#mainContainer'
-                ).innerHTML = `<primary-user></primary-user>`
-              })
+              .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
               .catch(err =>console.log(err))
           } else dispatchEvent(new Event("login-form"));
         })
@@ -123,7 +120,6 @@ class UI extends Base {
 
     // Add Event Listern for user-comp then load PrimaryUser component
     loadHome()
-
   }
 
   connectedCallback(){
@@ -136,10 +132,21 @@ class UI extends Base {
     })
 
     addEventListener('reload-home', () => {
+      this._qs('#wrap').remove()
       this.render()
-      console.log(this.shadowRoot.innerHTML)
       this.shadowRoot.append(this.template.content)
-      this.loadHome
+
+      this._qsAll('user-comp').forEach((item) =>
+        item.addEventListener('click', async () => {
+          this.setPath(item.getAttribute('route'))
+          if (localStorage.login == 'true') {
+            await import('./componets/user/primary-user.js')
+              .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
+              .catch(err =>console.log(err))
+          } else dispatchEvent(new Event("login-form"));
+        })
+      )
+
     })
   }
   
