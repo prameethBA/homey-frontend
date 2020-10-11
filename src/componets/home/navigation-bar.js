@@ -99,7 +99,7 @@ export default class Nav extends Base {
                 <li>Favourites</li>
                 <li>Profile</li>
                 <li>Settings</li>
-                <li>Logout</li>
+                <li id='logout-button'>Logout</li>
             </ul>
         </div>
     
@@ -109,15 +109,30 @@ export default class Nav extends Base {
         dispatchEvent(new Event('login-form'))
       })
 
-    if (localStorage.login == 'true') {
-      this._qs('#login-button').style.display = 'none'
-      this._qs('nav').innerHTML = this.state.loginContent
+    const setLoginNavBar = () => {
+      if (localStorage.login == 'true') {
+        this._qs('#login-button').style.display = 'none'
+        this._qs('nav').innerHTML = this.state.loginContent
+        this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out')))
+      }
     }
+
+    setLoginNavBar()
 
     this._qs('.logo').addEventListener('click', () => {
       this.setPath('/')
       dispatchEvent(new Event('reload-home'))
     })
+
+    addEventListener('login-success', () => setLoginNavBar())
+
+    addEventListener('log-out', ()=> {
+      localStorage.login = false;
+      localStorage.token = ''
+      this.setPath('/')
+      dispatchEvent(new Event('reload-home'))
+    })
+    
   }
 
 }

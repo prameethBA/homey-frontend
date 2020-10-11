@@ -219,19 +219,22 @@ content = `
       fetch('http://homey-api.atwebpages.com/login/0112224448/password', {
         method: 'POST',
       })
-        .then((res) => res.json())
         .then((res) => {
-          console.table(JSON.parse(res))
-          if (res.status == 200) {
-            if (res.data.login === true) {
-              localStorage.login = true
+            if(res.status == '201') return res.json()
+        })
+        .then((res) => {
+            if (res.data.login === 'true') {
+              localStorage.login = 'true'
               localStorage.token = res.data.token
+              dispatchEvent(new Event('login-success'))
             } else {
               console.log('login failed function')
+              dispatchEvent(new Event('login-failed'))
             }
-          } else {
-            console.log(res.data.message)
-          }
+        })
+        .catch(err => {
+            console.log(err)
+            dispatchEvent(new Event('login-failed'))
         })
     })
   }

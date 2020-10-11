@@ -123,6 +123,18 @@ class UI extends Base {
   }
 
   connectedCallback(){
+
+    addEventListener('login-success',async () => {
+      console.log("successfully logged into the system")
+      this.setPath('/user')
+      if (localStorage.login == 'true') {
+        await import('./componets/user/primary-user.js')
+          .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
+          .catch(err =>console.log(err))
+      } else dispatchEvent(new Event("login-form"));
+    })
+    addEventListener('login-failed',() => console.log("failed log into the system"))
+
     //This is used for developing purpose only
     router.get('/add-property', async () => {
       await import('./componets/property/add-property.js')
