@@ -111,9 +111,9 @@ export default class Nav extends Base {
 
     const setLoginNavBar = () => {
       if (localStorage.login == 'true') {
-        this._qs('#login-button').style.display = 'none'
+        this._qs('#login-button') != null ? this._qs('#login-button').style.display = 'none' : null
         this._qs('nav').innerHTML = this.state.loginContent
-        this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out')))
+        this._qs('#logout-button') != null ? this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out'))) : null
       }
     }
 
