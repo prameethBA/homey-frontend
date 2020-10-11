@@ -3,135 +3,369 @@ import Base from './../Base.js'
 export default class AddProperty extends Base {
 
   css = `
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      flex-direction: column;
-      width:100%;
-      height:100%;
-      top: 80%;
-      z-index: 1;
-    }
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    .row {
-      display : inline-block;
-      padding: 1em;
-    }
+* input {
+    border-radius: 10px;
+}
+* textarea {
+    border-radius: 10px;
+}
+/****************
+Typography
+****************/
+label{
+    font-weight: bold;
+}
+/**********************
+Layout 
+**************************/
+body {
+    padding-top: 30px;
+    
+}
+.container {
+    width: 90%;
+    max-width: 767.98px;
+    margin: auto;
+    background: #D1CEE0;
+    padding: 30px;
+}
 
-    #add-property {
-      width: 100%;
-      margin-bottom: 25px;
-      width: 100%;
-      height: 50px;
-      border-radius: 25px;
-      outline: none;
-      border: none;
-      background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-      background-size: 200%;
-      font-size: 0.8rem;
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      text-transform: uppercase;
-      margin: 1rem 0;
-      cursor: pointer;
-      transition: 1s;
-    }
 
-    button:hover {
-      background-position: right;
-      color: black;
-    }
+
+/* add Prop */
+.properties form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.property {
+    width:30%;
+}
+
+.property input {
+    width: 100%;
+    margin-bottom: 20px;
+    height: 30px;
+}
+.property_description{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.property_description textarea{
+    width: 100%;
+}
+.select_properties{
+    width: 100%;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.select_property{
+    width: 15%;
+}
+.select_property input{
+    margin-right: 15px;
+}
+
+.image_property {
+    width:100%;
+    margin-bottom: 20px;
+}
+.image_property-md {
+    width:70%;
+}
+.image_upload{
+    display: flex;
+    border-radius: 10px 0 0 10px;
+}
+.image_upload-md label{
+    width:80%;
+    border: 1px solid #004e64;
+    background:white;
+}
+.image_upload-lg label{
+    width:100%;
+    border: 1px solid #004e64;
+    background:white;
+    
+}
+#upload-photo {
+    
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+ }
+
+ 
+/* *********************
+Components
+ **************************/
+/* Buttons */
+
+
+
+
+
+
+
+.btn {
+    display: block;
+    border: none;
+   
+    font-size: 16px;
+    font-weight:bolder;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    padding: 0.5em 2em;
+    border-radius: 20px;
+    transition: .3s;
+    text-transform: uppercase;
+}
+.btn-primary{
+    border: 2px solid #3c73ff;
+    background-color: #3c73ff;
+   
+}
+.btn-primary:hover {
+    box-shadow: 8px 8px #99bdff;
+    transition: .3s;
+  }
+
+.btn-secondary{
+    background-color: #C266D3;
+   
+}
+.btn-secondary:hover {
+    box-shadow: 8px 8px #dfa7e9;
+    transition: .3s;
+}
+.btn-success{
+    background-color: #25a18e;
+   
+}
+.btn-danger{
+    background-color: #E00880;
+   
+}
+.btn-danger:hover {
+    box-shadow: 8px 8px #f87cc0;
+    transition: .3s;
+}
+.btn-upload {
+    border-radius:0 10px 10px 0;
+    background:#444857;
+}
+.btn-lg{
+
+    width: 100%;
+}
+.btn-md{
+
+    width: 60%;
+}
+.btn-sm{
+
+    width: 28%;
+    font-size: .8rem;
+}
+.btn-group{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.btn-group-bw{
+    justify-content: space-between;
+}
+
 
 ` 
 
 content = `
-    <div class="container">
-    <div class="row">
-      <label for="title">Title</label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        title="Title : House for rent"
-      />
-      <label for="price">Price</label>
-      <input type="text" id="price" name="price" title="Price : 30000" />
-      <label for="keymoney">Key Money</label>
-      <input
-        type="text"
-        id="keymoney"
-        name="keymoney"
-        title="Key Money : 50000"
-      />
-    </div>
+<div class="container">
+<section class="properties">
+    <form action="">
+        <div class="property">
+            <label for="">Title</label>
+            <input type="text" name="" id="">
+        </div>
+        <div class="property">
+            <label for="">Price</label>
+            <input type="text" name="" id="">
+        </div>
+        <div class="property">
+            <label for="">KeyMoney</label>
+            <input type="text" name="" id="">
+        </div>
+        <div class="property">
+            <label for="">Minimum Period</label>
+            <input type="text" name="" id="">
+        </div>
+        <div class="property">
+            <label for="">Available From</label>
+            <input type="date" name="" id="">
+        </div>
+        <div class="property">
+            <label for="">Property Type</label>
+            <select name="property_type">
+              <option>Home</option>
+              <option>Annex</option>
+              <option>Room</option>
+            </select>
+        </div>
+        <div class="property_description">
+            <label for="">Description</label>
+            <textarea name="" id="" cols="30" rows="5"></textarea>
+        </div>
+        
+        <div class="select_properties">
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+            <div class="select_property">
+                <input type="checkbox" name="" id="">
+                <label for="">Feature x</label>
+            </div>
+        </div>
+        <div class="image_property image_property-md">
+            <h3>Images</h3>
+            <div class="image_upload image_upload-md">
+                <label for="upload-photo"></label>
+                <input type="file" name="photo" id="upload-photo" />
+                <input type="submit"value="Upload Images" class="btn btn-upload">
+            </div>
+            
+        </div>
+        <button class="btn btn-primary btn-lg">Add Property</button>
 
-    <div class="row">
-      <label for="period">Minimum Period</label>
-      <input
-        type="text"
-        id="period"
-        name="period"
-        title="Minimum Period : 1year"
-      />
-      <label for="avail-from">Available From</label>
-      <input
-        type="date"
-        id="avail-from"
-        name="avail-from"
-        title="Available From : 08/10/2020"
-      />
-      <label for="property-type">Property Type</label>
-      <select name="property-type">
-        <option selected>House</option>
-        <option>Semi-detached house</option>
-        <option>Townhouse/Villa</option>
-        <option>Annex</option>
-        <option>Apartments/Unit</option>
-        <option>Block of units</option>
-      </select>
-    </div>
-
-    <div class="row">
-      <label for="discription">Discription</label>
-      <textarea
-        name="discription"
-        title="Enter discription about your property"
-        row="5"
-        cols="50"
-      ></textarea>
-    </div>
-
-    <div class="row">
-      <label for="facilities">Facilities</label>
-      <input type="checkbox" name="electricity" />Electricity
-      <input type="checkbox" name="water" />Water Supply
-      <input type="checkbox" name="gas" />Gas
-      <input type="checkbox" name="ac" />AirConditioned
-      <input type="checkbox" name="wall fans" />Wall Fans
-      <input type="checkbox" name="roof fans" />Roof Fans
-      <input type="checkbox" name="furniture" />Furniture
-      <input type="checkbox" name="front-yard" />Front Yard
-      <input type="checkbox" name="back-yard" />Back Yard
-      <input type="checkbox" name="attached-bathroom" />Attached Bathroom
-      <input type="checkbox" name="vehicle-parking" />Vehicle Parking
-    </div>
-
-    <div class="row">
-      <label for="images">Images</label>
-      <input
-        type="text"
-        id="images"
-        name="images"
-        title="Add Images in .jpeg"
-      />
-      <button id="upload-images">Upload Images</button>
-    </div>
-
-    <div class="row">
-      <button id="add-property">Add Property</button>
-    </div>
-    </div>
+    </form>
+    
+</section>
+</div>
 `
   constructor() {
     super()
