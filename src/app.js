@@ -136,11 +136,11 @@ class UI extends Base {
     addEventListener('login-failed',() => console.log("failed log into the system"))
 
     //This is used for developing purpose only
-    router.get('/add-property', async () => {
-      await import('./componets/property/add-property.js')
+    router.get('/account-settings', async () => {
+      await import('./componets/account/account-settings.js')
       this._qs(
         '#mainContainer'
-      ).innerHTML = `<add-property></add-property>`
+      ).innerHTML = `<account-settings></account-settings>`
     })
 
     addEventListener('reload-home', () => {
