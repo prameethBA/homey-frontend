@@ -66,7 +66,7 @@ export default class PropertyView extends Base {
            <div class="details">
             <div>
                 <div>
-                    <h3 class="title">Seaview Luxury Double Bedroom for Rent at Border Dehiwala</h3>
+                    <slot name="title" class="title"></slot>
                     <span>Star</span>
                     <span>Share</span>
                     <button>Pricegdsai</button>
