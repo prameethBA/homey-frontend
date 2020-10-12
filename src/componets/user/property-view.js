@@ -6,12 +6,7 @@ const style = `
 `
 const content = `
     <div>
-       <div>
-        <button>Prev</button>
-        <img src="">
-        <button>Next</button>
-       </div>
-       <div>
+ 
         <div>
             <h3>Title</h3>
             <span>Star</span>
@@ -24,7 +19,7 @@ const content = `
         <div>
             <button>Comment</button>
             <button>Reserve</button>
-            <button>More>></button>
+            <button>More>>>><<<<>></button>
         </div>
        </div>
     </div>

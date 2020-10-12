@@ -8,6 +8,7 @@ const style = `
 `
 const content = `
     <property-view></property-view>
+    <property-view></property-view>
 `
 
 export default class PrimaryUser extends Base {
