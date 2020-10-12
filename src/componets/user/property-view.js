@@ -18,7 +18,7 @@ export default class PropertyView extends Base {
                 <h3>Title</h3>
                 <span>Star</span>
                 <span>Share</span>
-                <button>Price</button>
+                <button>Pricegdsai</button>
             </div>
             <div>
                 Description
