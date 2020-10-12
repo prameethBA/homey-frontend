@@ -101,7 +101,7 @@ class UI extends Base {
             await import('./componets/user/primary-user.js')
               .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
               .catch(err =>console.log(err))
-          } else dispatchEvent(new Event("login-form"));
+          } else dispatchEvent(new Event("login-form"))
         })
       )
     }
@@ -117,6 +117,14 @@ class UI extends Base {
 
     // Listen for /reset-password route to set visible Reser Password Form
     router.get('/reset-password', () => loadForm('reset-password'))
+
+    router.get('/user', async () => {
+      if (localStorage.login == 'true') {
+        await import('./componets/user/primary-user.js')
+          .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
+          .catch(err =>console.log(err))
+      } else dispatchEvent(new Event("login-form"))
+    })
 
     // Add Event Listern for user-comp then load PrimaryUser component
     loadHome()
