@@ -6,14 +6,21 @@ import './property-view.js'
 
 export default class PrimaryUser extends Base {
     css = `
-
+    .container {
+        text-align: center;
+    }
     `
     content = `
+    <div class="container">
         <property-view></property-view>
         <property-view></property-view>
         <property-view></property-view>
         <property-view></property-view>
         <property-view></property-view>
+        <property-view></property-view>
+        <property-view></property-view>
+        <property-view></property-view>
+    <div>
     `
 
     constructor() {
