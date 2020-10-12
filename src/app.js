@@ -144,12 +144,20 @@ class UI extends Base {
     })
     addEventListener('login-failed',() => console.log("failed log into the system"))
 
-    //This is used for developing purpose only
+    //This is used for developing purpose only | For prameeth
     router.get('/account-settings', async () => {
       await import('./componets/account/account-settings.js')
       this._qs(
         '#mainContainer'
       ).innerHTML = `<account-settings></account-settings>`
+    })
+
+    //This is used for developing purpose only  | For Ozki
+    router.get('/payment-history', async () => {
+      await import('./componets/payments/payment-history.js')
+      this._qs(
+        '#mainContainer'
+      ).innerHTML = `<payment-history></payment-history>`
     })
 
     addEventListener('reload-home', () => {
