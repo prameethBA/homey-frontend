@@ -9,7 +9,7 @@ export default class PropertyView extends Base {
     content = `
         <div>
            <div>
-            <button>Prev</button>
+            <button>Previus</button>
             <img src="">
             <button>Next</button>
            </div>
