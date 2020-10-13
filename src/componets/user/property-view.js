@@ -45,13 +45,48 @@ export default class PropertyView extends Base {
     }
 
     .details {
-        transform: translateY(181px);
+        transform: translateY(179px);
         background-color: rgba(200, 200, 200, 0.8);
         padding-bottom: 30px;
     }
 
     .title {
         padding: 0.1em;
+    }
+
+    .star {
+        padding: 1em;
+        font-size: 1.2em;
+    }
+
+    .share {
+        font-weight: bold;
+        position: relative;
+    }
+    .share:before {
+        content: ".";
+        font-size: 2.2em;
+        position: absolute;
+        bottom: -1px;
+        left: -4px;
+    }
+    .share:after {
+        content: ":";
+        font-size: 2em;
+        position: absolute;
+        bottom: -4px;
+        right: -7px;
+    }
+
+    .price {
+        padding-left: 1em;
+        font-weight: bold;
+    }
+
+    .description {
+        margin: 0.5em 0;
+        height: 5em;
+        text-align: justify;
     }
     
     `
@@ -64,14 +99,13 @@ export default class PropertyView extends Base {
             </img>
            </div>
            <div class="details">
-            <div>
                 <div>
                     <slot name="title" class="title"></slot>
-                    <span>Star</span>
-                    <span>Share</span>
-                    <button>Pricegdsai</button>
+                    <span class="star">&starf;</span>
+                    <span class="share">&lt;</span>
+                    <span class="price">Rs. 17, 000</button>
                 </div>
-                <div>
+                <div class="description">
                     Description
                 </div>
                 <div>
@@ -79,7 +113,6 @@ export default class PropertyView extends Base {
                     <button>Reserve</button>
                     <button>More>></button>
                 </div>
-            </div>
            </div>
         </div>
     `

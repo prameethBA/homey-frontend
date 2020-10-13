@@ -15,20 +15,134 @@ export default class PrimaryUser extends Base {
         super()
         this.mount()
 
-        const dataArray  = ['Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala', 'Apartment in Wellwatte Near safeplace inface to Gallface']
-        let data = '';
-        for (let index = 0; index < dataArray.length; index++) {
-            let title = dataArray[index].length>75 ? dataArray[index].substr(0, 75) + `...` : dataArray[index]
-            data += `
-            <property-view>
-                <h4 slot="title">` + title + `</h4>
-            </property-view>
-            `
-        }
+        this.dataArray  = ['Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface',
+        'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
+        'Apartment in Wellwatte Near safeplace inface to Gallface']
+        
 
         import('./property-view.js')
-            .then(this._qs('.container').innerHTML = data)
+            .then(() => {
+                let data = '';
+                for (let index = 0; index < this.dataArray.length; index++) {
+                    data += `
+                    <property-view>
+                        <h4 slot="title" id="add-` + index + `">` + '<progress></progress>' + `</h4>
+                    </property-view>
+                `
+                }
+                this._qs('.container').innerHTML = data
+            })
             .catch(err => console.log(err))
+    }
+
+    connectedCallback() {
+        const loadAdds = async () => {
+            for (let index = 0; index < this.dataArray.length; index++) {
+                let title = this.dataArray[index].length>75 ? this.dataArray[index].substr(0, 75) + `...` : this.dataArray[index]
+                this._qs('#add-' + index).innerHTML = title
+            }
+        } 
+
+        setTimeout(() => {
+            loadAdds()
+        }, 2000);
     }
 
 }
