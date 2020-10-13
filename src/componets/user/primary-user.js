@@ -129,10 +129,10 @@ export default class PrimaryUser extends Base {
                 let data = '';
                 for (let index = 0; index < this.dataArray.length; index++) {
                     data += `
-                    <property-view>
-                        <div slot="img" prev="` + this.slidePrevious + `" next="` + this.slideNext + `">
-                            <img src="./assets/images/desk.png" />
-                            <img src="./assets/images/desk2.png" />
+                    <property-view key="` + index + `">
+                        <div slot="img" >
+                            <img class="img-` + index + `" src="./assets/images/desk.png" />
+                            <img class="img-` + index + `" src="./assets/images/desk2.png" />
                         </div>
                         <h4 slot="title" id="add-` + index + `">` + '<progress></progress>' + `</h4>
                     </property-view>
@@ -158,17 +158,21 @@ export default class PrimaryUser extends Base {
 
         this.state.img = 1;
 
-        this.slideNext = ()=> {
-                this._qsAll('img')[this.state.img].style.display = 'none'
-                this._qsAll('img').length - 1 > this.state.img ? this.state.img++ : this.state.img = 0
-                this._qsAll('img')[this.state.img].style.display = 'block'
+        const slideNext = (key)=> {
+                this._qs('.img-' + key).style.display = 'none'
+                this._qs('.img-' + key).length - 1 > this.state.img ? this.state.img++ : this.state.img = 0
+                this._qs('.img-' + key).style.display = 'block'
         }
 
-        this.slidePrevious = ()=> {
-            this._qsAll('img')[this.state.img].style.display = 'none'
-            0 < this.state.img ? this.state.img-- : this.state.img = this._qsAll('img').length -1 
-            this._qsAll('img')[this.state.img].style.display = 'block'
+        const slidePrevious = (key)=> {
+            this._qs('.img-' + key).style.display = 'none'
+            0 < this.state.img ? this.state.img-- : this.state.img = this._qs('.img-' + key).length -1 
+            this._qs('.img-' + key).style.display = 'block'
         }
+
+        addEventListener('slider-previous', e => slidePrevious(e.detail.key))
+        addEventListener('slider-previous', e => slideNext(e.detail.key))
+        slideNext(0)
 
     }
 

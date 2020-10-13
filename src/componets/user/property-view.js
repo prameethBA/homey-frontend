@@ -160,8 +160,9 @@ export default class PropertyView extends Base {
     }
 
     connectedCallback() {
-        this._qs('.slider-previous').addEventListener('click', () => console.log(this.getAttribute('prev')))
-        this._qs('.slider-next').addEventListener('click', () => console.log(this.getAttribute('next')))
+        console.log(this.querySelector('img'))
+        this._qs('.slider-previous').addEventListener('click', () => dispatchEvent(new CustomEvent('slider-previous', {detail: {key: this.getAttribute('key')}})) )
+        this._qs('.slider-next').addEventListener('click', () => dispatchEvent(new CustomEvent('slider-next', {detail: {key: this.getAttribute('key')}})) )
         this._qs('.slider-next').click();
         
     }
