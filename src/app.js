@@ -75,6 +75,15 @@ class UI extends Base {
     super()
     this.mount()
 
+    
+    router.get('/user', async () => {
+      if (localStorage.login == 'true') {
+        await import('./componets/user/primary-user.js')
+          .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
+          .catch(err =>console.log(err))
+      } else dispatchEvent(new Event("login-form"))
+    })
+
     const loadForm = async (form) => {
       this.setLoader()
       await import('./componets/home/login-form.js')
@@ -118,14 +127,6 @@ class UI extends Base {
     // Listen for /reset-password route to set visible Reser Password Form
     router.get('/reset-password', () => loadForm('reset-password'))
 
-    router.get('/user', async () => {
-      if (localStorage.login == 'true') {
-        await import('./componets/user/primary-user.js')
-          .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
-          .catch(err =>console.log(err))
-      } else dispatchEvent(new Event("login-form"))
-    })
-
     // Add Event Listern for user-comp then load PrimaryUser component
     loadHome()
   }
@@ -143,12 +144,20 @@ class UI extends Base {
     })
     addEventListener('login-failed',() => console.log("failed log into the system"))
 
-    //This is used for developing purpose only
+    //This is used for developing purpose only | For prameeth
     router.get('/account-settings', async () => {
       await import('./componets/account/account-settings.js')
       this._qs(
         '#mainContainer'
       ).innerHTML = `<account-settings></account-settings>`
+    })
+
+    //This is used for developing purpose only  | For Ozki
+    router.get('/payment-history', async () => {
+      await import('./componets/payments/payment-history.js')
+      this._qs(
+        '#mainContainer'
+      ).innerHTML = `<payment-history></payment-history>`
     })
 
     addEventListener('reload-home', () => {
