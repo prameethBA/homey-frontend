@@ -56,11 +56,11 @@ class UI extends Base {
     <navigation-bar></navigation-bar>
         <div id="mainContainer">
             <div class="container">
-                <user-comp mirror="true" route="/user">
+                <user-comp mirror="true" route="/own-properties">
                     <img slot="image" defer src="https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg=" alt="Image"></img>
                     <h1 slot="title">Rent or Lease your own property</h1>
                 </user-comp>
-                <user-comp mirror="true" route="/user">
+                <user-comp mirror="true" route="/properties">
                     <img slot="image" defer src="https://s3.amazonaws.com/clients.granalacantadvertiser.images/wp-content/uploads/2017/06/14072232/2236775_2_O.jpg" alt="Image"></img>
                     <h1 slot="title">Looking for a place</h1>
                 </user-comp>
@@ -74,16 +74,7 @@ class UI extends Base {
   constructor() {
     super()
     this.mount()
-
     
-    router.get('/user', async () => {
-      if (localStorage.login == 'true') {
-        await import('./componets/user/primary-user.js')
-          .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
-          .catch(err =>console.log(err))
-      } else dispatchEvent(new Event("login-form"))
-    })
-
     const loadForm = async (form) => {
       this.setLoader()
       await import('./componets/home/login-form.js')
@@ -107,8 +98,8 @@ class UI extends Base {
         item.addEventListener('click', async () => {
           this.setPath(item.getAttribute('route'))
           if (localStorage.login == 'true') {
-            await import('./componets/user/primary-user.js')
-              .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
+            await import('./componets/user/avalibale-properties.js')
+              .then(()=>this._qs('#mainContainer').innerHTML = `<avalibale-properties></avalibale-properties>`)
               .catch(err =>console.log(err))
           } else dispatchEvent(new Event("login-form"))
         })
@@ -133,14 +124,9 @@ class UI extends Base {
 
   connectedCallback(){
 
-    addEventListener('login-success',async () => {
+    addEventListener('login-success', () => {
       console.log("successfully logged into the system")
-      this.setPath('/user')
-      if (localStorage.login == 'true') {
-        await import('./componets/user/primary-user.js')
-          .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
-          .catch(err =>console.log(err))
-      } else dispatchEvent(new Event("login-form"));
+      dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
     })
     addEventListener('login-failed',() => console.log("failed log into the system"))
 
@@ -167,15 +153,19 @@ class UI extends Base {
 
       this._qsAll('user-comp').forEach((item) =>
       item.addEventListener('click', async () => {
-          this.setPath(item.getAttribute('route'))
-          if (localStorage.login == 'true') {
-            await import('./componets/user/primary-user.js')
-              .then(()=>this._qs('#mainContainer').innerHTML = `<primary-user></primary-user>`)
-              .catch(err =>console.log(err))
-          } else dispatchEvent(new Event("login-form"))
+        dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
         })
       )
     })
+
+    // addEventListener('changePath', async (e) => {
+    //   this.setPath(e.detail.path)
+    //   if (localStorage.login == 'true') {
+    //     await import('./componets' + e.detail.comp)
+    //       .then(()=>this._qs('#mainContainer').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`)
+    //       .catch(err =>console.log(err))
+    //   } else dispatchEvent(new Event("login-form"))
+    // })
 
   }
   

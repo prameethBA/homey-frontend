@@ -89,6 +89,7 @@ export default class PropertyView extends Base {
     .share {
         font-weight: bold;
         position: relative;
+        cursor: pointer;
     }
     .share:before {
         content: ".";

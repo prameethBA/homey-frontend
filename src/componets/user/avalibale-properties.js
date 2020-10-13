@@ -1,6 +1,6 @@
-import Base from './../Base.js'
+import Base from '../Base.js'
 
-export default class PrimaryUser extends Base {
+export default class AvalibaleProperties extends Base {
     css = `
     .container {
         text-align: center;
@@ -162,4 +162,4 @@ export default class PrimaryUser extends Base {
 
 }
 
-window.customElements.define('primary-user', PrimaryUser)
+window.customElements.define('avalibale-properties', AvalibaleProperties)
