@@ -54,9 +54,20 @@ export default class PropertyView extends Base {
         padding: 0.1em;
     }
 
+    span {
+        margin: auto;
+    }
+
     .star {
         padding: 1em;
         font-size: 1.2em;
+        color: #ffffff;
+        cursor: pointer;
+        transition: 1s;
+    }
+
+    .star:hover {
+        color: yellow;
     }
 
     .share {
@@ -84,9 +95,33 @@ export default class PropertyView extends Base {
     }
 
     .description {
-        margin: 0.5em 0;
+        margin: 0.5em;
         height: 5em;
         text-align: justify;
+    }
+
+    button {
+        font-weight: bold;
+        font-size: 1.1em;
+        border:none;
+        border-radius: 2px;
+        padding: 0.3em;
+        display: inline;
+        margin:0.1em;
+        color: #eeeeee;
+        cursor: pointer;
+    }
+
+    .comment {
+        background-color: rgba(4, 47, 102, 0.8);
+    }
+
+    .reserve {
+        background-color: rgba(223, 73, 40, 0.8);
+    }
+
+    .more {
+        background-color: rgba(12, 164, 44, 0.8);
     }
     
     `
@@ -106,12 +141,12 @@ export default class PropertyView extends Base {
                     <span class="price">Rs. 17, 000</button>
                 </div>
                 <div class="description">
-                    Description
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed urna eu lacus facilisis mollis. Sed consequat odio lorem, ac vulputate nisi imperdiet efficitur. Quisque non nunc eu sapien.
                 </div>
                 <div>
-                    <button>Comment</button>
-                    <button>Reserve</button>
-                    <button>More>></button>
+                    <button class="comment">Comment</button>
+                    <button class="reserve">Reserve</button>
+                    <button class="more">More >></button>
                 </div>
            </div>
         </div>
