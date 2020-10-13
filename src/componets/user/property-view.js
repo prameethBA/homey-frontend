@@ -7,7 +7,7 @@ export default class PropertyView extends Base {
         position: relative;
         display: inline-block;
         width: 300px;
-        height: 350px;
+        height: 420px;
         box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.86);
         margin: 2em;
     }
@@ -37,11 +37,12 @@ export default class PropertyView extends Base {
         right: 0.1em;
     }
    
-    img {
+    .img img {
         margin:0;
         height: 200px;
         width: 100%;
         z-index: 4;
+        display: none;
     }
 
     .details {
@@ -130,8 +131,9 @@ export default class PropertyView extends Base {
            <div class="slide">
            <button class="slider slider-previous"><</button>
            <button class="slider slider-next">></button>
-           <img src="./assets/images/desk.png">
-            </img>
+           
+            <slot name="img" class="img"></slot>
+            
            </div>
            <div class="details">
                 <div>
@@ -155,6 +157,13 @@ export default class PropertyView extends Base {
     constructor() {
         super()
         this.mount()
+    }
+
+    connectedCallback() {
+        this._qs('.slider-previous').addEventListener('click', () => console.log(this.getAttribute('prev')))
+        this._qs('.slider-next').addEventListener('click', () => console.log(this.getAttribute('next')))
+        this._qs('.slider-next').click();
+        
     }
 
 }
