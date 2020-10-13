@@ -160,10 +160,25 @@ export default class PropertyView extends Base {
     }
 
     connectedCallback() {
-        console.log(this.querySelector('img'))
-        this._qs('.slider-previous').addEventListener('click', () => dispatchEvent(new CustomEvent('slider-previous', {detail: {key: this.getAttribute('key')}})) )
-        this._qs('.slider-next').addEventListener('click', () => dispatchEvent(new CustomEvent('slider-next', {detail: {key: this.getAttribute('key')}})) )
+        this.state.img = 1;
+
+        const slideNext = ()=> {
+                this.qsAll('img')[this.state.img].style.display = 'none'
+                this.qsAll('img').length - 1 > this.state.img ? this.state.img++ : this.state.img = 0
+                this.qsAll('img')[this.state.img].style.display = 'block'
+        }
+
+        const slidePrevious = ()=> {
+            this.qsAll('img')[this.state.img].style.display = 'none'
+            0 < this.state.img ? this.state.img-- : this.state.img = this.qsAll('img').length -1 
+            this.qsAll('img')[this.state.img].style.display = 'block'
+        }
+
+        this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
+        this._qs('.slider-next').addEventListener('click', () => {slideNext()})
         this._qs('.slider-next').click();
+
+        setInterval(() => slideNext(),5000)
         
     }
 

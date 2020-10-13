@@ -156,24 +156,6 @@ export default class PrimaryUser extends Base {
             loadAdds()
         }, 2000);
 
-        this.state.img = 1;
-
-        const slideNext = (key)=> {
-                this._qs('.img-' + key).style.display = 'none'
-                this._qs('.img-' + key).length - 1 > this.state.img ? this.state.img++ : this.state.img = 0
-                this._qs('.img-' + key).style.display = 'block'
-        }
-
-        const slidePrevious = (key)=> {
-            this._qs('.img-' + key).style.display = 'none'
-            0 < this.state.img ? this.state.img-- : this.state.img = this._qs('.img-' + key).length -1 
-            this._qs('.img-' + key).style.display = 'block'
-        }
-
-        addEventListener('slider-previous', e => slidePrevious(e.detail.key))
-        addEventListener('slider-previous', e => slideNext(e.detail.key))
-        slideNext(0)
-
     }
 
 }
