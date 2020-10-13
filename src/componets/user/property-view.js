@@ -7,7 +7,7 @@ export default class PropertyView extends Base {
         position: relative;
         display: inline-block;
         width: 300px;
-        height: 420px;
+        height: 433px;
         box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.86);
         margin: 2em;
     }
@@ -22,19 +22,34 @@ export default class PropertyView extends Base {
         margin: 0em;
         top: 25%;
         font-size: 5em;
-        background-color: transparent;
         border: none;
+        padding: 0;
         z-index: 5;
         outline: none;
         cursor: pointer;
+        color: rgba(255, 255, 255, 0.7);
+        background-color: rgba(0, 0, 0, 0.2);
+        transition: 1s;
+    }
+
+    .slider:hover {
+        color: rgba(255, 255, 255, 0.9);
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .slider:active {
+        outline: solid rgba(255, 255, 255, 0.1) 5px;
     }
    
     .slider-previous {
         left: 0.1em;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
     }
            
     .slider-next {
         right: 0.1em;
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
     }
    
     .img img {
@@ -160,25 +175,29 @@ export default class PropertyView extends Base {
     }
 
     connectedCallback() {
-        this.state.img = 1;
-
-        const slideNext = ()=> {
-                this.qsAll('img')[this.state.img].style.display = 'none'
-                this.qsAll('img').length - 1 > this.state.img ? this.state.img++ : this.state.img = 0
-                this.qsAll('img')[this.state.img].style.display = 'block'
+        if( this.qsAll('img').length > 1) {
+                this.state.img = 1;
+                this.state.rootImg = 0
+        
+                const slideNext = ()=> {
+                        this.qsAll('img')[this.state.img].style.display = 'none'
+                        this.qsAll('img').length - 1 > this.state.img ? this.state.img++ : this.state.img = this.state.rootImg
+                        this.qsAll('img')[this.state.img].style.display = 'block'
+                }
+        
+                const slidePrevious = ()=> {
+                    this.qsAll('img')[this.state.img].style.display = 'none'
+                    this.state.rootImg < this.state.img ? this.state.img-- : this.state.img = this.qsAll('img').length - 1 
+                    this.qsAll('img')[this.state.img].style.display = 'block'
+                }
+        
+                this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
+                this._qs('.slider-next').addEventListener('click', () => {slideNext()})
+                this._qs('.slider-previous').click();
+                this.state.rootImg = 1
+        
+                let autoSlide = setInterval(() => slideNext(),5000)
         }
-
-        const slidePrevious = ()=> {
-            this.qsAll('img')[this.state.img].style.display = 'none'
-            0 < this.state.img ? this.state.img-- : this.state.img = this.qsAll('img').length -1 
-            this.qsAll('img')[this.state.img].style.display = 'block'
-        }
-
-        this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
-        this._qs('.slider-next').addEventListener('click', () => {slideNext()})
-        this._qs('.slider-next').click();
-
-        setInterval(() => slideNext(),5000)
         
     }
 

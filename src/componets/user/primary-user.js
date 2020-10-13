@@ -129,10 +129,12 @@ export default class PrimaryUser extends Base {
                 let data = '';
                 for (let index = 0; index < this.dataArray.length; index++) {
                     data += `
-                    <property-view key="` + index + `">
-                        <div slot="img" >
-                            <img class="img-` + index + `" src="./assets/images/desk.png" />
-                            <img class="img-` + index + `" src="./assets/images/desk2.png" />
+                    <property-view>
+                        <div slot="img" id="img-` + index + `">
+                        <img src="./assets/images/load-post.gif" />
+                        <img src="./assets/images/desk2.png" />
+                        <img src="./assets/images/desk3.png" />
+                        <img src="./assets/images/desk.png" />
                         </div>
                         <h4 slot="title" id="add-` + index + `">` + '<progress></progress>' + `</h4>
                     </property-view>
