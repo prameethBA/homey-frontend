@@ -93,15 +93,9 @@ class UI extends Base {
       this.stopLoader()
     }
 
-    const loadHome = async () => {
-        this._qsAll('user-comp').forEach((item) =>
-        item.addEventListener('click', async () => {
-          this.setPath(item.getAttribute('route'))
-          if (localStorage.login == 'true') {
-            await import('./componets/user/avalibale-properties.js')
-              .then(()=>this._qs('#mainContainer').innerHTML = `<avalibale-properties></avalibale-properties>`)
-              .catch(err =>console.log(err))
-          } else dispatchEvent(new Event("login-form"))
+    const loadHome = () => {
+        this._qsAll('user-comp').forEach((item) => item.addEventListener('click', () => {
+          dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
         })
       )
     }
@@ -152,20 +146,20 @@ class UI extends Base {
       this.shadowRoot.append(this.template.content)
 
       this._qsAll('user-comp').forEach((item) =>
-      item.addEventListener('click', async () => {
+      item.addEventListener('click', () => {
         dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
         })
       )
     })
 
-    // addEventListener('changePath', async (e) => {
-    //   this.setPath(e.detail.path)
-    //   if (localStorage.login == 'true') {
-    //     await import('./componets' + e.detail.comp)
-    //       .then(()=>this._qs('#mainContainer').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`)
-    //       .catch(err =>console.log(err))
-    //   } else dispatchEvent(new Event("login-form"))
-    // })
+    addEventListener('changePath', async (e) => {
+      // if (localStorage.login == 'true') {
+      //   await import('./componets' + e.detail.comp)
+      //   .then(()=>this._qs('#mainContainer').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`)
+      //   .catch(err =>console.log(err))
+      // } else dispatchEvent(new Event("login-form"))
+      this.setPath(e.detail.path)
+    })
 
   }
   
