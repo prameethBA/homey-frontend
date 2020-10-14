@@ -60,7 +60,7 @@ class UI extends Base {
                     <img slot="image" defer src="https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg=" alt="Image"></img>
                     <h1 slot="title">Rent or Lease your own property</h1>
                 </user-comp>
-                <user-comp mirror="true" route="/properties">
+                <user-comp mirror="true" id="properties-component">
                     <img slot="image" defer src="https://s3.amazonaws.com/clients.granalacantadvertiser.images/wp-content/uploads/2017/06/14072232/2236775_2_O.jpg" alt="Image"></img>
                     <h1 slot="title">Looking for a place</h1>
                 </user-comp>
@@ -93,13 +93,6 @@ class UI extends Base {
       this.stopLoader()
     }
 
-    const loadHome = () => {
-        this._qsAll('user-comp').forEach((item) => item.addEventListener('click', () => {
-          dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
-        })
-      )
-    }
-
     // Listen for login-form Event to set visible Login Form
     addEventListener('login-form', ()=>loadForm('login'))
 
@@ -112,8 +105,10 @@ class UI extends Base {
     // Listen for /reset-password route to set visible Reser Password Form
     router.get('/reset-password', () => loadForm('reset-password'))
 
-    // Add Event Listern for user-comp then load PrimaryUser component
-    loadHome()
+    // Add Event Listern for user-comp then load properties-component
+    this._qs('#properties-component').addEventListener('click', () => {
+      dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
+    })
   }
 
   connectedCallback(){
@@ -145,20 +140,17 @@ class UI extends Base {
       this.render()
       this.shadowRoot.append(this.template.content)
 
-      this._qsAll('user-comp').forEach((item) =>
-      item.addEventListener('click', () => {
+       // Add Event Listern for user-comp then load properties-component
+      this._qs('#properties-component').addEventListener('click', () => {
         dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
-        })
-      )
+      })
     })
 
     addEventListener('changePath', async (e) => {
-      // if (localStorage.login == 'true') {
-      //   await import('./componets' + e.detail.comp)
-      //   .then(()=>this._qs('#mainContainer').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`)
-      //   .catch(err =>console.log(err))
-      // } else dispatchEvent(new Event("login-form"))
-      this.setPath(e.detail.path)
+        await import('./componets' + e.detail.comp)
+        .then(()=>this._qs('#mainContainer').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`)
+        .catch(err =>console.log(err))
+        this.setPath(e.detail.path)
     })
 
   }

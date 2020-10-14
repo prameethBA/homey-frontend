@@ -16,6 +16,7 @@ export default class Base extends HTMLElement {
     }
     setPath(path) {
         window.history.pushState({}, '', path)
+        if(!(path == '' || path == null || path.length <= 2 )) dispatchEvent(new CustomEvent('pathChanged', {detail: {'path': path.substr(1)}}))
     }
 
     // Helpers
