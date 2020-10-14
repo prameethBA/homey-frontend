@@ -28,7 +28,7 @@ export default class SignUpForm extends Base {
             z-index: 1;
             background-color: rgba(0,0,0,0.7);
             width: 100%;
-            height: 90%;
+            height: 100%;
             padding: 0px; 
             margin: 0px; 
             cursor: pointer;
@@ -118,68 +118,76 @@ export default class SignUpForm extends Base {
 
 `
 content = `
-    
-    <h2>SignUp</h2>
 
-    <div class="container">
-        <div class="row">
-            <div class="name">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" title="First Name : Joe" />
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" title="Last Name : Does" />
+    <div id="backdrop" title="Click to close this form">
+    </div>
+    <div class="form">
+        <h2>SignUp</h2>
+
+        <div class="container">
+            <div class="row">
+                <div class="name">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" title="First Name : Joe" />
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" title="Last Name : Does" />
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
-        </div>
-        <div class="row">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" title= "Password : pass@123" />
-        </div>
-        <div class="row">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" title= "Confirm Password : pass@123" />
-        </div>
-        <div class="row">
-            <input type="checkbox" id="remember"><a> accept terms and conditions</a>
-        </div>
-        <div class="row">
-            <button id="signUp"> Sign Up </button>
-        </div>
-        <div class="row">
-            <a title="Login" class="load-login-content">Already have an account ? </a>
-            |
-            <button title="Log in" class="load-login-content"> Login </button>
-        </div>
+            <div class="row">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
+            </div>
+            <div class="row">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" title= "Password : pass@123" />
+            </div>
+            <div class="row">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" title= "Confirm Password : pass@123" />
+            </div>
+            <div class="row">
+                <input type="checkbox" id="remember"><a> accept terms and conditions</a>
+            </div>
+            <div class="row">
+                <button id="signUp"> Sign Up </button>
+            </div>
+            <div class="row">
+                <a title="Login" class="load-login-form">Already have an account ? </a>
+                |
+                <button title="Log in" class="load-login-form"> Login </button>
+            </div>
 
-        <div class="hr-separator">
-        </div>
+            <div class="hr-separator">
+            </div>
 
-        <div class="row">
-            <span>or</span>
-        </div>
-        
-        <div class="row">
-            <button class="google"><img class="img2" src="../assets/images/google.svg">SignUp with Google</button>
-        </div>
-        <div class="row">
-            <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">SignUp with Facebook</button>
-        </div>
+            <div class="row">
+                <span>or</span>
+            </div>
+            
+            <div class="row">
+                <button class="google"><img class="img2" src="../assets/images/google.svg">SignUp with Google</button>
+            </div>
+            <div class="row">
+                <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">SignUp with Facebook</button>
+            </div>
 
+        </div>
     </div>
     
 `
   constructor() {
     super()
     this.mount()
-
-    this.setPath('/signup')
   }
 
   connectedCallback() {
-    this.shadowRoot.querySelectorAll('.load-login-content').forEach((item) => {
+
+    this._qs('#backdrop').addEventListener('click', () => {
+        dispatchEvent(new Event('exit-form'))
+        this.setPath('/')
+      })
+
+    this.shadowRoot.querySelectorAll('.load-login-form').forEach((item) => {
       item.addEventListener('click', () => {
         dispatchEvent(new Event('login-form'))
       })

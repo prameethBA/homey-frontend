@@ -127,6 +127,44 @@ content = `
     </div>
 
     <div class="form">
+        <img class="img" src="../assets/images/avatar.svg">        
+        <h2>Login</h2>
+        <div class="container">
+            <div class="row">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
+            </div>
+            <div class="row">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" title= "Password : pass@123" />
+            </div>
+            <div class="row">
+                <input type="checkbox" id="remember"> Remember me
+            </div>
+            <div class="row">
+                <button id="login"> Login </button>
+            </div>
+            <div class="row">
+                <a title="Reset Password" id="reset-password">Forgot Password ? </a>
+                |
+                <a title="Create new Account" id="signup"> Sign Up </a>
+            </div>
+
+            <div class="hr-separator">
+            </div>
+
+            <div class="row">
+                <span>or</span>
+            </div>
+            
+            <div class="row">
+                <button class="google"><img class="img2" src="../assets/images/google.svg">Continue with Google</button>
+            </div>
+            <div class="row">
+                <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">Continue with Facebook</button>
+            </div>
+
+        </div>
     </div>
 
 `
@@ -134,90 +172,23 @@ content = `
     super()
     this.mount()
 
-    this.setPath('/login')
-  }
-
-  loginFormContent() {
-    this._qs('.form').innerHTML = `
-    <img class="img" src="../assets/images/avatar.svg">        
-    <h2>Login</h2>
-    <div class="container">
-        <div class="row">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
-        </div>
-        <div class="row">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" title= "Password : pass@123" />
-        </div>
-        <div class="row">
-            <input type="checkbox" id="remember"> Remember me
-        </div>
-        <div class="row">
-            <button id="login"> Login </button>
-        </div>
-        <div class="row">
-            <a title="Reset Password" id="reset">Forgot Password ? </a>
-            |
-            <a title="Create new Account" id="signup"> Sign Up </a>
-        </div>
-
-        <div class="hr-separator">
-        </div>
-
-        <div class="row">
-            <span>or</span>
-        </div>
-        
-        <div class="row">
-            <button class="google"><img class="img2" src="../assets/images/google.svg">Continue with Google</button>
-        </div>
-        <div class="row">
-            <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">Continue with Facebook</button>
-        </div>
-
-    </div>
-        `
-  }
-
-  loadEvents() {
-    
-    // Method to load Signup form
-    const loadSignUpFrom = async () => {
-      await import('./signup-form.js')
-        .then(() => this._qs('.form').innerHTML = `<signup-form></signup-form>`)
-        .catch(err=>console.log(err))
+    if(!(this.state.exit == null || this.state.exit)) {
+        dispatchEvent(new Event('exit-form'))
+        this.state.exit = true
     }
-
-    if(!(this._qs('#signup') == '' || this._qs('#signup') == null )) this._qs('#signup').addEventListener('click', () => loadSignUpFrom())
-
-    addEventListener('signup-form', () => loadSignUpFrom())
-
-    addEventListener('load-login-content', () => this.loginFormContent())
-
-    // Method to load password reset form
-    const loadResetFrom = async () => {
-      await import('./reset-password.js')
-        .then(() => this._qs('.form').innerHTML = `<reset-password></reset-password>`)
-        .catch(err => console.log(err))
-    }
-
-    if(!(this._qs('#reset') == '' || this._qs('#reset') == null )) this._qs('#reset').addEventListener('click', () => loadResetFrom())
-
-    addEventListener('reset-password-form', () => loadResetFrom())
-
   }
-  
+
   connectedCallback() {
-   
-    this.loginFormContent()
-    this.loadEvents()
 
     this._qs('#backdrop').addEventListener('click', () => {
-      dispatchEvent(new Event('exit-login-form'))
-      this.loadEvents()
+      dispatchEvent(new Event('exit-form'))
       this.setPath('/')
     })
+
+    this._qs('#signup').addEventListener('click', () => dispatchEvent(new Event('signup-form')))
+
+    this._qs('#reset-password').addEventListener('click', () => dispatchEvent(new Event('reset-password-form')))
+    
 
     this._qs('#login').addEventListener('click', () => {
       // API call for login
@@ -258,6 +229,8 @@ content = `
         })
     })
   }
+
+
 
 }
 

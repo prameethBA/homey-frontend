@@ -72,15 +72,13 @@ class UI extends Base {
     this.mount()
     
     const loadForm = async (form) => {
-      await import('./componets/home/login-form.js')
+      this.setPath('/' + form)
+      await import('./componets/home/' + form +'-form.js')
         .then(() =>{
-          // this.setPath('/' + form)
-          this._qs('#login-form') != null ? this._qs('#login-form').innerHTML = `<login-form></login-form>` : null
-
-          if(form != 'login') dispatchEvent(new Event(form + '-form'))
+          this._qs('#login-form') != null ? this._qs('#login-form').innerHTML = `<` + form + `-form></` + form + `-form>` : null
 
           // Listen for exit-login-form Event for unset the visilility of Login Form
-          addEventListener('exit-login-form', () => {
+          addEventListener('exit-form', () => {
             this._qs('#login-form') != null ? this._qs('#login-form').innerHTML = '' : null
           })
         })
@@ -89,6 +87,8 @@ class UI extends Base {
 
     // Listen for login-form Event to set visible Login Form
     addEventListener('login-form', ()=>loadForm('login'))
+    addEventListener('signup-form', ()=>loadForm('signup'))
+    addEventListener('reset-password-form', ()=>loadForm('reset-password'))
 
     // Listen for /login route to set visible Login Form
     router.get('/login', () => loadForm('login'))
