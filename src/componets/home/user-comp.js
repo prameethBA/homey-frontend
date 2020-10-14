@@ -10,14 +10,10 @@ export default class UserComp extends Base {
   .container {
       background-color: #000000;
       width: 30em;
-      height: 20em;
       box-shadow: 1px 1px 5px 1px rgba(10,0,54,0.64);
       display: grid;
       grid-template-columns: auto auto;
   }
-  
-  
-  
   
   ::slotted(img) {
       width: 15em;
@@ -29,7 +25,6 @@ export default class UserComp extends Base {
       color: #eeeeee;
       font-size: 2em;
       text-align: right;
-      padding: 1em;
   }
   
   `
