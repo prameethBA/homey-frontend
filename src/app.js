@@ -17,7 +17,6 @@ router.get('/', async () => {
 class UI extends Base {
   
   css = `
-      
       #wrap, #mainContainer {
           padding:0;
           margin:0;
