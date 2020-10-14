@@ -189,11 +189,11 @@ content = `
         .catch(err=>console.log(err))
     }
 
-    this._qs('#signup').addEventListener('click', () => loadSignUpFrom())
+    if(!(this._qs('#signup') == '' || this._qs('#signup') == null )) this._qs('#signup').addEventListener('click', () => loadSignUpFrom())
 
     addEventListener('signup-form', () => loadSignUpFrom())
 
-    addEventListener('load-login-content', () => this.loadEvents())
+    addEventListener('load-login-content', () => this.loginFormContent())
 
     // Method to load password reset form
     const loadResetFrom = async () => {
@@ -202,7 +202,7 @@ content = `
         .catch(err => console.log(err))
     }
 
-    this._qs('#reset').addEventListener('click', () => loadResetFrom())
+    if(!(this._qs('#reset') == '' || this._qs('#reset') == null )) this._qs('#reset').addEventListener('click', () => loadResetFrom())
 
     addEventListener('reset-password-form', () => loadResetFrom())
 

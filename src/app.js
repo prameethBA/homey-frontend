@@ -42,10 +42,6 @@ class UI extends Base {
           padding: 1em;
       }
   
-      #login-form {
-          display: none;
-      }
-  
       user-comp {
           cursor: pointer;
       }
@@ -65,8 +61,8 @@ class UI extends Base {
                     <h1 slot="title">Looking for a place</h1>
                 </user-comp>
             </div>
-        <div>
-        <login-form id="login-form"></login-form>
+        </div>
+        <div id="login-form"></div>
     <footer-c></footer-c>
   </div>
   `
@@ -76,21 +72,19 @@ class UI extends Base {
     this.mount()
     
     const loadForm = async (form) => {
-      this.setLoader()
       await import('./componets/home/login-form.js')
         .then(() =>{
           // this.setPath('/' + form)
-          this._qs('#login-form') != null ? this._qs('#login-form').style.display = 'flex' : null
+          this._qs('#login-form') != null ? this._qs('#login-form').innerHTML = `<login-form></login-form>` : null
 
-          dispatchEvent(new Event(form + '-form'))
+          if(form != 'login') dispatchEvent(new Event(form + '-form'))
 
           // Listen for exit-login-form Event for unset the visilility of Login Form
           addEventListener('exit-login-form', () => {
-            this._qs('#login-form') != null ? this._qs('#login-form').style.display = 'none' : null
+            this._qs('#login-form') != null ? this._qs('#login-form').innerHTML = '' : null
           })
         })
         .catch(err=>console.log(err))
-      this.stopLoader()
     }
 
     // Listen for login-form Event to set visible Login Form

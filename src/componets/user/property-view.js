@@ -145,11 +145,9 @@ export default class PropertyView extends Base {
     content = `
         <div class="container">
            <div class="slide">
-           <button class="slider slider-previous"><</button>
-           <button class="slider slider-next">></button>
-           
-            <slot name="img" class="img"></slot>
-            
+                <button class="slider slider-previous"><</button>
+                <button class="slider slider-next">></button>
+                <slot name="img" class="img"></slot>
            </div>
            <div class="details">
                 <div>

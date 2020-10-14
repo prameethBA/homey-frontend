@@ -181,7 +181,7 @@ content = `
   connectedCallback() {
     this.shadowRoot.querySelectorAll('.load-login-content').forEach((item) => {
       item.addEventListener('click', () => {
-        dispatchEvent(new Event('load-login-content'))
+        dispatchEvent(new Event('login-form'))
       })
     })
   }
