@@ -130,7 +130,7 @@ export default class PropertyView extends Base {
            <div class="slide">
            <button class="slider slider-previous"><</button>
            <button class="slider slider-next">></button>
-           <img src="./assets/images/desk.png">
+           <img src="./assets/images/house.jpg">
             </img>
            </div>
            <div class="details">
