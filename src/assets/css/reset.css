@@ -13,13 +13,13 @@ html {
 body {
     width: 100%;
     background-color: #041837;
-    background: linear-gradient(
-        to bottom,
-        #041837,
-        #00163d,
-        #001242,
-        #000e47,
-        #07074a
+    background-image: linear-gradient(
+        to top,
+        #10dbc6,
+        #61e4f4,
+        #aceaff,
+        #e3f1ff,
+        #ffffff
     );
     background-size: cover;
     background-repeat: no-repeat;

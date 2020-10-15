@@ -87,7 +87,6 @@ export default class Nav extends Base {
 
     h3 {
       padding-left: 1em;
-      color: #ffffff;
     }
 
     .separator {
@@ -98,29 +97,30 @@ export default class Nav extends Base {
       padding-right: 1em;
     }
 
-    ul a {
+    ul .nav-link {
       text-decoration:none;
-      color:#ffffff;
+      color:#001f3f;
       padding:10px 0px;
       border:5px solid transparent;
       cursor: pointer;
       transition:1s ease;
     }
     
-    a:hover {
+    .nav-link:hover {
+      background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0%0D%0AaD0iMzkwcHgiIGhlaWdodD0iNTBweCIgdmlld0JveD0iMCAwIDM5MCA1MCIgZW5hYmxlLWJhY2tn%0D%0Acm91bmQ9Im5ldyAwIDAgMzkwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0i%0D%0Abm9uZSIgc3Ryb2tlPSIjZDk0ZjVjIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW1pdGVybGlt%0D%0AaXQ9IjEwIiBkPSJNMCw0Ny41ODVjMCwwLDk3LjUsMCwxMzAsMAoJYzEzLjc1LDAsMjguNzQtMzgu%0D%0ANzc4LDQ2LjE2OC0xOS40MTZDMTkyLjY2OSw0Ni41LDI0My42MDMsNDcuNTg1LDI2MCw0Ny41ODVj%0D%0AMzEuODIxLDAsMTMwLDAsMTMwLDAiLz4KPC9zdmc+Cg==");
+      animation: line 2s;
+    }
+  
+    .active {
       background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0%0D%0AaD0iMzkwcHgiIGhlaWdodD0iNTBweCIgdmlld0JveD0iMCAwIDM5MCA1MCIgZW5hYmxlLWJhY2tn%0D%0Acm91bmQ9Im5ldyAwIDAgMzkwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0i%0D%0Abm9uZSIgc3Ryb2tlPSIjZDk0ZjVjIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW1pdGVybGlt%0D%0AaXQ9IjEwIiBkPSJNMCw0Ny41ODVjMCwwLDk3LjUsMCwxMzAsMAoJYzEzLjc1LDAsMjguNzQtMzgu%0D%0ANzc4LDQ2LjE2OC0xOS40MTZDMTkyLjY2OSw0Ni41LDI0My42MDMsNDcuNTg1LDI2MCw0Ny41ODVj%0D%0AMzEuODIxLDAsMTMwLDAsMTMwLDAiLz4KPC9zdmc+Cg==");
       animation: line 2s;
     }
     
-    .active {
-      background-color: #ff4000;
-    }
-    
-    a:hover a {
+    .nav-link:hover .nav-link {
       color: #d94f5c;
     }
     
-    a:not(:last-child) {
+    .nav-link:not(:last-child) {
       margin-right: 30px;
     }
 
@@ -156,7 +156,22 @@ export default class Nav extends Base {
       z-index: 2;
       right: 2em;
       top: 3em;
-      background-color: rgba(0, 0, 63, 0.4);
+      background-color: rgba(0, 0, 63, 0.9);
+      padding: 0;
+      text-align: center;
+      display:none;
+    }
+
+    #setting-menu a {
+      color: #ffffff;
+      border-bottom: solid 1px #ffffff;
+      padding: 0 0.5em 0.5em 0;
+      margin-bottom: 0.2em;
+      width: 100%;
+    }
+
+    #setting-menu a:hover {
+
     }
 
   `
@@ -181,12 +196,12 @@ export default class Nav extends Base {
             <h3 class="logo">Homey</h3>
             <span class="separator"></span>
             <ul>
-              <a id="properties">Properties</a>
-              <a>Own Properties</a>
-              <a>Payments</a>
-              <a>Favourites</a>
-              <a>Profile</a>
-              <a>Settings</a>
+              <a class="nav-link" id="properties">Properties</a>
+              <a class="nav-link">Own Properties</a>
+              <a class="nav-link">Payments</a>
+              <a class="nav-link">Favourites</a>
+              <a class="nav-link">Profile</a>
+              <a class="nav-link">Settings</a>
             </ul>
         </div>
         <ul id="setting-menu">

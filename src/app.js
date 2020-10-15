@@ -43,7 +43,7 @@ class UI extends Base {
   content = `
   <div id="wrap">
     <navigation-bar></navigation-bar>
-    <!-- <div id="mainContainer">
+         <div id="mainContainer">
             <div class="container">
                 <user-comp mirror="true" route="/own-properties">
                     <img slot="image" defer src="https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg=" alt="Image"></img>
@@ -56,7 +56,7 @@ class UI extends Base {
             </div>
         </div>
         <div id="login-form"></div>
-    <footer-c></footer-c>-->
+        <footer-c></footer-c>
   </div>
   `
   
