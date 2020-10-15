@@ -1,7 +1,7 @@
 export default class Router {
     constructor() {
         this.preRoutes = [
-            '/','/login','/signup','/reset-password','/adds','/profile','/settings'
+            '/','/login','/signup','/user', '/reset-password','/adds','/profile','/settings'
         ]
         this.routes = []
     }
@@ -36,6 +36,8 @@ export default class Router {
             this.routes = []
         }
     }
+
+    getRoute() {}
 
     init() {
         this.routes.some(route => {

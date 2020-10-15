@@ -2,9 +2,9 @@ import Base from './../Base.js'
 
 export default class Footer extends Base {
 
-  css = `
+  ccss = `
     footer {
-      position: absolute;
+      position: sticky;
       left: 0;
       right: 0;
       bottom: 0;

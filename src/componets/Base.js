@@ -16,6 +16,7 @@ export default class Base extends HTMLElement {
     }
     setPath(path) {
         window.history.pushState({}, '', path)
+        if(!(path == '' || path == null || path.length <= 2 )) dispatchEvent(new CustomEvent('pathChanged', {detail: {'path': path.substr(1)}}))
     }
 
     // Helpers
@@ -23,8 +24,16 @@ export default class Base extends HTMLElement {
         return this.shadowRoot.querySelector(selector)
     }
 
+    qs(selector) {
+        return this.querySelector(selector)
+    }
+
     _qsAll(selector) {
         return this.shadowRoot.querySelectorAll(selector)
+    }
+
+    qsAll(selector) {
+        return this.querySelectorAll(selector)
     }
 
     setLoader = () => dispatchEvent(new Event('pre-load'))

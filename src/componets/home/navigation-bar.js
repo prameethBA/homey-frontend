@@ -2,7 +2,7 @@ import Base from './../Base.js'
 
 export default class Nav extends Base {
 
-  css = `
+  ccss = `
   
   *{
     margin: 0;
@@ -10,8 +10,13 @@ export default class Nav extends Base {
     font-family: Century Gothic;
   }
   
+  header {
+    position:fixed;
+  }
+
   nav {
     display: flex;
+    flex-direction: row;
   }
 
   .logo {
@@ -25,11 +30,11 @@ export default class Nav extends Base {
     position: absolute;
     list-style-type:none;
   }
-  ul li{
+  ul a{
     display: inline-block;
     cursor: pointer;
   }
-  ul li{
+  ul a{
     text-decoration:none;
     color:#001f3f;
     padding:10px 0px;
@@ -37,16 +42,21 @@ export default class Nav extends Base {
     transition:1s ease;
   }
   
-  li:hover {
+  a:hover {
+    background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0%0D%0AaD0iMzkwcHgiIGhlaWdodD0iNTBweCIgdmlld0JveD0iMCAwIDM5MCA1MCIgZW5hYmxlLWJhY2tn%0D%0Acm91bmQ9Im5ldyAwIDAgMzkwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0i%0D%0Abm9uZSIgc3Ryb2tlPSIjZDk0ZjVjIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW1pdGVybGlt%0D%0AaXQ9IjEwIiBkPSJNMCw0Ny41ODVjMCwwLDk3LjUsMCwxMzAsMAoJYzEzLjc1LDAsMjguNzQtMzgu%0D%0ANzc4LDQ2LjE2OC0xOS40MTZDMTkyLjY2OSw0Ni41LDI0My42MDMsNDcuNTg1LDI2MCw0Ny41ODVj%0D%0AMzEuODIxLDAsMTMwLDAsMTMwLDAiLz4KPC9zdmc+Cg==");
+    animation: line 2s;
+  }
+
+  .active {
     background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0%0D%0AaD0iMzkwcHgiIGhlaWdodD0iNTBweCIgdmlld0JveD0iMCAwIDM5MCA1MCIgZW5hYmxlLWJhY2tn%0D%0Acm91bmQ9Im5ldyAwIDAgMzkwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0i%0D%0Abm9uZSIgc3Ryb2tlPSIjZDk0ZjVjIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW1pdGVybGlt%0D%0AaXQ9IjEwIiBkPSJNMCw0Ny41ODVjMCwwLDk3LjUsMCwxMzAsMAoJYzEzLjc1LDAsMjguNzQtMzgu%0D%0ANzc4LDQ2LjE2OC0xOS40MTZDMTkyLjY2OSw0Ni41LDI0My42MDMsNDcuNTg1LDI2MCw0Ny41ODVj%0D%0AMzEuODIxLDAsMTMwLDAsMTMwLDAiLz4KPC9zdmc+Cg==");
     animation: line 2s;
   }
   
-  li:hover a {
+  a:hover a {
     color: #d94f5c;
   }
   
-  li:not(:last-child) {
+  a:not(:last-child) {
     margin-right: 30px;
   }
   
@@ -55,8 +65,72 @@ export default class Nav extends Base {
       background-position-x: 390px;
     }
   }
-  
-  #login-button {
+
+
+  `
+
+  css = `
+    header {
+      position: fixed;
+      width: 100%;
+      z-index: 1;
+    }
+
+    nav, .navbar {
+      width: 100%;
+      display: flex;
+    }
+
+    h3, button, a, ul {
+      display: inline-block;
+    }
+
+    h3 {
+      padding-left: 1em;
+      color: #ffffff;
+    }
+
+    .separator {
+      flex: 1;
+    }
+
+    ul {
+      padding-right: 1em;
+    }
+
+    ul a {
+      text-decoration:none;
+      color:#ffffff;
+      padding:10px 0px;
+      border:5px solid transparent;
+      cursor: pointer;
+      transition:1s ease;
+    }
+    
+    a:hover {
+      background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0%0D%0AaD0iMzkwcHgiIGhlaWdodD0iNTBweCIgdmlld0JveD0iMCAwIDM5MCA1MCIgZW5hYmxlLWJhY2tn%0D%0Acm91bmQ9Im5ldyAwIDAgMzkwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0i%0D%0Abm9uZSIgc3Ryb2tlPSIjZDk0ZjVjIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW1pdGVybGlt%0D%0AaXQ9IjEwIiBkPSJNMCw0Ny41ODVjMCwwLDk3LjUsMCwxMzAsMAoJYzEzLjc1LDAsMjguNzQtMzgu%0D%0ANzc4LDQ2LjE2OC0xOS40MTZDMTkyLjY2OSw0Ni41LDI0My42MDMsNDcuNTg1LDI2MCw0Ny41ODVj%0D%0AMzEuODIxLDAsMTMwLDAsMTMwLDAiLz4KPC9zdmc+Cg==");
+      animation: line 2s;
+    }
+    
+    .active {
+      background-color: #ff4000;
+    }
+    
+    a:hover a {
+      color: #d94f5c;
+    }
+    
+    a:not(:last-child) {
+      margin-right: 30px;
+    }
+
+    @keyframes line {
+      0% {
+        background-position-x: 390px;
+      }
+    }
+
+    #login-button {
       height: 2.5em;
       width: 10em;
       margin: auto 2em;
@@ -69,17 +143,29 @@ export default class Nav extends Base {
       outline: none;
       cursor: pointer;
       transition: 0.4s;
-  }
-      
-  #login-button:hover {
-      background-color: #34a832;
-  }
+    }
+        
+    #login-button:hover {
+        background-color: #34a832;
+    }
+
+    #setting-menu {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+      right: 2em;
+      top: 3em;
+      background-color: rgba(0, 0, 63, 0.4);
+    }
 
   `
+
   content = `
       <header>
           <nav>
               <h3 class="logo">Homey</h3>
+              <span class="separator"></span>
               <button id="login-button"> login </button>
           </nav
       </header>
@@ -91,17 +177,22 @@ export default class Nav extends Base {
 
   connectedCallback() {
     this.state.loginContent = `
-        <div class='login-content'>
+        <div class='navbar'>
             <h3 class="logo">Homey</h3>
+            <span class="separator"></span>
             <ul>
-                <li>Own Properties</li>
-                <li>Payments</li>
-                <li>Favourites</li>
-                <li>Profile</li>
-                <li>Settings</li>
-                <li id='logout-button'>Logout</li>
+              <a id="properties">Properties</a>
+              <a>Own Properties</a>
+              <a>Payments</a>
+              <a>Favourites</a>
+              <a>Profile</a>
+              <a>Settings</a>
             </ul>
         </div>
+        <ul id="setting-menu">
+          <a id='logout-button'>Logout</a>
+          <a id='logout-button-2'>Logout-2</a>
+        </ul>
     
       `
     this._qs('#login-button')
@@ -133,6 +224,12 @@ export default class Nav extends Base {
       dispatchEvent(new Event('reload-home'))
     })
     
+    if(!(this._qs('#properties') == '' || this._qs('#properties') == null))
+      this._qs('#properties').addEventListener('click', () => dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}})))
+    
+    addEventListener('pathChanged', e => {
+      if(e.detail.path == '' || e.detail.path == null) this._qs("#" + e.detail.path).classList.add('active')
+    })
   }
 
 }
