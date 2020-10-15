@@ -3,125 +3,128 @@ import Base from './../Base.js'
 export default class AddProperty extends Base {
 
   css = `
-  *{
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+
+
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-* input {
+  }
+  
+  * input {
     border-radius: 10px;
-}
-* textarea {
+  }
+  * textarea {
     border-radius: 10px;
-}
-/****************
-Typography
-****************/
-label{
+  }
+  /****************
+  Typography
+  ****************/
+  label {
     font-weight: bold;
-}
-/**********************
-Layout 
-**************************/
-body {
+  }
+  /**********************
+  Layout 
+  **************************/
+  body {
     padding-top: 30px;
-    
-}
-.container {
+  }
+  .container {
     width: 90%;
     max-width: 767.98px;
     margin: auto;
-    background: #D1CEE0;
+    color: #fff;
+    background: #001f3f; /*dont need for transparent background: ;*/
     padding: 30px;
-}
-
-
-
-/* add Prop */
-.properties form{
+  }
+  
+  /* add Prop */
+  .properties form {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-}
-.property {
-    width:30%;
-}
-
-.property input {
+  }
+  .property {
+    width: 30%;
+  }
+  
+  .property input {
     width: 100%;
     margin-bottom: 20px;
     height: 30px;
-}
-.property_description{
+  }
+  .property_description {
     width: 100%;
     margin-bottom: 20px;
-}
-.property_description textarea{
+  }
+  .property_description textarea {
     width: 100%;
-}
-.select_properties{
+  }
+  .select_properties {
     width: 100%;
     display: inline-flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 20px;
-}
-.select_property{
+  }
+  .select_property {
     width: 15%;
-}
-.select_property input{
+  }
+  .select_property input {
     margin-right: 15px;
-}
-
-.image_property {
-    width:100%;
+  }
+  
+  input:checked + label {
+    color: #ff4000;
+  }
+  :checked {
+    margin-left: 2px;
+  }
+  
+  input[type='checkbox']:checked {
+    box-shadow: 0 0 0 2px #ff4000;
+  }
+  
+  .image_property {
+    width: 100%;
     margin-bottom: 20px;
-}
-.image_property-md {
-    width:70%;
-}
-.image_upload{
+  }
+  .image_property-md {
+    width: 70%;
+  }
+  .image_upload {
     display: flex;
     border-radius: 10px 0 0 10px;
-}
-.image_upload-md label{
-    width:80%;
+  }
+  .image_upload-md label {
+    width: 80%;
     border: 1px solid #004e64;
-    background:white;
-}
-.image_upload-lg label{
-    width:100%;
+    background: white;
+  }
+  .image_upload-lg label {
+    width: 100%;
     border: 1px solid #004e64;
-    background:white;
-    
-}
-#upload-photo {
-    
+    background: white;
+  }
+  #upload-photo {
     opacity: 0;
     position: absolute;
     z-index: -1;
- }
-
- 
-/* *********************
-Components
- **************************/
-/* Buttons */
-
-
-
-
-
-
-
-.btn {
+  }
+  
+  /* *********************
+  Components
+   **************************/
+  /* Buttons */
+  
+  .btn {
     display: block;
     border: none;
-   
+  
     font-size: 16px;
-    font-weight:bolder;
+    font-weight: bolder;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
@@ -129,66 +132,32 @@ Components
     color: #fff;
     padding: 0.5em 2em;
     border-radius: 20px;
-    transition: .3s;
+    transition: 0.3s;
     text-transform: uppercase;
-}
-.btn-primary{
-    border: 2px solid #3c73ff;
-    background-color: #3c73ff;
-   
-}
-.btn-primary:hover {
-    box-shadow: 8px 8px #99bdff;
-    transition: .3s;
   }
-
-.btn-secondary{
-    background-color: #C266D3;
-   
-}
-.btn-secondary:hover {
-    box-shadow: 8px 8px #dfa7e9;
-    transition: .3s;
-}
-.btn-success{
-    background-color: #25a18e;
-   
-}
-.btn-danger{
-    background-color: #E00880;
-   
-}
-.btn-danger:hover {
-    box-shadow: 8px 8px #f87cc0;
-    transition: .3s;
-}
-.btn-upload {
-    border-radius:0 10px 10px 0;
-    background:#444857;
-}
-.btn-lg{
-
+  .btn-primary {
+    border: 2px solid #34a832;
+    background-color: #34a832;
+  }
+  .btn-primary:hover {
+    color: #001f3f;
+    box-shadow: 6px 6px #ff4000;
+    transition: 0.5s;
+  }
+  .btn-upload {
+    border-radius: 0 10px 10px 0;
+    background: #34a832;
+  }
+  .btn-lg {
     width: 100%;
-}
-.btn-md{
-
-    width: 60%;
-}
-.btn-sm{
-
-    width: 28%;
-    font-size: .8rem;
-}
-.btn-group{
+  }
+  .btn-group {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     width: 100%;
-}
-.btn-group-bw{
-    justify-content: space-between;
-}
-
+  }
+  
 
 ` 
 
