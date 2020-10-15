@@ -5,75 +5,67 @@ export default class AdvertisementSettings extends Base {
   css =  `
   @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
-  *{
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-/****************
-Typography
-****************/
-.feature_header {
-    
+  }
+  
+  /****************
+  Typography
+  ****************/
+  h1 {
+    font: verdana;
+  }
+  .feature_header {
     text-align: center;
     padding: 0.2em;
     margin-bottom: 60px;
-    background: #E0C81F;
+    background: #ff4000;
     font-weight: bolder;
-
-}
-label{
+  }
+  label {
     font-weight: bold;
-}
-/**********************
-Layout 
-**************************/
-body {
+  }
+  /**********************
+  Layout 
+  **************************/
+  body {
     padding-top: 30px;
-    
-}
-.container {
+  }
+  .container {
     width: 90%;
     max-width: 767.98px;
     margin: auto;
-    background: #D1CEE0;
+    color: #fff;
+    background: #001f3f; /*dont need for transparent background: ;*/
     padding: 30px;
-}
-
-/* features */
-.feature_container {
+  }
+  
+  /* features */
+  .feature_container {
     margin: auto;
-    width:100%;
+    width: 100%;
     max-width: 400px;
     padding-bottom: 30px;
-}
-.toggle_opt {
+  }
+  .toggle_opt {
     margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
-}
-
-
-
-/* *********************
-Components
- **************************/
-/* Buttons */
-
-
-
-
-
-
-
-.btn {
+  }
+  
+  /* *********************
+  Components
+   **************************/
+  /* Buttons */
+  
+  .btn {
     display: block;
     border: none;
-   
+  
     font-size: 16px;
-    font-weight:bolder;
+    font-weight: bolder;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
@@ -81,76 +73,32 @@ Components
     color: #fff;
     padding: 0.5em 2em;
     border-radius: 20px;
-    transition: .3s;
+    transition: 0.3s;
     text-transform: uppercase;
-}
-.btn-primary{
-    border: 2px solid #3c73ff;
-    background-color: #3c73ff;
-   
-}
-.btn-primary:hover {
-    box-shadow: 8px 8px #99bdff;
-    transition: .3s;
   }
-
-.btn-secondary{
-    background-color: #C266D3;
-   
-}
-.btn-secondary:hover {
-    box-shadow: 8px 8px #dfa7e9;
-    transition: .3s;
-}
-.btn-success{
-    background-color: #25a18e;
-   
-}
-.btn-danger{
-    background-color: #E00880;
-   
-}
-.btn-danger:hover {
-    box-shadow: 8px 8px #f87cc0;
-    transition: .3s;
-}
-.btn-upload {
-    border-radius:0 10px 10px 0;
-    background:#444857;
-}
-.btn-lg{
-
+  .btn-primary {
+    border: 2px solid #34a832;
+    background-color: #34a832;
+  }
+  .btn-primary:hover {
+    color: #001f3f;
+    box-shadow: 6px 6px #ff4000;
+    transition: 0.5s;
+  }
+  
+  .btn-lg {
     width: 100%;
-}
-.btn-md{
-
-    width: 60%;
-}
-.btn-sm{
-
-    width: 28%;
-    font-size: .8rem;
-}
-.btn-group{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    width: 100%;
-}
-.btn-group-bw{
-    justify-content: space-between;
-}
-
-
-/* Toggler */
-.switch {
+  }
+  
+  /* Toggler */
+  .switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
   }
   
-  .switch input { 
+  .switch input {
     opacity: 0;
     width: 0;
     height: 0;
@@ -163,25 +111,25 @@ Components
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #B3CEE0;
-    -webkit-transition: .4s;
-    transition: .4s;
+    background-color: #b3cee0;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
   }
   
   .slider:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 26px;
     width: 26px;
     left: 4px;
     bottom: 4px;
-    background-color: #240D94;
-    -webkit-transition: .4s;
-    transition: .4s;
+    background-color: #240d94;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
   }
   
   input:checked + .slider {
-    background-color: #00a5cf;
+    background-color: #ff4000;
   }
   
   input:focus + .slider {
@@ -202,7 +150,7 @@ Components
   .slider.round:before {
     border-radius: 50%;
   }
-
+  
 
 `
 
