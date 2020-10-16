@@ -18,16 +18,18 @@ class UI extends Base {
   
   css = `
       #wrap, #mainContainer {
-          padding:0;
-          margin:0;
-          width:100%;
-          height:100%;
+          display: flex;
+      }
+      
+      #mainContainer {
+        z-index: 0;
       }
   
       .container {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex: 1 0 auto;
           position: absolute;
           top: 50%;
           left: 50%;
@@ -37,6 +39,12 @@ class UI extends Base {
       .container > user-comp {
           padding-left: 1em;
           cursor: pointer;
+      }
+
+      footer-c {
+        position: fixed;
+        bottom: 0;
+        z-index: -1;
       }
   
   `
