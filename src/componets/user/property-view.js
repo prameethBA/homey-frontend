@@ -2,7 +2,7 @@ import Base from './../Base.js'
 
 export default class PropertyView extends Base {
 
-    css = `
+    ccss = `
     .container {
         position: relative;
         display: inline-block;
@@ -141,6 +141,17 @@ export default class PropertyView extends Base {
         background-color: rgba(12, 164, 44, 0.8);
     }
     
+    `
+     
+    css = `
+    .container {
+        display: inline-block;
+        width: 300px;
+        height: 433px;
+        box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.86);
+        margin: 2em;
+    }
+
     `
     content = `
         <div class="container">

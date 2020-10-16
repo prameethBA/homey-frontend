@@ -130,6 +130,13 @@ class UI extends Base {
       ).innerHTML = `<payment-history></payment-history>`
     })
 
+    router.get('/properties', async () => {
+      await import('./componets/user/avalibale-properties.js')
+      this._qs(
+        '#mainContainer'
+      ).innerHTML = `<avalibale-properties></avalibale-properties>`
+    })
+
     addEventListener('reload-home', () => {
       this._qs('#wrap').remove()
       this.render()

@@ -1,9 +1,10 @@
 import Base from '../Base.js'
 
 export default class AvalibaleProperties extends Base {
-    css = `
+    xcss = `
     .container {
         text-align: center;
+        margin-top: 3em;
     }
     img {
         margin:0;
@@ -13,6 +14,15 @@ export default class AvalibaleProperties extends Base {
         display: none;
     }
     `
+
+    css = `
+    .container {
+        margin-top: 3em;
+    }
+    img {
+    }
+    `
+
     content = `
     <div class="container">
     <div>
@@ -131,10 +141,10 @@ export default class AvalibaleProperties extends Base {
                     data += `
                     <property-view>
                         <div slot="img" id="img-` + index + `">
-                        <img src="./assets/images/load-post.gif" />
-                        <img src="./assets/images/desk2.png" />
-                        <img src="./assets/images/desk3.png" />
-                        <img src="./assets/images/desk.png" />
+                        <img src="///../assets/images/load-post.gif" />
+                        <img src="///../assets/images/desk2.png" />
+                        <img src="///../assets/images/desk3.png" />
+                        <img src="///../assets/images/desk.png" />
                         </div>
                         <h4 slot="title" id="add-` + index + `">` + '<progress></progress>' + `</h4>
                     </property-view>
