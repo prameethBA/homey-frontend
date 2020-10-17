@@ -2,24 +2,24 @@ import Base from './../Base.js'
 
 export default class Footer extends Base {
 
-  ccss = `
+  css = `
     footer {
-      position: sticky;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 0.5em 0;
+      display: flex;
       text-align: center;
-      color: #eeeeee;
-      background-color: #001f3f; 
     }
-
+    
+    span {
+      padding: 0.5em;
+      color: #eeeeee;
+      background-color: #001f3f;
+      width: 100vw;
+    }
 `
-content = `
+  content = `
     <footer>
-        <div>
+        <span>
             Copyright | ${new Date().getFullYear()} | homey.lk
-        </div>
+        </span>
     </footer>
 `
   constructor() {

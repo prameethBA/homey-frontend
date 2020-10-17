@@ -18,16 +18,18 @@ class UI extends Base {
   
   css = `
       #wrap, #mainContainer {
-          padding:0;
-          margin:0;
-          width:100%;
-          height:100%;
+          display: flex;
+      }
+      
+      #mainContainer {
+        z-index: 0;
       }
   
       .container {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex: 1 0 auto;
           position: absolute;
           top: 50%;
           left: 50%;
@@ -38,12 +40,18 @@ class UI extends Base {
           padding-left: 1em;
           cursor: pointer;
       }
+
+      footer-c {
+        position: fixed;
+        bottom: 0;
+        z-index: -1;
+      }
   
   `
   content = `
   <div id="wrap">
     <navigation-bar></navigation-bar>
-    <!-- <div id="mainContainer">
+         <div id="mainContainer">
             <div class="container">
                 <user-comp mirror="true" route="/own-properties">
                     <img slot="image" defer src="https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg=" alt="Image"></img>
@@ -56,7 +64,7 @@ class UI extends Base {
             </div>
         </div>
         <div id="login-form"></div>
-    <footer-c></footer-c>-->
+        <footer-c></footer-c>
   </div>
   `
   
@@ -120,6 +128,13 @@ class UI extends Base {
       this._qs(
         '#mainContainer'
       ).innerHTML = `<payment-history></payment-history>`
+    })
+
+    router.get('/properties', async () => {
+      await import('./componets/user/avalibale-properties.js')
+      this._qs(
+        '#mainContainer'
+      ).innerHTML = `<avalibale-properties></avalibale-properties>`
     })
 
     addEventListener('reload-home', () => {
