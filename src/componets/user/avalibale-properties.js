@@ -32,7 +32,8 @@ export default class AvalibaleProperties extends Base {
 
         @media screen and (max-width: 768px) {
             .container {
-                grid-template-columns: auto;
+                display: flex;
+                /*grid-template-columns: auto;*/
             }
           }
     `
@@ -169,16 +170,16 @@ export default class AvalibaleProperties extends Base {
 
     connectedCallback() {
         
-        // const loadAdds = async () => {
-        //     for (let index = 0; index < this.dataArray.length; index++) {
-        //         let title = this.dataArray[index].length>75 ? this.dataArray[index].substr(0, 75) + `...` : this.dataArray[index]
-        //         this._qs('#add-' + index).innerHTML = title
-        //     }
-        // } 
+        const loadAdds = async () => {
+            for (let index = 0; index < this.dataArray.length; index++) {
+                let title = this.dataArray[index].length>75 ? this.dataArray[index].substr(0, 75) + `...` : this.dataArray[index]
+                this._qs('#add-' + index).innerHTML = title
+            }
+        } 
 
-        // setTimeout(() => {
-        //     loadAdds()
-        // }, 2000);
+        setTimeout(() => {
+            loadAdds()
+        }, 2000);
 
     }
 
