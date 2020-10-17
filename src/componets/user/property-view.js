@@ -153,11 +153,12 @@ export default class PropertyView extends Base {
         position: relative;
     }
 
-    .slide, .slider {
+    .slide {
         position: absolute;
     }
-
+    
     .slider {
+        position: absolute;
         top: 50%;
         transform: translateY(-50%);
         opacity: 0.5;

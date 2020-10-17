@@ -13,13 +13,13 @@ export default class Nav extends Base {
       width: 100%;
       display: flex;
       transition: all 2s;
+      height: 4.5em;
     }
     
     .scrollNavbar {
       background-color: #eeeeee;
       background-image: linear-gradient(to left top, #ededed, #f1f1f1, #f6f6f6, #fafafa, #ffffff);
-      box-shadow: inset 0px -1px 2px 0px rgba(8,17,69,1);
-      height: 4.5em;
+      box-shadow: inset 0px -1px 2px 0px rgba(80,57,89, 0.3);
     }
 
     h3, button, a, ul {
@@ -188,7 +188,7 @@ export default class Nav extends Base {
     })
     
     const scrollFunction = () => {
-      if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+      if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
           this._qs('nav').classList.add('scrollNavbar')
         } else {
           this._qs('nav').classList.remove('scrollNavbar')

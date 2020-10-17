@@ -1,23 +1,12 @@
 import Base from '../Base.js'
 
 export default class AvalibaleProperties extends Base {
-    xcss = `
-    .container {
-        text-align: center;
-        margin-top: 3em;
-    }
-    img {
-        margin:0;
-        height: 200px;
-        width: 100%;
-        z-index: 4;
-        display: none;
-    }
-    `
 
     css = `
         .container {
-            margin-top: 3.3em;
+            margin: 3.3em auto 2em auto;
+            display: grid;
+            grid-template-columns: auto auto auto auto;
         }
 
         property-view {
@@ -26,8 +15,26 @@ export default class AvalibaleProperties extends Base {
 
         img {
             width: 100%;
-            height: 100%;
+            height: 210px;
         }
+
+        @media screen and (max-width: 1200px) {
+            .container {
+                grid-template-columns: auto auto auto;
+            }
+          }
+
+        @media screen and (max-width: 992px) {
+            .container {
+                grid-template-columns: auto auto;
+            }
+          }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                grid-template-columns: auto;
+            }
+          }
     `
 
     content = `
