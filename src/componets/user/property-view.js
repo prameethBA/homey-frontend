@@ -145,20 +145,47 @@ export default class PropertyView extends Base {
      
     css = `
     .container {
-        display: inline-block;
+        display: block;
         width: 300px;
-        height: 433px;
+        height: 420px;
         box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.86);
         margin: 2em;
+        position: relative;
+    }
+
+    .slide, .slider {
+        position: absolute;
+    }
+
+    .slider {
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.5;
+        cursor: pointer;
+        transition: 0.5s;
+    }
+
+    .slider:hover {
+        opacity: 0.7;
+        transition: 0.1s;
+
+    }
+
+    .slider:active {
+        opacity: 0.9;
+    }
+
+    .slider-next {
+        right: 0;
     }
 
     `
     content = `
         <div class="container">
            <div class="slide">
-                <button class="slider slider-previous"><</button>
-                <button class="slider slider-next">></button>
-                <slot name="img" class="img"></slot>
+                <img class="slider slider-previous" src="./assets/icon/slide-previous.svg">
+                <img class="slider slider-next" src="./assets/icon/slide-next.svg">
+                <slot name="thumbnail" class="thumbnail"></slot>
            </div>
            <div class="details">
                 <div>
@@ -185,6 +212,7 @@ export default class PropertyView extends Base {
     }
 
     connectedCallback() {
+
         if( this.qsAll('img').length > 1) {
                 this.state.img = 1;
                 this.state.rootImg = 0

@@ -16,11 +16,18 @@ export default class AvalibaleProperties extends Base {
     `
 
     css = `
-    .container {
-        margin-top: 3em;
-    }
-    img {
-    }
+        .container {
+            margin-top: 3.3em;
+        }
+
+        property-view {
+            display: inline-block;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
     `
 
     content = `
@@ -140,11 +147,9 @@ export default class AvalibaleProperties extends Base {
                 for (let index = 0; index < this.dataArray.length; index++) {
                     data += `
                     <property-view>
-                        <div slot="img" id="img-` + index + `">
-                        <img src="///../assets/images/load-post.gif" />
-                        <img src="///../assets/images/desk2.png" />
-                        <img src="///../assets/images/desk3.png" />
-                        <img src="///../assets/images/desk.png" />
+                        <div slot="thumbnail" id="img-` + index + `">
+                            <img src="./assets/img/alt/load-post.gif"/>
+                            <img src="./assets/img/alt/no-mage.png" />
                         </div>
                         <h4 slot="title" id="add-` + index + `">` + '<progress></progress>' + `</h4>
                     </property-view>
@@ -157,16 +162,16 @@ export default class AvalibaleProperties extends Base {
 
     connectedCallback() {
         
-        const loadAdds = async () => {
-            for (let index = 0; index < this.dataArray.length; index++) {
-                let title = this.dataArray[index].length>75 ? this.dataArray[index].substr(0, 75) + `...` : this.dataArray[index]
-                this._qs('#add-' + index).innerHTML = title
-            }
-        } 
+        // const loadAdds = async () => {
+        //     for (let index = 0; index < this.dataArray.length; index++) {
+        //         let title = this.dataArray[index].length>75 ? this.dataArray[index].substr(0, 75) + `...` : this.dataArray[index]
+        //         this._qs('#add-' + index).innerHTML = title
+        //     }
+        // } 
 
-        setTimeout(() => {
-            loadAdds()
-        }, 2000);
+        // setTimeout(() => {
+        //     loadAdds()
+        // }, 2000);
 
     }
 
