@@ -92,13 +92,13 @@ export default class LoginForm extends Base {
 
     .google {
         color: blue;
-        background-image: url("../assets/images/google.svg");
+        background-image: url("../assets/img/google.svg");
     }
     
 
     .facebook {
         color: red;
-        background-image: url("../assets/images/facebook.svg");
+        background-image: url("../assets/img/facebook.svg");
     }
 
     a {
@@ -127,7 +127,7 @@ content = `
     </div>
 
     <div class="form">
-        <img class="img" src="../assets/images/avatar.svg">        
+        <img class="img" src="../assets/img/avatar.svg">        
         <h2>Login</h2>
         <div class="container">
             <div class="row">
@@ -158,10 +158,10 @@ content = `
             </div>
             
             <div class="row">
-                <button class="google"><img class="img2" src="../assets/images/google.svg">Continue with Google</button>
+                <button class="google"><img class="img2" src="../assets/img/google.svg">Continue with Google</button>
             </div>
             <div class="row">
-                <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">Continue with Facebook</button>
+                <button class="facebook"><img class="img2" src="../assets/img/facebook.svg">Continue with Facebook</button>
             </div>
 
         </div>
