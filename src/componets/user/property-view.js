@@ -35,6 +35,10 @@ export default class PropertyView extends Base {
         opacity: 0.9;
     }
 
+    .slider-previous {
+        left: 0;
+    }
+
     .slider-next {
         right: 0;
     }

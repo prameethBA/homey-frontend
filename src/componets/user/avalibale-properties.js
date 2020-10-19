@@ -18,6 +18,34 @@ export default class AvalibaleProperties extends Base {
             height: 210px;
         }
 
+        .progress {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .progress span {
+            width: 100%;
+            height: 20%;
+            margin: 0.2em;
+            background-color: red;
+            display: inline-block;
+            border-radius: 5px;
+            animation-name: progress;
+            animation-duration: 0.75s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes progress {
+            0%   {background-image: linear-gradient(to right, #787775, #868582, #949390, #a2a19e, #b0afac);}
+            20%  {background-image: linear-gradient(to right, #b0afac, #787775, #868582, #949390, #a2a19e);}
+            40%  {background-image: linear-gradient(to right, #a2a19e, #b0afac, #787775, #868582, #949390);}
+            60%  {background-image: linear-gradient(to right, #949390, #a2a19e, #b0afac, #787775, #868582);}
+            80% {background-image: linear-gradient(to right, #868582, #949390, #a2a19e, #b0afac, #787775);}
+            100%   {background-image: linear-gradient(to right, #787775, #868582, #949390, #a2a19e, #b0afac);}
+        } 
+
         @media screen and (max-width: 1200px) {
             .container {
                 grid-template-columns: auto auto auto;
@@ -159,7 +187,13 @@ export default class AvalibaleProperties extends Base {
                             <img src="./assets/img/alt/load-post.gif"/>
                             <img src="./assets/img/alt/no-mage.png" />
                         </div>
-                        <h4 slot="title" id="add-` + index + `">` + '<progress></progress>' + `</h4>
+                        <h4 slot="title" id="add-` + index + `">
+                        ` + `
+                            <div class="progress">
+                                <span></span>
+                            </div>
+                        ` + `
+                        </h4>
                     </property-view>
                 `
                 }
