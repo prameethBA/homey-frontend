@@ -6,7 +6,7 @@ export default class PropertyView extends Base {
     .container {
         display: block;
         width: 300px;
-        height: 420px;
+        height: 500px;
         box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.86);
         margin: 2em;
         position: relative;
@@ -54,14 +54,40 @@ export default class PropertyView extends Base {
         padding-bottom: 0.8em;
     }
 
-    .star img {
-        width: 20px;
-        opacity: 0.5;
+    .star img, .share img {
+        width: 30px;
+        height: 30px;
+        opacity: 0.7;
         cursor: pointer;
     }
 
-    .star img:hover {
-        opacity: 0.9;
+    .star img:hover, .share img:hover {
+        opacity: 1;
+    }
+
+    .details div span {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 0.2em;
+    }
+
+    .description {
+        display: flex;
+        font-size: 0.8em;
+        text-align: justify;
+        height: 80px;
+        width: 100%;
+    }
+
+    button {
+        display: inline-flex;
+        font-size: 1em;
+        padding: 0.4em;
+        border-radius: 5px;
+        outline: none;
+        border: none;
+        margin-left: 0.3em;
+        cursor: pointer;
     }
 
     `
@@ -75,19 +101,19 @@ export default class PropertyView extends Base {
            <div class="details">
                 <div>
                     <slot name="title" class="title"></slot>
-                    <span class="star"><img src="./assets/icon/start-yellow.png" /></span>
-                    <span class="share">&lt;</span>
-                    <span class="price">Rs. 17, 000</button>
+                    <span>
+                        <span class="star"><img src="./assets/icon/start-yellow.png" /></span>
+                        <span class="share"><img src="./assets/icon/share.png" /></span>
+                        <slot name="price"></slot>
+                    </span>
                 </div>
-                <div class="description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed urna eu lacus facilisis mollis. Sed consequat odio lorem, ac vulputate nisi imperdiet efficitur. Quisque non nunc eu sapien.
-                </div>
+                <slot name="description" class="description"></slot>
                 <div>
                     <button class="comment">Comment</button>
                     <button class="reserve">Reserve</button>
                     <button class="more">More >></button>
                 </div>
-           </div>
+            </div>
         </div>
     `
 
