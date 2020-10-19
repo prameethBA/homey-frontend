@@ -115,11 +115,11 @@ class UI extends Base {
     addEventListener('login-failed',() => console.log("failed log into the system"))
 
     //This is used for developing purpose only | For prameeth
-    router.get('/add-property', async () => {
-      await import('./componets/property/add-property.js')
+    router.get('/advertisement-settings', async () => {
+      await import('./componets/advertisement/advertisement-settings.js')
       this._qs(
         '#mainContainer'
-      ).innerHTML = `<add-property></add-property>`
+      ).innerHTML = `<advertisement-settings></advertisement-settings>`
     })
 
     //This is used for developing purpose only  | For Ozki
