@@ -4,28 +4,46 @@ export default class Footer extends Base {
 
   css = `
     footer {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 0.5em 0;
+      display: none;
       text-align: center;
-      color: #eeeeee;
-      background-color: #001f3f; 
+      height: 0;
+      transition: height 2s;
+      z-index: 5;
     }
 
+    .visible {
+      height: 100%;
+      display: flex;
+    }
+    
+    span {
+      padding: 0.5em;
+      color: #eeeeee;
+      background-color: #001f3f;
+      width: 100vw;
+    }
 `
-content = `
+  content = `
     <footer>
-        <div>
+        <span>
             Copyright | ${new Date().getFullYear()} | homey.lk
-        </div>
+        </span>
     </footer>
 `
   constructor() {
     super()
-
     this.mount()
   }
-}
+
+  connectedCallback() {
+    const scrollMethod = () => {
+      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 40/*722.400390625*/) this._qs('footer').classList.add('visible')
+      else this._qs('footer').classList.remove('visible')
+    }
+
+    addEventListener('scroll', () => scrollMethod())
+    
+  } //End of the connected callback
+
+} // End of Class
 window.customElements.define('footer-c', Footer)
