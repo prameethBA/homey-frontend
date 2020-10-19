@@ -5,11 +5,6 @@ export default class AccountSettings extends Base {
   css =  `
   @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
   img {
     max-width: 100%;
     display: block;
@@ -30,9 +25,6 @@ export default class AccountSettings extends Base {
   /**********************
   Layout 
   **************************/
-  body {
-    padding-top: 30px;
-  }
   .container {
     width: 90%;
     max-width: 767.98px;
@@ -71,6 +63,8 @@ export default class AccountSettings extends Base {
   
   /* profile */
   .container_profile {
+    position: absolute;
+    margin-top: 4.5em;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
