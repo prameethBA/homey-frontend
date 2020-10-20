@@ -34,12 +34,14 @@ export default class AdvertisementSettings extends Base {
     padding-top: 30px;
   }
   .container {
+    position: absolute;
     width: 90%;
+    margin-left: 28%;
+    margin-top: 5%;
     max-width: 767.98px;
-    margin: auto;
-    color: #fff;
-    background: #001f3f; /*dont need for transparent background: ;*/
-    padding: 30px;
+    color: #000;
+    padding: 15px;
+    z-index:10;
   }
   
   /* features */

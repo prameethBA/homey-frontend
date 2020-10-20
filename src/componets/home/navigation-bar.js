@@ -35,7 +35,7 @@ export default class Nav extends Base {
     }
 
     ul {
-      padding-right: 1em;
+      padding-right: 2em;
     }
 
     ul .nav-link {
@@ -90,29 +90,30 @@ export default class Nav extends Base {
         background-color: #34a832;
     }
 
-    #setting-menu {
+    .setting-menu{
       position: absolute;
-      display: flex;
-      flex-direction: column;
-      z-index: 2;
-      right: 2em;
-      top: 3em;
-      background-color: rgba(0, 0, 63, 0.9);
-      padding: 0;
+      top:60px;
+      right:5px;
+      display: none;
+      background-color: #e6ffff;
+      min-width: 160px;
+      z-index: 1;
       text-align: center;
-      display:none;
     }
 
-    #setting-menu a {
-      color: #ffffff;
-      border-bottom: solid 1px #ffffff;
-      padding: 0 0.5em 0.5em 0;
-      margin-bottom: 0.2em;
-      width: 100%;
+    .setting-menu a{
+      display: block;
+      text-decoration: none;
+      color:black;
+      padding: 10px 10px;
     }
 
-    #setting-menu a:hover {
+    .dropdown:hover .setting-menu{
+      display: block;
+    }
 
+    .setting-menu a:hover{
+      background-color: #52eaf7;
     }
 
   `
@@ -137,18 +138,23 @@ export default class Nav extends Base {
             <h3 class="logo">Homey</h3>
             <span class="separator"></span>
             <ul>
-              <a class="nav-link" id="properties">Properties</a>
-              <a class="nav-link">Own Properties</a>
-              <a class="nav-link">Payments</a>
-              <a class="nav-link">Favourites</a>
-              <a class="nav-link">Profile</a>
-              <a class="nav-link">Settings</a>
+              <a href="" class="nav-link" id="properties">Properties</a>
+              <a href="" class="nav-link">Own Properties</a>
+              <a href="" class="nav-link">Payments</a>
+              <a href="" class="nav-link">Favourites</a>
+              <a href="" class="nav-link">Profile</a>
+              <span class="dropdown">
+                 <a href="" class="nav-link" class="setting-menu">Settings</a>
+                    <div class="setting-menu">
+                        <a href="" class="menu-item">SampleW</a>
+                        <a href="" class="menu-item">SampleX</a>
+                        <a href="" class="menu-item">SampleY</a>
+                        <a href="" class="menu-item">SampleZ</a>
+                        <a href="" class="menu-item">Logout</a>
+                    </div>
+              </span>             
             </ul>
         </div>
-        <ul id="setting-menu">
-          <a id='logout-button'>Logout</a>
-          <a id='logout-button-2'>Logout-2</a>
-        </ul>
     
       `
     this._qs('#login-button')

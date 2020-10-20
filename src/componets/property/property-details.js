@@ -9,6 +9,7 @@ export default class PropertyDetails extends Base {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size:18px;
   }
   img {
     max-width: 100%;
@@ -26,12 +27,14 @@ export default class PropertyDetails extends Base {
     padding-top: 30px;
   }
   .container {
+    position: absolute;
     width: 90%;
+    margin-left: 28%;
+    margin-top: 5%;
     max-width: 767.98px;
-    margin: auto;
-    color: #fff;
-    background: #001f3f; /*dont need for transparent background: ;*/
-    padding: 30px;
+    color: #000;
+    padding: 15px;
+    z-index:10;
   }
   
   /*colors
@@ -114,14 +117,14 @@ export default class PropertyDetails extends Base {
   }
   
   .select_property_about {
-    /*font: 1em verdana;*/
+    font: 1.5em Times New Roman;
     width: 25%;
   }
   .select_property_about input {
     margin-right: 15px;
   }
   .select_property_about label {
-    color: grey;
+    color: black;
   }
   input:checked + label {
     color: #ff4000;
@@ -202,20 +205,20 @@ export default class PropertyDetails extends Base {
   <div class="container container_about">
   <aside>
       <div class="about_main_image">
-          <img src="../assets/images/1.png" alt="">
+          <img src="../assets/img/1.png" alt="">
       </div>
       <div class="about_sub_images">
           <div class="about_sub_image">
-              <img src="../assets/images/2.jpg" alt="">
+              <img src="../assets/img/2.jpg" alt="">
           </div>
           <div class="about_sub_image">
-              <img src="../assets/images/2.jpg" alt="">
+              <img src="../assets/img/2.jpg" alt="">
           </div>
           <div class="about_sub_image">
-              <img src="../assets/images/2.jpg" alt="">
+              <img src="../assets/img/2.jpg" alt="">
           </div>
           <div class="about_sub_image">
-              <img src="../assets/images/2.jpg" alt="">
+              <img src="../assets/img/2.jpg" alt="">
           </div>
       </div>
   </aside>
