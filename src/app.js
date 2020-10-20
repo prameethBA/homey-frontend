@@ -53,7 +53,7 @@ class UI extends Base {
     <navigation-bar></navigation-bar>
          <div id="mainContainer">
             <div class="container">
-                <user-comp mirror="true" route="/own-properties">
+                <user-comp mirror="true" route="/own-properties" id="add-property">
                     <img slot="image" defer src="https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg=" alt="Image"></img>
                     <h1 slot="title">Rent or Lease your own property</h1>
                 </user-comp>
@@ -104,7 +104,13 @@ class UI extends Base {
     this._qs('#properties-component').addEventListener('click', () => {
       dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
     })
-  }
+
+    // Add Event Listern for user-comp then load properties-component
+    this._qs('#add-property').addEventListener('click', () => {
+      dispatchEvent(new CustomEvent('changePath', {detail: {path: "/add-property", comp: '/property/add-property.js',compName:'add-property'}}))
+    })
+    
+  }// End of constructor
 
   connectedCallback(){
 
@@ -146,7 +152,14 @@ class UI extends Base {
       this._qs('#properties-component').addEventListener('click', () => {
         dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
       })
+
+      // Add Event Listern for user-comp then load properties-component
+      this._qs('#add-property').addEventListener('click', () => {
+        dispatchEvent(new CustomEvent('changePath', {detail: {path: "/add-property", comp: '/property/add-property.js',compName:'add-property'}}))
+      })
     })
+
+    
 
     addEventListener('changePath', async (e) => {
         await import('./componets' + e.detail.comp)
