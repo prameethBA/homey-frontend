@@ -6,19 +6,23 @@ export default class LoginForm extends Base {
     .form {
         z-index: 2;
         position: absolute;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
         top: 50%;
         left: 50%;
         transform : translate(-50%, -50%);
-
+        width: 40%;
+        margin: 1em auto;
         background-color: rgba(0,0,0,0.9);
         color: #eeeeee;
         padding: 0.5em 2em;
         padding-bottom: 3em;
+        border-radius: 1px;        
     }
 
     h2 {
-        text-align: center;
-        margin-bottom: 0;
+        margin: 1em;
     }
 
     #backdrop {
@@ -34,7 +38,15 @@ export default class LoginForm extends Base {
 
     input {
         outline: none;
-        margin-bottom: 25px; 
+        width: 80%;
+        background-color: transparent;
+        border: none;
+        border-bottom: solid 1.25px #cccccc;
+        margin-bottom: 2.5em;
+    }
+
+    input:focus {
+        border-color: #ffffff;
     }
 
     #text{
@@ -52,9 +64,13 @@ export default class LoginForm extends Base {
     }
 
     label {
-        display: block;
-        margin-bottom: 5px;
+        position: absolute;
+        pointer-events: none;
+    }
 
+    label-onfocus {
+        transform: translateY(-1.5em);
+        font-size: 0.8em;
     }
 
     .hr-separator {
@@ -115,27 +131,20 @@ export default class LoginForm extends Base {
         color: #F4D03F;
     }
 
-    .img{
-        margin-left:115px;
-        width:100px;
-        height:100px
-    }
-
 `
 content = `
     <div id="backdrop" title="Click to close this form">
     </div>
 
     <div class="form">
-        <img class="img" src="../assets/img/avatar.svg">        
         <h2>Login</h2>
         <div class="container">
             <div class="row">
-                <label for="email">Email</label>
+                <label for="email" id="email-label">Email</label>
                 <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
             </div>
             <div class="row">
-                <label for="password">Password</label>
+                <label for="password" id="password-label">Password</label>
                 <input type="password" id="password" name="password" title= "Password : pass@123" />
             </div>
             <div class="row">
@@ -176,9 +185,16 @@ content = `
         dispatchEvent(new Event('exit-form'))
         this.state.exit = true
     }
+  }//End of constructor
+
+  inputOnFocus(input) {
+    this._qs('#' + input).addEventListener('focus', () => this._qs('#' + input + '-label').classList.add('label-onfocus'))
   }
 
   connectedCallback() {
+
+    this.inputOnFocus('email')
+    this.inputOnFocus('password')
 
     this._qs('#backdrop').addEventListener('click', () => {
       dispatchEvent(new Event('exit-form'))
