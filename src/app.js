@@ -64,6 +64,7 @@ class UI extends Base {
             </div>
         </div>
         <div id="login-form"></div>
+        <div id="pop-up"></div>
         <footer-c></footer-c>
   </div>
   `
@@ -85,6 +86,11 @@ class UI extends Base {
         })
         .catch(err=>console.log(err))
     }
+
+     // Listen for exit-pop-up Event for unset the visilility of Login Form
+     addEventListener('exit-popup', () => {
+      this._qs('#pop-up') != null ? this._qs('#pop-up').innerHTML = '' : null
+    })
 
     // Listen for login-form Event to set visible Login Form
     addEventListener('login-form', ()=>loadForm('login'))
@@ -120,8 +126,16 @@ class UI extends Base {
     })
     addEventListener('login-failed',() => console.log("failed log into the system"))
 
-    //This is used for developing purpose only | For prameeth
-    router.get('/property-details', async () => {
+    //This is used for developing purpose only | For Lakmal
+    router.get('/error', async () => {
+      await import('./componets/popup/error.js')
+      this._qs(
+        '#pop-up'
+      ).innerHTML = `<pop-up><div slot="message">Error</div></pop-up>`
+    })
+
+     //This is used for developing purpose only | For prameeth
+     router.get('/property-details', async () => {
       await import('./componets/property/property-details.js')
       this._qs(
         '#mainContainer'
