@@ -130,6 +130,13 @@ class UI extends Base {
       ).innerHTML = `<payment-history></payment-history>`
     })
 
+    router.get('/property-history', async () => {
+      await import('./componets/property/property-history.js')
+      this._qs(
+        '#mainContainer'
+      ).innerHTML = `<property-history></property-history>`
+    })
+
     router.get('/properties', async () => {
       await import('./componets/user/avalibale-properties.js')
       this._qs(
