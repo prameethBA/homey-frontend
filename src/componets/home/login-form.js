@@ -12,13 +12,17 @@ export default class LoginForm extends Base {
         top: 50%;
         left: 50%;
         transform : translate(-50%, -50%);
-        width: 40%;
+        width: 25%;
         margin: 1em auto;
         background-color: rgba(0,0,0,0.9);
         color: #eeeeee;
         padding: 0.5em 2em;
         padding-bottom: 3em;
         border-radius: 1px;        
+    }
+
+    .row {
+        display: inherit;
     }
 
     h2 {
@@ -33,6 +37,7 @@ export default class LoginForm extends Base {
         height: 100%;
         padding: 0px; 
         margin: 0px; 
+        padding-bottom: 80px;
         cursor: pointer;
     }
 
@@ -43,10 +48,16 @@ export default class LoginForm extends Base {
         border: none;
         border-bottom: solid 1.25px #cccccc;
         margin-bottom: 2.5em;
+        color: #ffffff;
     }
 
-    input:focus {
-        border-color: #ffffff;
+    input[type=checkbox] {
+        display: inline;
+    }
+
+    input:focus,
+    input:valid {
+        border-color: #38ee17;
     }
 
     #text{
@@ -66,11 +77,27 @@ export default class LoginForm extends Base {
     label {
         position: absolute;
         pointer-events: none;
+        left: 5.5vw;
+        transition: all 0.2s;
     }
 
-    label-onfocus {
+    input:focus + label,
+    input:valid + label {
         transform: translateY(-1.5em);
         font-size: 0.8em;
+    }
+
+    .remember {
+        display: inline-grid;
+        grid-template-columns: auto auto;
+    }
+
+    .remember > input {
+        margin-right: 2vw;
+    }
+
+    .remember > span {
+        margin-left: 1vw;
     }
 
     .hr-separator {
@@ -78,6 +105,47 @@ export default class LoginForm extends Base {
         height: 2px;
         background-color: #eeeeee;
         margin: 2em 0;
+    }
+
+    .remember input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .checkmark {
+        height: 20px;
+        width: 20px;
+        background-color:transparent;
+        border-radius: 50%;
+        border: solid 1px #ffffff;
+        transition: all 1s;
+    }
+
+    .remember:hover input ~ .checkmark {
+        background-color: #ccffcc;
+    }
+
+    .remember input:checked ~ .checkmark {
+        background-color: #32be8f;
+    }
+
+    .checkmark:after {
+        content: "";
+        display: none;
+        margin: 2px 0 0 6px;
+    }
+
+    .remember input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .remember .checkmark:after {
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
     }
 
     button {
@@ -131,6 +199,24 @@ export default class LoginForm extends Base {
         color: #F4D03F;
     }
 
+    @media screen and (max-width: 1200px) {
+        .form {
+            width: 30%;
+        }
+      }
+
+    @media screen and (max-width: 992px) {
+        .form {
+            width: 40%;
+        }
+      }
+
+    @media screen and (max-width: 768px) {
+        .form {
+            width: 80%;
+        }
+      }
+
 `
 content = `
     <div id="backdrop" title="Click to close this form">
@@ -140,15 +226,19 @@ content = `
         <h2>Login</h2>
         <div class="container">
             <div class="row">
+                <input type="text" id="email" name="email" title="Email : someone@somthing.com" required />
                 <label for="email" id="email-label">Email</label>
-                <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
             </div>
             <div class="row">
+                <input type="password" id="password" name="password" title= "Password : pass@123" required />
                 <label for="password" id="password-label">Password</label>
-                <input type="password" id="password" name="password" title= "Password : pass@123" />
             </div>
             <div class="row">
-                <input type="checkbox" id="remember"> Remember me
+                <div class="remember">
+                    <input type="checkbox" id="remember">
+                    <span class="checkmark"></span>
+                    <span>Remember me</span>
+                </div>
             </div>
             <div class="row">
                 <button id="login"> Login </button>

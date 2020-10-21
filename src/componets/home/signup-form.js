@@ -8,14 +8,19 @@ export default class SignUpForm extends Base {
         .form {
             z-index: 2;
             position: absolute;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
             top: 50%;
             left: 50%;
             transform : translate(-50%, -50%);
-
+            width: 25%;
+            margin: 1em auto;
             background-color: rgba(0,0,0,0.9);
             color: #eeeeee;
             padding: 0.5em 2em;
             padding-bottom: 3em;
+            border-radius: 1px;    
         }
 
         h2 {
@@ -31,15 +36,20 @@ export default class SignUpForm extends Base {
             height: 100%;
             padding: 0px; 
             margin: 0px; 
+            padding-bottom: 80px;
             cursor: pointer;
-        }
+        }   
 
         input {
             outline: none;
             margin-bottom: 2.5px;
         }
 
-        #firstName,#lastName, #email,#password, #confirmPassword {
+        .name {
+            display: flex;
+        }
+
+        .row input {
             width: 100%;
             border: none;
             outline: none;
@@ -109,12 +119,29 @@ export default class SignUpForm extends Base {
             color: #F4D03F;
         }
 
-
         .img{
             margin-left:80px;
             width:100px;
             height:100px
         }
+
+        @media screen and (max-width: 1200px) {
+            .form {
+                width: 30%;
+            }
+          }
+    
+        @media screen and (max-width: 992px) {
+            .form {
+                width: 40%;
+            }
+          }
+    
+        @media screen and (max-width: 768px) {
+            .form {
+                width: 80%;
+            }
+          }
 
 `
 content = `
