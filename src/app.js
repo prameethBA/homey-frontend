@@ -124,7 +124,11 @@ class UI extends Base {
       console.log("successfully logged into the system")
       dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
     })
-    addEventListener('login-failed',() => console.log("failed log into the system"))
+    
+    addEventListener('pop-up',async (res) => {
+      await import(`./componets/popup/${res.detail.pop}.js`)
+        .then(() => this._qs('#pop-up').innerHTML = `<pop-up><div slot="message">${res.detail.msg}</div></pop-up>`)
+    })
 
     //This is used for developing purpose only | For Lakmal
     router.get('/error', async () => {
