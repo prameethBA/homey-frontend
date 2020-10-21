@@ -135,24 +135,19 @@ export default class LoginForm extends Base {
     }
 
     button {
-        width: 100%;
-        margin-bottom: 25px;
-
-        display: block;
-        width: 100%;
-        height: 50px;
+        width: 90%;
+        display: inline-block;
+        height: 3em;
         border-radius: 25px;
         outline: none;
         border: none;
         background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-        background-size: 200%;
         font-size: 0.8rem;
         color: #fff;
-        font-family: 'Poppins', sans-serif;
         text-transform: uppercase;
-        margin: 1rem 0;
+        margin: 1em 0;
         cursor: pointer;
-        transition: 1s;
+        transition: all 1s;
     }
         
     button:hover{
@@ -162,12 +157,14 @@ export default class LoginForm extends Base {
 
     .google {
         color: blue;
+        background-size: 200%;
         background-image: url("../assets/img/google.svg");
     }
     
 
     .facebook {
         color: red;
+        background-size: 200%;
         background-image: url("../assets/img/facebook.svg");
     }
 
@@ -263,14 +260,7 @@ content = `
     }
   }//End of constructor
 
-  inputOnFocus(input) {
-    this._qs('#' + input).addEventListener('focus', () => this._qs('#' + input + '-label').classList.add('label-onfocus'))
-  }
-
   connectedCallback() {
-
-    this.inputOnFocus('email')
-    this.inputOnFocus('password')
 
     this._qs('#backdrop').addEventListener('click', () => {
       dispatchEvent(new Event('exit-form'))
