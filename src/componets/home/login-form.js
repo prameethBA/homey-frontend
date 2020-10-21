@@ -12,13 +12,17 @@ export default class LoginForm extends Base {
         top: 50%;
         left: 50%;
         transform : translate(-50%, -50%);
-        width: 40%;
+        width: 25%;
         margin: 1em auto;
         background-color: rgba(0,0,0,0.9);
         color: #eeeeee;
         padding: 0.5em 2em;
         padding-bottom: 3em;
         border-radius: 1px;        
+    }
+
+    .row {
+        display: inherit;
     }
 
     h2 {
@@ -33,6 +37,7 @@ export default class LoginForm extends Base {
         height: 100%;
         padding: 0px; 
         margin: 0px; 
+        padding-bottom: 80px;
         cursor: pointer;
     }
 
@@ -43,34 +48,42 @@ export default class LoginForm extends Base {
         border: none;
         border-bottom: solid 1.25px #cccccc;
         margin-bottom: 2.5em;
+        color: #ffffff;
     }
-
-    input:focus {
-        border-color: #ffffff;
+    
+    input:focus,
+    input:valid {
+        border-color: #38ee17;
     }
-
-    #text{
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-        outline: none;
-        background: #eeeeee;
-        padding: 0.5rem 0.7rem;
-        font-size: 1.2rem;
-        color: #555;
-        font-family: 'poppins', sans-serif;
+    
+    input[type=checkbox] {
+        display: inline;
     }
 
     label {
         position: absolute;
         pointer-events: none;
+        left: 5.5vw;
+        transition: all 0.2s;
     }
 
-    label-onfocus {
+    input:focus + label,
+    input:valid + label {
         transform: translateY(-1.5em);
         font-size: 0.8em;
+    }
+
+    .remember {
+        display: inline-grid;
+        grid-template-columns: auto auto;
+    }
+
+    .remember > input {
+        margin-right: 2vw;
+    }
+
+    .remember > span {
+        margin-left: 1vw;
     }
 
     .hr-separator {
@@ -80,25 +93,61 @@ export default class LoginForm extends Base {
         margin: 2em 0;
     }
 
-    button {
-        width: 100%;
-        margin-bottom: 25px;
+    .remember input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
 
+    .checkmark {
+        height: 20px;
+        width: 20px;
+        background-color:transparent;
+        border-radius: 50%;
+        border: solid 1px #ffffff;
+        transition: all 1s;
+    }
+
+    .remember:hover input ~ .checkmark {
+        background-color: #ccffcc;
+    }
+
+    .remember input:checked ~ .checkmark {
+        background-color: #32be8f;
+    }
+
+    .checkmark:after {
+        content: "";
+        display: none;
+        margin: 2px 0 0 6px;
+    }
+
+    .remember input:checked ~ .checkmark:after {
         display: block;
-        width: 100%;
-        height: 50px;
+    }
+
+    .remember .checkmark:after {
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
+
+    button {
+        width: 90%;
+        display: inline-block;
+        height: 3em;
         border-radius: 25px;
         outline: none;
         border: none;
         background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-        background-size: 200%;
         font-size: 0.8rem;
         color: #fff;
-        font-family: 'Poppins', sans-serif;
         text-transform: uppercase;
-        margin: 1rem 0;
+        margin: 1em 0;
         cursor: pointer;
-        transition: 1s;
+        transition: all 1s;
     }
         
     button:hover{
@@ -108,12 +157,14 @@ export default class LoginForm extends Base {
 
     .google {
         color: blue;
+        background-size: 200%;
         background-image: url("../assets/img/google.svg");
     }
     
 
     .facebook {
         color: red;
+        background-size: 200%;
         background-image: url("../assets/img/facebook.svg");
     }
 
@@ -131,6 +182,24 @@ export default class LoginForm extends Base {
         color: #F4D03F;
     }
 
+    @media screen and (max-width: 1200px) {
+        .form {
+            width: 30%;
+        }
+      }
+
+    @media screen and (max-width: 992px) {
+        .form {
+            width: 40%;
+        }
+      }
+
+    @media screen and (max-width: 768px) {
+        .form {
+            width: 80%;
+        }
+      }
+
 `
 content = `
     <div id="backdrop" title="Click to close this form">
@@ -140,15 +209,19 @@ content = `
         <h2>Login</h2>
         <div class="container">
             <div class="row">
+                <input type="text" id="email" name="email" title="Email : someone@somthing.com" required />
                 <label for="email" id="email-label">Email</label>
-                <input type="email" id="email" name="email" title="Email : someone@somthing.com" />
             </div>
             <div class="row">
+                <input type="password" id="password" name="password" title= "Password : pass@123" required />
                 <label for="password" id="password-label">Password</label>
-                <input type="password" id="password" name="password" title= "Password : pass@123" />
             </div>
             <div class="row">
-                <input type="checkbox" id="remember"> Remember me
+                <div class="remember">
+                    <input type="checkbox" id="remember">
+                    <span class="checkmark"></span>
+                    <span>Remember me</span>
+                </div>
             </div>
             <div class="row">
                 <button id="login"> Login </button>
@@ -187,14 +260,7 @@ content = `
     }
   }//End of constructor
 
-  inputOnFocus(input) {
-    this._qs('#' + input).addEventListener('focus', () => this._qs('#' + input + '-label').classList.add('label-onfocus'))
-  }
-
   connectedCallback() {
-
-    this.inputOnFocus('email')
-    this.inputOnFocus('password')
 
     this._qs('#backdrop').addEventListener('click', () => {
       dispatchEvent(new Event('exit-form'))
