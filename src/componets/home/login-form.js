@@ -355,9 +355,14 @@ content = `
         })
     })//End of Login API call
 
-    // Login wu=ith Google
+    // Login with Google
     this._qs('.google').addEventListener('click', async () => {
         console.log('login with Google')
+    })
+
+    // Login with FaceBook
+    this._qs('.facebook').addEventListener('click', async () => {
+        console.log('login with Facebook')
     })
 
   }//End of connectedCallback
