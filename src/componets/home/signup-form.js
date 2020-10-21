@@ -87,12 +87,12 @@ export default class SignUpForm extends Base {
         }
         .google {
             color: blue;
-            background-image: url("../assets/images/google.svg");
+            background-image: url("../assets/img/google.svg");
         }
 
         .facebook {
             color: red;
-            background-image: url("../assets/images/facebook.svg");
+            background-image: url("../assets/img/facebook.svg");
         }
 
         a {
@@ -165,10 +165,10 @@ content = `
             </div>
             
             <div class="row">
-                <button class="google"><img class="img2" src="../assets/images/google.svg">SignUp with Google</button>
+                <button class="google"><img class="img2" src="../assets/img/google.svg">SignUp with Google</button>
             </div>
             <div class="row">
-                <button class="facebook"><img class="img2" src="../assets/images/facebook.svg">SignUp with Facebook</button>
+                <button class="facebook"><img class="img2" src="../assets/img/facebook.svg">SignUp with Facebook</button>
             </div>
 
         </div>

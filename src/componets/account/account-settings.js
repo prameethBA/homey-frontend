@@ -26,12 +26,13 @@ export default class AccountSettings extends Base {
   Layout 
   **************************/
   .container {
+    position: absolute;
     width: 90%;
+    margin-left: 28%;
     max-width: 767.98px;
-    margin: auto;
-    color: #fff;
-    background: #001f3f; /*dont need for transparent background: ;*/
-    padding: 30px;
+    color: #000;
+    padding: 15px;
+    z-index:10;
   }
   
   .image_property {
@@ -96,7 +97,7 @@ export default class AccountSettings extends Base {
   }
   .profile_detail p {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: whitesmoke;
+    color: black;
     font-size: 0.9em;
   }
   .container_profile main {
@@ -211,7 +212,7 @@ export default class AccountSettings extends Base {
 <div class="container container_profile">
         <aside>
             <div class="profile_pic">
-                <img src="../assets/images/profile2.png" alt="">
+                <img src="../assets/img/profile2.png" alt="">
                 <h3>Full Name</h3>
             </div>
             <div class="profile_details">
@@ -272,7 +273,7 @@ export default class AccountSettings extends Base {
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-primary btn-sm">Save</button>
-                    <a href="" class="btn btn-danger btn-sm ">Cancel</a>
+                    <a href="" class="btn btn-secondary btn-sm ">Cancel</a>
 
                 </div>
                

@@ -19,7 +19,6 @@ export default class AvalibaleProperties extends Base {
         }
 
         .progress {
-            display: flex;
             justify-content: center;
             width: 100%;
             height: 100%;
@@ -35,6 +34,21 @@ export default class AvalibaleProperties extends Base {
             animation-name: progress;
             animation-duration: 0.75s;
             animation-iteration-count: infinite;
+        }
+
+        .progress-description {
+            width: 19.1em;
+            height: 1em;
+        }
+
+        .progress-price {
+            width: 8.5em;
+            height: 2.5em;
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 1.2em;
         }
 
         @keyframes progress {
@@ -176,24 +190,37 @@ export default class AvalibaleProperties extends Base {
         'Seaview Luxury Double Bedroom for Rent at Border DehiwalaSeaview Luxury Double Bedroom for Rent at Border Dehiwala',
         'Apartment in Wellwatte Near safeplace inface to Gallface']
         
+        this.state.limit = 12
 
         import('./property-view.js')
             .then(() => {
                 let data = '';
-                for (let index = 0; index < this.dataArray.length; index++) {
+                for (let index = 0; index < this.state.limit; index++) {
                     data += `
                     <property-view>
-                        <div slot="thumbnail" id="img-` + index + `">
+                        <div slot="thumbnail" id="img-${index}">
                             <img src="./assets/img/alt/load-post.gif"/>
                             <img src="./assets/img/alt/no-mage.png" />
                         </div>
-                        <h4 slot="title" id="add-` + index + `">
-                        ` + `
+                        <h4 slot="title" id="add-${index}">
                             <div class="progress">
                                 <span></span>
+                                <span></span>
+                                <span></span>
                             </div>
-                        ` + `
                         </h4>
+                        <span slot="price" class="price" id="price-${index}">
+                            <div class="progress progress-price">
+                                <span></span>
+                            </div>
+                        </span>
+                        <span slot="description" id="description-${index}">
+                            <div class="progress progress-description">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </span>
                     </property-view>
                 `
                 }
@@ -205,9 +232,11 @@ export default class AvalibaleProperties extends Base {
     connectedCallback() {
         
         const loadAdds = async () => {
-            for (let index = 0; index < this.dataArray.length; index++) {
+            for (let index = 0; index < this.state.limit; index++) {
                 let title = this.dataArray[index].length>75 ? this.dataArray[index].substr(0, 75) + `...` : this.dataArray[index]
                 this._qs('#add-' + index).innerHTML = title
+                this._qs('#description-' + index).innerHTML = this.dataArray[index]
+                this._qs('#price-' + index).innerHTML = " Rs. 180,000/Month"
             }
         } 
 
