@@ -182,6 +182,13 @@ export default class LoginForm extends Base {
         color: #F4D03F;
     }
 
+    .validation {
+        display: block;
+        color: red;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+
     @media screen and (max-width: 1200px) {
         .form {
             width: 30%;
@@ -224,7 +231,11 @@ content = `
                 </div>
             </div>
             <div class="row">
-                <button id="login"> Login </button>
+                <span class="validation" id="validation-email"></span>
+                <span class="validation" id="validation-password"></span>
+            </div>
+            <div class="row">
+                <button id="login" disabled> Login </button>
             </div>
             <div class="row">
                 <a title="Reset Password" id="reset-password">Forgot Password ? </a>
@@ -271,6 +282,45 @@ content = `
 
     this._qs('#reset-password').addEventListener('click', () => dispatchEvent(new Event('reset-password-form')))
     
+    // Client side form validation
+    const validation = () => {
+        this.state.validation = false
+        const events = ['focus', 'keyup'] 
+        events.forEach(element => {
+            this._qs("#email").addEventListener(element, () => {
+                if (this._qs("#email").value == '') {
+                    this._qs('#validation-email').innerHTML = "❌ Enter the email or Mobile"
+                    this.state.validation = false
+                } else if(!(/^\w{2,}@\w{2,}\.\w{2,4}$/.test(this._qs("#email").value) || /^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(this._qs("#email").value))) {
+                    this._qs('#validation-email').innerHTML = "❌ Enter a valid email or Mobile"
+                    this.state.validation = false
+                } else {
+                    this._qs('#validation-email').innerHTML = ""
+                    this.state.validation = true
+                }
+                
+                this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+            })
+        })
+
+        events.forEach(element => {
+            this._qs("#password").addEventListener(element, () => {
+                if (this._qs("#password").value == '') {
+                    this._qs('#validation-password').innerHTML = "❌ Enter the password"
+                    this.state.validation = false
+                } else {
+                    this._qs('#validation-password').innerHTML = ""
+                    this.state.validation = true
+                } 
+
+                this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+            })
+        })
+        
+    }//End of validation
+
+    //Exucute validation
+    validation()
 
     this._qs('#login').addEventListener('click', () => {
       // API call for login
@@ -283,20 +333,34 @@ content = `
         .then((res) => res.json())
         .then((res) => {
             if (res.data.login === 'true') {
-                localStorage.login = 'true'
-                localStorage.token = res.data.token
+                if(this._qs('#remember').checked == true) {
+                    localStorage.login = 'true'
+                    localStorage.token = res.data.token
+                } else{
+                    sessionStorage.login = 'true'
+                    sessionStorage.token = res.data.token
+                }
                 dispatchEvent(new Event('login-success'))
+                dispatchEvent(new Event('exit-form'))
             } else {
                 localStorage.login = 'false'
                 localStorage.token = ''
+                sessionStorage.login = 'false'
+                sessionStorage.token = ''
                 dispatchEvent(new CustomEvent("pop-up", {detail:{pop:'error', msg:res.data.message}}))
             }
         })
         .catch(err => {
             dispatchEvent(new CustomEvent("pop-up", {detail:{pop:'error', err}}))
         })
+    })//End of Login API call
+
+    // Login wu=ith Google
+    this._qs('.google').addEventListener('click', async () => {
+        console.log('login with Google')
     })
-  }
+
+  }//End of connectedCallback
 
 
 

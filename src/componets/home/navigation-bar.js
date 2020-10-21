@@ -162,7 +162,7 @@ export default class Nav extends Base {
       })
 
     const setLoginNavBar = () => {
-      if (localStorage.login == 'true') {
+      if (localStorage.login == 'true' || sessionStorage.login == 'true') {
         this._qs('#login-button') != null ? this._qs('#login-button').style.display = 'none' : null
         this._qs('nav').innerHTML = this.state.loginContent
         this._qs('#logout-button') != null ? this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out'))) : null
@@ -181,6 +181,8 @@ export default class Nav extends Base {
     addEventListener('log-out', ()=> {
       localStorage.login = false;
       localStorage.token = ''
+      sessionStorage.login = false;
+      sessionStorage.token = ''
       this.setPath('/')
       dispatchEvent(new Event('reload-home'))
     })
