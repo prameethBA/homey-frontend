@@ -50,28 +50,14 @@ export default class LoginForm extends Base {
         margin-bottom: 2.5em;
         color: #ffffff;
     }
-
-    input[type=checkbox] {
-        display: inline;
-    }
-
+    
     input:focus,
     input:valid {
         border-color: #38ee17;
     }
-
-    #text{
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-        outline: none;
-        background: #eeeeee;
-        padding: 0.5rem 0.7rem;
-        font-size: 1.2rem;
-        color: #555;
-        font-family: 'poppins', sans-serif;
+    
+    input[type=checkbox] {
+        display: inline;
     }
 
     label {
