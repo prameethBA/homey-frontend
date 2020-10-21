@@ -106,6 +106,7 @@ export default class Nav extends Base {
       text-decoration: none;
       color:black;
       padding: 10px 10px;
+      cursor: pointer;
     }
 
     .dropdown:hover .setting-menu{
@@ -138,19 +139,17 @@ export default class Nav extends Base {
             <h3 class="logo">Homey</h3>
             <span class="separator"></span>
             <ul>
-              <a href="" class="nav-link" id="properties">Properties</a>
-              <a href="" class="nav-link">Own Properties</a>
-              <a href="" class="nav-link">Payments</a>
-              <a href="" class="nav-link">Favourites</a>
-              <a href="" class="nav-link">Profile</a>
+              <a class="nav-link" id="properties">Properties</a>
+              <a class="nav-link">Own Properties</a>
+              <a class="nav-link">Payments</a>
+              <a class="nav-link">Favourites</a>
               <span class="dropdown">
-                 <a href="" class="nav-link" class="setting-menu">Settings</a>
+                 <a class="nav-link" class="setting-menu">Settings</a>
                     <div class="setting-menu">
-                        <a href="" class="menu-item">SampleW</a>
-                        <a href="" class="menu-item">SampleX</a>
-                        <a href="" class="menu-item">SampleY</a>
-                        <a href="" class="menu-item">SampleZ</a>
-                        <a href="" class="menu-item">Logout</a>
+                        <a class="menu-item">Profile Settings</a>
+                        <a class="menu-item">Add New Property</a>
+                        <a class="menu-item">Wallet</a>
+                        <a class="menu-item" id="logout-button">Logout</a>
                     </div>
               </span>             
             </ul>
