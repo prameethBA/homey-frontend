@@ -144,7 +144,7 @@ export default class Nav extends Base {
               <a class="nav-link">Payments</a>
               <a class="nav-link">Favourites</a>
               <span class="dropdown">
-                 <a class="nav-link" class="setting-menu">Settings</a>
+                 <a class="nav-link" class="setting-menu">Account</a>
                     <div class="setting-menu">
                         <a class="menu-item">Profile Settings</a>
                         <a class="menu-item">Add New Property</a>
