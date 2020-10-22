@@ -152,6 +152,12 @@ export default class AdvertisementSettings extends Base {
   .slider.round:before {
     border-radius: 50%;
   }
+
+  @media(max-width: 768px) {
+    .container {
+      margin-left: 5%;
+    }
+  }
   
 
 `
