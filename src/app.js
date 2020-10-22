@@ -15,7 +15,7 @@ router.get('/', async () => {
 })
 
 class UI extends Base {
-  
+
   css = `
       #wrap, #mainContainer {
           display: flex;
@@ -64,18 +64,19 @@ class UI extends Base {
             </div>
         </div>
         <div id="login-form"></div>
+        <div id="pop-up"></div>
         <footer-c></footer-c>
   </div>
   `
-  
+
   constructor() {
     super()
     this.mount()
-    
+
     const loadForm = async (form) => {
       this.setPath('/' + form)
-      await import('./componets/home/' + form +'-form.js')
-        .then(() =>{
+      await import('./componets/home/' + form + '-form.js')
+        .then(() => {
           this._qs('#login-form') != null ? this._qs('#login-form').innerHTML = `<` + form + `-form></` + form + `-form>` : null
 
           // Listen for exit-login-form Event for unset the visilility of Login Form
@@ -83,13 +84,18 @@ class UI extends Base {
             this._qs('#login-form') != null ? this._qs('#login-form').innerHTML = '' : null
           })
         })
-        .catch(err=>console.log(err))
+        .catch(err => console.log(err))
     }
 
+    // Listen for exit-pop-up Event for unset the visilility of Login Form
+    addEventListener('exit-popup', () => {
+      this._qs('#pop-up') != null ? this._qs('#pop-up').innerHTML = '' : null
+    })
+
     // Listen for login-form Event to set visible Login Form
-    addEventListener('login-form', ()=>loadForm('login'))
-    addEventListener('signup-form', ()=>loadForm('signup'))
-    addEventListener('reset-password-form', ()=>loadForm('reset-password'))
+    addEventListener('login-form', () => loadForm('login'))
+    addEventListener('signup-form', () => loadForm('signup'))
+    addEventListener('reset-password-form', () => loadForm('reset-password'))
 
     // Listen for /login route to set visible Login Form
     router.get('/login', () => loadForm('login'))
@@ -102,23 +108,35 @@ class UI extends Base {
 
     // Add Event Listern for user-comp then load properties-component
     this._qs('#properties-component').addEventListener('click', () => {
-      dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
+      dispatchEvent(new CustomEvent('changePath', { detail: { path: "/properties", comp: '/user/avalibale-properties.js', compName: 'avalibale-properties' } }))
     })
 
     // Add Event Listern for user-comp then load properties-component
     this._qs('#add-property').addEventListener('click', () => {
-      dispatchEvent(new CustomEvent('changePath', {detail: {path: "/add-property", comp: '/property/add-property.js',compName:'add-property'}}))
+      dispatchEvent(new CustomEvent('changePath', { detail: { path: "/add-property", comp: '/property/add-property.js', compName: 'add-property' } }))
     })
-    
+
   }// End of constructor
 
-  connectedCallback(){
+  connectedCallback() {
 
     addEventListener('login-success', () => {
       console.log("successfully logged into the system")
-      dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
+      dispatchEvent(new CustomEvent('changePath', { detail: { path: "/properties", comp: '/user/avalibale-properties.js', compName: 'avalibale-properties' } }))
     })
-    addEventListener('login-failed',() => console.log("failed log into the system"))
+
+    addEventListener('pop-up', async (res) => {
+      await import(`./componets/popup/${res.detail.pop}.js`)
+        .then(() => this._qs('#pop-up').innerHTML = `<pop-up><div slot="message">${res.detail.msg}</div></pop-up>`)
+    })
+
+    //This is used for developing purpose only | For Lakmal
+    router.get('/error', async () => {
+      await import('./componets/popup/error.js')
+      this._qs(
+        '#pop-up'
+      ).innerHTML = `<pop-up><div slot="message">Error</div></pop-up>`
+    })
 
     //This is used for developing purpose only | For prameeth
     router.get('/account-settings', async () => {
@@ -155,28 +173,28 @@ class UI extends Base {
       this.render()
       this.shadowRoot.append(this.template.content)
 
-       // Add Event Listern for user-comp then load properties-component
+      // Add Event Listern for user-comp then load properties-component
       this._qs('#properties-component').addEventListener('click', () => {
-        dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}}))
+        dispatchEvent(new CustomEvent('changePath', { detail: { path: "/properties", comp: '/user/avalibale-properties.js', compName: 'avalibale-properties' } }))
       })
 
       // Add Event Listern for user-comp then load properties-component
       this._qs('#add-property').addEventListener('click', () => {
-        dispatchEvent(new CustomEvent('changePath', {detail: {path: "/add-property", comp: '/property/add-property.js',compName:'add-property'}}))
+        dispatchEvent(new CustomEvent('changePath', { detail: { path: "/add-property", comp: '/property/add-property.js', compName: 'add-property' } }))
       })
     })
 
-    
+
 
     addEventListener('changePath', async (e) => {
-        await import('./componets' + e.detail.comp)
-        .then(()=>this._qs('#mainContainer').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`)
-        .catch(err =>console.log(err))
-        this.setPath(e.detail.path)
+      await import('./componets' + e.detail.comp)
+        .then(() => this._qs('#mainContainer').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`)
+        .catch(err => console.log(err))
+      this.setPath(e.detail.path)
     })
 
   }
-  
+
 }
 
 window.customElements.define('ui-c', UI)
