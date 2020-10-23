@@ -2,7 +2,7 @@ import Base from './../Base.js'
 
 export default class LoginForm extends Base {
 
-  css = `
+    css = `
     .form {
         z-index: 100;
         position: absolute;
@@ -151,6 +151,10 @@ export default class LoginForm extends Base {
         transition: all 1s;
     }
         
+    button:disabled {
+        background-image: linear-gradient(to right, red, red, red);
+    } 
+
     button:hover{
         background-position: right;
         color: black;
@@ -209,7 +213,7 @@ export default class LoginForm extends Base {
       }
 
 `
-content = `
+    content = `
     <div id="backdrop" title="Click to close this form">
     </div>
 
@@ -262,111 +266,115 @@ content = `
     </div>
 
 `
-  constructor() {
-    super()
-    this.mount()
+    constructor() {
+        super()
+        this.mount()
 
-    if(!(this.state.exit == null || this.state.exit)) {
-        dispatchEvent(new Event('exit-form'))
-        this.state.exit = true
-    }
-  }//End of constructor
+        if (!(this.state.exit == null || this.state.exit)) {
+            dispatchEvent(new Event('exit-form'))
+            this.state.exit = true
+        }
+    }//End of constructor
 
-  connectedCallback() {
+    connectedCallback() {
 
-    this._qs('#backdrop').addEventListener('click', () => {
-      dispatchEvent(new Event('exit-form'))
-      this.setPath('/')
-    })
+        this._qs('#backdrop').addEventListener('click', () => {
+            dispatchEvent(new Event('exit-form'))
+            this.setPath('/')
+        })
 
-    this._qs('#signup').addEventListener('click', () => dispatchEvent(new Event('signup-form')))
+        this._qs('#signup').addEventListener('click', () => dispatchEvent(new Event('signup-form')))
 
-    this._qs('#reset-password').addEventListener('click', () => dispatchEvent(new Event('reset-password-form')))
-    
-    // Client side form validation
-    const validation = () => {
-        this.state.validation = false
-        const events = ['focus', 'keyup'] 
-        events.forEach(element => {
-            this._qs("#email").addEventListener(element, () => {
-                if (this._qs("#email").value == '') {
-                    this._qs('#validation-email').innerHTML = "❌ Enter the email or Mobile"
-                    this.state.validation = false
-                } else if(!(/^\w{2,}@\w{2,}\.\w{2,4}$/.test(this._qs("#email").value) || /^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(this._qs("#email").value))) {
-                    this._qs('#validation-email').innerHTML = "❌ Enter a valid email or Mobile"
-                    this.state.validation = false
-                } else {
-                    this._qs('#validation-email').innerHTML = ""
-                    this.state.validation = true
-                }
-                
-                this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+        this._qs('#reset-password').addEventListener('click', () => dispatchEvent(new Event('reset-password-form')))
+
+        // Client side form validation
+        const validation = () => {
+            this.state.validation = false
+            const events = ['focus', 'keyup']
+            events.forEach(element => {
+                this._qs("#email").addEventListener(element, () => {
+                    if (this._qs("#email").value == '') {
+                        this._qs('#validation-email').innerHTML = "❌ Enter the email or Mobile"
+                        this.state.validation = false
+                    } else if (!(/^\w{2,}@\w{2,}\.\w{2,4}$/.test(this._qs("#email").value) || /^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(this._qs("#email").value))) {
+                        this._qs('#validation-email').innerHTML = "❌ Enter a valid email or Mobile"
+                        this.state.validation = false
+                    } else {
+                        this._qs('#validation-email').innerHTML = ""
+                        this.state.validation = true
+                    }
+
+                    this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+                })
             })
-        })
 
-        events.forEach(element => {
-            this._qs("#password").addEventListener(element, () => {
-                if (this._qs("#password").value == '') {
-                    this._qs('#validation-password').innerHTML = "❌ Enter the password"
-                    this.state.validation = false
-                } else {
-                    this._qs('#validation-password').innerHTML = ""
-                    this.state.validation = true
-                } 
+            events.forEach(element => {
+                this._qs("#password").addEventListener(element, () => {
+                    if (this._qs("#password").value == '') {
+                        this._qs('#validation-password').innerHTML = "❌ Enter the password"
+                        this.state.validation = false
+                    } else {
+                        this._qs('#validation-password').innerHTML = ""
+                        this.state.validation = true
+                    }
 
-                this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+                    this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+                })
             })
-        })
-        
-    }//End of validation
 
-    //Exucute validation
-    validation()
+        }//End of validation
 
-    this._qs('#login').addEventListener('click', () => {
-      // API call for login
-      let userName = this._qs('#email').value
-      const password = this._qs('#password').value
-      userName == '' ? userName = "invlid" : null
-      fetch('http://homey-api.atwebpages.com/login/' + userName + '/' + password, {
-        method: 'POST',
-      })
-        .then((res) => res.json())
-        .then((res) => {
-            if (res.data.login === 'true') {
-                if(this._qs('#remember').checked == true) {
-                    localStorage.login = 'true'
-                    localStorage.token = res.data.token
-                } else{
-                    sessionStorage.login = 'true'
-                    sessionStorage.token = res.data.token
+        //Exucute validation
+        validation()
+
+        this._qs('#login').addEventListener('click', () => {
+            // API call for login
+            let userName = this._qs('#email').value
+            const password = this._qs('#password').value
+            userName == '' ? userName = "invlid" : null
+            fetch('http://homey-api.atwebpages.com/login', {
+                method: 'POST',
+                headers: {
+                    'Username': userName,
+                    'Password': password
                 }
-                dispatchEvent(new Event('login-success'))
-                dispatchEvent(new Event('exit-form'))
-            } else {
-                localStorage.login = 'false'
-                localStorage.token = ''
-                sessionStorage.login = 'false'
-                sessionStorage.token = ''
-                dispatchEvent(new CustomEvent("pop-up", {detail:{pop:'error', msg:res.data.message}}))
-            }
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    if (res.data.login === 'true') {
+                        if (this._qs('#remember').checked == true) {
+                            localStorage.login = 'true'
+                            localStorage.token = res.data.token
+                        } else {
+                            sessionStorage.login = 'true'
+                            sessionStorage.token = res.data.token
+                        }
+                        dispatchEvent(new Event('login-success'))
+                        dispatchEvent(new Event('exit-form'))
+                    } else {
+                        localStorage.login = 'false'
+                        localStorage.token = ''
+                        sessionStorage.login = 'false'
+                        sessionStorage.token = ''
+                        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
+                    }
+                })
+                .catch(err => {
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
+                })
+        })//End of Login API call
+
+        // Login with Google
+        this._qs('.google').addEventListener('click', async () => {
+            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Feature disabled at the moment. Use email instead." } }))
         })
-        .catch(err => {
-            dispatchEvent(new CustomEvent("pop-up", {detail:{pop:'error', err}}))
+
+        // Login with FaceBook
+        this._qs('.facebook').addEventListener('click', async () => {
+            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Feature disabled at the moment. Use email instead." } }))
         })
-    })//End of Login API call
 
-    // Login with Google
-    this._qs('.google').addEventListener('click', async () => {
-        console.log('login with Google')
-    })
-
-    // Login with FaceBook
-    this._qs('.facebook').addEventListener('click', async () => {
-        console.log('login with Facebook')
-    })
-
-  }//End of connectedCallback
+    }//End of connectedCallback
 
 
 

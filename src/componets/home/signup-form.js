@@ -6,7 +6,7 @@ export default class SignUpForm extends Base {
 
     css = `
     .form {
-        z-index: 2;
+        z-index: 100;
         position: absolute;
         display: flex;
         flex-direction: column;
@@ -33,7 +33,8 @@ export default class SignUpForm extends Base {
 
     #backdrop {
         position: absolute;
-        z-index: 1;
+        left: 0;
+        z-index: 99;
         background-color: rgba(0,0,0,0.7);
         width: 100%;
         height: 100%;
@@ -157,6 +158,10 @@ export default class SignUpForm extends Base {
         cursor: pointer;
         transition: all 1s;
     }
+
+    button:disabled {
+        background-image: linear-gradient(to right, red, red, red);
+    }
     
     .login-button {
         margin: 0;
@@ -206,6 +211,13 @@ export default class SignUpForm extends Base {
         margin-top: -0.5em;
     }
 
+    .validation {
+        display: block;
+        color: red;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+
     @media screen and (max-width: 1200px) {
         .form {
             width: 30%;
@@ -233,7 +245,7 @@ export default class SignUpForm extends Base {
       }
 
 `
-content = `
+    content = `
 
     <div id="backdrop" title="Click to close this form">
     </div>
@@ -242,9 +254,9 @@ content = `
 
         <div class="container">
             <div class="row">
-                <input type="text" id="firstName" name="firstName" title="First Name : Joe" required />
+                <input type="text" id="firstName" name="firstName" class="nameField" title="First Name : Joe" required />
                 <label for="firstName">First Name</label>
-                <input type="text" id="lastName" name="lastName" title="Last Name : Does" required />
+                <input type="text" id="lastName" name="lastName" class="nameField" title="Last Name : Does" required />
                 <label for="lastName">Last Name</label>
             </div>
             <div class="row">
@@ -256,18 +268,24 @@ content = `
                 <label for="password">Password</label>
             </div>
             <div class="row">
-                <input type="password" id="confirmPassword" name="confirmPassword" title= "Confirm Password : pass@123" required />
+                <input type="password" id="confirm-password" name="confirmPassword" title= "Confirm Password : pass@123" required />
                 <label for="confirmPassword">Confirm Password</label>
             </div>
             <div class="row">
                 <div class="terms">
                     <input type="checkbox" id="terms">
                     <span class="checkmark"></span>
-                    <span><a>accept terms and conditions<a></span>
+                    <span><a>accept terms and conditions</a></span>
                 </div>
             </div>
             <div class="row">
-                <button id="signUp"> Sign Up </button>
+                <span class="validation" id="validation-name"></span>
+                <span class="validation" id="validation-email"></span>
+                <span class="validation" id="validation-password"></span>
+                <span class="validation" id="validation-password-confirm"></span>
+            </div>
+            <div class="row">
+                <button id="signUp" disabled> Sign Up </button>
             </div>
             <div class="row login">
                 <a title="Login" class="load-login-form">Already have an account ? </a>
@@ -293,25 +311,119 @@ content = `
     </div>
     
 `
-  constructor() {
-    super()
-    this.mount()
-  }
+    constructor() {
+        super()
+        this.mount()
+    }
 
-  connectedCallback() {
+    connectedCallback() {
 
-    this._qs('#backdrop').addEventListener('click', () => {
-        dispatchEvent(new Event('exit-form'))
-        this.setPath('/')
-      })
+        this._qs('#backdrop').addEventListener('click', () => {
+            dispatchEvent(new Event('exit-form'))
+            this.setPath('/')
+        })
 
-    this.shadowRoot.querySelectorAll('.load-login-form').forEach((item) => {
-      item.addEventListener('click', () => {
-        dispatchEvent(new Event('login-form'))
-      })
-    })
-  }
+        this.shadowRoot.querySelectorAll('.load-login-form').forEach((item) => {
+            item.addEventListener('click', () => {
+                dispatchEvent(new Event('login-form'))
+            })
+        })
 
-}
+        // Client side form validation
+        const validation = () => {
+            this.state.validation = false
+            const events = ['focus', 'keyup']
+
+            // validate fName
+            events.forEach(element => {
+                this._qsAll(".nameField").forEach(item => item.addEventListener(element, () => {
+                    if (!(/([a-zA-Z]{3,30}\s*)+/.test(this._qs("#firstName").value) && /[a-zA-Z]{3,30}/.test(this._qs("#lastName").value))) {
+                        this._qs('#validation-name').innerHTML = "❌ Incorrrect type of name"
+                        this.state.validation = false
+                    } else {
+                        this._qs('#validation-name').innerHTML = ""
+                        this.state.validation = true
+                    }
+
+                }))
+            })
+
+            // validate email or Mobile
+            events.forEach(element => {
+                this._qs("#email").addEventListener(element, () => {
+                    if (this._qs("#email").value == '') {
+                        this._qs('#validation-email').innerHTML = "❌ Enter the email or Mobile"
+                        this.state.validation = false
+                    } else if (!(/^\w{2,}@\w{2,}\.\w{2,4}$/.test(this._qs("#email").value) || /^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(this._qs("#email").value))) {
+                        this._qs('#validation-email').innerHTML = "❌ Enter a valid email or Mobile"
+                        this.state.validation = false
+                    } else {
+                        this._qs('#validation-email').innerHTML = ""
+                        this.state.validation = true
+                    }
+
+                })
+            })
+
+            // validate Strong password
+            events.forEach(element => {
+                this._qs("#password").addEventListener(element, () => {
+                    if (this._qs("#password").value == '') {
+                        this._qs('#validation-password').innerHTML = "❌ Enter the password"
+                        this.state.validation = false
+                    } else if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$/.test(this._qs("#password").value))) {
+                        this._qs('#validation-password').innerHTML = "❌ Enter a Strong password(Minimum 8 characters including minmum 2 Upper cases, 3 lower cases, 1 Special Character (!@#$&*) and 2 numerals (0-9))"
+                        this.state.validation = false
+                    } else {
+                        this._qs('#validation-password').innerHTML = ""
+                        this.state.validation = true
+                    }
+
+                    this.state.validation == true ? this._qs('#signUp').disabled = false : this._qs('#signUp').disabled = true
+                    // Confirm password
+                    if ((this._qs("#password").value != this._qs("#confirm-password").value) || (this._qs("#confirm-password").value == '')) {
+                        this._qs('#validation-password-confirm').innerHTML = "❌ Passwords did not match!"
+                        this.state.validation = false
+                    } else {
+                        this._qs('#validation-password-confirm').innerHTML = ""
+                        this.state.validation = true
+                    }
+
+                })
+            })
+
+            // validate password confirmation
+            events.forEach(element => {
+                this._qs("#confirm-password").addEventListener(element, () => {
+                    if ((this._qs("#password").value != this._qs("#confirm-password").value) || (this._qs("#confirm-password").value == '')) {
+                        this._qs('#validation-password-confirm').innerHTML = "❌ Passwords did not match!"
+                        this.state.validation = false
+                    } else {
+                        this._qs('#validation-password-confirm').innerHTML = ""
+                        this.state.validation = true
+                    }
+
+                    this.state.validation == true ? this._qs('#signUp').disabled = false : this._qs('#signUp').disabled = true
+                })
+            })
+
+            // Signup with Google
+            this._qs('.google').addEventListener('click', async () => {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Feature disabled at the moment. Use email instead." } }))
+            })
+
+            // Signup with FaceBook
+            this._qs('.facebook').addEventListener('click', async () => {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Feature disabled at the moment. Use email instead." } }))
+            })
+
+        }//End of validation
+
+        //Exucute validation
+        validation()
+
+    }//End of connected callback
+
+}//End of Class
 
 window.customElements.define('signup-form', SignUpForm)
