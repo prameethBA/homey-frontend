@@ -152,7 +152,8 @@ export default class LoginForm extends Base {
     }
         
     button:disabled {
-        background-image: linear-gradient(to right, red, red, red);
+        background-image: linear-gradient(to right, gray, gray);
+        background-color: gray;
     } 
 
     button:hover{
@@ -329,9 +330,8 @@ export default class LoginForm extends Base {
 
         this._qs('#login').addEventListener('click', () => {
             // API call for login
-            let userName = this._qs('#email').value
+            const userName = this._qs('#email').value
             const password = this._qs('#password').value
-            userName == '' ? userName = "invlid" : null
             fetch('http://homey-api.atwebpages.com/login', {
                 method: 'POST',
                 headers: {
@@ -362,6 +362,7 @@ export default class LoginForm extends Base {
                 .catch(err => {
                     dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
                 })
+
         })//End of Login API call
 
         // Login with Google

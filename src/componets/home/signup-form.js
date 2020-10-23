@@ -160,7 +160,8 @@ export default class SignUpForm extends Base {
     }
 
     button:disabled {
-        background-image: linear-gradient(to right, red, red, red);
+        background-image: linear-gradient(to right, gray, gray);
+        background-color: gray;
     }
     
     .login-button {
@@ -422,8 +423,48 @@ export default class SignUpForm extends Base {
         //Exucute validation
         validation()
 
-    }//End of connected callback
+        // Signup with email
+        this._qs('#signUp').addEventListener('click', () => {
+            // API call for signup
+            const firstName = this._qs('#firstName').value
+            const lastName = this._qs('#lastName').value
+            const email = this._qs('#email').value
+            const password = this._qs('#password').value
+            fetch('http://homey-api.atwebpages.com/signup', {
+                method: 'POST',
+                headers: {
+                    'Firstname': firstName,
+                    'Lastname': lastName,
+                    'Email': email,
+                    'Password': password
+                }
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    if (res.data.login === 'true') {
+                        if (this._qs('#remember').checked == true) {
+                            localStorage.login = 'true'
+                            localStorage.token = res.data.token
+                        } else {
+                            sessionStorage.login = 'true'
+                            sessionStorage.token = res.data.token
+                        }
+                        dispatchEvent(new Event('login-success'))
+                        dispatchEvent(new Event('exit-form'))
+                    } else {
+                        localStorage.login = 'false'
+                        localStorage.token = ''
+                        sessionStorage.login = 'false'
+                        sessionStorage.token = ''
+                        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
+                    }
+                })
+                .catch(err => {
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
+                })
+
+        }//End of connected callback
 
 }//End of Class
 
-window.customElements.define('signup-form', SignUpForm)
+    window.customElements.define('signup-form', SignUpForm)
