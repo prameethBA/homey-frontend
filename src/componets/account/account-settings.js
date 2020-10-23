@@ -204,6 +204,12 @@ export default class AccountSettings extends Base {
     justify-content: space-evenly;
     width: 100%;
   }
+
+  @media(max-width: 768px) {
+    .container {
+      margin-left: 5%;
+    }
+  }
   
 `
 
@@ -240,22 +246,16 @@ export default class AccountSettings extends Base {
                     <label for="">Last Name</label>
                     <input type="text">
                 </div>
-                <div class="profile-item-one">
+                <div class="profile-item-two">
                     <label for="">NIC</label>
                     <input type="text">
                 </div>
-                <div class="profile-item-three">
-                    <label for="">Date of Birth</label>
-                    <input type="text">
-                    <input type="text">
+                <div class="profile-item-two">
+                    <label for="">Mobile No</label>
                     <input type="text">
                 </div>
                 <div class="profile-item-one">
-                    <label for="">NIC</label>
-                    <input type="text">
-                </div>
-                <div class="profile-item-one">
-                    <label for="">User Detail</label>
+                    <label for="">Email</label>
                     <input type="text">
                 </div>
                 <div class="profile-item-one">

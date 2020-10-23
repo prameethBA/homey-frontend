@@ -57,6 +57,19 @@ export default class AddProperty extends Base {
     margin-bottom: 20px;
     height: 30px;
   }
+
+  .property_type{
+    width: 100%;
+    margin-bottom: 20px;
+    height: 30px;
+  }
+
+  .district_type{
+    width: 100%;
+    margin-bottom: 20px;
+    height: 30px;
+  }
+
   .property_description {
     width: 100%;
     margin-bottom: 20px;
@@ -159,6 +172,12 @@ export default class AddProperty extends Base {
     justify-content: space-evenly;
     width: 100%;
   }
+
+  @media(max-width: 768px) {
+    .container {
+      margin-left: 5%;
+    }
+  }
   
 
 ` 
@@ -188,11 +207,50 @@ content = `
             <input type="date" name="" id="">
         </div>
         <div class="property">
+            <label for="">District</label>
+            <select class="district_type">
+              <option>Ampara</option>
+              <option>Anuradhapura</option>
+              <option>Badulla</option>
+              <option>Batticaloa</option>
+              <option>Colombo/Office</option>
+              <option>Galle</option>
+              <option>Gampaha</option>
+              <option>Hambantota</option>
+              <option>Jaffna</option>
+              <option>Kalutara</option>
+              <option>Kandy</option>
+              <option>Kegalle</option>
+              <option>Kilinochchi</option>
+              <option>Kurunegala</option>
+              <option>Mannar</option>
+              <option>Matale</option>
+              <option>Matara</option>
+              <option>Monaragala</option>
+              <option>Mullaitivu</option>
+              <option>Nuwara Eliya</option>
+              <option>Polonnaruwa</option>
+              <option>Puttalam</option>
+              <option>Ratnapura</option>
+              <option>Trincomalee</option>
+              <option>Vavuniya</option>
+
+            </select>
+        </div>
+        <div class="property">
+            <label for="">City</label>
+            <input type="text" name="" id="">
+        </div>
+        <div class="property">
             <label for="">Property Type</label>
-            <select name="property_type">
+            <select class="property_type">
               <option>Home</option>
               <option>Annex</option>
               <option>Room</option>
+              <option>Apartment</option>
+              <option>Business/Office</option>
+              <option>Warehouse</option>
+              <option>Mixed Use Buildings</option>
             </select>
         </div>
         <div class="property_description">
