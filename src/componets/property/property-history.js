@@ -3,55 +3,73 @@ import Base from './../Base.js'
 export default class PaymentHistory extends Base {
 
   css =  `
-    .container {
+ .container {
       position: relative;
       display: inline-block;
-      width: 300px;
-      height: 100px;
+      width: 400px;
+      height: 300px;
       box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.86);
-      margin: 2px;
+      margin: 2em;
       background-color: rgba(300,300,300,0.5);
-    }
 
+    }
     .heading{
-    text-align: center;
-    }
+        text-align: center;;
+      }
 
-  .property-history-heading {
+      .property-history-heading h1{
+        text-align: center;
+        }
+
+      .property-history-heading {
+        text-align: center;
+        font-size: 2.5em;
+      }
+
+      .divTable
+      {
+          display:inline-table;
+          width:100%;
+          position:center;
+          
+          background-color:#eee0;
+
+      }
+  
+      
+  
+      .cell-image,.cell-title,.cell-fee,.cell-status
+      {
+          float:left;
+          display:table-column;
+          width:200px;
+          background-color:#eee0;
+
+
+             position: relative;
+             display: inline-block;
+            width: 200px;
+            height: 100px;
+            box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.86);
+            margin: 5px;
+      }
+
+      .cell-image
+      {
+       
+      }
+      .cell-title
+      {
+         
+      }
+      .cell-fee
+      {
         
-    }
+      }
+      .cell-status
+      {
 
-  .heading{
-    font-size:1.5em;
-    }
-
-  .table {
-    margin: 0 auto;
-    padding: 50%;
-    width: 50%;
-    padding:10%;
-    margin-top:7px;
-    }
-
-  th, td {
-    text-align: left;
-    padding: 8px;
-    }
-  
-  tr:nth-child(even){background-color: #f2f2f2}
-  
-  th {
-    background-color: #4CAF50;
-    color: white;
-  }
-
-  table.payment-his {
-     
-  }
-  table {
-    
-    }
-  
+      }
 
   `
 
@@ -59,58 +77,44 @@ export default class PaymentHistory extends Base {
     <div class="property-history-heading">
         <h1>Property History</h1>
     </div>
-    <div class="table">
-        <table class=payment-his>
-            <tr>
-                <td>
-                    <div class="container">
-                    </div>
-                </td>
-                <td>Griffin</td>
-                <td>$100</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="container">
-                    </div>
-                </td>
-                <td>Griffin</td>
-                <td>$100</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="container">
-                    </div>
-                </td>
-                <td>Griffin</td>
-                <td>$100</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="container">
-                    </div>
-                </td>
-                <td>Griffin</td>
-                <td>$150</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="container">
-                    </div>
-                </td>
-                <td>Swanson</td>
-                <td>$300</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="container">
-                    </div>
-                </td>
-                <td>Brown</td>
-                <td>$250</td>
-            </tr>
-        </table>
-    </div>
+    
+    <div class="divTable">
+             
+            <div class="divRow">
+                <div class="cell-image">image</div>
+                <div class="cell-title">title</div>
+                <div class="cell-fee">fee</div>
+                <div class="cell-status">status</div>
+            </div>
+            <div class="divRow">
+                <div class="cell-image">image</div>
+                <div class="cell-title">title</div>
+                <div class="cell-fee">fee</div>
+                <div class="cell-status">status</div>
+            </div>
+            <div class="divRow">
+                <div class="cell-image">image</div>
+                <div class="cell-title">title</div>
+                <div class="cell-fee">fee</div>
+                <div class="cell-status">status</div>
+            </div>
+            <div class="divRow">
+                <div class="cell-image">image</div>
+                <div class="cell-title">title</div>
+                <div class="cell-fee">fee</div>
+                <div class="cell-status">status</div>
+            </div>
+            <div class="divRow">
+                <div class="cell-image">image</div>
+                <div class="cell-title">title</div>
+                <div class="cell-fee">fee</div>
+                <div class="cell-status">status</div>
+            </div>
+
+
+      </div>
+    
+    
 
  
   `
