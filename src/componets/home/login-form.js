@@ -4,7 +4,7 @@ export default class LoginForm extends Base {
 
   css = `
     .form {
-        z-index: 2;
+        z-index: 100;
         position: absolute;
         display: flex;
         flex-direction: column;
@@ -31,7 +31,8 @@ export default class LoginForm extends Base {
 
     #backdrop {
         position: absolute;
-        z-index: 1;
+        left: 0;
+        z-index: 99;
         background-color: rgba(0,0,0,0.7);
         width: 100%;
         height: 100%;
