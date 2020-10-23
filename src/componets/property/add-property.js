@@ -172,6 +172,12 @@ export default class AddProperty extends Base {
     justify-content: space-evenly;
     width: 100%;
   }
+
+  @media(max-width: 768px) {
+    .container {
+      margin-left: 5%;
+    }
+  }
   
 
 ` 

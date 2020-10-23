@@ -235,6 +235,12 @@ export default class PropertyDetails extends Base {
   .btn-group-bw {
     justify-content: space-between;
   }
+
+  @media(max-width: 768px) {
+    .container {
+      margin-left: 5%;
+    }
+  }
   
 
   `
