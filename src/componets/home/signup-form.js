@@ -410,12 +410,12 @@ export default class SignUpForm extends Base {
 
             // Signup with Google
             this._qs('.google').addEventListener('click', async () => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Feature disabled at the moment. Use email instead." } }))
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
             })
 
             // Signup with FaceBook
             this._qs('.facebook').addEventListener('click', async () => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Feature disabled at the moment. Use email instead." } }))
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
             })
 
         }//End of validation
