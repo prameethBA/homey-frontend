@@ -28,6 +28,16 @@ export default class error extends Base {
     border-radius: 3px;
   }
 
+  .onsuccess {
+    background-color: green;
+    background-image: linear-gradient(to right top, #24da37, #31de4a, #3ce35a, #47e769, #51eb77);
+  }
+
+  .onnotice {
+    background-color: gray;
+    background-image: linear-gradient(to right top, #b2b2b2, #9c9b9c, #878586, #737071, #605b5b);
+  }
+
   ::slotted(div) {
       padding: 1em;
       text-align: center;
@@ -50,9 +60,9 @@ export default class error extends Base {
       color: #ffffff;
       font-weight: bold;
   }
-` 
+`
 
-content = `
+  content = `
     <div id="backdrop" title="Click to close this form">
     </div>
 
@@ -67,17 +77,30 @@ content = `
   constructor() {
     super()
     this.mount()
+    switch (this.getAttribute('type')) {
+      case 'success':
+        this._qs('.title').innerHTML = 'Success'
+        this._qs('.container').classList.add('onsuccess')
+        break;
+      case 'notice':
+        this._qs('.title').innerHTML = 'Notice'
+        this._qs('.container').classList.add('onnotice')
+        break;
+      default:
+      // Default is the error
+    }
+
 
   }//End of constructor
 
   connectedCallback() {
-      
+
     this._qs('#backdrop').addEventListener('click', () => {
-        dispatchEvent(new Event('exit-popup'))
-      })
+      dispatchEvent(new Event('exit-popup'))
+    })
 
     this._qs('#close-popup').addEventListener('click', () => {
-        dispatchEvent(new Event('exit-popup'))
+      dispatchEvent(new Event('exit-popup'))
     })
 
   }

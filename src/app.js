@@ -126,8 +126,8 @@ class UI extends Base {
     })
 
     addEventListener('pop-up', async (res) => {
-      await import(`./componets/popup/${res.detail.pop}.js`)
-        .then(() => this._qs('#pop-up').innerHTML = `<pop-up><div slot="message">${res.detail.msg}</div></pop-up>`)
+      await import(`./componets/popup/popup.js`)
+        .then(() => this._qs('#pop-up').innerHTML = `<pop-up type=${res.detail.pop}><div slot="message">${res.detail.msg}</div></pop-up>`)
     })
 
     //This is used for developing purpose only | For Lakmal

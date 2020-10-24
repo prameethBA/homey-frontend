@@ -329,6 +329,7 @@ export default class LoginForm extends Base {
         validation()
 
         this._qs('#login').addEventListener('click', () => {
+            this.setLoader();
             // API call for login
             const userName = this._qs('#email').value
             const password = this._qs('#password').value
@@ -358,9 +359,11 @@ export default class LoginForm extends Base {
                         sessionStorage.token = ''
                         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
                     }
+                    this.stopLoader();
                 })
                 .catch(err => {
                     dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
+                    this.stopLoader();
                 })
 
         })//End of Login API call
