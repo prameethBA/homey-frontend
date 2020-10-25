@@ -3,39 +3,10 @@ import Base from './../Base.js'
 export default class AddProperty extends Base {
 
   css = `
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
-
-
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  * input {
-    border-radius: 10px;
-  }
-  * textarea {
-    border-radius: 10px;
-  }
-  /****************
-  Typography
-  ****************/
-  label {
-    font-weight: bold;
-  }
-  /**********************
-  Layout 
-  **************************/
-  body {
-    padding-top: 30px;
-  }
   .container {
-    position: absolute;
     width: 90%;
-    margin-top:5%;
-    margin-left: 28%;
+    margin-top: 4em;
+    margin-left: 20vw;
     max-width: 770.98px;
     color: #000;
     padding: 15px;
@@ -43,7 +14,7 @@ export default class AddProperty extends Base {
   }
   
   /* add Prop */
-  .properties form {
+  .properties .form {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -52,7 +23,7 @@ export default class AddProperty extends Base {
     width: 30%;
   }
   
-  .property input {
+  .property input, .property select {
     width: 100%;
     margin-bottom: 20px;
     height: 30px;
@@ -180,31 +151,45 @@ export default class AddProperty extends Base {
   }
   
 
-` 
+`
 
-content = `
+  content = `
 <div class="container">
 <section class="properties">
-    <form action="">
+    <div class="form">
         <div class="property">
-            <label for="">Title</label>
-            <input type="text" name="" id="">
+            <label for="title">Title</label>
+            <input type="text" title="Short description as the title" placeholder="Short description as the title" id="title">
         </div>
         <div class="property">
-            <label for="">Price</label>
-            <input type="text" name="" id="">
+            <label for="rentalPeriod">Rent per</label>
+            <select id="rentalPeriod">
+              <option value='1'>Day</option>
+              <option value='2'>Month</option>
+              <option value='3'>Year</option>
+            </select>
         </div>
         <div class="property">
-            <label for="">KeyMoney</label>
-            <input type="text" name="" id="">
+            <label for="price">Price</label>
+            <input type="text" id="price" title="Price" placeholder="17,000">
         </div>
         <div class="property">
-            <label for="">Minimum Period</label>
+            <label for="keyMoneyPeriod">Key money</label>
+            <select id="keyMoneyPeriod">
+              <option>Selecet a rental period</option>
+            </select>
+        </div>
+        <div class="property">
+            <label for="keyMoney" id="key-money-label">Key money (Rs.)</label>
+            <input type="text" id="keyMoney" />
+        </div>
+        <div class="property">
+            <label for="" id="minimum-period-label">Minimum Period</label>
             <input type="text" name="" id="">
         </div>
         <div class="property">
             <label for="">Available From</label>
-            <input type="date" name="" id="">
+            <input type="date" id="" value="${new Date().toISOString().slice(0, 10)}">
         </div>
         <div class="property">
             <label for="">District</label>
@@ -391,7 +376,7 @@ content = `
         </div>
         <button class="btn btn-primary btn-lg">Add Property</button>
 
-    </form>
+    </div>
     
 </section>
 </div>
@@ -401,6 +386,46 @@ content = `
     this.mount()
   }
 
-}
+  connectedCallback() {
+    // Method for calculate Key Money
+    const calculateKeyMoney = () => {
+      const rentalPeriod = this._qs('#rentalPeriod')
+      const keyMoneyPeriod = this._qs('#keyMoneyPeriod')
+      const keyMoney = this._qs('#keyMoney')
+      const price = this._qs('#price')
+
+      keyMoneyPeriod.innerHTML = `
+        <option value="enter-value">Enter a value</option>
+        <option value="enter-period">Enter  ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+        <option value="1" selected>1 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+        <option value="2">2 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+        <option value="3">3 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+        <option value="6">6 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+        <option value="12">12 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+      `
+      this._qs('#minimum-period-label').innerHTML = ` Minimum period (${rentalPeriod.options[rentalPeriod.selectedIndex].text}s)`
+
+      if (keyMoneyPeriod.value == 'enter-value') {
+        keyMoney.value = ''
+      } else if (keyMoneyPeriod.value == 'enter-period') {
+        this._qs('#key-money-label').innerHTML = `Key money/ ${rentalPeriod.options[rentalPeriod.selectedIndex].text}`
+        keyMoney.value = ''
+      } else {
+        keyMoney.value = price.value * keyMoneyPeriod.value;
+      }
+    }//End of calculateKeyMoney
+
+    const events = ['focus', 'keyup', 'change']
+    const elements = ['#rentalPeriod', '#keyMoneyPeriod', '#keyMoney', '#price']
+
+    events.forEach(eve => elements.forEach(elm => {
+      console.log(elm)
+      this._qs(elm).addEventListener(eve, () => calculateKeyMoney())
+    }))
+
+
+  }//End of connectedCallback
+
+}//End of Class
 
 window.customElements.define('add-property', AddProperty)
