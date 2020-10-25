@@ -106,8 +106,12 @@ class UI extends Base {
     // Listen for /reset-password route to set visible Reser Password Form
     router.get('/reset-password', () => loadForm('reset-password'))
 
+    // Listen for /add-new-property route to Load property add page
+    router.get('/add-new-property', () => dispatchEvent(new CustomEvent('changePath', { detail: { path: "/add-new-property", comp: '/property/add-property.js', compName: 'add-property' } })))
+
     // Add Event Listern for user-comp then load properties-component
     this._qs('#properties-component').addEventListener('click', () => {
+      this.setLoader()
       dispatchEvent(new CustomEvent('changePath', { detail: { path: "/properties", comp: '/user/avalibale-properties.js', compName: 'avalibale-properties' } }))
     })
 
@@ -122,12 +126,13 @@ class UI extends Base {
 
     addEventListener('login-success', () => {
       console.log("successfully logged into the system")
+      this.setLoader()
       dispatchEvent(new CustomEvent('changePath', { detail: { path: "/properties", comp: '/user/avalibale-properties.js', compName: 'avalibale-properties' } }))
     })
 
     addEventListener('pop-up', async (res) => {
-      await import(`./componets/popup/${res.detail.pop}.js`)
-        .then(() => this._qs('#pop-up').innerHTML = `<pop-up><div slot="message">${res.detail.msg}</div></pop-up>`)
+      await import(`./componets/popup/popup.js`)
+        .then(() => this._qs('#pop-up').innerHTML = `<pop-up type=${res.detail.pop}><div slot="message">${res.detail.msg}</div></pop-up>`)
     })
 
     //This is used for developing purpose only | For Lakmal
@@ -162,6 +167,7 @@ class UI extends Base {
     })
 
     router.get('/properties', async () => {
+      this.setLoader()
       await import('./componets/user/avalibale-properties.js')
       this._qs(
         '#mainContainer'
@@ -175,6 +181,7 @@ class UI extends Base {
 
       // Add Event Listern for user-comp then load properties-component
       this._qs('#properties-component').addEventListener('click', () => {
+        this.setLoader()
         dispatchEvent(new CustomEvent('changePath', { detail: { path: "/properties", comp: '/user/avalibale-properties.js', compName: 'avalibale-properties' } }))
       })
 
