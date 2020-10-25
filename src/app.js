@@ -23,6 +23,7 @@ class UI extends Base {
       
       #mainContainer {
         z-index: 0;
+        margin-bottom: 3em;
       }
   
       .container {

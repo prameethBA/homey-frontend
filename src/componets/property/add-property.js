@@ -62,55 +62,29 @@ export default class AddProperty extends Base {
     margin-right: 15px;
   }
 
-  .facilities {
-    width: auto;
+  facility-comp {
+    display: inline-block;
+    width: 50%;
+  }
+ 
+  input[type='file'] {
+    display:none;
+  }
+  
+  .upload-image-label {
+    padding: 0.5em 1em;
+    background-color: #239710;
+    color: white;
+    text-align: center;
+    position: absolute;
+    right: 20%;
+    left: 20%;
   }
 
-  .facilities input{
-    width: 10px;
-    display: inline;
+  .rect {
+    display: block;
+    height: 2em;
   }
-  
-  input:checked + label {
-    color: #ff4000;
-  }
-  :checked {
-    margin-left: 2px;
-  }
-  
-  input[type='checkbox']:checked {
-    box-shadow: 0 0 0 2px #ff4000;
-  }
-  
-  .image_property {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  .image_property-md {
-    width: 70%;
-  }
-  .image_upload {
-    display: flex;
-    border-radius: 10px 0 0 10px;
-  }
-  .image_upload-md label {
-    width: 80%;
-    border: 1px solid #004e64;
-    background: white;
-  }
-  .image_upload-lg label {
-    width: 100%;
-    border: 1px solid #004e64;
-    background: white;
-  }
-  #upload-photo {
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
-  }
-  
-  /* *********************
-  Components
    **************************/
   /* Buttons */
   
@@ -163,83 +137,82 @@ export default class AddProperty extends Base {
 `
 
   content = `
-<div class="container">
-<section class="properties">
-    <div class="form">
-        <div class="property">
-            <label for="title">Title</label>
-            <input type="text" title="Short description as the title" placeholder="Short description as the title" id="title">
-        </div>
-        <div class="property">
-            <label for="rentalPeriod">Rent per</label>
-            <select id="rentalPeriod">
-              <option value='1'>Day</option>
-              <option value='2'>Week</option>
-              <option value='3'>Month</option>
-              <option value='4'>Year</option>
-            </select>
-        </div>
-        <div class="property">
-            <label for="price">Price</label>
-            <input type="text" id="price" title="Price" placeholder="17,000">
-        </div>
-        <div class="property">
-            <label for="keyMoneyPeriod">Key money</label>
-            <select id="keyMoneyPeriod">
-              <option value="0">Selecet a rental period</option>
-            </select>
-        </div>
-        <div class="property">
-            <label for="keyMoney" id="key-money-label">Key money (Rs.)</label>
-            <input type="text" id="keyMoney" />
-        </div>
-        <div class="property">
-            <label for="" id="minimum-period-label">Minimum Period</label>
-            <input type="text" name="" id="">
-        </div>
-        <div class="property">
-            <label for="">Available From</label>
-            <input type="date" id="" value="${new Date().toISOString().slice(0, 10)}">
-        </div>
-        <div class="property">
-            <label for="">District</label>
-            <select class="district_type" id="district">
-            </select>
-        </div>
-        <div class="property">
-            <label for="city">City</label>
-            <input type="text" id="city" list="city-list" autocomplete="false"/>
-              <datalist id="city-list">
-              </datalist>
-        </div>
-        <div class="property">
-            <label for="propertyType">Property Type</label>
-            <select class="property_type" id="propertyType">
-            </select>
-        </div>
-        <div class="property_description">
-            <label for="description">Description</label>
-            <textarea id="description" cols="30" rows="5"></textarea>
-        </div>
-        
-        <div class="select_properties" id="facilities">
-        </div>
+    <div class="container">
+      <section class="properties">
+          <div class="form">
+              <div class="property">
+                  <label for="title">Title</label>
+                  <input type="text" title="Short description as the title" placeholder="Short description as the title" id="title">
+              </div>
+              <div class="property">
+                  <label for="rentalPeriod">Rent per</label>
+                  <select id="rentalPeriod">
+                    <option value='1'>Day</option>
+                    <option value='2'>Week</option>
+                    <option value='3'>Month</option>
+                    <option value='4'>Year</option>
+                  </select>
+              </div>
+              <div class="property">
+                  <label for="price">Price</label>
+                  <input type="text" id="price" title="Price" placeholder="17,000">
+              </div>
+              <div class="property">
+                  <label for="keyMoneyPeriod">Key money</label>
+                  <select id="keyMoneyPeriod">
+                    <option value="0">Selecet a rental period</option>
+                  </select>
+              </div>
+              <div class="property">
+                  <label for="keyMoney" id="key-money-label">Key money (Rs.)</label>
+                  <input type="text" id="keyMoney" />
+              </div>
+              <div class="property">
+                  <label for="" id="minimum-period-label">Minimum Period</label>
+                  <input type="text" name="" id="">
+              </div>
+              <div class="property">
+                  <label for="">Available From</label>
+                  <input type="date" id="" value="${new Date().toISOString().slice(0, 10)}">
+              </div>
+              <div class="property">
+                  <label for="">District</label>
+                  <select class="district_type" id="district">
+                  </select>
+              </div>
+              <div class="property">
+                  <label for="city">City</label>
+                  <input type="text" id="city" list="city-list" autocomplete="false"/>
+                    <datalist id="city-list">
+                    </datalist>
+              </div>
+              <div class="property">
+                  <label for="propertyType">Property Type</label>
+                  <select class="property_type" id="propertyType">
+                  </select>
+              </div>
+              <div class="property_description">
+                  <label for="description">Description</label>
+                  <textarea id="description" cols="30" rows="5"></textarea>
+              </div>
+              
+              <div class="select_properties" id="facilities">
+              </div>
 
-        <div class="image_property image_property-md">
-            <h3>Images</h3>
-            <div class="image_upload image_upload-md">
-                <label for="upload-photo"></label>
-                <input type="file" name="photo" id="upload-photo" />
-                <input type="submit"value="Upload Images" class="btn btn-upload">
-            </div>
-            
-        </div>
-        <button class="btn btn-primary btn-lg">Add Property</button>
+              <div class="property_description">
+                <input type="file" id="uploadImages" accept="image/jpg, image/png, image/jpeg, image/*" multiple>
+                <label class="upload-image-label" for="uploadImages">Upload Images</label>
+                <div class="rect"></div>
+              </div>
+              <div id="previewImages"></div>
+              <div class="property_description">
+                <button class="btn btn-primary btn-lg">Add Property</button>
+              </div>
 
+          </div>
+          
+      </section>
     </div>
-    
-</section>
-</div>
 `
   constructor() {
     super()
@@ -315,14 +288,51 @@ export default class AddProperty extends Base {
         .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
     })
 
-    this._qs('#facilities').innerHTML = `
-        <div class="select_property facilities">
-          <input type="checkbox" id="">
-          <label for="">Feature x</label>
-          <input type="text" value="1"/>
-        </div>
-        
-      `
+    await import("./subcomp/facility.js")
+      .then(
+        // API call for get Facilities List
+        await fetch(`http://homey-api.atwebpages.com/facility`)
+          .then(res => {
+            if (res.status == '200') return res.json()
+            else throw "Server Error."
+          })
+          .then(res => res.data.forEach(element => this._qs('#facilities').innerHTML += `
+              <facility-comp 
+                key="${element._id}" 
+                name="${element.feature_name}"
+                measurable="${element.measurable}
+                ">
+              </facility-comp>
+            `))
+          .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+      )
+      .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+
+    const readImages = uploader => {
+      let images = []
+
+      const selectedfiles = uploader.files
+
+      for (let index = 0; index < selectedfiles.length; index++) {
+        const fileReader = new FileReader()
+
+        fileReader.onload = fileLoadedEvent => {
+          images.push(fileLoadedEvent.target.result)
+        }
+
+        fileReader.readAsDataURL(selectedfiles[index])
+      }
+
+      return images;
+    }//End of readImages
+
+    this._qs('#uploadImages').addEventListener('input', () => {
+      const images = readImages(this._qs("#uploadImages"))
+      console.log(images)
+      for (let index = 0; index < images.length; index++) {
+        this._qs('#previewImages').innerHTML += `<img src="${images[index]}" alt="image-${index}"/>`
+      }
+    })
 
   }//End of connectedCallback
 
