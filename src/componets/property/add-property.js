@@ -176,7 +176,7 @@ export default class AddProperty extends Base {
         <div class="property">
             <label for="keyMoneyPeriod">Key money</label>
             <select id="keyMoneyPeriod">
-              <option>Selecet a rental period</option>
+              <option value="0">Selecet a rental period</option>
             </select>
         </div>
         <div class="property">
@@ -387,6 +387,21 @@ export default class AddProperty extends Base {
   }
 
   connectedCallback() {
+
+    const rentalPeriod = this._qs('#rentalPeriod')
+
+    rentalPeriod.addEventListener('change', () => {
+      this._qs('#keyMoneyPeriod').innerHTML = `
+          <option value="enter-value">Enter a value</option>
+          <option value="enter-period">Enter  ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="1" selected>1 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="2">2 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="3">3 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="6">6 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="12">12 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+    `
+    })
+
     // Method for calculate Key Money
     const calculateKeyMoney = () => {
       const rentalPeriod = this._qs('#rentalPeriod')
@@ -394,32 +409,24 @@ export default class AddProperty extends Base {
       const keyMoney = this._qs('#keyMoney')
       const price = this._qs('#price')
 
-      keyMoneyPeriod.innerHTML = `
-        <option value="enter-value">Enter a value</option>
-        <option value="enter-period">Enter  ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="1" selected>1 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="2">2 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="3">3 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="6">6 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="12">12 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-      `
       this._qs('#minimum-period-label').innerHTML = ` Minimum period (${rentalPeriod.options[rentalPeriod.selectedIndex].text}s)`
 
       if (keyMoneyPeriod.value == 'enter-value') {
+        this._qs('#key-money-label').innerHTML = `Key Money (Rs.)`
         keyMoney.value = ''
       } else if (keyMoneyPeriod.value == 'enter-period') {
-        this._qs('#key-money-label').innerHTML = `Key money/ ${rentalPeriod.options[rentalPeriod.selectedIndex].text}`
+        this._qs('#key-money-label').innerHTML = `${rentalPeriod.options[rentalPeriod.selectedIndex].text}s`
         keyMoney.value = ''
       } else {
-        keyMoney.value = price.value * keyMoneyPeriod.value;
+        this._qs('#key-money-label').innerHTML = `Key Money (Rs.)`
+        keyMoneyPeriod.value != 0 ? keyMoney.value = price.value * keyMoneyPeriod.value : keyMoney.value = "No key money"
       }
     }//End of calculateKeyMoney
 
     const events = ['focus', 'keyup', 'change']
-    const elements = ['#rentalPeriod', '#keyMoneyPeriod', '#keyMoney', '#price']
+    const elements = ['#rentalPeriod', '#keyMoneyPeriod', '#price']
 
     events.forEach(eve => elements.forEach(elm => {
-      console.log(elm)
       this._qs(elm).addEventListener(eve, () => calculateKeyMoney())
     }))
 
