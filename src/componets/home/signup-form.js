@@ -410,12 +410,12 @@ export default class SignUpForm extends Base {
 
             // Signup with Google
             this._qs('.google').addEventListener('click', async () => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Feature disabled at the moment. Use email instead." } }))
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
             })
 
             // Signup with FaceBook
             this._qs('.facebook').addEventListener('click', async () => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Feature disabled at the moment. Use email instead." } }))
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
             })
 
         }//End of validation
@@ -423,48 +423,50 @@ export default class SignUpForm extends Base {
         //Exucute validation
         validation()
 
-        // Signup with email
+
         this._qs('#signUp').addEventListener('click', () => {
-            // API call for signup
-            const firstName = this._qs('#firstName').value
-            const lastName = this._qs('#lastName').value
-            const email = this._qs('#email').value
-            const password = this._qs('#password').value
-            fetch('http://homey-api.atwebpages.com/signup', {
-                method: 'POST',
-                headers: {
-                    'Firstname': firstName,
-                    'Lastname': lastName,
-                    'Email': email,
-                    'Password': password
-                }
-            })
-                .then((res) => res.json())
-                .then((res) => {
-                    if (res.data.login === 'true') {
-                        if (this._qs('#remember').checked == true) {
-                            localStorage.login = 'true'
-                            localStorage.token = res.data.token
-                        } else {
-                            sessionStorage.login = 'true'
-                            sessionStorage.token = res.data.token
-                        }
-                        dispatchEvent(new Event('login-success'))
-                        dispatchEvent(new Event('exit-form'))
-                    } else {
-                        localStorage.login = 'false'
-                        localStorage.token = ''
-                        sessionStorage.login = 'false'
-                        sessionStorage.token = ''
-                        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
+
+            // Check whether user accepted terms and conditions
+            if (this._qs("#terms").checked == true) {
+                this.setLoader();
+
+                // Signup with email
+                // API call for signup
+                const firstName = this._qs('#firstName').value
+                const lastName = this._qs('#lastName').value
+                const email = this._qs('#email').value
+                const password = this._qs('#password').value
+                fetch('http://homey-api.atwebpages.com/signup/user', {
+                    method: 'POST',
+                    headers: {
+                        'Firstname': firstName,
+                        'Lastname': lastName,
+                        'Email': email,
+                        'Password': password
                     }
                 })
-                .catch(err => {
-                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
-                })
+                    .then((res) => res.json())
+                    .then((res) => {
+                        if (res.data.signup === 'true') {
+                            dispatchEvent(new Event('login-form'))
+                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message + ' log into continue.' } }))
+                        } else {
+                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
+                        }
+                        this.stopLoader();
+                    })
+                    .catch(err => {
+                        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
+                        this.stopLoader();
+                    })
+            } else {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: 'You should accept terms and conditions to continue.' } }))
+            }
+        })
 
-        }//End of connected callback
+
+    }//End of connected callback
 
 }//End of Class
 
-    window.customElements.define('signup-form', SignUpForm)
+window.customElements.define('signup-form', SignUpForm)

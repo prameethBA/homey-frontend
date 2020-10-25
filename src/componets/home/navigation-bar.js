@@ -140,14 +140,14 @@ export default class Nav extends Base {
             <span class="separator"></span>
             <ul>
               <a class="nav-link" id="properties">Properties</a>
-              <a class="nav-link">Own Properties</a>
+              <a class="nav-link" id="own-properties">Own Properties</a>
               <a class="nav-link">Payments</a>
               <a class="nav-link">Favourites</a>
               <span class="dropdown">
                  <a class="nav-link" class="setting-menu">Account</a>
                     <div class="setting-menu">
                         <a class="menu-item">Profile Settings</a>
-                        <a class="menu-item">Add New Property</a>
+                        <a class="menu-item" id="add-new-property">Add New Property</a>
                         <a class="menu-item">Wallet</a>
                         <a class="menu-item" id="logout-button">Logout</a>
                     </div>
@@ -166,8 +166,26 @@ export default class Nav extends Base {
         this._qs('#login-button') != null ? this._qs('#login-button').style.display = 'none' : null
         this._qs('nav').innerHTML = this.state.loginContent
         this._qs('#logout-button') != null ? this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out'))) : null
-      }
-    }
+
+        // Indicator for active class
+        this._qsAll(".nav-link").forEach(item => item.addEventListener('click', () => {
+          this._qsAll(".nav-link").forEach(item => item.classList.remove('active'))
+          item.classList.add('active')
+        }))
+
+        // Onclick Properties
+        this._qs('#properties') != null ? this._qs('#properties').addEventListener('click', () => {
+          dispatchEvent(new CustomEvent('changePath', { detail: { path: "/properties", comp: '/user/avalibale-properties.js', compName: 'avalibale-properties' } }))
+        }) : null
+
+        // Onclick Add new property
+        this._qs('#add-new-property') != null ? this._qs('#add-new-property').addEventListener('click', () => {
+          dispatchEvent(new CustomEvent('changePath', { detail: { path: "/add-new-property", comp: '/property/add-property.js', compName: 'add-property' } }))
+        }) : null
+
+      }//end if
+
+    }//End setLoginBar() method
 
     setLoginNavBar()
 
@@ -178,7 +196,7 @@ export default class Nav extends Base {
 
     addEventListener('login-success', () => setLoginNavBar())
 
-    addEventListener('log-out', ()=> {
+    addEventListener('log-out', () => {
       localStorage.login = false;
       localStorage.token = ''
       sessionStorage.login = false;
@@ -186,26 +204,26 @@ export default class Nav extends Base {
       this.setPath('/')
       dispatchEvent(new Event('reload-home'))
     })
-    
-    if(!(this._qs('#properties') == '' || this._qs('#properties') == null))
-      this._qs('#properties').addEventListener('click', () => dispatchEvent(new CustomEvent('changePath', {detail: {path: "/properties", comp: '/user/avalibale-properties.js',compName:'avalibale-properties'}})))
-    
+
+    if (!(this._qs('#properties') == '' || this._qs('#properties') == null))
+      this._qs('#properties').addEventListener('click', () => dispatchEvent(new CustomEvent('changePath', { detail: { path: "/properties", comp: '/user/avalibale-properties.js', compName: 'avalibale-properties' } })))
+
     addEventListener('pathChanged', e => {
-      if(e.detail.path == '' || e.detail.path == null) this._qs("#" + e.detail.path).classList.add('active')
+      if (e.detail.path == '' || e.detail.path == null) this._qs("#" + e.detail.path).classList.add('active')
     })
-    
+
     const scrollFunction = () => {
       if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
-          this._qs('nav').classList.add('scrollNavbar')
-        } else {
-          this._qs('nav').classList.remove('scrollNavbar')
-        }
+        this._qs('nav').classList.add('scrollNavbar')
+      } else {
+        this._qs('nav').classList.remove('scrollNavbar')
       }
+    }
 
     addEventListener('scroll', () => scrollFunction())
     // End of connected callback
   }
-// End of Class
+  // End of Class
 }
 
 window.customElements.define('navigation-bar', Nav)
