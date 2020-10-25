@@ -424,7 +424,7 @@ export default class SignUpForm extends Base {
         validation()
 
 
-        this._qs('#signUp').addEventListener('click', () => {
+        this._qs('#signUp').addEventListener('click', async () => {
 
             // Check whether user accepted terms and conditions
             if (this._qs("#terms").checked == true) {
@@ -436,7 +436,7 @@ export default class SignUpForm extends Base {
                 const lastName = this._qs('#lastName').value
                 const email = this._qs('#email').value
                 const password = this._qs('#password').value
-                fetch('http://homey-api.atwebpages.com/signup/user', {
+                await fetch('http://homey-api.atwebpages.com/signup/user', {
                     method: 'POST',
                     headers: {
                         'Firstname': firstName,

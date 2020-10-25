@@ -174,8 +174,9 @@ export default class AddProperty extends Base {
             <label for="rentalPeriod">Rent per</label>
             <select id="rentalPeriod">
               <option value='1'>Day</option>
-              <option value='2'>Month</option>
-              <option value='3'>Year</option>
+              <option value='2'>Week</option>
+              <option value='3'>Month</option>
+              <option value='4'>Year</option>
             </select>
         </div>
         <div class="property">
@@ -263,7 +264,7 @@ export default class AddProperty extends Base {
 
     rentalPeriod.addEventListener('change', () => {
       this._qs('#keyMoneyPeriod').innerHTML = `
-        < option value = "enter-value" > Enter a value</option >
+          <option value = "enter-value" > Enter a value</option >
           <option value="enter-period">Enter  ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
           <option value="1" selected>1 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
           <option value="2">2 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
