@@ -193,33 +193,7 @@ export default class AddProperty extends Base {
         </div>
         <div class="property">
             <label for="">District</label>
-            <select class="district_type">
-              <option>Ampara</option>
-              <option>Anuradhapura</option>
-              <option>Badulla</option>
-              <option>Batticaloa</option>
-              <option>Colombo/Office</option>
-              <option>Galle</option>
-              <option>Gampaha</option>
-              <option>Hambantota</option>
-              <option>Jaffna</option>
-              <option>Kalutara</option>
-              <option>Kandy</option>
-              <option>Kegalle</option>
-              <option>Kilinochchi</option>
-              <option>Kurunegala</option>
-              <option>Mannar</option>
-              <option>Matale</option>
-              <option>Matara</option>
-              <option>Monaragala</option>
-              <option>Mullaitivu</option>
-              <option>Nuwara Eliya</option>
-              <option>Polonnaruwa</option>
-              <option>Puttalam</option>
-              <option>Ratnapura</option>
-              <option>Trincomalee</option>
-              <option>Vavuniya</option>
-
+            <select class="district_type" id="district">
             </select>
         </div>
         <div class="property">
@@ -227,15 +201,8 @@ export default class AddProperty extends Base {
             <input type="text" name="" id="">
         </div>
         <div class="property">
-            <label for="">Property Type</label>
-            <select class="property_type">
-              <option>Home</option>
-              <option>Annex</option>
-              <option>Room</option>
-              <option>Apartment</option>
-              <option>Business/Office</option>
-              <option>Warehouse</option>
-              <option>Mixed Use Buildings</option>
+            <label for="propertyType">Property Type</label>
+            <select class="property_type" id="propertyType">
             </select>
         </div>
         <div class="property_description">
@@ -388,11 +355,23 @@ export default class AddProperty extends Base {
 
   connectedCallback() {
 
+    // API call for get Districts
+    fetch('http://homey-api.atwebpages.com/districts')
+      .then(res => res.json())
+      .then(res => res.data.forEach(element => this._qs('#district').innerHTML += `<option value="${element._id}">${element.district}</option>`))
+      .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+
+    // API call for get property types
+    fetch('http://homey-api.atwebpages.com/property-type')
+      .then(res => res.json())
+      .then(res => res.data.forEach(element => this._qs('#propertyType').innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`))
+      .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+
     const rentalPeriod = this._qs('#rentalPeriod')
 
     rentalPeriod.addEventListener('change', () => {
       this._qs('#keyMoneyPeriod').innerHTML = `
-          <option value="enter-value">Enter a value</option>
+        < option value = "enter-value" > Enter a value</option >
           <option value="enter-period">Enter  ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
           <option value="1" selected>1 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
           <option value="2">2 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
@@ -409,16 +388,16 @@ export default class AddProperty extends Base {
       const keyMoney = this._qs('#keyMoney')
       const price = this._qs('#price')
 
-      this._qs('#minimum-period-label').innerHTML = ` Minimum period (${rentalPeriod.options[rentalPeriod.selectedIndex].text}s)`
+      this._qs('#minimum-period-label').innerHTML = ` Minimum period(${rentalPeriod.options[rentalPeriod.selectedIndex].text}s)`
 
       if (keyMoneyPeriod.value == 'enter-value') {
-        this._qs('#key-money-label').innerHTML = `Key Money (Rs.)`
+        this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
         keyMoney.value = ''
       } else if (keyMoneyPeriod.value == 'enter-period') {
         this._qs('#key-money-label').innerHTML = `${rentalPeriod.options[rentalPeriod.selectedIndex].text}s`
         keyMoney.value = ''
       } else {
-        this._qs('#key-money-label').innerHTML = `Key Money (Rs.)`
+        this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
         keyMoneyPeriod.value != 0 ? keyMoney.value = price.value * keyMoneyPeriod.value : keyMoney.value = "No key money"
       }
     }//End of calculateKeyMoney
