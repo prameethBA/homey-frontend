@@ -61,6 +61,15 @@ export default class AddProperty extends Base {
   .select_property input {
     margin-right: 15px;
   }
+
+  .facilities {
+    width: auto;
+  }
+
+  .facilities input{
+    width: 10px;
+    display: inline;
+  }
   
   input:checked + label {
     color: #ff4000;
@@ -176,7 +185,7 @@ export default class AddProperty extends Base {
         <div class="property">
             <label for="keyMoneyPeriod">Key money</label>
             <select id="keyMoneyPeriod">
-              <option>Selecet a rental period</option>
+              <option value="0">Selecet a rental period</option>
             </select>
         </div>
         <div class="property">
@@ -193,178 +202,28 @@ export default class AddProperty extends Base {
         </div>
         <div class="property">
             <label for="">District</label>
-            <select class="district_type">
-              <option>Ampara</option>
-              <option>Anuradhapura</option>
-              <option>Badulla</option>
-              <option>Batticaloa</option>
-              <option>Colombo/Office</option>
-              <option>Galle</option>
-              <option>Gampaha</option>
-              <option>Hambantota</option>
-              <option>Jaffna</option>
-              <option>Kalutara</option>
-              <option>Kandy</option>
-              <option>Kegalle</option>
-              <option>Kilinochchi</option>
-              <option>Kurunegala</option>
-              <option>Mannar</option>
-              <option>Matale</option>
-              <option>Matara</option>
-              <option>Monaragala</option>
-              <option>Mullaitivu</option>
-              <option>Nuwara Eliya</option>
-              <option>Polonnaruwa</option>
-              <option>Puttalam</option>
-              <option>Ratnapura</option>
-              <option>Trincomalee</option>
-              <option>Vavuniya</option>
-
+            <select class="district_type" id="district">
             </select>
         </div>
         <div class="property">
-            <label for="">City</label>
-            <input type="text" name="" id="">
+            <label for="city">City</label>
+            <input type="text" id="city" list="city-list" autocomplete="false"/>
+              <datalist id="city-list">
+              </datalist>
         </div>
         <div class="property">
-            <label for="">Property Type</label>
-            <select class="property_type">
-              <option>Home</option>
-              <option>Annex</option>
-              <option>Room</option>
-              <option>Apartment</option>
-              <option>Business/Office</option>
-              <option>Warehouse</option>
-              <option>Mixed Use Buildings</option>
+            <label for="propertyType">Property Type</label>
+            <select class="property_type" id="propertyType">
             </select>
         </div>
         <div class="property_description">
-            <label for="">Description</label>
-            <textarea name="" id="" cols="30" rows="5"></textarea>
+            <label for="description">Description</label>
+            <textarea id="description" cols="30" rows="5"></textarea>
         </div>
         
-        <div class="select_properties">
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
-            <div class="select_property">
-                <input type="checkbox" name="" id="">
-                <label for="">Feature x</label>
-            </div>
+        <div class="select_properties" id="facilities">
         </div>
+
         <div class="image_property image_property-md">
             <h3>Images</h3>
             <div class="image_upload image_upload-md">
@@ -386,7 +245,34 @@ export default class AddProperty extends Base {
     this.mount()
   }
 
-  connectedCallback() {
+  async connectedCallback() {
+
+    // API call for get Districts
+    await fetch('http://homey-api.atwebpages.com/district')
+      .then(res => res.json())
+      .then(res => res.data.forEach(element => this._qs('#district').innerHTML += `<option value="${element._id}">${element.district}</option>`))
+      .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+
+    // API call for get property types
+    await fetch('http://homey-api.atwebpages.com/property-type')
+      .then(res => res.json())
+      .then(res => res.data.forEach(element => this._qs('#propertyType').innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`))
+      .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+
+    const rentalPeriod = this._qs('#rentalPeriod')
+
+    rentalPeriod.addEventListener('change', () => {
+      this._qs('#keyMoneyPeriod').innerHTML = `
+        < option value = "enter-value" > Enter a value</option >
+          <option value="enter-period">Enter  ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="1" selected>1 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="2">2 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="3">3 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="6">6 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+          <option value="12">12 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
+    `
+    })
+
     // Method for calculate Key Money
     const calculateKeyMoney = () => {
       const rentalPeriod = this._qs('#rentalPeriod')
@@ -394,35 +280,48 @@ export default class AddProperty extends Base {
       const keyMoney = this._qs('#keyMoney')
       const price = this._qs('#price')
 
-      keyMoneyPeriod.innerHTML = `
-        <option value="enter-value">Enter a value</option>
-        <option value="enter-period">Enter  ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="1" selected>1 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="2">2 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="3">3 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="6">6 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-        <option value="12">12 ${rentalPeriod.options[rentalPeriod.selectedIndex].text}</option>
-      `
-      this._qs('#minimum-period-label').innerHTML = ` Minimum period (${rentalPeriod.options[rentalPeriod.selectedIndex].text}s)`
+      this._qs('#minimum-period-label').innerHTML = ` Minimum period(${rentalPeriod.options[rentalPeriod.selectedIndex].text}s)`
 
       if (keyMoneyPeriod.value == 'enter-value') {
+        this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
         keyMoney.value = ''
       } else if (keyMoneyPeriod.value == 'enter-period') {
-        this._qs('#key-money-label').innerHTML = `Key money/ ${rentalPeriod.options[rentalPeriod.selectedIndex].text}`
+        this._qs('#key-money-label').innerHTML = `${rentalPeriod.options[rentalPeriod.selectedIndex].text}s`
         keyMoney.value = ''
       } else {
-        keyMoney.value = price.value * keyMoneyPeriod.value;
+        this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
+        keyMoneyPeriod.value != 0 ? keyMoney.value = price.value * keyMoneyPeriod.value : keyMoney.value = "No key money"
       }
     }//End of calculateKeyMoney
 
+    // Add evenrlistners to excute calculateMoney Method
     const events = ['focus', 'keyup', 'change']
-    const elements = ['#rentalPeriod', '#keyMoneyPeriod', '#keyMoney', '#price']
+    const elements = ['#rentalPeriod', '#keyMoneyPeriod', '#price']
 
     events.forEach(eve => elements.forEach(elm => {
-      console.log(elm)
       this._qs(elm).addEventListener(eve, () => calculateKeyMoney())
     }))
 
+    // Add evenrlistner to load citeis
+    this._qs("#district").addEventListener('change', async () => {
+      // API call for get Districts
+      await fetch(`http://homey-api.atwebpages.com/cities/districtId/${this._qs("#district").value}`)
+        .then(res => {
+          if (res.status == '200') return res.json()
+          else throw "Server Error."
+        })
+        .then(res => res.data.forEach(element => this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`))
+        .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+    })
+
+    this._qs('#facilities').innerHTML = `
+        <div class="select_property facilities">
+          <input type="checkbox" id="">
+          <label for="">Feature x</label>
+          <input type="text" value="1"/>
+        </div>
+        
+      `
 
   }//End of connectedCallback
 
