@@ -22,6 +22,11 @@ export default class AddProperty extends Base {
   .property {
     width: 30%;
   }
+
+  input, select, textarea {
+    border: 1px solid;
+    border-radius: 4px;
+  }
   
   .property input, .property select {
     width: 100%;
@@ -166,6 +171,7 @@ export default class AddProperty extends Base {
               <div class="property">
                   <label for="rentalPeriod">Rent per</label>
                   <select id="rentalPeriod">
+                    <option value='1'>Select a rental period</option>
                     <option value='1'>Day</option>
                     <option value='2'>Week</option>
                     <option value='3'>Month</option>
@@ -197,6 +203,7 @@ export default class AddProperty extends Base {
               <div class="property">
                   <label for="">District</label>
                   <select class="district_type" id="district">
+                    <option value='0' selected disabled> Select a district</option> 
                   </select>
               </div>
               <div class="property">
@@ -339,6 +346,7 @@ export default class AddProperty extends Base {
         for (let index = 0; index < (this._qs("#uploadImages").files.length < 5 ? this._qs("#uploadImages").files.length : 5); index++) {
           readImages(this._qs("#uploadImages").files[index], this._qs('#previewImages'), index)
         }
+        window.scrollTo(0, document.body.scrollHeight)
       } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Maximum 5 images can be uploaded." } }))
     })
 
@@ -348,12 +356,12 @@ export default class AddProperty extends Base {
         const rentalPeriod = this._qs("#rentalPeriod").value;
         const price = this._qs("#price").value;
         const keyMoneyPeriod = this._qs("#keyMoneyPeriod").value;
-        const keyMoney = this._qs("#keyMoney").value;
+        let keyMoney = this._qs("#keyMoney").value;
         const minimumPeriod = this._qs("#minimumPeriod").value;
         const availableFrom = this._qs("#availableFrom").value;
-        const district = this._qs("#district").value;
+        const district = this._qs("#district").options[this._qs("#district").selectedIndex].text;
         const city = this._qs("#city").value;
-        const propertyType = this._qs("#propertyType").value;
+        const propertyType = this._qs("#propertyType").options[this._qs("#propertyType").selectedIndex].text;
         const description = this._qs("#description").value;
         let facilities = []
         let images = []
@@ -387,17 +395,34 @@ export default class AddProperty extends Base {
         }
 
         if (price == '') throw '<b>Price<b> cannot be empty.'
-        if (!price.match(/^[0-9]+$/)) throw '<b>Price<b> cannot be containt letters or any other characters except numbers.'
+        if (!price.match(/^[0-9]+$/)) throw '<b>Price<b> cannot be contain letters or any other characters except numbers.'
 
+        switch (keyMoneyPeriod) {
+          case 'enter-value': ; break;
+          case 'enter-period': keyMoney = keyMoney * price; break;
+          case '0': throw '<b>Select a rental period<b>';
+          default: ;
+        }
+
+        switch (minimumPeriod) {
+          case '': ; break;
+          default:
+            if (!minimumPeriod.match(/^[0-9]+$/)) throw '<b>Minimum period<b> cannot be contain letters or any other characters except numbers.';
+            break;
+        }
+
+        if (district == 'Select a district' || district == '0') throw 'Select a district'
+        if (city == '') throw 'Select a city'
+
+        if (!description.match(/\w+[\s\.]\w+/)) throw 'Add a description about the property. (double spaces and fullstops are not allowed)'
 
         this._qs("#add-preview").style.display = 'block';
         this._qs("#add-preview").innerHTML = `
             <div>Title : ${title}</div>
           <div>Rental Period : ${rentalPer}</div>
           <div>Price :RS. ${parseFloat(price).toLocaleString('en')}</div>
-          <div>Key Money Period : ${keyMoneyPeriod}</div>
           <div>Key Money : ${keyMoney}</div>
-          <div>Minimum Period : ${minimumPeriod}</div>
+          <div>Minimum Period : ${minimumPeriod} ${rentalPer.slice(-3) == 'ily' ? rentalPer.slice(0, -3) + 'ys' : rentalPer.slice(0, -2) + 's'}</div>
           <div>Available From : ${availableFrom}</div>
           <div>District : ${district}</div>
           <div>City : ${city}</div>
@@ -420,7 +445,9 @@ export default class AddProperty extends Base {
         this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
 
         // Api call to add Advertisement to the databsse
-        this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
+        this._qs('#save').addEventListener('click', () => {
+          dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: "Property added successfuly." } }))
+        })
       } catch (err) {
         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
       }

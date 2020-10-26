@@ -5,7 +5,8 @@ export default class error extends Base {
   css = `
 
   #backdrop {
-    position: absolute;
+    position: fixed;
+    left: 0;
     z-index: 999;
     background-color: rgba(0,0,0,0.7);
     width: 100%;
@@ -18,7 +19,7 @@ export default class error extends Base {
 
   .container {
     z-index: 1000;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
