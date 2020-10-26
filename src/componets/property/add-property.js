@@ -446,6 +446,20 @@ export default class AddProperty extends Base {
 
         // Api call to add Advertisement to the databsse
         this._qs('#save').addEventListener('click', () => {
+          data = {
+            Title: title,
+            Rentalperiod: rentalPeriod,
+            Price: price,
+            Keymoney: keyMoney,
+            Minimumperiod: minimumPeriod,
+            Availablefrom: availableFrom,
+            District: district,
+            City: city,
+            Propertytype: propertyType,
+            Description: description,
+            Facilities: facilities,
+            Images: images
+          }
           dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: "Property added successfuly." } }))
         })
       } catch (err) {
