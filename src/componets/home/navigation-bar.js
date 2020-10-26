@@ -9,12 +9,17 @@ export default class Nav extends Base {
       z-index: 1;
     }
 
+    .logo {
+      cursor: pointer;
+    }
+
     nav, .navbar {
       width: 100%;
       display: flex;
       transition: all 2s;
       height: 4.5em;
     }
+
     
     .scrollNavbar {
       background-color: #eeeeee;
@@ -136,7 +141,7 @@ export default class Nav extends Base {
   connectedCallback() {
     this.state.loginContent = `
         <div class='navbar'>
-            <h3 class="logo">Homey</h3>
+            <img src="./assets/img/homey_logo.png" class="logo" />
             <span class="separator"></span>
             <ul>
               <a class="nav-link" id="properties">Properties</a>

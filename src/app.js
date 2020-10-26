@@ -18,8 +18,8 @@ export default class App extends Base {
 
 `
     content = `
-    <div class="container">
-    </div>
+    <navigation-bar id="navigationBar"></navigation-bar>
+    <div class="container"></div>
 `
     constructor() {
         super()
