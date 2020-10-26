@@ -85,6 +85,10 @@ export default class AddProperty extends Base {
     display: block;
     height: 2em;
   }
+  .uploaded-image {
+    width: 20%;
+    margin: 0.5em;
+  }
    **************************/
   /* Buttons */
   
@@ -127,6 +131,19 @@ export default class AddProperty extends Base {
     width: 100%;
   }
 
+  #add-preview {
+    position: absolute;
+    left:50%;
+    transform: translateX(-50%);
+    background-color: black;
+    background-color: rgba(0,0,0,0.8);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #ffffff;
+    display: none;
+  }
+
   @media(max-width: 768px) {
     .container {
       margin-left: 5%;
@@ -138,6 +155,8 @@ export default class AddProperty extends Base {
 
   content = `
     <div class="container">
+      <div id="add-preview">
+      </div>
       <section class="properties">
           <div class="form">
               <div class="property">
@@ -168,12 +187,12 @@ export default class AddProperty extends Base {
                   <input type="text" id="keyMoney" />
               </div>
               <div class="property">
-                  <label for="" id="minimum-period-label">Minimum Period</label>
-                  <input type="text" name="" id="">
+                  <label for="minimumPeriod" id="minimum-period-label">Minimum Period</label>
+                  <input type="text" name="" id="minimumPeriod">
               </div>
               <div class="property">
-                  <label for="">Available From</label>
-                  <input type="date" id="" value="${new Date().toISOString().slice(0, 10)}">
+                  <label for="availableFrom">Available From</label>
+                  <input type="date" id="availableFrom" value="${new Date().toISOString().slice(0, 10)}">
               </div>
               <div class="property">
                   <label for="">District</label>
@@ -206,12 +225,13 @@ export default class AddProperty extends Base {
               </div>
               <div id="previewImages"></div>
               <div class="property_description">
-                <button class="btn btn-primary btn-lg">Add Property</button>
+                <button class="btn btn-primary btn-lg" id="add-property-button">Add Property</button>
               </div>
 
           </div>
           
       </section>
+
     </div>
 `
   constructor() {
@@ -308,29 +328,101 @@ export default class AddProperty extends Base {
       )
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
-    const readImages = uploader => {
-      let images = []
-
-      const selectedfiles = uploader.files
-
-      for (let index = 0; index < selectedfiles.length; index++) {
-        const fileReader = new FileReader()
-
-        fileReader.onload = fileLoadedEvent => {
-          images.push(fileLoadedEvent.target.result)
-        }
-
-        fileReader.readAsDataURL(selectedfiles[index])
-      }
-
-      return images;
+    const readImages = (file, target, index) => {
+      const fileReader = new FileReader()
+      fileReader.onload = fileLoadedEvent => target.innerHTML += `<img class="uploaded-image" src="${fileLoadedEvent.target.result}" id="uploaded-image-${index}" alt="image-${index}"/>`
+      fileReader.readAsDataURL(file)
     }//End of readImages
 
     this._qs('#uploadImages').addEventListener('input', () => {
-      const images = readImages(this._qs("#uploadImages"))
-      console.log(images)
-      for (let index = 0; index < images.length; index++) {
-        this._qs('#previewImages').innerHTML += `<img src="${images[index]}" alt="image-${index}"/>`
+      if (this._qs('#previewImages').children.length < 5) {
+        for (let index = 0; index < (this._qs("#uploadImages").files.length < 5 ? this._qs("#uploadImages").files.length : 5); index++) {
+          readImages(this._qs("#uploadImages").files[index], this._qs('#previewImages'), index)
+        }
+      } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Maximum 5 images can be uploaded." } }))
+    })
+
+    this._qs('#add-property-button').addEventListener('click', () => {
+      try {
+        const title = this._qs("#title").value;
+        const rentalPeriod = this._qs("#rentalPeriod").value;
+        const price = this._qs("#price").value;
+        const keyMoneyPeriod = this._qs("#keyMoneyPeriod").value;
+        const keyMoney = this._qs("#keyMoney").value;
+        const minimumPeriod = this._qs("#minimumPeriod").value;
+        const availableFrom = this._qs("#availableFrom").value;
+        const district = this._qs("#district").value;
+        const city = this._qs("#city").value;
+        const propertyType = this._qs("#propertyType").value;
+        const description = this._qs("#description").value;
+        let facilities = []
+        let images = []
+
+        window.scrollTo(0, 0)
+
+        this._qsAll('facility-comp').forEach(item => {
+          const feature = item.shadowRoot.querySelector('input')
+          if (feature.checked) {
+            const quantity = item.shadowRoot.querySelector('.quantity') == null ? 'null' : item.shadowRoot.querySelector('.quantity').value
+            facilities.push({
+              featureId: feature.id,
+              feature: item.shadowRoot.querySelector('label').innerText,
+              quantity: quantity
+            })
+          }
+        })
+
+        this._qs('#previewImages').childNodes.forEach(item => images.push(item.src))
+
+        // validate the details
+        if (title == '') throw '<b>Title<b> cannot be empty.'
+
+        let rentalPer
+        switch (rentalPeriod) {
+          case '1': rentalPer = 'Daily'; break;
+          case '2': rentalPer = 'Weekly'; break;
+          case '3': rentalPer = 'Monthly'; break;
+          case '4': rentalPer = 'Yearly'; break;
+          default: throw '<b>Select a rental period<b>';
+        }
+
+        if (price == '') throw '<b>Price<b> cannot be empty.'
+        if (!price.match(/^[0-9]+$/)) throw '<b>Price<b> cannot be containt letters or any other characters except numbers.'
+
+
+        this._qs("#add-preview").style.display = 'block';
+        this._qs("#add-preview").innerHTML = `
+            <div>Title : ${title}</div>
+          <div>Rental Period : ${rentalPer}</div>
+          <div>Price :RS. ${parseFloat(price).toLocaleString('en')}</div>
+          <div>Key Money Period : ${keyMoneyPeriod}</div>
+          <div>Key Money : ${keyMoney}</div>
+          <div>Minimum Period : ${minimumPeriod}</div>
+          <div>Available From : ${availableFrom}</div>
+          <div>District : ${district}</div>
+          <div>City : ${city}</div>
+          <div>Property Type : ${propertyType}</div>
+          <div>Description : ${description}</div>
+          <div id="preview-facilities">Features : </div>
+          <div id="preview-images"></div>
+          <div>
+            <button calss="save" id="save">Add this Advertisement</button>
+            <button calss="edit" id="edit">Edit</button>
+          </div>
+
+      `
+        let previewFacilities = this._qs("#preview-facilities")
+        facilities.forEach(item => previewFacilities.innerHTML += `<span>${item.feature} ${item.quantity != 'null' ? ' -' + item.quantity : ''}</span>`)
+
+        let previewImages = this._qs("#preview-images")
+        images.forEach(item => previewImages.innerHTML += `<img src="${item}" />`)
+
+        this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
+
+        // Api call to add Advertisement to the databsse
+        this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
+      } catch (err) {
+        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
       }
     })
 

@@ -45,7 +45,7 @@ export default class Facility extends Base {
         super()
         this.mount()
 
-        if (this.getAttribute('measurable') == 1) this._qs('.container').innerHTML += `<span> x</span><input type="text" value="0"/>`
+        if (this.getAttribute('measurable') == 1) this._qs('.container').innerHTML += `<span> x</span><input class ="quantity" type="text" value="0"/>`
     }
 
     async connectedCallback() {
