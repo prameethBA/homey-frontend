@@ -1,7 +1,7 @@
 import Base from './componets/Base.js'
 import Router from './assets/js/Router.js'
 
-import './componets/home/navigation-bar.js'
+import './componets/home/navigation-bar_old.js'
 import './componets/home/footer.js'
 
 const router = new Router()

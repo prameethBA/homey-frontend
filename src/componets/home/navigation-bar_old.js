@@ -34,14 +34,40 @@ export default class Nav extends Base {
       position: absolute;
       top: 2rem;
       right: 2.5rem;
-      height: 1.35rem;
-      transition: all 1s;
+    }
+
+    
+    .scrollNavbar {
+      background-color: #eeeeee;
+      background-image: linear-gradient(to left top, #ededed, #f1f1f1, #f6f6f6, #fafafa, #ffffff);
+      box-shadow: inset 0px -1px 2px 0px rgba(80,57,89, 0.3);
+    }
+
+    h3, button, a, ul {
+      display: inline-block;
+    }
+
+    h3 {
+      padding-left: 1em;
     }
 
     .separator {
       flex: 1;
     }
 
+    ul {
+      padding-right: 2em;
+    }
+
+    ul .nav-link {
+      text-decoration:none;
+      color:#001f3f;
+      padding:10px 0px;
+      border:5px solid transparent;
+      cursor: pointer;
+      transition:1s ease;
+    }
+    
     .nav-link:hover {
       background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0%0D%0AaD0iMzkwcHgiIGhlaWdodD0iNTBweCIgdmlld0JveD0iMCAwIDM5MCA1MCIgZW5hYmxlLWJhY2tn%0D%0Acm91bmQ9Im5ldyAwIDAgMzkwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0i%0D%0Abm9uZSIgc3Ryb2tlPSIjZDk0ZjVjIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW1pdGVybGlt%0D%0AaXQ9IjEwIiBkPSJNMCw0Ny41ODVjMCwwLDk3LjUsMCwxMzAsMAoJYzEzLjc1LDAsMjguNzQtMzgu%0D%0ANzc4LDQ2LjE2OC0xOS40MTZDMTkyLjY2OSw0Ni41LDI0My42MDMsNDcuNTg1LDI2MCw0Ny41ODVj%0D%0AMzEuODIxLDAsMTMwLDAsMTMwLDAiLz4KPC9zdmc+Cg==");
       animation: line 2s;
@@ -85,6 +111,33 @@ export default class Nav extends Base {
         background-color: #34a832;
     }
 
+    .setting-menu{
+      position: absolute;
+      top:60px;
+      right:5px;
+      display: none;
+      background-color: #e6ffff;
+      min-width: 160px;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .setting-menu a{
+      display: block;
+      text-decoration: none;
+      color:black;
+      padding: 10px 10px;
+      cursor: pointer;
+    }
+
+    .dropdown:hover .setting-menu{
+      display: block;
+    }
+
+    .setting-menu a:hover{
+      background-color: #52eaf7;
+    }
+
     @media screen and (max-width: 1200px) {
       #hamburger-icon img {
         display: inline-block;
@@ -115,14 +168,9 @@ export default class Nav extends Base {
         color: #ffffff;
         width: 100%;
       }
-
-      .nav-link, .menu-item {
-        padding: 1rem;
-        cursor: pointer;
-      }
       
-      .dropdown {
-        display: grid;
+      .setting-menu {
+
       }
     }
 
@@ -159,22 +207,24 @@ export default class Nav extends Base {
   connectedCallback() {
     this.state.loginContent = `
         <div class='navbar'>
-          <img src="./assets/img/homey_logo.png" class="logo" />
-          <span class="separator"></span>
-          <ul class="wrapper">
-            <a class="nav-link" id="properties">Properties</a>
-            <a class="nav-link" id="own-properties">Own Properties</a>
-            <a class="nav-link">Payments</a>
-            <a class="nav-link">Favourites</a>
-            <a class="nav-link" class="setting-menu">Account</a>
-            <span class="dropdown">
-              <a class="menu-item">Profile Settings</a>
-              <a class="menu-item" id="add-new-property">Add New Property</a>
-              <a class="menu-item">Wallet</a>
-              <a class="menu-item" id="logout-button">Logout</a>
-            </span>
-          </ul>
-          <span id="hamburger-icon"><img src="./assets/icon/hamburger-icon.png" /></span>
+            <img src="./assets/img/homey_logo.png" class="logo" />
+            <span class="separator"></span>
+            <ul class="wrapper">
+              <a class="nav-link" id="properties">Properties</a>
+              <a class="nav-link" id="own-properties">Own Properties</a>
+              <a class="nav-link">Payments</a>
+              <a class="nav-link">Favourites</a>
+              <span class="dropdown">
+                 <a class="nav-link" class="setting-menu">Account</a>
+                    <div class="setting-menu">
+                        <a class="menu-item">Profile Settings</a>
+                        <a class="menu-item" id="add-new-property">Add New Property</a>
+                        <a class="menu-item">Wallet</a>
+                        <a class="menu-item" id="logout-button">Logout</a>
+                    </div>
+              </span>
+              </ul>
+              <span id="hamburger-icon"><img src="./assets/icon/hamburger-icon.png" /></span>
         </div>
     
       `
@@ -243,16 +293,6 @@ export default class Nav extends Base {
     }
 
     addEventListener('scroll', () => scrollFunction())
-
-    this._qs("#hamburger-icon").addEventListener('click', () => {
-     if(this._qs(".wrapper").style.display != 'none') {
-        this._qs(".wrapper").style.display = 'none'
-        this._qs("#hamburger-icon").children[0].src = "./assets/icon/hamburger-icon.png"
-      } else {
-        this._qs(".wrapper").style.display = 'grid'
-        this._qs("#hamburger-icon").children[0].src = "./assets/icon/close-icon.png"
-      }
-    })
     // End of connected callback
   }
   // End of Class
