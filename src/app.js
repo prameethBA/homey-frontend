@@ -12,6 +12,7 @@ const router = new Router()
 
 router.get('/', async () => {
   console.log('home')
+  console.log(axios)
 })
 
 class UI extends Base {
@@ -31,10 +32,10 @@ class UI extends Base {
         flex-direction: row;
         justify-content: center;
         flex: 1 0 auto;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
   
       .container > user-comp {
@@ -46,6 +47,31 @@ class UI extends Base {
         position: fixed;
         bottom: 0;
         z-index: -1;
+      }
+
+      @media screen and (max-width: 1200px) {
+        .container {
+            width: 30%;
+        }
+      }
+
+      @media screen and (max-width: 992px) {
+          .container {
+              width: 40%;
+          }
+        }
+
+      @media screen and (max-width: 768px) {
+          .container {
+              display: grid;
+              margin-top: 10vh;
+              width: 100%;
+          }
+
+          .container > user-comp {
+            margin: 1em auto;
+            width: 80%
+          }
       }
   
   `
