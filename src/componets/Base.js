@@ -36,6 +36,10 @@ export default class Base extends HTMLElement {
         return this.querySelectorAll(selector)
     }
 
+    sleep = ms => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
     setLoader = () => dispatchEvent(new Event('pre-load'))
 
     stopLoader = () => dispatchEvent(new Event('stop-pre-load'))
