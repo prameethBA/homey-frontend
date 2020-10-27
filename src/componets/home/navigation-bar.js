@@ -23,6 +23,24 @@ export default class Nav extends Base {
       width: 50px;
       height: 50px;
     }
+
+    #login-button {
+      height: 2.5rem;
+      width: 10rem;
+      margin: auto 2rem;
+      text-transform: uppercase;
+      color: #eeeeee;
+      background-color: #239710;
+      border: none;
+      box-shadow: 1px 1px 5px 1px rgba(23,97,10,0.64);
+      outline: none;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+        
+    #login-button:hover {
+        background-color: #34a832;
+    }
     
     .name {
       margin-top: 2rem;
@@ -156,16 +174,20 @@ export default class Nav extends Base {
     }
 
     @media screen and (max-width: 768px) {
-
+      #login-button {
+        height: 3rem;
+        width: 10rem;
+        margin: 0.2rem 1rem;
+        font-size: 1.2rem;
+      }
     }
 
   `
 
   content = `
       <header>
-          <nav>
+          <nav class='navbar'>
               <img src="./assets/img/homey_logo.png" class="logo" />
-              <span class="name">Homey</span>
               <span class="separator"></span>
               <button id="login-button"> login </button>
           </nav>
