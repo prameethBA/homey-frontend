@@ -232,19 +232,21 @@ export default class Nav extends Base {
     // Event Litsner for hamburger icon
     const hamburger = this._qs("#hamburger-icon")
     const wrapper = this._qs(".wrapper")
-    this.state.display = wrapper.style.display == 'none' || wrapper.style.display == '' 
-    hamburger.addEventListener('click', () => {
-     if(!this.state.display) {
-        wrapper.style.display = 'none'
-        hamburger.classList.add('hamburger-collapse')
-        hamburger.classList.remove('hamburger-expand')
-      } else {
-        wrapper.style.display = 'inline-grid'
-        hamburger.classList.add('hamburger-expand')
-        hamburger.classList.remove('hamburger-collapse')
-      }
-      this.state.display = !this.state.display
-    })//End of the Event Litsner for hamburger icon
+    if(this.state.LoginNavBar) {
+      this.state.display = wrapper.style.display == 'none' || wrapper.style.display == '' 
+      hamburger.addEventListener('click', () => {
+       if(!this.state.display) {
+          wrapper.style.display = 'none'
+          hamburger.classList.add('hamburger-collapse')
+          hamburger.classList.remove('hamburger-expand')
+        } else {
+          wrapper.style.display = 'inline-grid'
+          hamburger.classList.add('hamburger-expand')
+          hamburger.classList.remove('hamburger-collapse')
+        }
+        this.state.display = !this.state.display
+      })
+    }//End of the Event Litsner for hamburger icon
     
   }// End of connected callback
 

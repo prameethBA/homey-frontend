@@ -19,7 +19,8 @@ export default class App extends Base {
 `
     content = `
     <navigation-bar id="navigationBar"></navigation-bar>
-    <div class="container"></div>
+    <div id="container" class="container"></div>
+    <div id="login-form"></div>
 `
     constructor() {
         super()
@@ -35,11 +36,26 @@ export default class App extends Base {
 
     connectedCallback() {
 
+      // Event listner for load login form
+      addEventListener('load-login-form', async () => {
+        this.setLoader()
+        await import('./componets/home/login-form.js')
+          .then(() => {
+            this._qs('#login-form').innerHTML = `<login-form></login-form>`
+                this.stopLoader()
+          })
+          .catch(err => {
+            console.log(err)
+            this.stopLoader()
+          }) 
+      })//End of the Event listner for load login form
+
+      //Event listner for Load a component
         addEventListener('load-comp', async (e) => {
             this.setLoader()
             await import('./componets' + e.detail.comp)
             .then(() => {
-                this._qs('.container').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`
+                this._qs('#container').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`
                 this.stopLoader()
             })
                 .catch(err => {
@@ -47,7 +63,8 @@ export default class App extends Base {
                     this.stopLoader()
                 })
             this.setPath(e.detail.path)
-        })
+        })//End of the Event listner for Load a component
+
     }//End of connectedCallback
 
 }//End of Class
