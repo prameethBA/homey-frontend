@@ -114,6 +114,22 @@ export default class LoginForm extends Base {
         transform: rotate(45deg);
     }
 
+    button {
+        width: 90%;
+        display: inline-block;
+        height: 3em;
+        border-radius: 25px;
+        outline: none;
+        border: none;
+        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+        font-size: 0.8rem;
+        color: #fff;
+        text-transform: uppercase;
+        margin: 1em 0;
+        cursor: pointer;
+        transition: all 1s;
+    }
+
     @media screen and (max-width: 1200px) {
         .textField-label {
             transform: translate(4vw, -3.5rem);
@@ -160,9 +176,9 @@ export default class LoginForm extends Base {
         
             <span class="validation" id="validation-email"></span>
             <span class="validation" id="validation-password"></span>
-            <div>
-                <button id="login" disabled> Login </button>
-            </div>
+            
+            <button id="login" disabled> Login </button>
+
             <div>
                 <a title="Reset Password" id="reset-password">Forgot Password ? </a>
                 |
