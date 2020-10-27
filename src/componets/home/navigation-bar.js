@@ -4,7 +4,7 @@ export default class Nav extends Base {
 
   css = `
     header {
-      position: fixed;
+      position: sticky;
       width: 100%;
       z-index: 1;
     }
@@ -89,10 +89,6 @@ export default class Nav extends Base {
     }
 
     @media screen and (max-width: 1200px) {
-
-      header {
-        position: sticky;
-      }
 
       #hamburger-icon {
         display: inline-block;
@@ -179,6 +175,9 @@ export default class Nav extends Base {
     super()
     this.mount()
 
+    // Event listener for load the login form
+    this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
+
     this.state.loginContent = `
         <div class='navbar'>
           <img src="./assets/img/homey_logo.png" class="logo" />
@@ -214,27 +213,19 @@ export default class Nav extends Base {
               this._qs('nav').innerHTML = this.state.loginContent
               this._qs('#logout-button') != null ? this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out'))) : null
         
-              // Indicator for active class
-              this._qsAll(".nav-link").forEach(item => item.addEventListener('click', () => {
-                this._qsAll(".nav-link").forEach(item => item.classList.remove('active'))
-                item.classList.add('active')
+              // Set an indicator for active class
+              this._qsAll("a").forEach(item => item.addEventListener('click', () => {
+                this._qsAll("a").forEach(item => item.classList.remove('active'))
+                if(window.innerWidth > 1200) {
+                  if(item.classList[0] == 'nav-link') item.classList.add('active')
+                } else item.classList.add('active')
               }))
-        
-              // Onclick Properties
-              this._qs('#properties') != null ? this._qs('#properties').addEventListener('click', () => {
-                dispatchEvent(new CustomEvent('changePath', { detail: { path: "/properties", comp: '/user/avalibale-properties.js', compName: 'avalibale-properties' } }))
-              }) : null
-        
-              // Onclick Add new property
-              this._qs('#add-new-property') != null ? this._qs('#add-new-property').addEventListener('click', () => {
-                dispatchEvent(new CustomEvent('changePath', { detail: { path: "/add-new-property", comp: '/property/add-property.js', compName: 'add-property' } }))
-              }) : null
-        
-            }//end if
-        
+              
+              this.state.LoginNavBar = true
+            }
           }//End setLoginBar() method
           setLoginNavBar()
-  }
+  }//End of the constructor
 
   connectedCallback() {
 
