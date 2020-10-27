@@ -1,6 +1,6 @@
 import Base from './../Base.js'
 
-export default class PaymentHistory extends Base {
+export default class PropertyHistory extends Base {
 
     css = `
       .container {
@@ -163,4 +163,4 @@ export default class PaymentHistory extends Base {
 
 }
 
-window.customElements.define('property-history', PaymentHistory)
+window.customElements.define('property-history', PropertyHistory)

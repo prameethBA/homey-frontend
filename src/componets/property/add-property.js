@@ -150,6 +150,7 @@ export default class AddProperty extends Base {
     display: none;
   }
 
+
   @media(max-width: 768px) {
     .container {
       margin-left: 5%;
@@ -431,7 +432,7 @@ export default class AddProperty extends Base {
 
         this._qs("#add-preview").style.display = 'block';
         this._qs("#add-preview").innerHTML = `
-            <div>Title : ${title}</div>
+          <div>Title : ${title}</div>
           <div>Rental Period : ${rentalPer}</div>
           <div>Price :RS. ${parseFloat(price).toLocaleString('en')}</div>
           <div>Key Money : ${keyMoney}</div>
