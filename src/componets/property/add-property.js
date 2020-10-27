@@ -93,6 +93,7 @@ export default class AddProperty extends Base {
   .uploaded-image {
     width: 20%;
     margin: 0.5em;
+    cursor: url("./assets/icon/remove-icon.png"), auto;
   }
    **************************/
   /* Buttons */
@@ -249,15 +250,13 @@ export default class AddProperty extends Base {
   async connectedCallback() {
 
     // API call for get Districts
-    await fetch('http://homey-api.atwebpages.com/district')
-      .then(res => res.json())
-      .then(res => res.data.forEach(element => this._qs('#district').innerHTML += `<option value="${element._id}">${element.district}</option>`))
+    await axios.get('http://homey-api.atwebpages.com/district')
+      .then(res => res.data.data.forEach(element => this._qs('#district').innerHTML += `<option value="${element._id}">${element.district}</option>`))
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
     // API call for get property types
-    await fetch('http://homey-api.atwebpages.com/property-type')
-      .then(res => res.json())
-      .then(res => res.data.forEach(element => this._qs('#propertyType').innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`))
+    await axios.get('http://homey-api.atwebpages.com/property-type')
+      .then(res => res.data.data.forEach(element => this._qs('#propertyType').innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`))
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
     const rentalPeriod = this._qs('#rentalPeriod')
@@ -305,42 +304,56 @@ export default class AddProperty extends Base {
 
     // Add evenrlistner to load citeis
     this._qs("#district").addEventListener('change', async () => {
+      // Prevent laggin when do rapid changing
+      addEventListener('change',async ()=> {
+        await this.sleep(100);
+        this._qs("#district").removeEventListener('change')
+      })
+      await this.sleep(101);
       // API call for get Districts
-      await fetch(`http://homey-api.atwebpages.com/cities/districtId/${this._qs("#district").value}`)
+      await axios.get(`http://homey-api.atwebpages.com/cities/districtId/${this._qs("#district").value}`)
         .then(res => {
-          if (res.status == '200') return res.json()
+          this._qs('#city-list').innerHTML = ''
+          if (res.status == '200') res.data.data.forEach(element => this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`)
           else throw "Server Error."
         })
-        .then(res => res.data.forEach(element => this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`))
         .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
     })
 
     await import("./subcomp/facility.js")
       .then(
         // API call for get Facilities List
-        await fetch(`http://homey-api.atwebpages.com/facility`)
+        await axios.get(`http://homey-api.atwebpages.com/facility`)
           .then(res => {
-            if (res.status == '200') return res.json()
-            else throw "Server Error."
-          })
-          .then(res => res.data.forEach(element => this._qs('#facilities').innerHTML += `
+            if (res.status == '200') {
+              res.data.data.forEach(element => this._qs('#facilities').innerHTML += `
               <facility-comp 
                 key="${element._id}" 
                 name="${element.feature_name}"
                 measurable="${element.measurable}
                 ">
               </facility-comp>
-            `))
+            `)
+            }
+            else throw "Server Error."
+          })
           .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
       )
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
     const readImages = (file, target, index) => {
       const fileReader = new FileReader()
-      fileReader.onload = fileLoadedEvent => target.innerHTML += `<img class="uploaded-image" src="${fileLoadedEvent.target.result}" id="uploaded-image-${index}" alt="image-${index}"/>`
+      fileReader.onload = fileLoadedEvent => target.innerHTML += `
+                      <img 
+                        class="uploaded-image" 
+                        src="${fileLoadedEvent.target.result}" 
+                        id="uploaded-image-${index}" 
+                        alt="image-${index}"
+                        onclick="this.outerHTML = ''"
+                      />`
       fileReader.readAsDataURL(file)
     }//End of readImages
-
+    
     this._qs('#uploadImages').addEventListener('input', () => {
       if (this._qs('#previewImages').children.length < 5) {
         for (let index = 0; index < (this._qs("#uploadImages").files.length < 5 ? this._qs("#uploadImages").files.length : 5); index++) {
@@ -430,6 +443,7 @@ export default class AddProperty extends Base {
           <div>Description : ${description}</div>
           <div id="preview-facilities">Features : </div>
           <div id="preview-images"></div>
+          <progress id="progress-bar" value="0" max="100">0%</progress>
           <div>
             <button calss="save" id="save">Add this Advertisement</button>
             <button calss="edit" id="edit">Edit</button>
@@ -440,13 +454,17 @@ export default class AddProperty extends Base {
         facilities.forEach(item => previewFacilities.innerHTML += `<span>${item.feature} ${item.quantity != 'null' ? ' -' + item.quantity : ''}</span>`)
 
         let previewImages = this._qs("#preview-images")
-        images.forEach(item => previewImages.innerHTML += `<img src="${item}" />`)
-
+        images.forEach(item => {
+          if(item != undefined) {
+            previewImages.innerHTML = ''
+            previewImages.innerHTML += `<img src="${item}" />`
+          } else images.shift()
+        })
         this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
 
         // Api call to add Advertisement to the databsse
-        this._qs('#save').addEventListener('click', () => {
-          data = {
+        this._qs('#save').addEventListener('click', async () => {
+          const data = {
             Title: title,
             Rentalperiod: rentalPeriod,
             Price: price,
@@ -460,6 +478,20 @@ export default class AddProperty extends Base {
             Facilities: facilities,
             Images: images
           }
+            // let data = new FormData()
+            // data.append('file', files[0])
+          
+            await axios.put('http://homey-api.atwebpages.com/facility', data, {
+              onUploadProgress: (progressEvent) => {
+                const {loaded, total} = progressEvent;
+                let percent = Math.floor( (loaded * 100) / total )
+                this._qs('#progress-bar').value = percent
+                this._qs('#progress-bar').innerText = `${loaded}kb of ${total}kb | ${percent}%`
+              }
+            })
+              .then(res => console.log(res))
+              .catch(err => console.log(err))
+          
           dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: "Property added successfuly." } }))
         })
       } catch (err) {
