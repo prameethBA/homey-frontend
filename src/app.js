@@ -16,6 +16,10 @@ export default class App extends Base {
         height: 100%;
     }
 
+    #login-form {
+        
+    }
+
 `
     content = `
     <navigation-bar id="navigationBar"></navigation-bar>
@@ -32,6 +36,21 @@ export default class App extends Base {
         // Load home component
         router.get('/', async () => { await import('./main.js').then(this._qs('.container').innerHTML = `<main-comp></main-comp>`) })
 
+        // Load login form component
+        router.get('/login', async () => { 
+            this.setLoader()
+            this.setPath('/login')
+            await import('./componets/home/login-form.js')
+            .then(() => {
+                this._qs('#login-form').innerHTML = `<login-form></login-form>`
+                    this.stopLoader()
+            })
+            .catch(err => {
+                console.log(err)
+                this.stopLoader()
+            }) 
+        })
+
     }//End of constructor
 
     connectedCallback() {
@@ -39,6 +58,7 @@ export default class App extends Base {
       // Event listner for load login form
       addEventListener('load-login-form', async () => {
         this.setLoader()
+        this.setPath('/login')
         await import('./componets/home/login-form.js')
           .then(() => {
             this._qs('#login-form').innerHTML = `<login-form></login-form>`
@@ -69,7 +89,7 @@ export default class App extends Base {
 
 }//End of Class
 
-router.init()
+// router.init()
 
 window.customElements.define('app-comp', App)
 

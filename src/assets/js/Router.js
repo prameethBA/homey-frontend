@@ -33,7 +33,7 @@ export default class Router {
         // If route defined then no need to compare all of the routes; imediately call the init() method
         if (this.preRoutes.includes(uri)) {
             this.init()
-            this.routes = []
+            // this.routes = []
         }
     }
 
