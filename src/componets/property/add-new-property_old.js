@@ -1,194 +1,161 @@
-import Base from './../Base.js'
+import Base from '../Base.js'
 
 export default class AddNewProperty extends Base {
 
   css = `
   .container {
-  }
-
-  .form {
-    position: relative;
-    z-index: 100;
-    margin: 1rem auto;
-    background-color: rgba(0,0,0,0.75);
-    color: #eeeeee;
-    padding: 0.5rem 3rem;
-    padding-bottom: 3rem;
-    border-radius: 1px;
-    transition: all 0.5s ease;
+    width: 90%;
+    margin-top: 4em;
+    margin-left: 20vw;
+    max-width: 770.98px;
+    color: #000;
+    padding: 15px;
+    z-index:10;
   }
   
-  .row {
+  /* add Prop */
+  .properties .form {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
   }
-
-  .col {
+  .property {
     width: 30%;
-    margin-top: 1rem;
   }
 
-  input {
-    outline: none;
+  input, select, textarea {
+    border: 1px solid;
+    border-radius: 4px;
+  }
+  
+  .property input, .property select {
     width: 100%;
-    background-color: transparent;
-    border: none;
-    border-bottom: solid 1.25px #33dd22;
-    color: #ffffff;
-    margin: 1rem auto;
-    transition: all 0.5s ease;
+    margin-bottom: 20px;
+    height: 30px;
   }
 
-  select {
-    height: 2rem;
-    border-radius: 2px;
-    outline: none;
-    border: none;
-    background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-    font-size: 0.8rem;
-    color: #fff;
-    cursor: pointer;
+  .property_type{
     width: 100%;
-    transition: all 1s;
-    text-indent: 1rem;
-    margin-top: 0.3rem;
+    margin-bottom: 20px;
+    height: 30px;
   }
 
-  select option {
-    color: #ffffff;
-    background-color: #000000;
+  .district_type{
+    width: 100%;
+    margin-bottom: 20px;
+    height: 30px;
   }
 
-  label {
-      display: block;
-      transition: all 0.2s;
+  .property_description {
+    width: 100%;
+    margin-bottom: 20px;
   }
-
-  .description textarea {
-    width: 90vw;
-    min-height: 3rem;
-    border-radius: 2px;
-    outline: none;
-    border: solid 1px;
-    background-color: transparent;
-    color: #fff;
-    transition: all 0.1s;
-    text-indent: 2px;
-    margin-top: 0.3rem;
-    overflow-x: hidden;
-    overflow-y: auto;
+  .property_description textarea {
+    width: 100%;
   }
-
-  #facilities {
-    margin-top: 2rem;
-    display: grid;
-    grid-template-columns: 50% 50%;  
+  .select_properties {
+    width: 100%;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .select_property {
+    width: 15%;
+  }
+  .select_property input {
+    margin-right: 15px;
   }
 
   facility-comp {
-    list-style: inside;
-    margin-left: 10rem;
+    display: inline-block;
+    width: 50%;
   }
-
-  .imageUpload {
-    width: 100%;
-  }
-
+ 
   input[type='file'] {
     display:none;
   }
   
-  .upload-image-label,
-    button {
-      position: relative;
-      width: 80%;
-      display: block;
-      height: 3em;
-      border-radius: 25px;
-      outline: none;
-      border: none;
-      background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-      font-size: 0.8rem;
-      color: #fff;
-      text-transform: uppercase;
-      margin: 2rem auto;
-      cursor: pointer;
-      transition: all 1s;
-  }
- 
-  button:hover{
-      background-position: right;
-      color: black;
-  }
-
   .upload-image-label {
+    padding: 0.5em 1em;
+    background-color: #239710;
+    color: white;
     text-align: center;
-    padding: 1rem 0 0 0;
-    font-size: 0.8rem;
-    border-radius: 2px;
-    padding: 0 0 1rem 0;
-    width: 80%;
+    position: absolute;
+    right: 20%;
+    left: 20%;
   }
 
-  .upload-image-label b {
-    font-size: 2rem;
+  .rect {
+    display: block;
+    height: 2em;
   }
-
   .uploaded-image {
-    width: 4rem;
-    height: 4rem;
+    width: 20%;
     margin: 0.5em;
-    cursor: url(./assets/icon/remove-icon.png), auto;
-    background-color: #eeeeee;
-    padding: 1rem;
-    border-radius: 2px;
+    cursor: url("./assets/icon/remove-icon.png"), auto;
   }
-
-  #previewImages {
-    margin: auto;
-  }
-
-  @media screen and (max-width: 1200px) {
-    
-  }
-
-  @media screen and (max-width: 992px) {
-    facility-comp {
-      margin-left: 5rem;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    #facilities {
-      margin: auto;
-      display: block;  
-    }
-
-    facility-comp {
-      margin: 1rem;
-    }
-
-    .row {
-      display: block;
-    }
+   **************************/
+  /* Buttons */
   
-    .col {
-      width: 100%;
-      margin-top: 1rem;
-    }
-
-    .description textarea {
-      width: 100%;
-    }
-
+  .btn {
+    display: block;
+    border: none;
+  
+    font-size: 16px;
+    font-weight: bolder;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    padding: 0.5em 2em;
+    border-radius: 20px;
+    transition: 0.3s;
+    text-transform: uppercase;
+  }
+  .btn-primary {
+    border: 2px solid #34a832;
+    background-color: #34a832;
+  }
+  .btn-primary:hover {
+    color: #001f3f;
+    box-shadow: 6px 6px #ff4000;
+    transition: 0.5s;
+  }
+  .btn-upload {
+    border-radius: 0 10px 10px 0;
+    background: #34a832;
+  }
+  .btn-lg {
+    width: 100%;
+  }
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
   }
 
-  @media screen and (max-width: 512px) {
-    #facilities {
-      width: 85%
-      font-size: 0.9rem;
+  #add-preview {
+    position: absolute;
+    left:50%;
+    transform: translateX(-50%);
+    background-color: black;
+    background-color: rgba(0,0,0,0.8);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #ffffff;
+    display: none;
+  }
+
+  @media(max-width: 768px) {
+    .container {
+      margin-left: 5%;
     }
   }
+  
 
 `
 
@@ -196,13 +163,13 @@ export default class AddNewProperty extends Base {
     <div class="container">
       <div id="add-preview">
       </div>
+      <section class="properties">
           <div class="form">
-              <div class="row">
-                <div class="col">
+              <div class="property">
                   <label for="title">Title</label>
                   <input type="text" title="Short description as the title" placeholder="Short description as the title" id="title">
-                </div>
-                <div class="col">
+              </div>
+              <div class="property">
                   <label for="rentalPeriod">Rent per</label>
                   <select id="rentalPeriod">
                     <option value='1'>Select a rental period</option>
@@ -211,85 +178,68 @@ export default class AddNewProperty extends Base {
                     <option value='3'>Month</option>
                     <option value='4'>Year</option>
                   </select>
-                </div>
-
-                <div class="col">
+              </div>
+              <div class="property">
                   <label for="price">Price</label>
                   <input type="text" id="price" title="Price" placeholder="17,000">
-                </div>
               </div>
-                
-              <div class="row">
-                <div class="col">
-                    <label for="keyMoneyPeriod">Key money</label>
-                    <select id="keyMoneyPeriod">
-                      <option value="0">Selecet a rental period</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label for="keyMoney" id="key-money-label">Key money (Rs.)</label>
-                    <input type="text" id="keyMoney" />
-                </div>
-                <div class="col">
-                    <label for="minimumPeriod" id="minimum-period-label">Minimum Period</label>
-                    <input type="text" name="" id="minimumPeriod">
-                </div>
+              <div class="property">
+                  <label for="keyMoneyPeriod">Key money</label>
+                  <select id="keyMoneyPeriod">
+                    <option value="0">Selecet a rental period</option>
+                  </select>
               </div>
-
-              <div class="row">
-                <div class="col">
-                    <label for="availableFrom">Available From</label>
-                    <input type="date" id="availableFrom" value="${new Date().toISOString().slice(0, 10)}">
-                </div>
-                <div class="col">
-                    <label for="">District</label>
-                    <select class="district_type" id="district">
-                      <option value='0' selected disabled> Select a district</option> 
-                    </select>
-                </div>
-                <div class="col">
-                    <label for="city">City</label>
-                    <input type="text" id="city" list="city-list" autocomplete="false"/>
-                      <datalist id="city-list">
-                      </datalist>
-                </div>
+              <div class="property">
+                  <label for="keyMoney" id="key-money-label">Key money (Rs.)</label>
+                  <input type="text" id="keyMoney" />
               </div>
-
-              <div class="row">
-                <div class="col">
+              <div class="property">
+                  <label for="minimumPeriod" id="minimum-period-label">Minimum Period</label>
+                  <input type="text" name="" id="minimumPeriod">
+              </div>
+              <div class="property">
+                  <label for="availableFrom">Available From</label>
+                  <input type="date" id="availableFrom" value="${new Date().toISOString().slice(0, 10)}">
+              </div>
+              <div class="property">
+                  <label for="">District</label>
+                  <select class="district_type" id="district">
+                    <option value='0' selected disabled> Select a district</option> 
+                  </select>
+              </div>
+              <div class="property">
+                  <label for="city">City</label>
+                  <input type="text" id="city" list="city-list" autocomplete="false"/>
+                    <datalist id="city-list">
+                    </datalist>
+              </div>
+              <div class="property">
                   <label for="propertyType">Property Type</label>
                   <select class="property_type" id="propertyType">
                   </select>
-                </div>
               </div>
-
-              <div class="row">
-                <div class="description">
+              <div class="property_description">
                   <label for="description">Description</label>
-                  <textarea id="description"></textarea>
-                </div>
+                  <textarea id="description" cols="30" rows="5"></textarea>
               </div>
               
-              <div class="row facilities">
-                <div id="facilities">
-                </div>
+              <div class="select_properties" id="facilities">
               </div>
 
-              <div class="row">
-                <div class="col imageUpload">
-                  <input type="file" id="uploadImages" accept="image/jpg, image/png, image/jpeg, image/*" multiple>
-                  <label class="upload-image-label" for="uploadImages">Upload Images <b>⬆<b> </label>
-                </div>
+              <div class="property_description">
+                <input type="file" id="uploadImages" accept="image/jpg, image/png, image/jpeg, image/*" multiple>
+                <label class="upload-image-label" for="uploadImages">Upload Images</label>
+                <div class="rect"></div>
               </div>
-
-              <div class="row">
-                <div id="previewImages"></div>
-              </div>
-
-              <div class="row">
+              <div id="previewImages"></div>
+              <div class="property_description">
                 <button class="btn btn-primary btn-lg" id="add-property-button">Add Property</button>
               </div>
+
           </div>
+          
+      </section>
+
     </div>
 `
   constructor() {
@@ -528,6 +478,8 @@ export default class AddNewProperty extends Base {
             Facilities: facilities,
             Images: images
           }
+            // let data = new FormData()
+            // data.append('file', files[0])
           
             await axios.put('http://homey-api.atwebpages.com/facility', data, {
               onUploadProgress: (progressEvent) => {
