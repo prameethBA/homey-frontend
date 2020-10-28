@@ -16,17 +16,13 @@ export default class App extends Base {
         height: 100%;
     }
 
-    #login-form {
-        
-    }
-
 `
     content = `
     <navigation-bar id="navigationBar"></navigation-bar>
-    <div id="container" class="container"></div>
-    <div id="login-form"></div>
-    <div id="pop-up"></div>
-
+        <div id="container" class="container"></div>
+            <div id="login-form"></div>
+        <div id="pop-up"></div>
+    <footer-c></footer-c>
 `
     constructor() {
         super()

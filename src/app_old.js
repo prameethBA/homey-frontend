@@ -18,15 +18,6 @@ router.get('/', async () => {
 class UI extends Base {
 
   css = `
-      #wrap, #mainContainer {
-          display: flex;
-      }
-      
-      #mainContainer {
-        z-index: 0;
-        margin-bottom: 3em;
-      }
-  
       .container {
         display: flex;
         flex-direction: row;
