@@ -79,7 +79,7 @@ export default class UserComp extends Base {
   connectedCallback() {
     // Add Event Listern for user-comp then load properties-component
     this._qs('.container').addEventListener('click', () => {
-      dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/` + this.getAttribute('route'), comp: `property/${this.getAttribute('route')}`, compName: 'add-new-property' } }))
+      dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/` + this.getAttribute('route'), comp: `property/${this.getAttribute('route')}`, compName: this.getAttribute('route') } }))
     })
 
   }//End of connected callbacks

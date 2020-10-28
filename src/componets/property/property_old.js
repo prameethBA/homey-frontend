@@ -1,6 +1,6 @@
 import Base from '../Base.js'
 
-export default class AvalibaleProperties extends Base {
+export default class AvalibaleProperty extends Base {
 
     css = `
         .container {
@@ -192,7 +192,7 @@ export default class AvalibaleProperties extends Base {
 
         this.state.limit = 12
 
-        import('./property-view.js')
+        import('./subcomp/property-view.js')
             .then(() => {
                 let data = '';
                 for (let index = 0; index < this.state.limit; index++) {
@@ -250,4 +250,4 @@ export default class AvalibaleProperties extends Base {
 
 }//End of Class
 
-window.customElements.define('avalibale-properties', AvalibaleProperties)
+window.customElements.define('available-property', AvalibaleProperty)

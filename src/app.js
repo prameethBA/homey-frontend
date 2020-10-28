@@ -70,8 +70,11 @@ export default class App extends Base {
         // Load login form component
         router.get('/reset-password', () => dispatchEvent(new Event('reset-password-form')))
 
-         // Load login form component
-         router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+        // Load add new property component
+        router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+
+        // Load add new property component
+        router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
         
     }//End of constructor
     
