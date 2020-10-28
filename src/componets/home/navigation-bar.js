@@ -270,6 +270,8 @@ export default class Nav extends Base {
       })
     }//End of the Event Litsner for hamburger icon
     
+    this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
+
   }// End of connected callback
 
 }// End of Class

@@ -40,6 +40,7 @@ export default class Router {
     getRoute() { }
 
     init() {
+        this.routerFound = false
         this.routes.some(route => {
             let regEx = new RegExp(`^${route.uri}$`) // i'll explain this conversion to regular expression below
             let path = window.location.pathname
@@ -48,9 +49,10 @@ export default class Router {
                 // our route logic is true, return the corresponding callback
 
                 let req = { path } // i'll also explain this code below
-                // dispatchEvent(new Event('route-found'))
+                this.routerFound = true
                 return route.callback.call(this, req)
-            } else dispatchEvent(new CustomEvent("error", { detail: { path: path, err: '404' } }))
+            } else this.routerFound =false
         })
+        if(!this.routerFound) dispatchEvent(new CustomEvent("error", { detail: { err: '404' } }))
     }
 }

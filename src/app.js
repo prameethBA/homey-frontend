@@ -62,16 +62,16 @@ export default class App extends Base {
         addEventListener('reset-password-form', () => loadForm('reset-password'))
         
         // Load login form component
-        router.get('/login', async () => dispatchEvent(new Event('load-login-form')))
+        router.get('/login', () => dispatchEvent(new Event('load-login-form')))
 
         // Load signup form component
-        router.get('/signup', async () => dispatchEvent(new Event('load-signup-form')))
+        router.get('/signup', () => dispatchEvent(new Event('load-signup-form')))
 
         // Load login form component
-        router.get('/reset-password', async () => dispatchEvent(new Event('reset-password-form')))
+        router.get('/reset-password', () => dispatchEvent(new Event('reset-password-form')))
 
          // Load login form component
-         router.get('/add-new-property', async () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+         router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
         
     }//End of constructor
     
@@ -104,8 +104,7 @@ export default class App extends Base {
         })//End of the Event listner for Load a component
         
         // Add event listener for an error Page
-        // addEventListener('error', async (e) => !this.state.routeFound ? await import(`./componets/errors/Error${e.detail.err}.js`).then(this._qs('#container').innerHTML = `<err-404></err-404>`) : null)
-        addEventListener('error', () => console.log("this.state.routeFound"))
+        addEventListener('error', async (e) => await import(`./componets/errors/Error${e.detail.err}.js`).then(this._qs('#container').innerHTML = `<err-404></err-404>`))
 
         router.init()
     }//End of connectedCallback
