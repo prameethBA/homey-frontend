@@ -1,6 +1,6 @@
 import Base from './../Base.js'
 
-export default class PaymentHistory extends Base {
+export default class PropertyHistory extends Base {
 
     css = `
       .container {
@@ -26,45 +26,57 @@ export default class PaymentHistory extends Base {
 
       
       .row {
-        display: block;
+        display: flex;
         width: 90%;
         height: 80px;
-        margin-bottom: 30px;
+        
       }
 
       .row > div {
+        text-align: center;
+      font-size: 25px;
         display: inline-block;
-        margin: 0 4vw;
+        margin: 0 6vw;
       }
 
       .row > div:nth-child(1) {
         color: red;
-        border: solid 2px;
-        height: 100px;
+        height: 80px;
         width: 100px;
       }
 
       .row > div:nth-child(2) {
         color: green;
-        border: solid 2px;
-        height: 70px;
+        position: relative;
+        top: 1em;
+        height: 80px;
         width: 200px;
       }
 
       .row > div:nth-child(3) {
         color: blue;
-        border: solid 2px;
-        height: 70px;
+        position: relative;
+        top: 1em;
+        height: 80px;
         width: 160px;
       }
 
       .row > div:nth-child(4) {
         color: #ff08e1;
-        border: solid 2px;
-        height: 60px;
-        width: 60px;
+        position: relative;
+        top: 1em;
+        height: 80px;
+        width: 220px;
       }
-
+      
+      select {
+        width: 65%;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 14px;
+        color: white;
+        background-color: #8842d5; 
+      }
   `
 
     content = `
@@ -75,43 +87,68 @@ export default class PaymentHistory extends Base {
     <div class="container">
     <div class="row">
       <div class="cell-image">
-        <img class="img" src="./assets/icon/recived.png">
+        <img class="img" src="./assets/icon/money.png">
       </div>
       <div class="cell-title">Recived</div>
-      <div class="cell-fee">fee</div>
-      <div class="cell-status">status</div>
+      <div class="cell-fee">LKR 5,356,543.00</div>
+      <div class="cell-status">
+        <select name="status" id="status">
+          <option value="state-1">DONE</option>
+          <option value="state-2">TO-DO</option>
+        </select>
+      </div>
     </div>
     <div class="row">
         <div class="cell-image">
-          <img class="img" src="./assets/icon/expenses-fees.png">
+          <img class="img" src="./assets/icon/money.png">
         </div>
-        <div class="cell-title">Expences / Fees</div>
-        <div class="cell-fee">fee</div>
-        <div class="cell-status">status</div>
+        <div class="cell-title"><span id="table-txt">Expences / Fees</span></div>
+        <div class="cell-fee">LKR 5,356,543.00</div>
+        <div class="cell-status">
+          <select name="status" id="status">
+          <option value="state-1">DONE</option>
+          <option value="state-2">TO-DO</option>
+        </select>
+        </div>
     </div>
     <div class="row">
         <div class="cell-image">
-          <img class="img" src="./assets/icon/failed.png">
+          <img class="img" src="./assets/icon/money.png">
         </div>
         <div class="cell-title">Failed</div>
-        <div class="cell-fee">fee</div>
-        <div class="cell-status">status</div>
+        <div class="cell-fee">LKR 5,356,543.00</div>
+        <div class="cell-status">
+          <select name="status" id="status">
+          <option value="state-1">DONE</option>
+          <option value="state-2">TO-DO</option>
+        </select>
+        </div>
     </div>
     <div class="row">
         <div class="cell-image">
-          <img class="img" src="./assets/icon/pendings.png">
+          <img class="img" src="./assets/icon/money.png">
         </div>
         <div class="cell-title">Pendings</div>
-        <div class="cell-fee">fee</div>
-        <div class="cell-status">status</div>
+        <div class="cell-fee">LKR 5,356,543.00</div>
+        <div class="cell-status">
+          <select name="status" id="status">
+          <option value="state-1">DONE</option>
+          <option value="state-2">TO-DO</option>
+        </select>
+        </div>
     </div>
     <div class="row">
         <div class="cell-image">
-          <img class="img" src="./assets/icon/cashouts.png">
+          <img class="img" src="./assets/icon/money.png">
         </div>
         <div class="cell-title">Cashouts</div>
-        <div class="cell-fee">fee</div>
-        <div class="cell-status">status</div>
+        <div class="cell-fee">LKR 5,356,543.00</div>
+        <div class="cell-status">
+          <select name="status" id="status">
+          <option value="state-1">DONE</option>
+          <option value="state-2">TO-DO</option>
+        </select>
+        </div>
     </div>
   </div>
     
@@ -126,4 +163,4 @@ export default class PaymentHistory extends Base {
 
 }
 
-window.customElements.define('property-history', PaymentHistory)
+window.customElements.define('property-history', PropertyHistory)

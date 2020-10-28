@@ -26,6 +26,42 @@ export default class UserComp extends Base {
       padding-right: 1em;
       padding: 1.2em;
   }
+
+  @media screen and (max-width: 1200px) {
+    .container {
+        width: 30%;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+      .container {
+          width: 40%;
+      }
+    }
+
+  @media screen and (max-width: 768px) {
+    .container {
+      width:75vw;
+      height: 20em;
+      display: grid;
+      grid-template-columns: 35vw 65vw;
+      box-shadow: 2px 2px 6px 2px rgba(10,0,54,0.7);
+    }
+    
+    ::slotted(img) {
+      width: 40vw;
+      height: 100%;
+    }
+
+    ::slotted(h1) {
+        display: flex;
+        color: #ffffff;
+        font-size: 1.3em;
+        text-align: right;
+        padding-right: 1em;
+        padding: 1.2em;
+    }
+  }
   
   `
   content = `

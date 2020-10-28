@@ -22,6 +22,21 @@ export default class Footer extends Base {
       background-color: #001f3f;
       width: 100vw;
     }
+
+    @media screen and (max-width: 1200px) {
+
+    }
+
+    @media screen and (max-width: 992px) {
+
+    }
+
+    @media screen and (max-width: 768px) {
+      footer {
+        height: 100%;
+        display: flex;
+      }
+    }
 `
   content = `
     <footer>
@@ -42,7 +57,7 @@ export default class Footer extends Base {
     }
 
     addEventListener('scroll', () => scrollMethod())
-    
+
   } //End of the connected callback
 
 } // End of Class
