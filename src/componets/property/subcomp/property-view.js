@@ -12,6 +12,7 @@ export default class PropertyView extends Base {
         min-height: 450px;
         height: 26rem;
         border-radius: 4px;
+        box-shadow: 1px 1px 3px 2px rgba(36,31,135,0.7);
     }
 
     .slider {
