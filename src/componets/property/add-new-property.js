@@ -6,9 +6,35 @@ export default class AddNewProperty extends Base {
   .container {
   }
 
+  #add-preview {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    background-color: black;
+    color: #ffffff;
+  }
+
+  #add-preview > div {
+    margin: 1.5rem auto;
+    display: table;
+    font-family: monospace;
+  }
+
+  #add-preview b {
+    color: lightblue;
+  }
+
+  #add-preview #preview-images img {
+    background-color: #ffffff;
+    width: 5rem;
+    height: 4rem;
+    padding: 0.7rem;
+    margin: 0.5rem;
+  }
+
   .form {
     position: relative;
-    z-index: 100;
     margin: 1rem auto;
     background-color: rgba(0,0,0,0.75);
     color: #eeeeee;
@@ -481,16 +507,16 @@ export default class AddNewProperty extends Base {
 
         this._qs("#add-preview").style.display = 'block';
         this._qs("#add-preview").innerHTML = `
-            <div>Title : ${title}</div>
-          <div>Rental Period : ${rentalPer}</div>
-          <div>Price :RS. ${parseFloat(price).toLocaleString('en')}</div>
-          <div>Key Money : ${keyMoney}</div>
-          <div>Minimum Period : ${minimumPeriod} ${rentalPer.slice(-3) == 'ily' ? rentalPer.slice(0, -3) + 'ys' : rentalPer.slice(0, -2) + 's'}</div>
-          <div>Available From : ${availableFrom}</div>
-          <div>District : ${district}</div>
-          <div>City : ${city}</div>
-          <div>Property Type : ${propertyType}</div>
-          <div>Description : ${description}</div>
+            <div>Title 👉 <b> ${title}</b></div>
+          <div>Rental Period 👉 <b> ${rentalPer}</b></div>
+          <div>Price : <b>Rs. ${parseFloat(price).toLocaleString('en')}</b></div>
+          <div>Key Money 👉 <b>Rs. ${keyMoney}</b></div>
+          <div>Minimum Period 👉 <b> ${minimumPeriod} ${rentalPer.slice(-3) == 'ily' ? rentalPer.slice(0, -3) + 'ys' : rentalPer.slice(0, -2) + 's'}</b></div>
+          <div>Available From 👉 <b> ${availableFrom}</b></div>
+          <div>District 👉 <b> ${district}</b></div>
+          <div>City 👉 <b> ${city}</b></div>
+          <div>Property Type 👉 <b> ${propertyType}</b></div>
+          <div>Description 👉 <b> ${description}</b></div>
           <div id="preview-facilities">Features : </div>
           <div id="preview-images"></div>
           <progress id="progress-bar" value="0" max="100">0%</progress>
@@ -504,11 +530,14 @@ export default class AddNewProperty extends Base {
         facilities.forEach(item => previewFacilities.innerHTML += `<span>${item.feature} ${item.quantity != 'null' ? ' -' + item.quantity : ''}</span>`)
 
         let previewImages = this._qs("#preview-images")
+        previewImages.innerHTML = ''
+        let newImages = []
+
         images.forEach(item => {
-          if(item != undefined) {
-            previewImages.innerHTML = ''
+          if(item !== undefined) {
             previewImages.innerHTML += `<img src="${item}" />`
-          } else images.shift()
+            newImages.push(item)
+          } 
         })
         this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
 
@@ -526,8 +555,10 @@ export default class AddNewProperty extends Base {
             Propertytype: propertyType,
             Description: description,
             Facilities: facilities,
-            Images: images
+            Images: newImages
           }
+
+          console.log(data)
           
             await axios.put('http://homey-api.atwebpages.com/facility', data, {
               onUploadProgress: (progressEvent) => {

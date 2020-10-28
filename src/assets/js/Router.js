@@ -53,6 +53,6 @@ export default class Router {
                 return route.callback.call(this, req)
             } else this.routerFound =false
         })
-        if(!this.routerFound) dispatchEvent(new CustomEvent("error", { detail: { err: '404' } }))
+        if(!this.routerFound) dispatchEvent(new CustomEvent("customError", { detail: { err: '404' } }))
     }
 }

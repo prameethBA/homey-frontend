@@ -112,7 +112,7 @@ export default class App extends Base {
         })//End of the Event listner for Load a component
         
         // Add event listener for an error Page
-        addEventListener('error', async (e) => await import(`./componets/errors/Error${e.detail.err}.js`).then(this._qs('#container').innerHTML = `<err-404></err-404>`))
+        addEventListener('customError', async (e) => await import(`./componets/errors/Error${e.detail.err}.js`).then(this._qs('#container').innerHTML = `<err-404></err-404>`))
 
         router.init()
     }//End of connectedCallback
