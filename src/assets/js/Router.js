@@ -33,7 +33,7 @@ export default class Router {
         // If route defined then no need to compare all of the routes; imediately call the init() method
         if (this.preRoutes.includes(uri)) {
             this.init()
-            // this.routes = []
+                // this.routes = []
         }
     }
 
@@ -48,6 +48,7 @@ export default class Router {
                 // our route logic is true, return the corresponding callback
 
                 let req = { path } // i'll also explain this code below
+                dispatchEvent(new Event('route-found'))
                 return route.callback.call(this, req)
             } else dispatchEvent(new CustomEvent("error", { detail: { path: path, err: '404' } }))
         })
