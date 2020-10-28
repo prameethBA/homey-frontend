@@ -25,6 +25,8 @@ export default class App extends Base {
     <navigation-bar id="navigationBar"></navigation-bar>
     <div id="container" class="container"></div>
     <div id="login-form"></div>
+    <div id="pop-up"></div>
+
 `
     constructor() {
         super()
@@ -35,40 +37,57 @@ export default class App extends Base {
         
         // Load home component
         router.get('/', async () => { await import('./main.js').then(this._qs('.container').innerHTML = `<main-comp></main-comp>`) })
-        
-        // Load login form component
-        router.get('/login', async () => { 
+
+        // Method to load dynamic froms
+        const loadForm = async (form) => {
+            this.setPath('/' + form)
             this.setLoader()
-            this.setPath('/login')
-            await import('./componets/home/login-form.js')
+            
+            await import('./componets/home/' + form + '-form.js')
             .then(() => {
-                this._qs('#login-form').innerHTML = `<login-form></login-form>`
-                this.stopLoader()
+            this._qs('#login-form').innerHTML = `<` + form + `-form></` + form + `-form>` 
+    
+                // Listen for exit-login-form Event for unset the visilility of Login Form
+                addEventListener('exit-form', () => {
+                this._qs('#login-form').innerHTML = ''
+                })
+            this.stopLoader()
             })
             .catch(err => {
-                console.log(err)
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
                 this.stopLoader()
             }) 
-        })
+        }// End of Method to load dynamic froms
+
+        // Listen for login-form Event to set visible Login Form
+        addEventListener('load-login-form', () => loadForm('login'))
+        addEventListener('load-signup-form', () => loadForm('signup'))
+        addEventListener('reset-password-form', () => loadForm('reset-password'))
+        
+        // Load login form component
+        router.get('/login', async () => dispatchEvent(new Event('load-login-form')))
+
+        // Load signup form component
+        router.get('/signup', async () => dispatchEvent(new Event('load-signup-form')))
+
+        // Load login form component
+        router.get('/reset-password', async () => dispatchEvent(new Event('reset-password-form')))
         
     }//End of constructor
     
     connectedCallback() {
-        
-        // Event listner for load login form
-        addEventListener('load-login-form', async () => {
-            this.setLoader()
-            this.setPath('/login')
-        await import('./componets/home/login-form.js')
-        .then(() => {
-            this._qs('#login-form').innerHTML = `<login-form></login-form>`
-            this.stopLoader()
-        })
-        .catch(err => {
-            console.log(err)
-            this.stopLoader()
-        }) 
-    })//End of the Event listner for load login form
+
+    
+
+
+    // Event Listner for pop-up
+    addEventListener('pop-up', async (res) => {
+        await import(`./componets/popup/popup.js`)
+          .then(() => this._qs('#pop-up').innerHTML = `<pop-up type=${res.detail.pop}><div slot="message">${res.detail.msg}</div></pop-up>`)
+    })
+
+    // Add event listner for clear the pop-up 
+    addEventListener('exit-popup', ()=> this._qs('#pop-up').innerHTML = '')
     
     //Event listner for Load a component
     addEventListener('load-comp', async (e) => {

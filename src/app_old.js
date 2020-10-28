@@ -104,14 +104,14 @@ class UI extends Base {
       this.setPath('/' + form)
       await import('./componets/home/' + form + '-form.js')
         .then(() => {
-          this._qs('#login-form') != null ? this._qs('#login-form').innerHTML = `<` + form + `-form></` + form + `-form>` : null
+         this._qs('#login-form').innerHTML = `<` + form + `-form></` + form + `-form>` 
 
           // Listen for exit-login-form Event for unset the visilility of Login Form
           addEventListener('exit-form', () => {
-            this._qs('#login-form') != null ? this._qs('#login-form').innerHTML = '' : null
+           this._qs('#login-form').innerHTML = ''
           })
         })
-        .catch(err => console.log(err))
+        .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
     }
 
     // Listen for exit-pop-up Event for unset the visilility of Login Form

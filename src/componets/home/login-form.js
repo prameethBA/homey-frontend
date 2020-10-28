@@ -19,7 +19,7 @@ export default class LoginForm extends Base {
         position: relative;
         z-index: 100;
         width: 30%;
-        margin: auto;
+        margin: 1rem auto;
         background-color: rgba(0,0,0,0.9);
         color: #eeeeee;
         padding: 0.5rem 3rem;
@@ -49,10 +49,6 @@ export default class LoginForm extends Base {
         border-color: #38ee17;
     }
     
-    .textField[type=checkbox] {
-        display: inline;
-    }
-
     .textField-label {
         position: absolute;
         display: block;
@@ -115,8 +111,9 @@ export default class LoginForm extends Base {
     }
 
     button {
-        width: 90%;
-        display: inline-block;
+        position: relative;
+        width: 80%;
+        display: block;
         height: 3em;
         border-radius: 25px;
         outline: none;
@@ -125,9 +122,70 @@ export default class LoginForm extends Base {
         font-size: 0.8rem;
         color: #fff;
         text-transform: uppercase;
-        margin: 1em 0;
+        margin: 2rem auto;
         cursor: pointer;
         transition: all 1s;
+    }
+   
+    button:hover{
+        background-position: right;
+        color: black;
+    }
+
+    button:disabled {
+        background-image: linear-gradient(to right, gray, gray);
+        background-color: gray;
+    } 
+    
+    .row {
+        margin: 0 auto;
+        display: table;
+    }
+
+    .row a {
+        display: inline-block;
+    }
+
+    .hr-separator {
+        width: 80%;
+        border: solid 1px;
+        margin: 2rem auto;
+    }
+
+    .or-separator {
+        margin: auto;
+        display: table;
+    }
+
+    .google {
+        color: blue;
+        background-size: 200%;
+        background-image: url("../assets/img/google.svg");
+    }
+    
+
+    .facebook {
+        color: red;
+        background-size: 200%;
+        background-image: url("../assets/img/facebook.svg");
+    }
+
+    a:hover{
+        color: #F4D03F;
+        cursor: pointer;
+    }
+
+    button > img {
+        position: absolute;
+        transform: translate(-2rem, -0.3rem);
+    }
+
+    .validation {
+        display: table;
+        color: red;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin: 1rem auto -1rem auto;
     }
 
     @media screen and (max-width: 1200px) {
@@ -151,6 +209,11 @@ export default class LoginForm extends Base {
     @media screen and (max-width: 512px) {
         .form {
             width: 60%;
+        }
+
+        .google , .facebook{
+            font-size: 0.6rem;
+            padding-bottom: 0.2rem;
         }
     }
 
@@ -179,7 +242,7 @@ export default class LoginForm extends Base {
             
             <button id="login" disabled> Login </button>
 
-            <div>
+            <div class="row">
                 <a title="Reset Password" id="reset-password">Forgot Password ? </a>
                 |
                 <a title="Create new Account" id="signup"> Sign Up </a>
@@ -188,15 +251,13 @@ export default class LoginForm extends Base {
             <div class="hr-separator">
             </div>
 
-            <div>
-                <span>or</span>
-            </div>
+            <div class="or-separator"> or </div>
             
             <div>
-                <button class="google"><img class="img2" src="../assets/img/google.svg">Continue with Google</button>
+                <button class="google"><img src="../assets/img/google.svg">Continue with Google</button>
             </div>
             <div>
-                <button class="facebook"><img class="img2" src="../assets/img/facebook.svg">Continue with Facebook</button>
+                <button class="facebook"><img src="../assets/img/facebook.svg">Continue with Facebook</button>
             </div>
 
         </div>
@@ -207,10 +268,110 @@ export default class LoginForm extends Base {
         super()
         this.mount()
         
+        if (!(this.state.exit == null || this.state.exit)) {
+            dispatchEvent(new Event('exit-form'))
+            this.state.exit = true
+        }
     }//End of constructor
 
     connectedCallback() {
 
+        // backdrop
+        this._qs('#backdrop').addEventListener('click', () => {
+            dispatchEvent(new Event('exit-form'))
+            this.setPath('/')
+        })
+
+        this._qs('#signup').addEventListener('click', () => dispatchEvent(new Event('load-signup-form')))
+
+        this._qs('#reset-password').addEventListener('click', () => dispatchEvent(new Event('reset-password-form')))
+
+        // Client side form validation
+        const validation = () => {
+            this.state.validation = false
+            const events = ['focus', 'keyup']
+            events.forEach(element => {
+                this._qs("#email").addEventListener(element, () => {
+                    if (this._qs("#email").value == '') {
+                        this._qs('#validation-email').innerHTML = "❌ Enter the email or Mobile"
+                        this.state.validation = false
+                    } else if (!(/^\w{2,}@\w{2,}\.\w{2,4}$/.test(this._qs("#email").value) || /^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(this._qs("#email").value))) {
+                        this._qs('#validation-email').innerHTML = "❌ Enter a valid email or Mobile"
+                        this.state.validation = false
+                    } else {
+                        this._qs('#validation-email').innerHTML = ""
+                        this.state.validation = true
+                    }
+
+                    this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+                })
+            })
+
+            events.forEach(element => {
+                this._qs("#password").addEventListener(element, () => {
+                    if (this._qs("#password").value == '') {
+                        this._qs('#validation-password').innerHTML = "❌ Enter the password"
+                        this.state.validation = false
+                    } else {
+                        this._qs('#validation-password').innerHTML = ""
+                        this.state.validation = true
+                    }
+
+                    this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+                })
+            })
+
+        }//End of validation
+
+        //Exucute validation
+        validation()
+
+        this._qs('#login').addEventListener('click', () => {
+            this.setLoader();
+            // API call for login
+            const userName = this._qs('#email').value
+            const password = this._qs('#password').value
+            axios.post('http://homey-api.atwebpages.com/login', {
+                    'userName': userName,
+                    'password': password
+                }
+            )
+                .then((res) => {
+                    if (res.data.login === 'true') {
+                        if (this._qs('#remember').checked == true) {
+                            localStorage.login = 'true'
+                            localStorage.token = res.data.token
+                        } else {
+                            sessionStorage.login = 'true'
+                            sessionStorage.token = res.data.token
+                        }
+                        dispatchEvent(new Event('login-success'))
+                        dispatchEvent(new Event('exit-form'))
+                    } else {
+                        localStorage.login = 'false'
+                        localStorage.token = ''
+                        sessionStorage.login = 'false'
+                        sessionStorage.token = ''
+                        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
+                    }
+                    this.stopLoader();
+                })
+                .catch(err => {
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
+                    this.stopLoader();
+                })
+
+        })//End of Login API call
+
+        // Login with Google
+        this._qs('.google').addEventListener('click', async () => {
+            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
+        })
+
+        // Login with FaceBook
+        this._qs('.facebook').addEventListener('click', async () => {
+            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
+        })
 
     }//End of connectedCallback
 

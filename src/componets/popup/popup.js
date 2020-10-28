@@ -10,10 +10,9 @@ export default class error extends Base {
     z-index: 999;
     background-color: rgba(0,0,0,0.7);
     width: 100%;
-    height: 100%;
-    padding: 0px; 
-    margin: 0px; 
-    padding-bottom: 80px;
+    right: 0;
+    top: 0;
+    bottom: 0;
     cursor: pointer;
 }
 

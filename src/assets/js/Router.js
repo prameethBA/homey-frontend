@@ -48,7 +48,7 @@ export default class Router {
                 // our route logic is true, return the corresponding callback
 
                 let req = { path } // i'll also explain this code below
-                dispatchEvent(new Event('route-found'))
+                // dispatchEvent(new Event('route-found'))
                 return route.callback.call(this, req)
             } else dispatchEvent(new CustomEvent("error", { detail: { path: path, err: '404' } }))
         })
