@@ -73,6 +73,18 @@ export default class UserComp extends Base {
             <slot name="image" ></slot>
             `
     }
-  }
-}
+
+  }// End of constructor
+
+  connectedCallback() {
+    // Add Event Listern for user-comp then load properties-component
+    this._qs('.container').addEventListener('click', () => {
+      dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/` + this.getAttribute('route'), comp: `property/${this.getAttribute('route')}`, compName: 'add-new-property' } }))
+    })
+
+  }//End of connected callbacks
+
+
+}//End of class
+
 window.customElements.define('user-comp', UserComp)

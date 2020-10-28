@@ -1,8 +1,8 @@
 export default class Router {
     constructor() {
-        this.preRoutes = [
-            '/', '/login', '/signup', '/user', '/reset-password', '/adds', '/profile', '/settings'
-        ]
+        // this.preRoutes = [
+        //     '/', '/login', '/signup', '/reset-password', '/add-new-property', '/profile', '/settings'
+        // ]
         this.routes = []
     }
 
@@ -31,10 +31,10 @@ export default class Router {
         this.routes.push(route)
 
         // If route defined then no need to compare all of the routes; imediately call the init() method
-        if (this.preRoutes.includes(uri)) {
-            this.init()
-                // this.routes = []
-        }
+        // if (this.preRoutes.includes(uri)) {
+        //     this.init()
+        //         // this.routes = []
+        // }
     }
 
     getRoute() { }

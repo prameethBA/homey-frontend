@@ -46,7 +46,7 @@ export default class App extends Base {
                 // Listen for exit-login-form Event for unset the visilility of Login Form
                 addEventListener('exit-form', () => {
                 this._qs('#login-form').innerHTML = ''
-                dispatchEvent(new CustomEvent("load-comp", { detail: { comp: '../main', compName: 'main-comp' } }))
+                dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: '../main', compName: 'main-comp' } }))
                 })
             this.stopLoader()
             })
@@ -69,6 +69,9 @@ export default class App extends Base {
 
         // Load login form component
         router.get('/reset-password', async () => dispatchEvent(new Event('reset-password-form')))
+
+         // Load login form component
+         router.get('/add-new-property', async () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
         
     }//End of constructor
     
@@ -87,6 +90,7 @@ export default class App extends Base {
     //Event listner for Load a component
     addEventListener('load-comp', async (e) => {
         this.setLoader()
+        this.setPath(e.detail.path)
         await import('./componets/' + e.detail.comp + '.js')
         .then(() => {
             this._qs('#container').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`
@@ -95,19 +99,19 @@ export default class App extends Base {
             .catch(err => {
                 console.log(err)
                 this.stopLoader()
+                this.setPath('/')
             })
-            this.setPath(e.detail.path)
         })//End of the Event listner for Load a component
         
         // Add event listener for an error Page
         // addEventListener('error', async (e) => !this.state.routeFound ? await import(`./componets/errors/Error${e.detail.err}.js`).then(this._qs('#container').innerHTML = `<err-404></err-404>`) : null)
         addEventListener('error', () => console.log("this.state.routeFound"))
 
+        router.init()
     }//End of connectedCallback
     
 }//End of Class
 
-// router.init()
 
 window.customElements.define('app-comp', App)
 

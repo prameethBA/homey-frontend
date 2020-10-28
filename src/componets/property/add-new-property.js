@@ -1,6 +1,6 @@
 import Base from './../Base.js'
 
-export default class AddProperty extends Base {
+export default class AddNewProperty extends Base {
 
   css = `
   .container {
@@ -503,4 +503,4 @@ export default class AddProperty extends Base {
 
 }//End of Class
 
-window.customElements.define('add-property', AddProperty)
+window.customElements.define('add-new-property', AddNewProperty)
