@@ -16,10 +16,12 @@ export default class ResetPassword extends Base {
   }
 
   .form {
-    position: relative;
+    position: fixed;
     z-index: 100;
     width: 30%;
-    margin: 1rem auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     background-color: rgba(0,0,0,0.9);
     color: #eeeeee;
     padding: 0.5rem 3rem;
@@ -138,6 +140,12 @@ content = `
     this._qs('#backdrop').addEventListener('click', () => {
       dispatchEvent(new Event('exit-form'))
       this.setPath('/')
+    })
+
+    this._qs('#reset').addEventListener('click', async () => {
+      this._qs('#email').value == '' 
+      ? dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Provid an email." } })) 
+      : dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'info', msg: `Reset email should be sent for <br /><b><i> ${this._qs('#email').value}</i></b>` } }))
     })
 
   }//End of callback

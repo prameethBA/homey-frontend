@@ -38,6 +38,11 @@ export default class error extends Base {
     background-image: linear-gradient(to right top, #b2b2b2, #9c9b9c, #878586, #737071, #605b5b);
   }
 
+  .oninfo {
+    background-color: lightblue;
+    background-image: linear-gradient(to right top, #0066ff, #0076ff, #0084ff, #0091ff, #009dff);
+  }
+
   ::slotted(div) {
       padding: 1em;
       text-align: center;
@@ -86,6 +91,10 @@ export default class error extends Base {
         this._qs('.title').innerHTML = 'Notice'
         this._qs('.container').classList.add('onnotice')
         break;
+      case 'info':
+          this._qs('.title').innerHTML = 'Info'
+          this._qs('.container').classList.add('oninfo')
+          break;
       default:
       // Default is the error
     }
