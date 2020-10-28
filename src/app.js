@@ -171,11 +171,11 @@ class UI extends Base {
     })
 
     //This is used for developing purpose only | For prameeth
-    router.get('/property-details', async () => {
-      await import('./componets/property/property-details.js')
+    router.get('/comment-comp', async () => {
+      await import('./componets/comment/comment-comp.js')
       this._qs(
         '#mainContainer'
-      ).innerHTML = `<property-details></property-details>`
+      ).innerHTML = `<comment-comp></comment-comp>`
     })
 
     //This is used for developing purpose only  | For Ozki
