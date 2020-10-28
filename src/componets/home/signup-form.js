@@ -270,7 +270,7 @@ export default class SignUpForm extends Base {
                 <div class="terms">
                     <input type="checkbox" id="terms" />
                     <label for="terms" class="checkmark"></label>
-                    <label for="terms">accept <a>terms</a> and <a>conditions</a></label>
+                    <span><label for="terms">accept</label> <a>terms</a> and <a>conditions</a></span>
                 </div>
             </div>
             <div class="row">

@@ -19,8 +19,8 @@ export default class App extends Base {
 `
     content = `
     <navigation-bar id="navigationBar"></navigation-bar>
-        <div id="container" class="container"></div>
-            <div id="login-form"></div>
+        <div id="login-form"></div>
+            <div id="container" class="container"></div>
         <div id="pop-up"></div>
     <footer-c></footer-c>
 `
@@ -46,6 +46,7 @@ export default class App extends Base {
                 // Listen for exit-login-form Event for unset the visilility of Login Form
                 addEventListener('exit-form', () => {
                 this._qs('#login-form').innerHTML = ''
+                dispatchEvent(new CustomEvent("load-comp", { detail: { comp: '../main', compName: 'main-comp' } }))
                 })
             this.stopLoader()
             })
@@ -71,10 +72,8 @@ export default class App extends Base {
         
     }//End of constructor
     
+
     connectedCallback() {
-
-    
-
 
     // Event Listner for pop-up
     addEventListener('pop-up', async (res) => {
@@ -88,7 +87,7 @@ export default class App extends Base {
     //Event listner for Load a component
     addEventListener('load-comp', async (e) => {
         this.setLoader()
-        await import('./componets' + e.detail.comp)
+        await import('./componets/' + e.detail.comp + '.js')
         .then(() => {
             this._qs('#container').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`
                 this.stopLoader()
