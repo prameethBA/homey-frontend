@@ -140,15 +140,48 @@ export default class AddProperty extends Base {
   #add-preview {
     position: absolute;
     left:50%;
+    flex-direction: column;
     transform: translateX(-50%);
-    background-color: black;
-    background-color: rgba(0,0,0,0.8);
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    color: #ffffff;
-    display: none;
+    background-color: darkgoldenrod;
+    text-align: left;
+    color:black;
   }
+
+  #add-preview div{
+  padding-left: 1%;
+  margin-bottom: 1em;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 1.1em;
+}
+#add-preview progress{
+  padding-left: 10px;
+}
+
+#add-preview span{
+  padding-left: 5%;
+  display: block;
+}
+
+#add-preview button {
+    width: 40%;
+    display: inline-block;
+    height: 3em;
+    border-radius: 25px;
+    outline: none;
+    border: none;
+    background-image: linear-gradient(to right, #239710, #239710, #239710);
+    font-size: 0.8rem;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 1em 0;
+    cursor: pointer;
+    transition: all 1s;
+}
+
+#add-preview button:hover{
+  background-position: right;
+  color: black;
+}
 
 
   @media(max-width: 768px) {
