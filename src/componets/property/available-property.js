@@ -51,98 +51,21 @@ export default class AvalibaleProperty extends Base {
 
         import('./subcomp/property-view.js')
             .then(() => {
-                this._qs('.container').innerHTML = `
-            <property-view id="id-a">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price" class="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            <property-view id="id-b">
-                <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                <p slot="title" class="title">lorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-                <p slot="price">Rs.180,000,000</p>
-                <p slot="description" class="description">em ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsaorem ipsam</p>
-            </property-view>
-            `
+                this._qs('.container').innerHTML = ''
+                axios.get('http://homey-api.atwebpages.com/property/all/overview')
+                    .then(res => {
+                        console.log(res.data)
+                        res.data.forEach(item => {
+                            this._qs('.container').innerHTML += `
+                                <property-view id="${item._id}">
+                                    <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
+                                    <p slot="title" class="title">${item.title}</p>
+                                    <p slot="price" class="price">Rs. ${item.price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+                                    <p slot="description" class="description">${item.description}</p>
+                                </property-view>
+                            `
+                        })
+                    })
         })
 
     }//end of constructor
