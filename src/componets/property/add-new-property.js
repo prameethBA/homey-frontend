@@ -75,7 +75,7 @@ export default class AddNewProperty extends Base {
 
   #preview-facilities {
     display: grid !important;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto auto !important;
     margin: 1rem 8rem !important;
   }
 
@@ -227,7 +227,7 @@ export default class AddNewProperty extends Base {
 
   @media screen and (max-width: 1200px) {
     #preview-facilities {
-      margin: 0rem 14rem 0 15rem;
+      grid-template-columns: auto auto auto auto !important;
     }
   }
 
@@ -236,7 +236,7 @@ export default class AddNewProperty extends Base {
       margin-left: 5rem;
     }
     #preview-facilities {
-      margin: 0rem 12rem 0 13rem;
+      grid-template-columns: auto auto auto !important;
     }
   }
 
@@ -264,7 +264,7 @@ export default class AddNewProperty extends Base {
     }
 
     #preview-facilities {
-      margin: 0rem 8rem 0 10rem;
+      grid-template-columns: auto auto !important;
     }
 
   }
@@ -275,8 +275,7 @@ export default class AddNewProperty extends Base {
       font-size: 0.9rem;
     }
     #preview-facilities {
-      display: inline-grid;
-      margin: 0;
+      grid-template-columns: auto !important;
     }
   }
 
