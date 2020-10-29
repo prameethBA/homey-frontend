@@ -337,7 +337,8 @@ export default class LoginForm extends Base {
                 }
             )
                 .then((res) => {
-                    if (res.data.login === 'true') {
+                    console.log(res.data)
+                    if (res.data.login === 'true' && res.status == 201) {
                         if (this._qs('#remember').checked == true) {
                             localStorage.login = 'true'
                             localStorage.token = res.data.token
@@ -357,6 +358,10 @@ export default class LoginForm extends Base {
                     this.stopLoader();
                 })
                 .catch(err => {
+                    localStorage.login = 'false'
+                    localStorage.token = ''
+                    sessionStorage.login = 'false'
+                    sessionStorage.token = ''
                     dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
                     this.stopLoader();
                 })
