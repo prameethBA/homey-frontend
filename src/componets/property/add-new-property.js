@@ -7,7 +7,6 @@ export default class AddNewProperty extends Base {
   }
 
   #add-preview {
-    background-color: black;
     color: #ffffff;
     position: fixed;
     display: none;
@@ -17,6 +16,8 @@ export default class AddNewProperty extends Base {
     right: 0;
     overflow: auto;
     z-index: 1;
+    transition: all 1s;
+    background-color: rgba(0,0,0,0.8);
   }
 
   #add-preview::-webkit-scrollbar {
@@ -39,6 +40,8 @@ export default class AddNewProperty extends Base {
     height: 4rem;
     padding: 0.7rem;
     margin: 0.5rem;
+    padding: 0.2rem;
+    border-radius: 2px;
   }
 
   #progress {
@@ -61,6 +64,25 @@ export default class AddNewProperty extends Base {
     background-image: linear-gradient(to right top, #138722, #179331, #1ba040, #1ead4f, #20ba5e, #20bf66, #1fc36d, #1fc875, #1ec676, #1dc378, #1cc179, #1cbe7a);
     text-align: center;
   }
+
+  .preview-buttons {
+    display: block !important;
+  }
+
+  #edit {
+    background-image: linear-gradient(to right, #aaaaaa, #aaaaaa);
+  }
+
+  #preview-facilities {
+    display: grid !important;
+    grid-template-columns: auto auto auto auto;
+    margin: 1rem 8rem !important;
+  }
+
+  #preview-facilities span {
+    margin: 0.4rem auto;
+  }
+
 
   .form {
     position: relative;
@@ -195,7 +217,7 @@ export default class AddNewProperty extends Base {
     margin: 0.5em;
     cursor: url(./assets/icon/remove-icon.png), auto;
     background-color: #eeeeee;
-    padding: 1rem;
+    padding: 0.2rem;
     border-radius: 2px;
   }
 
@@ -204,12 +226,17 @@ export default class AddNewProperty extends Base {
   }
 
   @media screen and (max-width: 1200px) {
-    
+    #preview-facilities {
+      margin: 0rem 14rem 0 15rem;
+    }
   }
 
   @media screen and (max-width: 992px) {
     facility-comp {
       margin-left: 5rem;
+    }
+    #preview-facilities {
+      margin: 0rem 12rem 0 13rem;
     }
   }
 
@@ -236,12 +263,20 @@ export default class AddNewProperty extends Base {
       width: 100%;
     }
 
+    #preview-facilities {
+      margin: 0rem 8rem 0 10rem;
+    }
+
   }
 
   @media screen and (max-width: 512px) {
     #facilities {
       width: 85%
       font-size: 0.9rem;
+    }
+    #preview-facilities {
+      display: inline-grid;
+      margin: 0;
     }
   }
 
@@ -492,7 +527,7 @@ export default class AddNewProperty extends Base {
             const quantity = item.shadowRoot.querySelector('.quantity') == null ? 'null' : item.shadowRoot.querySelector('.quantity').value
             facilities.push({
               featureId: feature.id,
-              feature: item.shadowRoot.querySelector('label').innerText,
+              feature: item.shadowRoot.querySelector('.name').innerText,
               quantity: quantity
             })
           }
@@ -552,12 +587,13 @@ export default class AddNewProperty extends Base {
             <div id="progress-bar"><div id="progress-bar-progress"></div></div>
             <div id="progress-progress">0%</div>
           </div>
-          <div>
+          <div class="preview-buttons">
             <button calss="save" id="save">Add this Advertisement</button>
             <button calss="edit" id="edit">Edit</button>
           </div>
 
       `
+
         let previewFacilities = this._qs("#preview-facilities")
         facilities.forEach(item => previewFacilities.innerHTML += `<span>${item.feature} ${item.quantity != 'null' ? ' -' + item.quantity : ''}</span>`)
 

@@ -58,7 +58,7 @@ export default class Facility extends Base {
     <div class="container">
         <input type="checkbox" id="${this.getAttribute('key')}" class="checkbox">
         <label for="${this.getAttribute('key')}" class="checkmark"></label>
-        <label for="${this.getAttribute('key')}">${this.getAttribute('name')}</label>
+        <label for="${this.getAttribute('key')}" class="name">${this.getAttribute('name')}</label>
     </div>
 `
     constructor() {
