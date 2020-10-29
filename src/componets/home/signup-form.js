@@ -439,7 +439,7 @@ export default class SignUpForm extends Base {
                     'password': password
                 })
                     .then((res) => {
-                        if (res.data.signup === 'true' || res.status == 200) {
+                        if (res.data.signup === 'true' &&  res.status == 201) {
                             dispatchEvent(new Event('load-login-form'))
                             dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message + ' log into continue.' } }))
                         } else {
