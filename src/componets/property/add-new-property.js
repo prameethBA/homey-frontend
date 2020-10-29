@@ -611,23 +611,23 @@ export default class AddNewProperty extends Base {
         // Api call to add Advertisement to the databsse
         this._qs('#save').addEventListener('click', async () => {
           const data = {
-            Title: title,
-            Rentalperiod: rentalPeriod,
-            Price: price,
-            Keymoney: keyMoney,
-            Minimumperiod: minimumPeriod,
-            Availablefrom: availableFrom,
-            District: district,
-            City: city,
-            Propertytype: propertyType,
-            Description: description,
-            Facilities: facilities,
-            Images: newImages
+            title: title,
+            rentalperiod: rentalPeriod,
+            price: price,
+            keyMoney: keyMoney,
+            minimumPeriod: minimumPeriod,
+            availableFrom: availableFrom,
+            district: district,
+            city: city,
+            propertyType: propertyType,
+            description: description,
+            facilities: facilities,
+            images: newImages
           }
 
           console.log(data)
           
-            await axios.put('http://homey-api.atwebpages.com/facility', data, {
+            await axios.post('http://homey-api.atwebpages.com/property', data, {
               onUploadProgress: (progressEvent) => {
                 const {loaded, total} = progressEvent;
                 let percent = Math.floor( (loaded * 100) / total )
@@ -637,7 +637,7 @@ export default class AddNewProperty extends Base {
                 this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
               }
             })
-              .then(res =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res } })))
+              .then(res => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } })))
               .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
         })
       } catch (err) {
