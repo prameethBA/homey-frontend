@@ -339,28 +339,28 @@ export default class LoginForm extends Base {
                 .then((res) => {
                     if (res.data.login === 'true' && res.status == 201) {
                         if (this._qs('#remember').checked == true) {
-                            localStorage.login = 'true'
+                            localStorage.login = 'true';
+                            localStorage.userId = res.data.userId
                             localStorage.token = res.data.token
                         } else {
                             sessionStorage.login = 'true'
+                            sessionStorage.userId = res.data.userId
                             sessionStorage.token = res.data.token
                         }
                         dispatchEvent(new Event('login-success'))
                         dispatchEvent(new Event('exit-form'))
                     } else {
-                        localStorage.login = 'false'
-                        localStorage.token = ''
-                        sessionStorage.login = 'false'
-                        sessionStorage.token = ''
+                        localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
+                        sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
+                        
                         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
                     }
                     this.stopLoader();
                 })
                 .catch(err => {
-                    localStorage.login = 'false'
-                    localStorage.token = ''
-                    sessionStorage.login = 'false'
-                    sessionStorage.token = ''
+                    localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
+                    sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
+
                     dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
                     this.stopLoader();
                 })

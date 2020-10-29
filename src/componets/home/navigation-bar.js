@@ -264,6 +264,24 @@ export default class Nav extends Base {
                   }
                   this.state.display = !this.state.display
                 })
+
+                // Event listener for logout 
+                this._qs("#logout-button").addEventListener('click', () => {
+
+                  axios.delete('http://homey-api.atwebpages.com/login', {
+                    'userId': userId,
+                    'token': token
+                      }
+                  )
+                  .then(res => {
+                    console.log(res)
+                    localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
+                    sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
+                  })
+                  .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } })))
+
+
+                })
               }//End of the Event Litsner for hamburger icon
             }
 
