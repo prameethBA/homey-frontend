@@ -7,12 +7,20 @@ export default class AddNewProperty extends Base {
   }
 
   #add-preview {
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    right: 0;
     background-color: black;
     color: #ffffff;
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    z-index: 1;
+  }
+
+  #add-preview::-webkit-scrollbar {
+    width: 0 !important;
   }
 
   #add-preview > div {
@@ -31,6 +39,27 @@ export default class AddNewProperty extends Base {
     height: 4rem;
     padding: 0.7rem;
     margin: 0.5rem;
+  }
+
+  #progress {
+    width: 100%;
+    text-align: center;
+  }
+
+  #progress-bar {
+    width: 50%;
+    background-color: #777777;
+    border-radius: 25px;
+    margin: auto;
+  }
+  
+  #progress-bar-progress {
+    background-color: green;
+    border-radius: 25px;
+    height: 3px;
+    width: 0%;
+    background-image: linear-gradient(to right top, #138722, #179331, #1ba040, #1ead4f, #20ba5e, #20bf66, #1fc36d, #1fc875, #1ec676, #1dc378, #1cc179, #1cbe7a);
+    text-align: center;
   }
 
   .form {
@@ -519,7 +548,10 @@ export default class AddNewProperty extends Base {
           <div>Description 👉 <b> ${description}</b></div>
           <div id="preview-facilities">Features : </div>
           <div id="preview-images"></div>
-          <progress id="progress-bar" value="0" max="100">0%</progress>
+          <div id="progress">
+            <div id="progress-bar"><div id="progress-bar-progress"></div></div>
+            <div id="progress-progress">0%</div>
+          </div>
           <div>
             <button calss="save" id="save">Add this Advertisement</button>
             <button calss="edit" id="edit">Edit</button>
@@ -564,14 +596,14 @@ export default class AddNewProperty extends Base {
               onUploadProgress: (progressEvent) => {
                 const {loaded, total} = progressEvent;
                 let percent = Math.floor( (loaded * 100) / total )
-                this._qs('#progress-bar').value = percent
-                this._qs('#progress-bar').innerText = `${loaded}kb of ${total}kb | ${percent}%`
+                this._qs('#save').style.display = 'none'
+                this._qs('#edit').style.display = 'none'
+                this._qs('#progress-bar-progress').style.width = percent + '%'
+                this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
               }
             })
-              .then(res => console.log(res))
-              .catch(err => console.log(err))
-          
-          dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: "Property added successfuly." } }))
+              .then(res =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res } })))
+              .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
         })
       } catch (err) {
         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
