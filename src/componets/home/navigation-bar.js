@@ -203,9 +203,10 @@ export default class Nav extends Base {
     super()
     this.mount()
 
-    this.preContentNehaviour = () => {
-      // Event listener for load the login form
-      this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
+    // Event listener for load the login form
+    this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
+
+    this.preContentBehaviour = () => {
       this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
     }
 
@@ -308,11 +309,12 @@ export default class Nav extends Base {
       this.setLoginNavBar()
       addEventListener('log-out', () => {
         this._qs('header').innerHTML = this.preContent
-        this.preContentNehaviour()
+        this.preContentBehaviour()
+        this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
       })
     })
 
-    this.preContentNehaviour()
+    this.preContentBehaviour()
 
   }// End of connected callback
 

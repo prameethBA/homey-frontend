@@ -272,111 +272,116 @@ export default class LoginForm extends Base {
             dispatchEvent(new Event('exit-form'))
             this.state.exit = true
         }
+        
     }//End of constructor
 
     connectedCallback() {
+        try {
 
-        // backdrop
-        this._qs('#backdrop').addEventListener('click', () => {
-            dispatchEvent(new Event('exit-form'))
-            this.setPath('/')
-        })
-
-        this._qs('#signup').addEventListener('click', () => dispatchEvent(new Event('load-signup-form')))
-
-        this._qs('#reset-password').addEventListener('click', () => dispatchEvent(new Event('reset-password-form')))
-
-        // Client side form validation
-        const validation = () => {
-            this.state.validation = false
-            const events = ['focus', 'keyup']
-            events.forEach(element => {
-                this._qs("#email").addEventListener(element, () => {
-                    if (this._qs("#email").value == '') {
-                        this._qs('#validation-email').innerHTML = "❌ Enter the email or Mobile"
-                        this.state.validation = false
-                    } else if (!(/^\w{2,}@\w{2,}\.\w{2,4}$/.test(this._qs("#email").value) || /^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(this._qs("#email").value))) {
-                        this._qs('#validation-email').innerHTML = "❌ Enter a valid email or Mobile"
-                        this.state.validation = false
-                    } else {
-                        this._qs('#validation-email').innerHTML = ""
-                        this.state.validation = true
-                    }
-
-                    this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
-                })
+            // backdrop
+            this._qs('#backdrop').addEventListener('click', () => {
+                dispatchEvent(new Event('exit-form'))
+                this.setPath('/')
             })
-
-            events.forEach(element => {
-                this._qs("#password").addEventListener(element, () => {
-                    if (this._qs("#password").value == '') {
-                        this._qs('#validation-password').innerHTML = "❌ Enter the password"
-                        this.state.validation = false
-                    } else {
-                        this._qs('#validation-password').innerHTML = ""
-                        this.state.validation = true
-                    }
-
-                    this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
-                })
-            })
-
-        }//End of validation
-
-        //Exucute validation
-        validation()
-
-        this._qs('#login').addEventListener('click', () => {
-            this.setLoader();
-            // API call for login
-            const userName = this._qs('#email').value
-            const password = this._qs('#password').value
-            axios.post('http://homey-api.atwebpages.com/login', {
-                    'userName': userName,
-                    'password': password
-                }
-            )
-                .then((res) => {
-                    if (res.data.login === 'true' && res.status == 201) {
-                        if (this._qs('#remember').checked == true) {
-                            localStorage.login = 'true';
-                            localStorage.userId = res.data.userId
-                            localStorage.token = res.data.token
+    
+            this._qs('#signup').addEventListener('click', () => dispatchEvent(new Event('load-signup-form')))
+    
+            this._qs('#reset-password').addEventListener('click', () => dispatchEvent(new Event('reset-password-form')))
+    
+            // Client side form validation
+            const validation = () => {
+                this.state.validation = false
+                const events = ['focus', 'keyup']
+                events.forEach(element => {
+                    this._qs("#email").addEventListener(element, () => {
+                        if (this._qs("#email").value == '') {
+                            this._qs('#validation-email').innerHTML = "❌ Enter the email or Mobile"
+                            this.state.validation = false
+                        } else if (!(/^\w{2,}@\w{2,}\.\w{2,4}$/.test(this._qs("#email").value) || /^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(this._qs("#email").value))) {
+                            this._qs('#validation-email').innerHTML = "❌ Enter a valid email or Mobile"
+                            this.state.validation = false
                         } else {
-                            sessionStorage.login = 'true'
-                            sessionStorage.userId = res.data.userId
-                            sessionStorage.token = res.data.token
+                            this._qs('#validation-email').innerHTML = ""
+                            this.state.validation = true
                         }
-                        dispatchEvent(new Event('login-success'))
-                        this.setPath('/')
-                        dispatchEvent(new Event('exit-form'))
-                    } else {
+    
+                        this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+                    })
+                })
+    
+                events.forEach(element => {
+                    this._qs("#password").addEventListener(element, () => {
+                        if (this._qs("#password").value == '') {
+                            this._qs('#validation-password').innerHTML = "❌ Enter the password"
+                            this.state.validation = false
+                        } else {
+                            this._qs('#validation-password').innerHTML = ""
+                            this.state.validation = true
+                        }
+    
+                        this.state.validation == true ? this._qs('#login').disabled = false : this._qs('#login').disabled = true
+                    })
+                })
+    
+            }//End of validation
+    
+            //Exucute validation
+            validation()
+    
+            this._qs('#login').addEventListener('click', () => {
+                this.setLoader();
+                // API call for login
+                const userName = this._qs('#email').value
+                const password = this._qs('#password').value
+                axios.post('http://homey-api.atwebpages.com/login', {
+                        'userName': userName,
+                        'password': password
+                    }
+                )
+                    .then((res) => {
+                        if (res.data.login === 'true' && res.status == 201) {
+                            if (this._qs('#remember').checked == true) {
+                                localStorage.login = 'true';
+                                localStorage.userId = res.data.userId
+                                localStorage.token = res.data.token
+                            } else {
+                                sessionStorage.login = 'true'
+                                sessionStorage.userId = res.data.userId
+                                sessionStorage.token = res.data.token
+                            }
+                            dispatchEvent(new Event('login-success'))
+                            this.setPath('/')
+                            dispatchEvent(new Event('exit-form'))
+                        } else {
+                            localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
+                            sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
+                            
+                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
+                        }
+                        this.stopLoader();
+                    })
+                    .catch(err => {
                         localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
                         sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
-                        
-                        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
-                    }
-                    this.stopLoader();
-                })
-                .catch(err => {
-                    localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
-                    sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
-
-                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
-                    this.stopLoader();
-                })
-
-        })//End of Login API call
-
-        // Login with Google
-        this._qs('.google').addEventListener('click', async () => {
-            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
-        })
-
-        // Login with FaceBook
-        this._qs('.facebook').addEventListener('click', async () => {
-            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
-        })
+    
+                        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
+                        this.stopLoader();
+                    })
+    
+            })//End of Login API call
+    
+            // Login with Google
+            this._qs('.google').addEventListener('click', async () => {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
+            })
+    
+            // Login with FaceBook
+            this._qs('.facebook').addEventListener('click', async () => {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
+            })
+        } catch(err) {
+            console.log(err)
+        }
 
     }//End of connectedCallback
 

@@ -62,9 +62,9 @@ export default class App extends Base {
         }// End of Method to load dynamic froms
 
         // Listen for login-form Event to set visible Login Form
-        addEventListener('load-login-form', () => loadForm('login'))
-        addEventListener('load-signup-form', () => loadForm('signup'))
-        addEventListener('reset-password-form', () => loadForm('reset-password'))
+        addEventListener('load-login-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('login') : this.setPath('/'))
+        addEventListener('load-signup-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('signup') : this.setPath('/'))
+        addEventListener('reset-password-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('reset-password') : this.setPath('/'))
         
         // Load login form component
         router.get('/login', () => dispatchEvent(new Event('load-login-form')))
