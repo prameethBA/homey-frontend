@@ -186,21 +186,28 @@ export default class Nav extends Base {
 
   `
 
+  preContent = `
+      <nav class='navbar'>
+          <img src="./assets/img/homey_logo.png" class="logo" />
+          <span class="separator"></span>
+          <button id="login-button"> login </button>
+      </nav>
+  `
+
   content = `
       <header>
-          <nav class='navbar'>
-              <img src="./assets/img/homey_logo.png" class="logo" />
-              <span class="separator"></span>
-              <button id="login-button"> login </button>
-          </nav>
+        ${this.preContent}
       </header>
   `
   constructor() {
     super()
     this.mount()
 
-    // Event listener for load the login form
-    this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
+    this.preContentNehaviour = () => {
+      // Event listener for load the login form
+      this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
+      this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
+    }
 
     this.state.loginContent = `
         <div class='navbar'>
@@ -300,11 +307,12 @@ export default class Nav extends Base {
     addEventListener('login-success', () => {
       this.setLoginNavBar()
       addEventListener('log-out', () => {
-        this._qs('header').innerHTML = this.content
+        this._qs('header').innerHTML = this.preContent
+        this.preContentNehaviour()
       })
     })
 
-    this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
+    this.preContentNehaviour()
 
   }// End of connected callback
 
