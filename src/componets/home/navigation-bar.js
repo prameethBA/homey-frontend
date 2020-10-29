@@ -117,6 +117,8 @@ export default class Nav extends Base {
         transition: 1s ease;
         background-repeat: no-repeat;
         background-size: contain;
+        position: absolute;
+        right: 1rem;
       }
       
       .hamburger-collapse {
@@ -131,7 +133,7 @@ export default class Nav extends Base {
         display: none;
         position: absolute;
         justify-content: stretch;
-        top: 2.25rem;
+        top: 4rem;
         left: -1rem;
         width: 100%;
         z-index: 2;
@@ -229,7 +231,7 @@ export default class Nav extends Base {
           </div>
           
           `
-          const setLoginNavBar = () => {
+          this.setLoginNavBar = () => {
             if (localStorage.login == 'true' || sessionStorage.login == 'true') {
               this._qs('#login-button') != null ? this._qs('#login-button').style.display = 'none' : null
               this._qs('nav').innerHTML = this.state.loginContent
@@ -244,32 +246,37 @@ export default class Nav extends Base {
               }))
               
               this.state.LoginNavBar = true
+
+              // Event Litsner for hamburger icon
+              const hamburger = this._qs("#hamburger-icon")
+              const wrapper = this._qs(".wrapper")
+              if(this.state.LoginNavBar) {
+                this.state.display = wrapper.style.display == 'none' || wrapper.style.display == '' 
+                hamburger.addEventListener('click', () => {
+                 if(!this.state.display) {
+                    wrapper.style.display = 'none'
+                    hamburger.classList.add('hamburger-collapse')
+                    hamburger.classList.remove('hamburger-expand')
+                  } else {
+                    wrapper.style.display = 'inline-grid'
+                    hamburger.classList.add('hamburger-expand')
+                    hamburger.classList.remove('hamburger-collapse')
+                  }
+                  this.state.display = !this.state.display
+                })
+              }//End of the Event Litsner for hamburger icon
             }
+
           }//End setLoginBar() method
-          setLoginNavBar()
+          
+          this.setLoginNavBar()
+
   }//End of the constructor
 
   connectedCallback() {
 
-    // Event Litsner for hamburger icon
-    const hamburger = this._qs("#hamburger-icon")
-    const wrapper = this._qs(".wrapper")
-    if(this.state.LoginNavBar) {
-      this.state.display = wrapper.style.display == 'none' || wrapper.style.display == '' 
-      hamburger.addEventListener('click', () => {
-       if(!this.state.display) {
-          wrapper.style.display = 'none'
-          hamburger.classList.add('hamburger-collapse')
-          hamburger.classList.remove('hamburger-expand')
-        } else {
-          wrapper.style.display = 'inline-grid'
-          hamburger.classList.add('hamburger-expand')
-          hamburger.classList.remove('hamburger-collapse')
-        }
-        this.state.display = !this.state.display
-      })
-    }//End of the Event Litsner for hamburger icon
-    
+    addEventListener('login-success', () => this.setLoginNavBar())
+
     this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
 
   }// End of connected callback

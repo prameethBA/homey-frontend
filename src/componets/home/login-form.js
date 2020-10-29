@@ -337,7 +337,6 @@ export default class LoginForm extends Base {
                 }
             )
                 .then((res) => {
-                    console.log(res.data)
                     if (res.data.login === 'true' && res.status == 201) {
                         if (this._qs('#remember').checked == true) {
                             localStorage.login = 'true'
