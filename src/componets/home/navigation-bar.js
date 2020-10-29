@@ -203,11 +203,11 @@ export default class Nav extends Base {
     super()
     this.mount()
 
-    // Event listener for load the login form
-    this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
-
+    this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
+    
     this.preContentBehaviour = () => {
-      this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
+      // Event listener for load the login form
+      this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
     }
 
     this.state.loginContent = `
@@ -295,7 +295,7 @@ export default class Nav extends Base {
                   .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message === undefined ? err : err.message } })))
                 })
               }//End of the Event Litsner for hamburger icon
-            }
+            } else this.preContentBehaviour()
 
           }//End setLoginBar() method
           
@@ -307,14 +307,13 @@ export default class Nav extends Base {
 
     addEventListener('login-success', () => {
       this.setLoginNavBar()
-      addEventListener('log-out', () => {
-        this._qs('header').innerHTML = this.preContent
-        this.preContentBehaviour()
-        this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
-      })
     })
 
-    this.preContentBehaviour()
+    addEventListener('log-out', () => {
+      this._qs('header').innerHTML = this.preContent
+      this.preContentBehaviour()
+      this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
+    })
 
   }// End of connected callback
 
