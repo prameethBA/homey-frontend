@@ -348,6 +348,7 @@ export default class LoginForm extends Base {
                             sessionStorage.token = res.data.token
                         }
                         dispatchEvent(new Event('login-success'))
+                        this.setPath('/')
                         dispatchEvent(new Event('exit-form'))
                     } else {
                         localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''

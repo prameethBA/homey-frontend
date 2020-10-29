@@ -269,18 +269,22 @@ export default class Nav extends Base {
                 this._qs("#logout-button").addEventListener('click', () => {
 
                   axios.delete('http://homey-api.atwebpages.com/login', {
-                    'userId': userId,
-                    'token': token
+                    'userId': (sessionStorage.userId !== undefined || sessionStorage.userId !== '') ? sessionStorage.userId : sessionStorage.userId,
+                    'token': (sessionStorage.token !== undefined || sessionStorage.token !== '') ? sessionStorage.token : sessionStorage.token
                       }
                   )
                   .then(res => {
-                    console.log(res)
                     localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
                     sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
+
+                    dispatchEvent(new Event('log-out'))
+                    //Redirect to the home page
+                    dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: '../main', compName: 'main-comp' } }))
+                    
+                    if(res.status == 204) dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.message } }))
+                    else throw res.data
                   })
-                  .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } })))
-
-
+                  .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message === undefined ? err : err.message } })))
                 })
               }//End of the Event Litsner for hamburger icon
             }
@@ -293,7 +297,12 @@ export default class Nav extends Base {
 
   connectedCallback() {
 
-    addEventListener('login-success', () => this.setLoginNavBar())
+    addEventListener('login-success', () => {
+      this.setLoginNavBar()
+      addEventListener('log-out', () => {
+        this._qs('header').innerHTML = this.content
+      })
+    })
 
     this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
 
