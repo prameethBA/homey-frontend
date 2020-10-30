@@ -11,7 +11,7 @@ export default class Nav extends Base {
 
     .navbar {
       display: flex;
-      margin: 1rem 1rem 0 1rem;
+      margin: 0.5rem 0 -0.1rem 1rem;
     }
 
     .separator {
