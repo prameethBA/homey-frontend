@@ -5,20 +5,20 @@ export default class error extends Base {
   css = `
 
   #backdrop {
-    position: absolute;
+    position: fixed;
+    left: 0;
     z-index: 999;
     background-color: rgba(0,0,0,0.7);
     width: 100%;
-    height: 100%;
-    padding: 0px; 
-    margin: 0px; 
-    padding-bottom: 80px;
+    right: 0;
+    top: 0;
+    bottom: 0;
     cursor: pointer;
 }
 
   .container {
     z-index: 1000;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -36,6 +36,11 @@ export default class error extends Base {
   .onnotice {
     background-color: gray;
     background-image: linear-gradient(to right top, #b2b2b2, #9c9b9c, #878586, #737071, #605b5b);
+  }
+
+  .oninfo {
+    background-color: lightblue;
+    background-image: linear-gradient(to right top, #0066ff, #0076ff, #0084ff, #0091ff, #009dff);
   }
 
   ::slotted(div) {
@@ -86,6 +91,10 @@ export default class error extends Base {
         this._qs('.title').innerHTML = 'Notice'
         this._qs('.container').classList.add('onnotice')
         break;
+      case 'info':
+          this._qs('.title').innerHTML = 'Info'
+          this._qs('.container').classList.add('oninfo')
+          break;
       default:
       // Default is the error
     }

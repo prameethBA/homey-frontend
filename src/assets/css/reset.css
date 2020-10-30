@@ -1,6 +1,6 @@
 *,
 html {
-    font-family: Century Gothic;
+    font-family: Sanserif, Century, Gothic;
     margin: 0;
     padding: 0;
     left: 0;
@@ -15,7 +15,7 @@ html {
 }
 
 body {
-    background-color: #041837;
+    background-color: #aceaff;
     background-image: linear-gradient(
         to top,
         #10dbc6,
@@ -26,7 +26,7 @@ body {
     );
     background-size: cover;
     background-attachment: fixed;
-    transition: all 10s;
+    transition: all 5s;
 }
 
 #loader {

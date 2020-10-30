@@ -16,7 +16,7 @@ export default class Base extends HTMLElement {
     }
     setPath(path) {
         window.history.pushState({}, '', path)
-        if(!(path == '' || path == null || path.length <= 2 )) dispatchEvent(new CustomEvent('pathChanged', {detail: {'path': path.substr(1)}}))
+        if (!(path == '' || path == null || path.length <= 2)) dispatchEvent(new CustomEvent('pathChanged', { detail: { 'path': path.substr(1) } }))
     }
 
     // Helpers
@@ -36,8 +36,12 @@ export default class Base extends HTMLElement {
         return this.querySelectorAll(selector)
     }
 
+    sleep = ms => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
     setLoader = () => dispatchEvent(new Event('pre-load'))
 
     stopLoader = () => dispatchEvent(new Event('stop-pre-load'))
-    
+
 }

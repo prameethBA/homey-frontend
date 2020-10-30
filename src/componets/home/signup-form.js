@@ -5,120 +5,91 @@ import Base from './../Base.js'
 export default class SignUpForm extends Base {
 
     css = `
-    .form {
-        z-index: 100;
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        top: 50%;
-        left: 50%;
-        transform : translate(-50%, -50%);
-        width: 25%;
-        margin: 1em auto;
-        background-color: rgba(0,0,0,0.9);
-        color: #eeeeee;
-        padding: 0.5em 2em;
-        padding-bottom: 3em;
-        border-radius: 1px;        
+    
+    #backdrop {
+        position: fixed;
+        z-index: 99;
+        background-color: rgba(0,0,0,0.7);
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        cursor: url(./assets/icon/remove-icon.png), auto;
     }
 
-    .row {
-        display: inherit;
+    .form {
+        position: relative;
+        z-index: 100;
+        width: 30%;
+        margin: 1rem auto;
+        background-color: rgba(0,0,0,0.9);
+        color: #eeeeee;
+        padding: 0.5rem 3rem;
+        padding-bottom: 3rem;
+        border-radius: 1px;
+        transition: all 0.5s ease;        
     }
 
     h2 {
-        margin: 1em;
+        margin: 1rem;
+        text-align: center;
     }
 
-    #backdrop {
-        position: absolute;
-        left: 0;
-        z-index: 99;
-        background-color: rgba(0,0,0,0.7);
-        width: 100%;
-        height: 100%;
-        padding: 0px; 
-        margin: 0px; 
-        padding-bottom: 80px;
-        cursor: pointer;
-    }
-
-    .name {
-        display: grid;
-        grid-template-columns: auto auto;
-    }
-
-    input {
+    .textField {
         outline: none;
         width: 80%;
         background-color: transparent;
         border: none;
         border-bottom: solid 1.25px #cccccc;
-        margin-bottom: 2.5em;
         color: #ffffff;
+        display: block;
+        margin: 2rem auto;
     }
     
-    input:focus,
-    input:valid {
+    .textField:focus,
+    .textField:valid {
         border-color: #38ee17;
     }
     
-    input[type=checkbox] {
-        display: inline;
-    }
-
-    label {
+    .textField-label {
         position: absolute;
+        display: block;
         pointer-events: none;
-        left: 4.5vw;
+        transform: translate(3vw, -3.5rem);
         transition: all 0.2s;
     }
 
-    input:focus + label,
-    input[type=text]:valid + label,
-    input[type=password]:valid + label {
-        transform: translateY(-1.5em);
+    .textField:focus + .textField-label,
+    .textField:valid + .textField-label {
+        transform: translate(2rem, -4.5rem);
         font-size: 0.8em;
     }
 
     .terms {
-        display: inline-grid;
-        grid-template-columns: auto auto;
+        display: table;
+        margin: 1rem auto;
+        transform: translateX(1rem);
     }
-
-    .terms > input {
-        margin-right: 2vw;
-    }
-
-    .terms > span {
-        margin-left: 1vw;
-    }
-
-    .hr-separator {
-        width: 100%;
-        height: 2px;
-        background-color: #eeeeee;
-        margin: 1.3em 0;
+    
+    .terms > label {
+        font-size: 0.8rem;
+        cursor: pointer;
     }
 
     .terms input {
-        position: absolute;
-        opacity: 0;
+        display: none;
         cursor: pointer;
     }
 
     .checkmark {
+        position: absolute;
         height: 20px;
         width: 20px;
-        background-color:transparent;
+        background-color: transparent;
         border-radius: 50%;
         border: solid 1px #ffffff;
         transition: all 1s;
-    }
-
-    .terms:hover input ~ .checkmark {
-        background-color: #ccffcc;
+        transform: translateX(-2rem);
     }
 
     .terms input:checked ~ .checkmark {
@@ -144,31 +115,91 @@ export default class SignUpForm extends Base {
     }
 
     button {
-        width: 90%;
-        display: inline-block;
-        height: 3em;
-        border-radius: 25px;
+        position: relative;
+        width: 100%;
+        height: 2.5rem;
+        display: block;
+        border-radius: 3rem;
         outline: none;
         border: none;
         background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
         font-size: 0.8rem;
         color: #fff;
         text-transform: uppercase;
-        margin: 1em 0;
+        margin: 1rem auto;
         cursor: pointer;
         transition: all 1s;
+    }
+   
+    button:hover{
+        background-position: right;
+        color: black;
     }
 
     button:disabled {
         background-image: linear-gradient(to right, gray, gray);
         background-color: gray;
+    } 
+    
+    .row a {
+        display: inline-block;
+        color: #9999ee;
+        text-decoration: underline;
+    }
+
+    .hr-separator {
+        width: 80%;
+        border: solid 1px;
+        margin: 2rem auto;
+    }
+
+    .or-separator {
+        margin: auto;
+        display: table;
+    }
+
+    .google {
+        color: blue;
+        background-size: 200%;
+        background-image: url("../assets/img/google.svg");
+    }
+    
+
+    .facebook {
+        color: red;
+        background-size: 200%;
+        background-image: url("../assets/img/facebook.svg");
+    }
+
+    a:hover{
+        color: #F4D03F;
+        cursor: pointer;
+    }
+
+    button > img {
+        position: absolute;
+        transform: translate(-2rem, -0.3rem);
+    }
+
+    .validation {
+        display: table;
+        color: red;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin: 0.3rem auto;
+    }
+
+    .login {
+        display: grid;
+        grid-template-columns: 56% 7% 78%;
+        transform: translateX(1.5rem);
     }
     
     .login-button {
         margin: 0;
         font-size: 0.6em;
         width: 25%;
-        height: 20px;
+        height: 1.3rem;
     }
 
     .login a {
@@ -176,75 +207,38 @@ export default class SignUpForm extends Base {
         display: contents;
     }
 
-    button:hover{
-        background-position: right;
-        color: black;
-    }
-
-    .google {
-        background-size: 200%;
-        color: blue;
-        background-image: url("../assets/img/google.svg");
-    }
-    
-
-    .facebook {
-        background-size: 200%;
-        color: red;
-        background-image: url("../assets/img/facebook.svg");
-    }
-
-    a {
-        cursor: pointer;
-        width: 100%;
-        text-align: right;
-        text-decoration: none;
-        color: #999;
-        font-size: 0.9rem;
-        transition: .3s;
-    }
-
-    a:hover{
-        color: #F4D03F;
-    }
-
-    .api-login {
-        margin-top: -0.5em;
-    }
-
-    .validation {
-        display: block;
-        color: red;
-        font-size: 0.8em;
-        font-weight: bold;
-    }
-
     @media screen and (max-width: 1200px) {
-        .form {
-            width: 30%;
+        .textField-label {
+            transform: translate(4vw, -3.5rem);
         }
-
-        label {
-            left: 6vw;
-        }
-      }
+    }
 
     @media screen and (max-width: 992px) {
         .form {
             width: 40%;
         }
-
-        label {
-            left: 15vw;
-        }
-      }
+    }
 
     @media screen and (max-width: 768px) {
         .form {
-            width: 80%;
+            width: 50%;
         }
-      }
+    }
 
+    @media screen and (max-width: 512px) {
+        .form {
+            width: 60%;
+        }
+
+        .google , .facebook{
+            font-size: 0.6rem;
+            padding-bottom: 0.2rem;
+        }
+
+        .login {
+            grid-template-columns: 49% 10% 93%;
+        }
+    }
 `
     content = `
 
@@ -255,28 +249,28 @@ export default class SignUpForm extends Base {
 
         <div class="container">
             <div class="row">
-                <input type="text" id="firstName" name="firstName" class="nameField" title="First Name : Joe" required />
-                <label for="firstName">First Name</label>
-                <input type="text" id="lastName" name="lastName" class="nameField" title="Last Name : Does" required />
-                <label for="lastName">Last Name</label>
+                <input class="textField" type="text" id="firstName" name="firstName" class="nameField" title="First Name : Joe" required />
+                <label class="textField-label" for="firstName">First Name</label>
+                <input class="textField" type="text" id="lastName" name="lastName" class="nameField" title="Last Name : Does" required />
+                <label class="textField-label" for="lastName">Last Name</label>
             </div>
             <div class="row">
-                <input type="text" id="email" name="email" title="Email : someone@somthing.com" required />
-                <label for="email">Email</label>
+                <input class="textField" type="text" id="email" name="email" title="Email : someone@somthing.com" required />
+                <label class="textField-label" for="email">Email</label>
             </div>
             <div class="row">
-                <input type="password" id="password" name="password" title= "Password : pass@123" required />
-                <label for="password">Password</label>
+                <input class="textField" type="password" id="password" name="password" title= "Password : pass@123" required />
+                <label class="textField-label" for="password">Password</label>
             </div>
             <div class="row">
-                <input type="password" id="confirm-password" name="confirmPassword" title= "Confirm Password : pass@123" required />
-                <label for="confirmPassword">Confirm Password</label>
+                <input class="textField" type="password" id="confirm-password" name="confirmPassword" title= "Confirm Password : pass@123" required />
+                <label class="textField-label" for="confirmPassword">Confirm Password</label>
             </div>
             <div class="row">
                 <div class="terms">
-                    <input type="checkbox" id="terms">
-                    <span class="checkmark"></span>
-                    <span><a>accept terms and conditions</a></span>
+                    <input type="checkbox" id="terms" />
+                    <label for="terms" class="checkmark"></label>
+                    <span><label for="terms">accept</label> <a>terms</a> and <a>conditions</a></span>
                 </div>
             </div>
             <div class="row">
@@ -288,7 +282,7 @@ export default class SignUpForm extends Base {
             <div class="row">
                 <button id="signUp" disabled> Sign Up </button>
             </div>
-            <div class="row login">
+            <div class="login">
                 <a title="Login" class="load-login-form">Already have an account ? </a>
                 <span>|</span>
                 <button title="Log in" class="load-login-form login-button"> Login </button>
@@ -297,7 +291,7 @@ export default class SignUpForm extends Base {
             <div class="hr-separator">
             </div>
 
-            <div class="row api-login">
+            <div class="or-separator">
                 <span>or</span>
             </div>
             
@@ -326,7 +320,7 @@ export default class SignUpForm extends Base {
 
         this.shadowRoot.querySelectorAll('.load-login-form').forEach((item) => {
             item.addEventListener('click', () => {
-                dispatchEvent(new Event('login-form'))
+                dispatchEvent(new Event('load-login-form'))
             })
         })
 
@@ -408,23 +402,24 @@ export default class SignUpForm extends Base {
                 })
             })
 
-            // Signup with Google
-            this._qs('.google').addEventListener('click', async () => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
-            })
-
-            // Signup with FaceBook
-            this._qs('.facebook').addEventListener('click', async () => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
-            })
-
+            
         }//End of validation
-
+        
         //Exucute validation
         validation()
+        
+        // Signup with Google
+        this._qs('.google').addEventListener('click', async () => {
+            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
+        })
 
+        // Signup with FaceBook
+        this._qs('.facebook').addEventListener('click', async () => {
+            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: "Feature disabled at the moment. Use email instead." } }))
+        })
 
-        this._qs('#signUp').addEventListener('click', () => {
+        // Method for signup
+        this._qs('#signUp').addEventListener('click', async () => {
 
             // Check whether user accepted terms and conditions
             if (this._qs("#terms").checked == true) {
@@ -436,19 +431,16 @@ export default class SignUpForm extends Base {
                 const lastName = this._qs('#lastName').value
                 const email = this._qs('#email').value
                 const password = this._qs('#password').value
-                fetch('http://homey-api.atwebpages.com/signup/user', {
-                    method: 'POST',
-                    headers: {
-                        'Firstname': firstName,
-                        'Lastname': lastName,
-                        'Email': email,
-                        'Password': password
-                    }
+                // API call fro signup
+                await axios.post('http://homey-api.atwebpages.com/signup/user', {
+                    'firstName': firstName,
+                    'lastName': lastName,
+                    'email': email,
+                    'password': password
                 })
-                    .then((res) => res.json())
                     .then((res) => {
-                        if (res.data.signup === 'true') {
-                            dispatchEvent(new Event('login-form'))
+                        if (res.data.signup === 'true' &&  res.status == 201) {
+                            dispatchEvent(new Event('load-login-form'))
                             dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message + ' log into continue.' } }))
                         } else {
                             dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
@@ -462,8 +454,7 @@ export default class SignUpForm extends Base {
             } else {
                 dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'notice', msg: 'You should accept terms and conditions to continue.' } }))
             }
-        })
-
+        })//End of the Method for signup
 
     }//End of connected callback
 
