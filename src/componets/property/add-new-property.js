@@ -4,6 +4,7 @@ export default class AddNewProperty extends Base {
 
   css = `
   .container {
+    margin-top: 5rem;
   }
 
   #add-preview {

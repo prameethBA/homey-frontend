@@ -5,13 +5,14 @@ import './componets/home/user-comp.js'
 export default class Main extends Base {
 
     css = `
+
     .user-comp {
         margin: 5rem auto;
         display: table;
     }
 
     .parallax {
-        min-height: 500px;
+        height: 90vh;
         background-attachment: fixed;
         background-position: center;
         background-repeat: no-repeat;
@@ -28,7 +29,9 @@ export default class Main extends Base {
     }
 
     @media screen and (max-width: 1200px) {
-      
+        .parallax {
+            height: 75vh;
+        }
     }
   
     @media screen and (max-width: 992px) {
@@ -37,19 +40,26 @@ export default class Main extends Base {
             grid-template-columns: auto;
             justify-content: center;
         }
+
+        .parallax {
+            height: 100vh;
+        }
     }
   
     @media screen and (max-width: 768px) {
-        
+        .parallax {
+            height: 98vh;
+        }
     }
   
     @media screen and (max-width: 512px) {
-       
+        .parallax {
+            height: 65vh;
+        }
     }
     
 `
     content = `
-
         <div class="container">
           <div class="parallax parallax-1">
             <div class="user-comp">
