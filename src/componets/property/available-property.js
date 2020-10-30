@@ -9,6 +9,7 @@ export default class AvalibaleProperty extends Base {
        grid-gap: 10px;
        grid-template-columns: repeat(auto-fill, 20rem);
        overflow-x: auto;
+       margin-top: 5rem;
     }
 
     #container::-webkit-scrollbar {
@@ -70,7 +71,9 @@ export default class AvalibaleProperty extends Base {
         for (let index = 0; index < this.state.limit; index++) {
             this._qs('#container').innerHTML += `
                     <property-view id="id-${index}" key="${index}">
-                        <img class=' thumbnail thumbnail-${index}' slot='thumbnail' src="./assets/img/1.png" />
+                        <img class='thumbnail thumbnail-${index}' slot='thumbnail' src="./assets/img/1.png" />
+                        <img class='thumbnail thumbnail-${index}' slot='thumbnail' src="./assets/img/house.jpg" />
+                        <img class='thumbnail thumbnail-${index}' slot='thumbnail' src="./assets/img/background.jpg" />
                         <p slot="title" class=" title title-${index}">Title</p>
                         <p slot="price" class=" price price-${index}">Price</p>
                         <p slot="description" class=" description description-${index}">Description</p>
