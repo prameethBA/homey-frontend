@@ -266,22 +266,22 @@ export default class Nav extends Base {
               this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
               this._qs('#logout-button') != null ? this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out'))) : null
               
+              // THIS SHOULD BE RECONSIDER +TODO
               this.state.dropdownVisible = true
               this._qs('.setting-menu').addEventListener('click', async () => {
                 this.state.dropdownVisible && (window.innerWidth >= 1200) ? this._qs('.dropdown').style.display = 'inline-grid' : this._qs('.dropdown').style.display = 'none'
                 this.state.dropdownVisible = !this.state.dropdownVisible
               })
-              this._qs('.dropdown').addEventListener('mousedown', () => {
-                this.state.dropdownVisible && (window.innerWidth >= 1200) ? this._qs('.dropdown').style.display = 'inline-grid' : this._qs('.dropdown').style.display = 'none'
-                this.state.dropdownVisible = !this.state.dropdownVisible
-              })
-              this._qs('.dropdown').addEventListener('mouseover', async () => {
-                if(window.innerWidth >= 1200) {
-                  await this.sleep(5000)
-                  this._qs('.dropdown').style.display = 'none'
-                  this.state.dropdownVisible = true
-                }
-              })
+              // this._qs('.dropdown').addEventListener('mousedown', () => {
+              //   this.state.dropdownVisible && (window.innerWidth >= 1200) ? this._qs('.dropdown').style.display = 'inline-grid' : this._qs('.dropdown').style.display = 'none'
+              //   this.state.dropdownVisible = !this.state.dropdownVisible
+              // })
+              // this._qs('.dropdown').addEventListener('mouseover', async () => {
+              //     await this.sleep(5000)
+              //     this._qs('.dropdown').style.display = 'none'
+              //     this.state.dropdownVisible = true
+              // })
+              //-TODO
               
               // Set an indicator for active class
               this._qsAll("a").forEach(item => item.addEventListener('click', () => {

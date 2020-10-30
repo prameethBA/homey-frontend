@@ -81,7 +81,7 @@ export default class AvalibaleProperty extends Base {
                 await axios.get('http://homey-api.atwebpages.com/property/all/overview')
                 .then(res => {
                    for (let index = this.state.page * this.state.limit; index < (this.state.page + 1) * this.state.limit; index++) {
-                       this._qs(`,thumbnail-${index}`)
+                       console.log(this._qs(`thumbnail-${index}`))
                    }
                     this.stopLoader()
                 })

@@ -46,6 +46,8 @@ export default class Main extends Base {
     constructor() {
         super()
         this.mount()
+
+        this.setPath('/')
     }
 
 }//End of Class
