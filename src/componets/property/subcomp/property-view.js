@@ -192,7 +192,7 @@ export default class PropertyView extends Base {
     
             this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
             this._qs('.slider-next').addEventListener('click', () => {slideNext()})
-            // this._qs('.slider-previous').click();
+            this._qs('.slider-previous').click();
             this.state.rootImg = 0
     
             let autoSlide = setInterval(() => slideNext(),5000)
