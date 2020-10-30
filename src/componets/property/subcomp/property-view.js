@@ -104,7 +104,7 @@ export default class PropertyView extends Base {
     button {
         width: 30%;
         display: inline-block;
-        height: 3em;
+        height: 2em;
         border-radius: 25px;
         outline: none;
         border: none;
