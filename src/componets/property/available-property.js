@@ -49,28 +49,47 @@ export default class AvalibaleProperty extends Base {
         super()
         this.mount()
 
-        import('./subcomp/property-view.js')
-            .then(() => {
-                this._qs('.container').innerHTML = ''
-                axios.get('http://homey-api.atwebpages.com/property/all/overview')
-                    .then(res => {
-                        console.log(res.data)
-                        res.data.forEach(item => {
-                            this._qs('.container').innerHTML += `
-                                <property-view id="${item._id}">
-                                    <img class='thumbnail' slot='thumbnail' src="./assets/img/1.png" />
-                                    <p slot="title" class="title">${item.title}</p>
-                                    <p slot="price" class="price">Rs. ${item.price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-                                    <p slot="description" class="description">${item.description}</p>
-                                </property-view>
-                            `
-                        })
-                    })
+        this.state.limit = 12
+        this.state.page = 0
+
+        import('./subcomp/property-view.js').then( () =>{
+            this._qs('.container').innerHTML = ''
+            for (let index = this.state.page * this.state.limit; index < (this.state.page + 1) * this.state.limit; index++) {
+                this._qs('.container').innerHTML += `
+                <property-view id="property-${index}">
+                    <img class='thumbnail-${index}' slot='thumbnail' src="./assets/img/1.png" />
+                    <p slot="title" class="title-${index}">Title</p>
+                    <p slot="price" class="price-${index}">Price</p>
+                    <p slot="description" class="description-${index}">Desc</p>
+                </property-view>
+                `   
+            }
+            this.stopLoader()
         })
-
+            .catch(err => {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+                this.stopLoader()
+            })
+        
     }//end of constructor
+    
+   async connectedCallback() {
 
-    connectedCallback() {
+        this.setLoader()
+        await import('./subcomp/property-view.js')
+            .then(async () => {
+                await axios.get('http://homey-api.atwebpages.com/property/all/overview')
+                .then(res => {
+                   for (let index = this.state.page * this.state.limit; index < (this.state.page + 1) * this.state.limit; index++) {
+                       this._qs(`,thumbnail-${index}`)
+                   }
+                    this.stopLoader()
+                })
+            })
+                .catch(err => {
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+                    this.stopLoader()
+            })
 
     }//End of connected callback
 

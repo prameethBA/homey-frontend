@@ -47,7 +47,10 @@ export default class Nav extends Base {
     }
 
     .wrapper {
-      margin: 1rem;
+      margin: 0.5rem;
+      position: absolute;
+      right: 1rem;
+      display: inline-block;
     }
 
     #hamburger-icon {
@@ -74,11 +77,18 @@ export default class Nav extends Base {
     }
 
     .dropdown {
-      display: inline-grid;
+      display: none;
       text-align: right;
       position: absolute;
-      right: 2rem;
-      top: 4rem;
+      right: -1rem;
+      top: 2rem;
+      background-color: #aceaff;
+      background-image: linear-gradient( to top, #10dbc6, #61e4f4, #aceaff, #e3f1ff, #ffffff );
+      background-size: cover;
+      background-attachment: fixed;
+      transition: all 1s;
+      box-shadow: 0px 0px 5px 1px rgba(23,12,120,0.58);
+      border-radius: 2px;
     }
 
     .menu-item {
@@ -98,6 +108,13 @@ export default class Nav extends Base {
 
     .navlink-separator {
       display: none;
+    }
+
+    .dropdown  .navlink-separator {
+        display: block;
+        margin: 0 auto;
+        border: solid 1px #777777;
+        width: 90%;
     }
 
     @keyframes line {
@@ -134,10 +151,10 @@ export default class Nav extends Base {
         position: absolute;
         justify-content: stretch;
         top: 4rem;
-        left: -1rem;
+        left: -0.5rem;
         width: 100%;
         z-index: 2;
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 0, 0, 0.9);
         transition: all 1s ease;
       }
 
@@ -167,6 +184,9 @@ export default class Nav extends Base {
         display: grid;
         text-align: center;
         position: initial;
+        box-shadow: none;
+        background-color: transparent;
+        background-image: none;
       }
       
     }
@@ -223,7 +243,7 @@ export default class Nav extends Base {
             <hr class='navlink-separator' />
             <a class="nav-link">Favourites</a>
             <hr class='navlink-separator' />
-            <a class="nav-link" class="setting-menu">Account</a>
+            <a class="nav-link setting-menu">Settings & Account</a>
             <hr class='navlink-separator' />
             <span class="dropdown">
               <a class="menu-item">Profile Settings</a>
@@ -243,18 +263,36 @@ export default class Nav extends Base {
             if (localStorage.login == 'true' || sessionStorage.login == 'true') {
               this._qs('#login-button') != null ? this._qs('#login-button').style.display = 'none' : null
               this._qs('nav').innerHTML = this.state.loginContent
+              this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
               this._qs('#logout-button') != null ? this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out'))) : null
-        
+              
+              this.state.dropdownVisible = true
+              this._qs('.setting-menu').addEventListener('click', async () => {
+                this.state.dropdownVisible && (window.innerWidth >= 1200) ? this._qs('.dropdown').style.display = 'inline-grid' : this._qs('.dropdown').style.display = 'none'
+                this.state.dropdownVisible = !this.state.dropdownVisible
+              })
+              this._qs('.dropdown').addEventListener('mousedown', () => {
+                this.state.dropdownVisible && (window.innerWidth >= 1200) ? this._qs('.dropdown').style.display = 'inline-grid' : this._qs('.dropdown').style.display = 'none'
+                this.state.dropdownVisible = !this.state.dropdownVisible
+              })
+              this._qs('.dropdown').addEventListener('mouseover', async () => {
+                if(window.innerWidth >= 1200) {
+                  await this.sleep(5000)
+                  this._qs('.dropdown').style.display = 'none'
+                  this.state.dropdownVisible = true
+                }
+              })
+              
               // Set an indicator for active class
               this._qsAll("a").forEach(item => item.addEventListener('click', () => {
                 this._qsAll("a").forEach(item => item.classList.remove('active'))
-                if(window.innerWidth > 1200) {
+                if(window.innerWidth >= 1200) {
                   if(item.classList[0] == 'nav-link') item.classList.add('active')
                 } else item.classList.add('active')
               }))
               
               this.state.LoginNavBar = true
-
+              
               // Event Litsner for hamburger icon
               const hamburger = this._qs("#hamburger-icon")
               const wrapper = this._qs(".wrapper")
@@ -272,7 +310,8 @@ export default class Nav extends Base {
                   }
                   this.state.display = !this.state.display
                 })
-
+                
+                
                 // Event listener for logout 
                 this._qs("#logout-button").addEventListener('click', () => {
 
