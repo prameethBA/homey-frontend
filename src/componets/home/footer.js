@@ -4,7 +4,7 @@ export default class Footer extends Base {
 
   css = `
   footer{
-    margin: 1rem 0 0 0;
+    margin: 0;
     color: #eeeeee;
     background-color: #001f3f;
   }

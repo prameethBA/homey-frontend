@@ -86,7 +86,7 @@ export default class AddNewProperty extends Base {
 
   .form {
     position: relative;
-    margin: 1rem auto;
+    margin: 1rem auto 0 auto;
     background-color: rgba(0,0,0,0.75);
     color: #eeeeee;
     padding: 0.5rem 3rem;
