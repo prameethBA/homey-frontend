@@ -4,14 +4,25 @@ export default class Nav extends Base {
 
   css = `
     header {
-      position: sticky;
+      position: fixed;
       width: 100%;
       z-index: 1;
+      transition: all 0.5s ease;
+    }
+
+    .nav-scroll {
+      transform: scale(0.98);
+      margin: 0.2rem 0rem 0.2rem 0.1rem !important;
+    }
+
+    .header-scroll {
+      background-image: linear-gradient(to right top, #dbe0dc, #d3e2d9, #c9e4d8, #bde6d9, #b0e8dd, #ade9e2, #aaebe7, #a7eced, #b0eef2, #b9f0f7, #c2f1fa, #cbf3fd);
     }
 
     .navbar {
       display: flex;
       margin: 0.5rem 0 -0.1rem 1rem;
+      transition: all 0.5s ease;
     }
 
     .separator {
@@ -222,6 +233,16 @@ export default class Nav extends Base {
   constructor() {
     super()
     this.mount()
+
+    addEventListener('scroll', () =>  {
+      if(document.documentElement.scrollTop > 10) {
+        this._qs('nav').classList.add('nav-scroll') 
+        this._qs('header').classList.add('header-scroll') 
+      } else {
+        this._qs('nav').classList.remove('nav-scroll') 
+        this._qs('header').classList.remove('header-scroll') 
+      }
+    })
 
     this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
     
