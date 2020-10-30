@@ -382,6 +382,11 @@ export default class AddNewProperty extends Base {
     </div>
 `
   constructor() {
+    if(!(sessionStorage.login == 'true' || localStorage.login == 'true')) {
+      dispatchEvent(new Event('load-login-form'))
+      dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Log in to your account to continue." } }))
+    }
+    
     super()
     this.mount()
   }
