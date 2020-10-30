@@ -16,7 +16,7 @@ export default class Nav extends Base {
     }
 
     .header-scroll {
-      background-image: linear-gradient(to right top, #dbe0dc, #d3e2d9, #c9e4d8, #bde6d9, #b0e8dd, #ade9e2, #aaebe7, #a7eced, #b0eef2, #b9f0f7, #c2f1fa, #cbf3fd);
+      background-color: #ffffff;
     }
 
     .navbar {

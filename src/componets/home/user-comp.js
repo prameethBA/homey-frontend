@@ -10,6 +10,8 @@ export default class UserComp extends Base {
       margin: 1rem;
       cursor: pointer;
       transition: all 0.5s;
+      background-color: #000E53;
+      color: #ffffff;
     }
 
     .container div {
