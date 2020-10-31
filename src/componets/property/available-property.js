@@ -71,7 +71,7 @@ export default class AvalibaleProperty extends Base {
         for (let index = 0; index < this.state.limit; index++) {
             this._qs('#container').innerHTML += `
                     <property-view id="id-${index}" key="${index}">
-                        <img slot="thumbnail" class="thumbnail" src="./assets/img/alt/load-post.gif" />
+                        <img slot="thumbnail" class="thumbnail" src="./assets/img/alt/load-post.gif" style="display: block !important;"/>
                         <p slot="title" class=" title title-${index}">Title</p>
                         <p slot="price" class=" price price-${index}">Price</p>
                         <p slot="description" class=" description description-${index}">Description</p>
@@ -91,7 +91,7 @@ export default class AvalibaleProperty extends Base {
                     res.data.forEach((item, index) =>{
                     this.stopLoader()
                     this.state.ids.push(item._id)
-                    this._qs(`#id-${index}`).id = item._id
+                    // this._qs(`#id-${index}`).id = item._id
                     this._qs(`.title-${index}`).innerHTML  = item.title
                     this._qs(`.price-${index}`).innerHTML  = 'Rs.' + item.price.replace(/\B(?=(\d{3})+(?!\d))/, ",")
                     this._qs(`.description-${index}`).innerHTML  = item.description                
@@ -101,10 +101,15 @@ export default class AvalibaleProperty extends Base {
                     this._qs(`#id-${index}`).shadowRoot.innerHTML = ''
                 }
                 
-                // await axios.post(`http://homey-api.atwebpages.com/images/property`,{'ids':this.state.ids})
-                //     .then(res => {
-                //         console.log(res.data)
-                //     })
+                await axios.post(`http://homey-api.atwebpages.com/images/property`,{'ids':this.state.ids})
+                    .then(res => {
+                        res.data.forEach((id, index) => {
+                            id.images.forEach(image => {
+                                this._qs(`#id-${index}`).innerHTML += `<img slot="thumbnail" class="thumbnail" src="${image.image}" />`
+                            })
+                        })
+                        dispatchEvent(new Event('start-slider'))
+                    })
                 })
                 .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
         }

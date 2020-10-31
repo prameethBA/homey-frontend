@@ -42,6 +42,7 @@ export default class PropertyView extends Base {
     }
 
     ::slotted(img) {
+        display: none;
         width: 100%;
         max-height: 210px;
         min-height: 210px;
@@ -173,29 +174,35 @@ export default class PropertyView extends Base {
 
     connectedCallback() {
 
-        if( this.qsAll('img').length > 1) {
-            this.state.img = 0;
-            this.state.rootImg = 0
-    
-            const slideNext = ()=> {
+        const slider = () => {
+            if( this.qsAll('img').length > 1) {
+                this.state.img = 0;
+                this.state.rootImg = 0
+        
+                const slideNext = ()=> {
+                        this.qsAll('img')[this.state.img].style.display = 'none'
+                        this.qsAll('img').length - 1 > this.state.img ? this.state.img++ : this.state.img = this.state.rootImg
+                        this.qsAll('img')[this.state.img].style.display = 'block'
+                }
+        
+                const slidePrevious = ()=> {
                     this.qsAll('img')[this.state.img].style.display = 'none'
-                    this.qsAll('img').length - 1 > this.state.img ? this.state.img++ : this.state.img = this.state.rootImg
+                    this.state.rootImg < this.state.img ? this.state.img-- : this.state.img = this.qsAll('img').length - 1 
                     this.qsAll('img')[this.state.img].style.display = 'block'
-            }
-    
-            const slidePrevious = ()=> {
-                this.qsAll('img')[this.state.img].style.display = 'none'
-                this.state.rootImg < this.state.img ? this.state.img-- : this.state.img = this.qsAll('img').length - 1 
-                this.qsAll('img')[this.state.img].style.display = 'block'
-            }
-    
-            this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
-            this._qs('.slider-next').addEventListener('click', () => {slideNext()})
-            this._qs('.slider-previous').click();
-            this.state.rootImg = 1
-    
-            let autoSlide = setInterval(() => slideNext(),5000)
-        } else if(this.qsAll('img').length <= 1) this.qs('img').src = "./assets/img/alt/no-mage.png"
+                }
+        
+                this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
+                this._qs('.slider-next').addEventListener('click', () => {slideNext()})
+                this._qs('.slider-previous').click();
+                this.state.rootImg = 1
+        
+                let autoSlide = setInterval(() => slideNext(),5000)
+            } else if(this.qsAll('img').length <= 1) this.qs('img').src = "./assets/img/alt/no-mage.png"
+        }
+
+        slider();
+
+        addEventListener('start-slider', () => slider())
 
     }//end of connected callback
 
