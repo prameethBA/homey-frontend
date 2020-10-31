@@ -164,6 +164,7 @@ export default class PropertyView extends Base {
                 </div>
             </div>
         </div>
+        <slot name="id" ></slot>
     `
 
     constructor() {
@@ -197,12 +198,15 @@ export default class PropertyView extends Base {
                 this.state.rootImg = 1
         
                 let autoSlide = setInterval(() => slideNext(),5000)
-            } else if(this.qsAll('img').length <= 1) this.qs('img').src = "./assets/img/alt/no-mage.png"
+            }
         }
 
         slider();
 
-        addEventListener('start-slider', () => slider())
+        addEventListener('start-slider', () => {
+            slider()
+            if(this.qsAll('img').length <= 1) this.qs('img').src = "./assets/img/alt/no-mage.png"
+        })
 
     }//end of connected callback
 

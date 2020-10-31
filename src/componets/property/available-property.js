@@ -75,6 +75,7 @@ export default class AvalibaleProperty extends Base {
                         <p slot="title" class=" title title-${index}">Title</p>
                         <p slot="price" class=" price price-${index}">Price</p>
                         <p slot="description" class=" description description-${index}">Description</p>
+                        <input class="id id-${index}" type="hidden" slot="id" value=""/>
                     </property-view>
                 `
         }
@@ -95,6 +96,7 @@ export default class AvalibaleProperty extends Base {
                     this._qs(`.title-${index}`).innerHTML  = item.title
                     this._qs(`.price-${index}`).innerHTML  = 'Rs.' + item.price.replace(/\B(?=(\d{3})+(?!\d))/, ",")
                     this._qs(`.description-${index}`).innerHTML  = item.description                
+                    this._qs(`.id-${index}`).value  = item._id                
                 })
 
                 for (let index = res.data.length; index < this.state.limit; index++) {
