@@ -164,6 +164,7 @@ export default class PropertyView extends Base {
                 </div>
             </div>
         </div>
+        <div id="comment-box"></div>
         <slot name="id" ></slot>
     `
 
@@ -208,6 +209,12 @@ export default class PropertyView extends Base {
             if(this.qsAll('img').length <= 1) this.qs('img').src = "./assets/img/alt/no-mage.png"
         })
 
+        this._qs('.comment').addEventListener('click', async ()=> {
+            import('/componets/comment/comment-comp.js').then(
+                this._qs('#comment-box').innerHTML = `<comment-comp></comment-comp>`
+            )
+        })
+        
     }//end of connected callback
 
 }//End of class
