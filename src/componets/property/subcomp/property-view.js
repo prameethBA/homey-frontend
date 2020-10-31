@@ -42,7 +42,6 @@ export default class PropertyView extends Base {
     }
 
     ::slotted(img) {
-        display: none;
         width: 100%;
         max-height: 210px;
         min-height: 210px;
@@ -173,7 +172,7 @@ export default class PropertyView extends Base {
     }//End of constructor
 
     connectedCallback() {
-        
+
         if( this.qsAll('img').length > 1) {
             this.state.img = 0;
             this.state.rootImg = 0
@@ -193,10 +192,10 @@ export default class PropertyView extends Base {
             this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
             this._qs('.slider-next').addEventListener('click', () => {slideNext()})
             this._qs('.slider-previous').click();
-            this.state.rootImg = 0
+            this.state.rootImg = 1
     
             let autoSlide = setInterval(() => slideNext(),5000)
-    }
+        } else if(this.qsAll('img').length <= 1) this.qs('img').src = "./assets/img/alt/no-mage.png"
 
     }//end of connected callback
 

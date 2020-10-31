@@ -71,6 +71,7 @@ export default class AvalibaleProperty extends Base {
         for (let index = 0; index < this.state.limit; index++) {
             this._qs('#container').innerHTML += `
                     <property-view id="id-${index}" key="${index}">
+                        <img slot="thumbnail" class="thumbnail" src="./assets/img/alt/load-post.gif" />
                         <p slot="title" class=" title title-${index}">Title</p>
                         <p slot="price" class=" price price-${index}">Price</p>
                         <p slot="description" class=" description description-${index}">Description</p>
