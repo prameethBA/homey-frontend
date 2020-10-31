@@ -311,6 +311,11 @@ export default class Nav extends Base {
                   if(item.classList[0] == 'nav-link') item.classList.add('active')
                 } else item.classList.add('active')
               }))
+
+              this._qsAll('.menu-item').forEach(item => item.addEventListener('click', () => {
+                this._qs('.dropdown').style.display = 'none'
+                if(item.id == 'add-new-property') dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } }))
+              }))
               
               this.state.LoginNavBar = true
               
