@@ -19,6 +19,13 @@ export default class Base extends HTMLElement {
         if (!(path == '' || path == null || path.length <= 2)) dispatchEvent(new CustomEvent('pathChanged', { detail: { 'path': path.substr(1) } }))
     }
 
+    //Authentication 
+
+    getUserId() {
+        if(sessionStorage.login = 'true') return sessionStorage.userId
+        if(localStorage.login = 'true') return localStorage.userId
+    }
+
     // Helpers
     _qs(selector) {
         return this.shadowRoot.querySelector(selector)

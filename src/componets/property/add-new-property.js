@@ -617,6 +617,7 @@ export default class AddNewProperty extends Base {
         // Api call to add Advertisement to the databsse
         this._qs('#save').addEventListener('click', async () => {
           const data = {
+            userId: this.getUserId(),
             title: title,
             rentalperiod: rentalPeriod,
             price: price,
@@ -631,9 +632,7 @@ export default class AddNewProperty extends Base {
             images: newImages
           }
 
-          console.log(data)
-          
-            await axios.post('http://homey-api.atwebpages.com/property', data, {
+            await axios.post('http://homey-api.atwebpages.com/property/add-new', data, {
               onUploadProgress: (progressEvent) => {
                 const {loaded, total} = progressEvent;
                 let percent = Math.floor( (loaded * 100) / total )

@@ -95,22 +95,15 @@ export default class AvalibaleProperty extends Base {
                     this._qs(`.price-${index}`).innerHTML  = 'Rs.' + item.price.replace(/\B(?=(\d{3})+(?!\d))/, ",")
                     this._qs(`.description-${index}`).innerHTML  = item.description                
                 })
+
+                for (let index = res.data.length; index < this.state.limit; index++) {
+                    this._qs(`#id-${index}`).shadowRoot.innerHTML = ''
+                }
                 
-                await axios.post(`http://homey-api.atwebpages.com/property/images`,{'ids':this.state.ids})
-                    .then(res => {
-                        const data = JSON.parse(res.data).data[0]
-                        const len = (Object.keys(data).length)
-                        for (let loop = 0; loop < len; loop++) {
-                            for (let index = 0; index < data[loop].images.length; index++) {
-                                for (let index2 = 0; index2 < Object.keys(data[loop].images[index]).length; index2++) {
-                                    data[loop].images[index][index2]
-                                    this._qs(`#${data[loop].id}`).innerHTML += `
-                                        <img class='thumbnail' slot='thumbnail' src="${data[loop].images[index]}" />
-                                        `
-                                }
-                                }
-                        }
-                    })
+                // await axios.post(`http://homey-api.atwebpages.com/images/property`,{'ids':this.state.ids})
+                //     .then(res => {
+                //         console.log(res.data)
+                //     })
                 })
                 .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
         }
