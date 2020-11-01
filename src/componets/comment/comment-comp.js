@@ -20,11 +20,19 @@ css = `
       .text-right{ text-align: right; }
       
       .comments-app{
-        margin: 60px auto;
-        margin-left:50%;
-        max-width: 680px;
-        padding: 0 50px;
-        width: 100%;
+        position: fixed;
+        padding: 6rem;
+        top: 0;
+        left: 0;
+        right: 0;
+        overflow: auto;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.7);
+        z-index: 1;
+      }
+
+      *::-webkit-scrollbar {
+        width: 1px !important;
       }
       
       .comments-app h1{
@@ -213,12 +221,28 @@ css = `
         text-align: right;
         width: 15%;
       }
+
+      #close {
+        color: #ffffff;
+        display: inline-block;
+        font-size: 4rem;
+        transform: rotate(45deg);
+        position: absolute;
+        right: 3rem;
+        top: 3rem;
+        cursor: pointer;
+      }
+
+      #close:hover {
+        color: #dddddd;
+      }
       
     `
 
     content = `
     
     <div class="comments-app">
+        <div id="close">+</div>
         <h1>Comments</h1>
         
         <!-- From -->
@@ -331,8 +355,12 @@ css = `
     constructor() {
         super()
         this.mount()
-    }
+    }//End of constructor
 
-}
+    connectedCallback() {
+      this._qs("#close").addEventListener('click', () => this._qs('.comments-app').style.display = 'none')
+    }//End of connectedCallback
+
+}//End of class
 
 window.customElements.define('comment-comp', Comment)

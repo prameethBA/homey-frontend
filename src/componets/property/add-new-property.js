@@ -4,6 +4,7 @@ export default class AddNewProperty extends Base {
 
   css = `
   .container {
+    margin-top: 5rem;
   }
 
   #add-preview {
@@ -86,7 +87,7 @@ export default class AddNewProperty extends Base {
 
   .form {
     position: relative;
-    margin: 1rem auto;
+    margin: 1rem auto 0 auto;
     background-color: rgba(0,0,0,0.75);
     color: #eeeeee;
     padding: 0.5rem 3rem;
@@ -616,6 +617,7 @@ export default class AddNewProperty extends Base {
         // Api call to add Advertisement to the databsse
         this._qs('#save').addEventListener('click', async () => {
           const data = {
+            userId: this.getUserId(),
             title: title,
             rentalperiod: rentalPeriod,
             price: price,
@@ -630,9 +632,7 @@ export default class AddNewProperty extends Base {
             images: newImages
           }
 
-          console.log(data)
-          
-            await axios.post('http://homey-api.atwebpages.com/property', data, {
+            await axios.post('http://homey-api.atwebpages.com/property/add-new', data, {
               onUploadProgress: (progressEvent) => {
                 const {loaded, total} = progressEvent;
                 let percent = Math.floor( (loaded * 100) / total )
@@ -642,7 +642,10 @@ export default class AddNewProperty extends Base {
                 this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
               }
             })
-              .then(res => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } })))
+              .then(res => {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
+                dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
+              })
               .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
         })
       } catch (err) {

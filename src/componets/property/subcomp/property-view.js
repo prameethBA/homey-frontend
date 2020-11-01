@@ -42,6 +42,7 @@ export default class PropertyView extends Base {
     }
 
     ::slotted(img) {
+        display: none;
         width: 100%;
         max-height: 210px;
         min-height: 210px;
@@ -104,7 +105,7 @@ export default class PropertyView extends Base {
     button {
         width: 30%;
         display: inline-block;
-        height: 3em;
+        height: 2em;
         border-radius: 25px;
         outline: none;
         border: none;
@@ -163,6 +164,8 @@ export default class PropertyView extends Base {
                 </div>
             </div>
         </div>
+        <div id="comment-box"></div>
+        <slot name="id" ></slot>
     `
 
     constructor() {
@@ -173,6 +176,45 @@ export default class PropertyView extends Base {
 
     connectedCallback() {
 
+        const slider = () => {
+            if( this.qsAll('img').length > 1) {
+                this.state.img = 0;
+                this.state.rootImg = 0
+        
+                const slideNext = ()=> {
+                        this.qsAll('img')[this.state.img].style.display = 'none'
+                        this.qsAll('img').length - 1 > this.state.img ? this.state.img++ : this.state.img = this.state.rootImg
+                        this.qsAll('img')[this.state.img].style.display = 'block'
+                }
+        
+                const slidePrevious = ()=> {
+                    this.qsAll('img')[this.state.img].style.display = 'none'
+                    this.state.rootImg < this.state.img ? this.state.img-- : this.state.img = this.qsAll('img').length - 1 
+                    this.qsAll('img')[this.state.img].style.display = 'block'
+                }
+        
+                this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
+                this._qs('.slider-next').addEventListener('click', () => {slideNext()})
+                this._qs('.slider-previous').click();
+                this.state.rootImg = 1
+        
+                let autoSlide = setInterval(() => slideNext(),5000)
+            }
+        }
+
+        slider();
+
+        addEventListener('start-slider', () => {
+            slider()
+            if(this.qsAll('img').length <= 1) this.qs('img').src = "./assets/img/alt/no-mage.png"
+        })
+
+        this._qs('.comment').addEventListener('click', async ()=> {
+            import('/componets/comment/comment-comp.js').then(
+                this._qs('#comment-box').innerHTML = `<comment-comp></comment-comp>`
+            )
+        })
+        
     }//end of connected callback
 
 }//End of class
