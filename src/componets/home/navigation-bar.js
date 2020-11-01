@@ -4,14 +4,25 @@ export default class Nav extends Base {
 
   css = `
     header {
-      position: sticky;
+      position: fixed;
       width: 100%;
       z-index: 1;
+      transition: all 0.5s ease;
+    }
+
+    .nav-scroll {
+      transform: scale(0.98);
+      margin: 0.2rem 0rem 0.2rem 0.1rem !important;
+    }
+
+    .header-scroll {
+      background-color: #ffffff;
     }
 
     .navbar {
       display: flex;
-      margin: 1rem 1rem 0 1rem;
+      margin: 0.5rem 0 -0.1rem 1rem;
+      transition: all 0.5s ease;
     }
 
     .separator {
@@ -223,6 +234,16 @@ export default class Nav extends Base {
     super()
     this.mount()
 
+    addEventListener('scroll', () =>  {
+      if(document.documentElement.scrollTop > 10) {
+        this._qs('nav').classList.add('nav-scroll') 
+        this._qs('header').classList.add('header-scroll') 
+      } else {
+        this._qs('nav').classList.remove('nav-scroll') 
+        this._qs('header').classList.remove('header-scroll') 
+      }
+    })
+
     this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
     
     this.preContentBehaviour = () => {
@@ -289,6 +310,11 @@ export default class Nav extends Base {
                 if(window.innerWidth >= 1200) {
                   if(item.classList[0] == 'nav-link') item.classList.add('active')
                 } else item.classList.add('active')
+              }))
+
+              this._qsAll('.menu-item').forEach(item => item.addEventListener('click', () => {
+                this._qs('.dropdown').style.display = 'none'
+                if(item.id == 'add-new-property') dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } }))
               }))
               
               this.state.LoginNavBar = true
