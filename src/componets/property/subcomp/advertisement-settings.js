@@ -221,11 +221,11 @@ export default class AdvertisementSettings extends Base {
       
       // backdrop
       this._qs('#backdrop').addEventListener('click', () => {
-        dispatchEvent(new Event('exit-form'))
+        this._qs('.container').style.display = "none"
+        this._qs('#backdrop').style.display = "none"
       })
 
-      data = this.getAttribute('data')
-      this._qs('#apply').addEventListener('click', () => console.log(data))
+      this._qs('#apply').addEventListener('click', () => console.log('Applied'))
 
     }//End of connected callBack()
 

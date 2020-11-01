@@ -620,7 +620,7 @@ export default class AddNewProperty extends Base {
           // Popup for enable add fetures
           await import('./subcomp/advertisement-settings.js')
           .then(
-            this._qs('.popup').innerHTML = `<advertisement-settings></advertisement-settings>`
+            this._qs('.popup').innerHTML = `<advertisement-settings data=""></advertisement-settings>`
           )
           
         })
@@ -646,6 +646,8 @@ export default class AddNewProperty extends Base {
         facilities: facilities,
         images: newImages
       }
+
+      return data
       
       // Api call to add Advertisement to the databsse
       // await axios.post('http://homey-api.atwebpages.com/property/add-new', data, {
@@ -663,7 +665,7 @@ export default class AddNewProperty extends Base {
       //         dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
       //       })
       //       .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
-      //     }
+          }
 
   }//End of connectedCallback
 
