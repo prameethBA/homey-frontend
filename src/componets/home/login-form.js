@@ -341,13 +341,9 @@ export default class LoginForm extends Base {
                     .then((res) => {
                         if (res.data.login === 'true' && res.status == 201) {
                             if (this._qs('#remember').checked == true) {
-                                localStorage.login = 'true';
-                                localStorage.userId = res.data.userId
-                                localStorage.token = res.data.token
+                                localStorage.login = 'true';localStorage.userId = res.data.userId;localStorage.token = res.data.token
                             } else {
-                                sessionStorage.login = 'true'
-                                sessionStorage.userId = res.data.userId
-                                sessionStorage.token = res.data.token
+                                sessionStorage.login = 'true';sessionStorage.userId = res.data.userId;sessionStorage.token = res.data.token
                             }
                             dispatchEvent(new Event('login-success'))
                             this.setPath('/')
