@@ -283,6 +283,7 @@ export default class AddNewProperty extends Base {
 `
 
   content = `
+    <div class="popup"></div>
     <div class="container">
       <div id="add-preview">
       </div>
@@ -390,7 +391,8 @@ export default class AddNewProperty extends Base {
     
     super()
     this.mount()
-  }
+    
+  }//end of constructor
 
   async connectedCallback() {
 
@@ -614,44 +616,54 @@ export default class AddNewProperty extends Base {
         })
         this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
 
-        // Api call to add Advertisement to the databsse
         this._qs('#save').addEventListener('click', async () => {
-          const data = {
-            userId: this.getUserId(),
-            title: title,
-            rentalperiod: rentalPeriod,
-            price: price,
-            keyMoney: keyMoney,
-            minimumPeriod: minimumPeriod,
-            availableFrom: availableFrom,
-            district: district,
-            city: city,
-            propertyType: propertyType,
-            description: description,
-            facilities: facilities,
-            images: newImages
-          }
-
-            await axios.post('http://homey-api.atwebpages.com/property/add-new', data, {
-              onUploadProgress: (progressEvent) => {
-                const {loaded, total} = progressEvent;
-                let percent = Math.floor( (loaded * 100) / total )
-                this._qs('#save').style.display = 'none'
-                this._qs('#edit').style.display = 'none'
-                this._qs('#progress-bar-progress').style.width = percent + '%'
-                this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
-              }
-            })
-              .then(res => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
-                dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
-              })
-              .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+          // Popup for enable add fetures
+          await import('./subcomp/advertisement-settings.js')
+          .then(
+            this._qs('.popup').innerHTML = `<advertisement-settings></advertisement-settings>`
+          )
+          
         })
       } catch (err) {
         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
-      }
+      }//End of the catch for try
     })
+    
+    
+    const saveAdd = async () => {
+      const data = {
+        userId: this.getUserId(),
+        title: title,
+        rentalperiod: rentalPeriod,
+        price: price,
+        keyMoney: keyMoney,
+        minimumPeriod: minimumPeriod,
+        availableFrom: availableFrom,
+        district: district,
+        city: city,
+        propertyType: propertyType,
+        description: description,
+        facilities: facilities,
+        images: newImages
+      }
+      
+      // Api call to add Advertisement to the databsse
+      // await axios.post('http://homey-api.atwebpages.com/property/add-new', data, {
+      //         onUploadProgress: (progressEvent) => {
+      //           const {loaded, total} = progressEvent;
+      //           let percent = Math.floor( (loaded * 100) / total )
+      //           this._qs('#save').style.display = 'none'
+      //           this._qs('#edit').style.display = 'none'
+      //           this._qs('#progress-bar-progress').style.width = percent + '%'
+      //           this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
+      //         }
+      //       })
+      //       .then(res => {
+      //         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
+      //         dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
+      //       })
+      //       .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+      //     }
 
   }//End of connectedCallback
 
