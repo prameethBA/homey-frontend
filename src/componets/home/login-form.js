@@ -114,7 +114,7 @@ export default class LoginForm extends Base {
                 // API call for login
                 const userName = this._qs('#email').value
                 const password = this._qs('#password').value
-                axios.post('http://homey-api.atwebpages.com/login', {
+                axios.post(`${this.host}/login`, {
                         'userName': userName,
                         'password': password
                     }

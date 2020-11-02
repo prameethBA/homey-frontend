@@ -347,8 +347,7 @@ export default class Nav extends Base {
                       }
                   )
                   .then(res => {
-                    localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
-                    sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
+                    this.logOut()
 
                     dispatchEvent(new Event('log-out'))
                     //Redirect to the home page
@@ -357,7 +356,10 @@ export default class Nav extends Base {
                     if(res.status == 204) dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.message } }))
                     else throw res.data
                   })
-                  .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message === undefined ? err : err.message } })))
+                  .catch(err => {
+                    this.logOut()
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message === undefined ? err : err.message } }))
+                  })
                 })
               }//End of the Event Litsner for hamburger icon
             } else this.preContentBehaviour()

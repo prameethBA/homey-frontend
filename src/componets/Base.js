@@ -3,6 +3,8 @@ export default class Base extends HTMLElement {
 
     state = {}
 
+    host = 'http://homeylk.tk'
+
     styled() {
         return `<style>${this.css}</style>`
     }
