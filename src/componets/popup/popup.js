@@ -42,6 +42,10 @@ export default class error extends Base {
 
   connectedCallback() {
 
+    setTimeout(() => {
+      this._qs('.container').style.top = '1rem'
+    }, 10);
+
     this._qs('#close-popup').addEventListener('click', () => {
       this._qs('.container').style.top = '-100%'
     })

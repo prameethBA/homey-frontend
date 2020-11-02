@@ -3,14 +3,14 @@ export default CSS = `
   z-index: 1000;
   position: fixed;
   left: 0;
-  top: 1rem;
+  top: -100%;
   right: 0;
   background-color: red;
   background-image: linear-gradient(to right top, #eb5d5d, #e85b5b, #e45958, #e15656, #de5454);
   width: 90%;
   border-radius: 3px;
   margin: auto;
-  transition: all 2s ease;
+  transition: all 1s ease-in-out;
 }
 
 .onsuccess {
