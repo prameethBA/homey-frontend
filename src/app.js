@@ -1,4 +1,5 @@
 import Base from './componets/Base.js'
+import CSS from './app.css.js'
 import Router from './assets/js/Router.js'
 
 import './componets/home/navigation-bar.js'
@@ -8,20 +9,7 @@ const router = new Router()
 
 export default class App extends Base {
 
-    css = `
-    .container {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow-x: auto;
-    }
-
-    .container::-webkit-scrollbar {
-        height: 0;
-    }
-
-`
+    css = CSS
     content = `
     <navigation-bar id="navigationBar"></navigation-bar>
         <div id="login-form"></div>
@@ -37,7 +25,7 @@ export default class App extends Base {
         addEventListener('route-found', () => this.state.routeFound = true)
         
         // Load home component
-        router.get('/', async () => { await import('./main.js').then(this._qs('.container').innerHTML = `<main-comp></main-comp>`) })
+        router.get('/', async () => { await import('./componets/home/main/main.js').then(this._qs('.container').innerHTML = `<main-comp></main-comp>`) })
 
         // Method to load dynamic froms
         const loadForm = async (form) => {
