@@ -68,6 +68,9 @@ export default class App extends Base {
 
         // Load add new property component
         router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
+
+        // Load add new property component
+        router.get('/admin', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
         
     }//End of constructor
     

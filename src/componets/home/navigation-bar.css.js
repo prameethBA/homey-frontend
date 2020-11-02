@@ -202,10 +202,9 @@ header {
 
 
   #admin-dashboard {
-    color: #eeeeee;
-    background-color: #239710;
-    text-transform: uppercase;
-    box-shadow: 1px 1px 5px 1px rgba(23,97,10,0.64);
+    width: auto;
+    margin: unset;
+    height: 2.5rem;
   }
   
 }
