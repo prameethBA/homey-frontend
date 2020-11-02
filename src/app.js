@@ -80,14 +80,10 @@ export default class App extends Base {
           .then(() => this._qs('#pop-up').innerHTML = `<pop-up type=${res.detail.pop}><div slot="message">${res.detail.msg}</div></pop-up>`)
     })
 
-    // Add event listner for clear the pop-up 
-    addEventListener('exit-popup', ()=> this._qs('#pop-up').innerHTML = '')
-    
     //Event listner for Load a component
     addEventListener('load-comp', async (e) => {
         this.setLoader()
         this.setPath(e.detail.path)
-        console.log('./componets/' + e.detail.comp + '.js')
         await import('./componets/' + e.detail.comp + '.js')
         .then(() => {
             this._qs('#container').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`

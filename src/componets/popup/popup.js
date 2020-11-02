@@ -3,29 +3,18 @@ import Base from './../Base.js'
 export default class error extends Base {
 
   css = `
-
-  #backdrop {
-    position: fixed;
-    left: 0;
-    z-index: 999;
-    background-color: rgba(0,0,0,0.7);
-    width: 100%;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    cursor: pointer;
-}
-
   .container {
     z-index: 1000;
     position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    left: 0;
+    top: 1rem;
+    right: 0;
     background-color: red;
     background-image: linear-gradient(to right top, #eb5d5d, #e85b5b, #e45958, #e15656, #de5454);
-    width: 35vw;
+    width: 90%;
     border-radius: 3px;
+    margin: auto;
+    transition: all 2s ease;
   }
 
   .onsuccess {
@@ -68,9 +57,6 @@ export default class error extends Base {
 `
 
   content = `
-    <div id="backdrop" title="Click to close this form">
-    </div>
-
     <div class="container">
         <span class="title"> Error </span>
         <span id="close-popup">+</span>
@@ -99,19 +85,22 @@ export default class error extends Base {
       // Default is the error
     }
 
-
+    if (this.getAttribute('duration') != '' && this.getAttribute('duration') != undefined && this.getAttribute('duration') != null ) this.state.duration =  this.getAttribute('duration') * 1000
+    else this.state.duration = 10000 //10seconds
+    
   }//End of constructor
 
   connectedCallback() {
 
-    this._qs('#backdrop').addEventListener('click', () => {
-      dispatchEvent(new Event('exit-popup'))
-    })
-
     this._qs('#close-popup').addEventListener('click', () => {
-      dispatchEvent(new Event('exit-popup'))
+      this._qs('.container').style.top = '-100%'
     })
 
+    console.log(this.state.duration)
+    
+    setTimeout(() => {
+      this._qs('.container').style.top = '-100%'
+    }, this.state.duration);
   }
 
 }// End of Class

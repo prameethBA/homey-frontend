@@ -120,12 +120,12 @@ export default class AddNewProperty extends Base {
   async connectedCallback() {
 
     // API call for get Districts
-    await axios.get('${this.host}/district')
+    await axios.get(`${this.host}/district`)
       .then(res => res.data.data.forEach(element => this._qs('#district').innerHTML += `<option value="${element._id}">${element.district}</option>`))
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
     // API call for get property types
-    await axios.get('${this.host}/property-type')
+    await axios.get(`${this.host}/property-type`)
       .then(res => res.data.data.forEach(element => this._qs('#propertyType').innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`))
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
@@ -365,7 +365,7 @@ export default class AddNewProperty extends Base {
         this._qs('#save').addEventListener('click', async () => {
           
           // Api call to add Advertisement to the databsse
-          await axios.post('${this.host}/property/add-new', getAdData(), {
+          await axios.post(`${this.host}/property/add-new`, getAdData(), {
                   onUploadProgress: (progressEvent) => {
                     const {loaded, total} = progressEvent;
                     let percent = Math.floor( (loaded * 100) / total )
@@ -379,7 +379,7 @@ export default class AddNewProperty extends Base {
                   // Popup for enable add fetures
                   await import('./subcomp/advertisement-settings.js')
                   .then(
-                    this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${}"></advertisement-settings>`
+                    this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${res.data}"></advertisement-settings>`
                   )
                   // dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
                   // dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
