@@ -339,10 +339,10 @@ export default class AddNewProperty extends Base {
         })
 
         // Save add at the database
-        const getAddData = () => {
+        const getAdData = () => {
             const data = {
               userId: this.getUserId(),
-              token: this.getToken(),
+              // token: this.getToken(),
               title: title,
               rentalperiod: rentalPeriod,
               price: price,
@@ -365,7 +365,7 @@ export default class AddNewProperty extends Base {
         this._qs('#save').addEventListener('click', async () => {
           
           // Api call to add Advertisement to the databsse
-          await axios.post('${this.host}/property/add-new', data, {
+          await axios.post('${this.host}/property/add-new', getAdData(), {
                   onUploadProgress: (progressEvent) => {
                     const {loaded, total} = progressEvent;
                     let percent = Math.floor( (loaded * 100) / total )
@@ -375,17 +375,17 @@ export default class AddNewProperty extends Base {
                     this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
                   }
                 })
-                .then(res => {
-                  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
-                  dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
+                .then(async res => {
+                  // Popup for enable add fetures
+                  await import('./subcomp/advertisement-settings.js')
+                  .then(
+                    this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${}"></advertisement-settings>`
+                  )
+                  // dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
+                  // dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
                 })
                 .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
           
-          // Popup for enable add fetures
-          await import('./subcomp/advertisement-settings.js')
-          .then(
-            this._qs('.popup').innerHTML = `<advertisement-settings data=""></advertisement-settings>`
-          )
         })
       } catch (err) {
         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))

@@ -244,7 +244,7 @@ export default class Nav extends Base {
       }
     })
 
-    this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
+    this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `home/main/main`, compName: 'main-comp' } })))
     
     this.preContentBehaviour = () => {
       // Event listener for load the login form
@@ -284,7 +284,7 @@ export default class Nav extends Base {
             if (localStorage.login == 'true' || sessionStorage.login == 'true') {
               this._qs('#login-button') != null ? this._qs('#login-button').style.display = 'none' : null
               this._qs('nav').innerHTML = this.state.loginContent
-              this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
+              this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `home/main/main`, compName: 'main-comp' } })))
               this._qs('#logout-button') != null ? this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out'))) : null
               
               // THIS SHOULD BE RECONSIDER +TODO
@@ -351,7 +351,7 @@ export default class Nav extends Base {
 
                     dispatchEvent(new Event('log-out'))
                     //Redirect to the home page
-                    dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: '../main', compName: 'main-comp' } }))
+                    dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
                     
                     if(res.status == 204) dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.message } }))
                     else throw res.data
