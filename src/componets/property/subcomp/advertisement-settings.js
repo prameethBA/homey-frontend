@@ -1,49 +1,49 @@
-import Base from './../Base.js'
+import Base from '../../Base.js'
 
 export default class AdvertisementSettings extends Base {
 
   css =  `
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+  #backdrop {
+    position: fixed;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.7);
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    cursor: url(./assets/icon/remove-icon.png), auto;
+  }
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /****************
-  Typography
-  ****************/
-  h1 {
-    font: verdana;
-  }
   .feature_header {
     text-align: center;
     padding: 0.2em;
     margin-bottom: 60px;
     background: #ff4000;
     font-weight: bolder;
+    color: #eeeeee;
   }
   label {
     font-weight: bold;
   }
-  /**********************
-  Layout 
-  **************************/
-  body {
-    padding-top: 30px;
-  }
+
   .container {
-    position: absolute;
-    width: 90%;
-    margin-left: 28%;
-    margin-top: 5%;
-    max-width: 767.98px;
-    color: #000;
-    padding: 15px;
-    z-index:10;
+    position: fixed;
+    z-index: 2;
+    margin: 6rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 2px;
+    overflow: auto;
   }
   
+  .container::-webkit-scrollbar {
+    width: 1px !important;
+  }
+
   /* features */
   .feature_container {
     margin: auto;
@@ -77,14 +77,14 @@ export default class AdvertisementSettings extends Base {
     border-radius: 20px;
     transition: 0.3s;
     text-transform: uppercase;
+    outline:none;
   }
   .btn-primary {
     border: 2px solid #34a832;
     background-color: #34a832;
   }
   .btn-primary:hover {
-    color: #001f3f;
-    box-shadow: 6px 6px #ff4000;
+    box-shadow: 0 0 0 2px #006600;
     transition: 0.5s;
   }
   
@@ -125,13 +125,13 @@ export default class AdvertisementSettings extends Base {
     width: 26px;
     left: 4px;
     bottom: 4px;
-    background-color: #240d94;
+    background-color: #eeeeee;
     -webkit-transition: 0.4s;
     transition: 0.4s;
   }
   
   input:checked + .slider {
-    background-color: #ff4000;
+    background-color: #34A832;
   }
   
   input:focus + .slider {
@@ -164,45 +164,48 @@ export default class AdvertisementSettings extends Base {
 
 
   content = `
+  <div id="backdrop" title=">>Click to close this form">
+  </div>
+
   <div class="container">
 
   <h1 class="feature_header">Turn on/off Features</h1>
   <section class="feature_container">
-      <form action="">
+      <div>
           <div class="toggle_opt">
-              <label for="">Sharing among tenants</label>
+              <label for="">Boost Advertisement(Paid)</label>
               <label class="switch">
-                  <input type="checkbox" >
+                  <input type="checkbox" id="boost" />
                   <span class="slider round"></span>
                 </label>
           </div>
           <div class="toggle_opt">
-              <label for="">Boost Advertisement</label>
+              <label for="">Save Private</label>
               <label class="switch">
-                  <input type="checkbox" >
+                  <input type="checkbox" id="private" >
                   <span class="slider round"></span>
                 </label>
           </div>
           <div class="toggle_opt">
-              <label for="">Sharing among tenants</label>
+              <label for="">Schedule to post</label>
               <label class="switch">
-                  <input type="checkbox" >
+                  <input type="checkbox" id="schedule" >
                   <span class="slider round"></span>
                 </label>
           </div>
           <div class="toggle_opt">
-              <label for="">Sharing among tenants</label>
+              <label for="">Send me a copy as email</label>
               <label class="switch">
-                  <input type="checkbox" >
+                  <input type="checkbox" id="sendCopy" >
                   <span class="slider round"></span>
                 </label>
           </div>
           
-          <button class="btn btn-primary btn-lg">APPLY</button>
+          <button class="btn btn-primary btn-lg" id="apply">APPLY</button>
           
           
 
-      </form>
+      </div>
       
   </section>
 
@@ -212,8 +215,20 @@ export default class AdvertisementSettings extends Base {
       super()
       this.mount()
 
-    }
+    }//End of constructor
+    
+    connectedCallback() {
+      
+      // backdrop
+      this._qs('#backdrop').addEventListener('click', () => {
+        this._qs('.container').style.display = "none"
+        this._qs('#backdrop').style.display = "none"
+      })
 
-  }
+      this._qs('#apply').addEventListener('click', () => console.log('Applied'))
+
+    }//End of connected callBack()
+
+  }//End of class
   
   window.customElements.define('advertisement-settings', AdvertisementSettings)
