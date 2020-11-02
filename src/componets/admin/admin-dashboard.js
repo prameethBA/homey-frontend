@@ -6,7 +6,8 @@ export default class AdminDashboard extends Base {
     css = CSS
 
     content = `
-    <div class="container">
+    <div id="backdrop" title="click to close side bar"></div>
+    <div id="hamburger-icon" class="hamburger-collapse"></div>
         <header class="container" role="banner">
             <h1 class="logo">
             <a href="#">Admin <span>Homey</span></a>
@@ -32,6 +33,8 @@ export default class AdminDashboard extends Base {
             </ul>
             </div>
         </header>
+    <div class="content">
+        Welcome Admin
     </div>
 `
     constructor() {
@@ -44,6 +47,15 @@ export default class AdminDashboard extends Base {
 
     connectedCallback() {
 
+        this._qs('#hamburger-icon').addEventListener('click', () => {
+            this._qs('.container').style.left = '0'
+            this._qs('#backdrop').style.display = 'block'
+
+            this._qs('#backdrop').addEventListener('click', () => {
+                this._qs('.container').style.left = '-100%'
+                this._qs('#backdrop').style.display = 'none'
+            })
+        })
 
     }//End of connectedCallback
 

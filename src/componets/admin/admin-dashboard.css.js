@@ -1,9 +1,38 @@
 export default CSS = `
-    .container {
-
+    #backdrop {
+        display: none;
+        position: fixed;
+        background-color: rgba(0,0,0,0.7);
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        cursor: pointer;
+        transition: 1s ease-in-out;
     }
 
-        @import "compass/css3";
+    #hamburger-icon {
+        cursor: pointer;
+        margin: 1rem;
+        width: 2.5rem;
+        height: 2rem;
+        transition: 1s ease-in-out;
+        background-repeat: no-repeat;
+        border-radius: 1px;
+        background-size: contain;
+        position: absolute;
+        left: 1rem;
+        border: solid 5px #ffffff;
+        background-color: #ffffff;
+      }
+      
+      .hamburger-collapse {
+        background : url('./assets/icon/hamburger-icon.png');
+      }
+      .hamburger-expand {
+        background : url('./assets/icon/close-icon.png');
+      }
+
     *, :before, :after {
         box-sizing: border-box;
     }
@@ -24,12 +53,22 @@ export default CSS = `
     .container {
         position: fixed;
         overflow: auto;
-        left: 0;
+        left: -100%;
         top: 0;
         bottom: 0;
         width: 17.5em;
         background: #35302d;
+        transition: 1s ease-in-out;
     }
+
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 95vh;
+        font-size: 5rem;
+    }
+
     .logo {
         font: 300 2em 'Source Sans Pro', Helvetica, Arial, sans-serif;
         text-align: center;
