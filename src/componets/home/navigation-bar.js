@@ -341,7 +341,7 @@ export default class Nav extends Base {
                 // Event listener for logout 
                 this._qs("#logout-button").addEventListener('click', () => {
 
-                  axios.delete('http://homey-api.atwebpages.com/login', {
+                  axios.delete(`${this.host}/login`, {
                     'userId': (sessionStorage.userId !== undefined || sessionStorage.userId !== '') ? sessionStorage.userId : sessionStorage.userId,
                     'token': (sessionStorage.token !== undefined || sessionStorage.token !== '') ? sessionStorage.token : sessionStorage.token
                       }

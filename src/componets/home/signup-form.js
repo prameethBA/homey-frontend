@@ -188,7 +188,7 @@ export default class SignUpForm extends Base {
                     const password = this._qs('#password').value
 
                     // API call fro signup
-                    await axios.post('http://homey-api.atwebpages.com/signup/user', {
+                    await axios.post(`${this.host}/signup/user`, {
                         'firstName': firstName,
                         'lastName': lastName,
                         'email': email,

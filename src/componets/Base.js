@@ -3,7 +3,7 @@ export default class Base extends HTMLElement {
 
     state = {}
 
-    host = 'http://homeylk.tk'
+    host = 'http://api.homeylk.tk'
 
     styled() {
         return `<style>${this.css}</style>`

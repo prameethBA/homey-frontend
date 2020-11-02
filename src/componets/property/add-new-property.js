@@ -120,12 +120,12 @@ export default class AddNewProperty extends Base {
   async connectedCallback() {
 
     // API call for get Districts
-    await axios.get('http://homey-api.atwebpages.com/district')
+    await axios.get('${this.host}/district')
       .then(res => res.data.data.forEach(element => this._qs('#district').innerHTML += `<option value="${element._id}">${element.district}</option>`))
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
     // API call for get property types
-    await axios.get('http://homey-api.atwebpages.com/property-type')
+    await axios.get('${this.host}/property-type')
       .then(res => res.data.data.forEach(element => this._qs('#propertyType').innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`))
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
@@ -181,7 +181,7 @@ export default class AddNewProperty extends Base {
       })
       await this.sleep(101);
       // API call for get Districts
-      await axios.get(`http://homey-api.atwebpages.com/cities/districtId/${this._qs("#district").value}`)
+      await axios.get(`${this.host}/cities/districtId/${this._qs("#district").value}`)
         .then(res => {
           this._qs('#city-list').innerHTML = ''
           if (res.status == '200') res.data.data.forEach(element => this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`)
@@ -193,7 +193,7 @@ export default class AddNewProperty extends Base {
     await import("./subcomp/facility.js")
       .then(
         // API call for get Facilities List
-        await axios.get(`http://homey-api.atwebpages.com/facility`)
+        await axios.get(`${this.host}/facility`)
           .then(res => {
             if (res.status == '200') {
               res.data.data.forEach(element => this._qs('#facilities').innerHTML += `
@@ -365,7 +365,7 @@ export default class AddNewProperty extends Base {
         this._qs('#save').addEventListener('click', async () => {
           
           // Api call to add Advertisement to the databsse
-          await axios.post('http://homey-api.atwebpages.com/property/add-new', data, {
+          await axios.post('${this.host}/property/add-new', data, {
                   onUploadProgress: (progressEvent) => {
                     const {loaded, total} = progressEvent;
                     let percent = Math.floor( (loaded * 100) / total )
