@@ -37,10 +37,13 @@ export default class AdminDashboard extends Base {
     constructor() {
         super()
         this.mount()
+        // Remove nav-bar
+        document.querySelector('app-comp').shadowRoot.querySelector('navigation-bar').shadowRoot.innerHTML = ''
 
     }//End of the constructor
 
     connectedCallback() {
+
 
     }//End of connectedCallback
 
