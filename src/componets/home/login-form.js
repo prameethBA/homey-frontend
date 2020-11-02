@@ -121,11 +121,14 @@ export default class LoginForm extends Base {
                 )
                     .then((res) => {
                         if (res.data.login === 'true' && res.status == 201) {
+
+                            // set the login information to loacal or session storage of the browser
                             if (this._qs('#remember').checked == true) {
                                 localStorage.login = 'true'; localStorage.userType = res.data.userId; localStorage.userId = res.data.userId;localStorage.token = res.data.token
                             } else {
                                 sessionStorage.login = 'true'; sessionStorage.userType = res.data.userId; sessionStorage.userId = res.data.userId;sessionStorage.token = res.data.token
                             }
+
                             dispatchEvent(new Event('login-success'))
                             this.setPath('/')
                             dispatchEvent(new Event('exit-form'))
@@ -140,7 +143,7 @@ export default class LoginForm extends Base {
                     .catch(err => {
                         localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
                         sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
-    
+
                         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
                         this.stopLoader();
                     })//End of Login API call
