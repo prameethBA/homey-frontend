@@ -80,6 +80,11 @@ export default CSS = `
     margin: 0.4rem auto;
   }
 
+  #map {
+    width: 100%;
+    height: 50vh;
+    margin: auto;
+  }
 
   .form {
     position: relative;

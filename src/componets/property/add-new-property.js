@@ -70,6 +70,10 @@ export default class AddNewProperty extends Base {
               </div>
 
               <div class="row">
+                <div id="map"></div>
+              </div>
+
+              <div class="row">
                 <div class="col">
                   <label for="propertyType">Property Type</label>
                   <select class="property_type" id="propertyType">
@@ -118,6 +122,15 @@ export default class AddNewProperty extends Base {
   }//end of constructor
 
   async connectedCallback() {
+
+    const elm = this._qs('#map')
+
+    const map = new google.maps.Map(elm, {
+      center: {lat: 7.8731, lng: 80.7718},
+      zoom: 7
+    })
+
+    
 
     // API call for get Districts
     await axios.get(`${this.host}/district`)
