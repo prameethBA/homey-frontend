@@ -478,7 +478,7 @@ constructor() {
         const getAdData = () => {
             const data = {
               userId: this.getUserId(),
-              // token: this.getToken(),
+              token: this.getToken(),
               title: title,
               rentalperiod: rentalPeriod,
               price: price,
@@ -493,7 +493,6 @@ constructor() {
               facilities: facilities,
               images: newImages
             }
-      
             return data
           }
 
@@ -514,14 +513,15 @@ constructor() {
                 })
                 .then(async res => {
                   // Popup for enable add fetures
-                  await import('./subcomp/advertisement-settings.js')
-                  .then(
-                    this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${res.data}"></advertisement-settings>`
-                  )
-                  // dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
-                  // dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
+                  if(res.status == 201) {
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
+                    await import('./subcomp/advertisement-settings.js')
+                    .then(
+                      this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${res.data}"></advertisement-settings>`
+                    )
+                  } else throw res.data
                 })
-                .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: console.log(err.duration == undefined ? 10 : err.duration) } })))
+                .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
           
         })
       } catch (err) {
