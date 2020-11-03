@@ -124,9 +124,9 @@ export default class LoginForm extends Base {
 
                             // set the login information to loacal or session storage of the browser
                             if (this._qs('#remember').checked == true) {
-                                localStorage.login = 'true'; localStorage.userType = res.data.userId; localStorage.userId = res.data.userId;localStorage.token = res.data.token
+                                localStorage.login = 'true'; localStorage.userType = res.data.userType; localStorage.userId = res.data.userId;localStorage.token = res.data.token
                             } else {
-                                sessionStorage.login = 'true'; sessionStorage.userType = res.data.userId; sessionStorage.userId = res.data.userId;sessionStorage.token = res.data.token
+                                sessionStorage.login = 'true'; sessionStorage.userType = res.data.userType; sessionStorage.userId = res.data.userId;sessionStorage.token = res.data.token
                             }
 
                             dispatchEvent(new Event('login-success'))
