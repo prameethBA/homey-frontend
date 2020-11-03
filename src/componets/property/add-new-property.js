@@ -140,14 +140,13 @@ constructor() {
         const input = this._qs("#pac-input")
   
         mapDiv.classList.add('map')
-        input.style.display =  'block';
         
         const map = new google.maps.Map(mapDiv, {
           center: {lat: 7.8731, lng: 80.7718},
           zoom: 7.5,
           mapTypeId: google.maps.MapTypeId.HYBRID
         })
-    
+        
         // Create the search box and link it to the UI element.
         const searchBox = new google.maps.places.SearchBox(input)
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
@@ -155,7 +154,8 @@ constructor() {
         map.addListener("bounds_changed", () => {
           searchBox.setBounds(map.getBounds())
         })
-
+        
+        input.style.display =  'block'
         let markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
@@ -212,6 +212,12 @@ constructor() {
 
                 //get nearest Location!
                 this.state.getNearestLocation = async () => {
+                  
+                  this.state.location = {
+                    lng:marker.getPosition().lng(),
+                    ltd:marker.getPosition().lat()
+                  }
+
                   await axios.post(`${this.host}/cities/nearest-city`, {
                     lng:marker.getPosition().lng(),
                     ltd:marker.getPosition().lat()
@@ -397,7 +403,7 @@ constructor() {
         this._qs('#previewImages').childNodes.forEach(item => images.push(item.src))
 
         // validate the details
-        if (title == '') throw '<b>Title<b> cannot be empty.'
+        if (title == '') throw {message:'<b>Title<b> cannot be empty.', duration: 3}
 
         let rentalPer
         switch (rentalPeriod) {
@@ -405,30 +411,32 @@ constructor() {
           case '2': rentalPer = 'Weekly'; break;
           case '3': rentalPer = 'Monthly'; break;
           case '4': rentalPer = 'Yearly'; break;
-          default: throw '<b>Select a rental period<b>';
+          default: throw {message:'<b>Select a rental period<b>', duration: 3}
         }
 
-        if (price == '') throw '<b>Price<b> cannot be empty.'
-        if (!price.match(/^[0-9]+$/)) throw '<b>Price<b> cannot be contain letters or any other characters except numbers.'
+        if (price == '') throw {message: '<b>Price<b> cannot be empty.', duration: 3}
+        if (!price.match(/^[0-9]+$/)) throw {message: '<b>Price<b> cannot be contain letters or any other characters except numbers.', duration: 3}
 
         switch (keyMoneyPeriod) {
           case 'enter-value': ; break;
           case 'enter-period': keyMoney = keyMoney * price; break;
-          case '0': throw '<b>Select a rental period<b>';
+          case '0': throw {message:'<b>Select a rental period<b>', duration: 3}
           default: ;
         }
 
         switch (minimumPeriod) {
           case '': ; break;
           default:
-            if (!minimumPeriod.match(/^[0-9]+$/)) throw '<b>Minimum period<b> cannot be contain letters or any other characters except numbers.';
+            if (!minimumPeriod.match(/^[0-9]+$/)) throw {message:'<b>Minimum period<b> cannot be contain letters or any other characters except numbers.', duration: 3}
             break;
         }
 
-        if (district == 'Select a district' || district == '0') throw 'Select a district'
-        if (city == '') throw 'Select a city'
+        console.log(this.state.location)
 
-        if (!description.match(/\w+[\s\.]\w+/)) throw 'Add a description about the property. (double spaces and fullstops are not allowed)'
+        if (district == 'Select a district' || district == '0') throw {message: 'Select a district', duration: 3}
+        if (city == '') throw {message: 'Select a city', duration: 3}
+
+        if (!description.match(/\w+[\s\.]\w+/)) throw {message: 'Add a description about the property. (double spaces and fullstops are not allowed)', duration: 3}
 
         this._qs("#add-preview").style.display = 'block';
         this._qs("#add-preview").innerHTML = `
@@ -515,11 +523,11 @@ constructor() {
                   // dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
                   // dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
                 })
-                .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+                .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: console.log(err.duration == undefined ? 10 : err.duration) } })))
           
         })
       } catch (err) {
-        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
+        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: console.log(err.duration == undefined ? 10 : err.duration) } }))
       }//End of the catch for try
     })
 
