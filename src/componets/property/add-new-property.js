@@ -118,118 +118,106 @@ export default class AddNewProperty extends Base {
 `
 
 constructor() {
-  super()
-  if(!this.isLogin()) {
-    dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
-    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Log in to your account to continue.", duration: 3 } }))
-    dispatchEvent(new Event('load-login-form'))
-  }
-  this.mount()
+    super()
+    if(!this.isLogin()) {
+      dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
+      dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Log in to your account to continue.", duration: 3 } }))
+      dispatchEvent(new Event('load-login-form'))
+    }
+    this.mount()
 
-  }//end of constructor
+    }//end of constructor
 
-  async connectedCallback() {
+    async connectedCallback() {
 
-    const elm = this._qs('#map')
-
-    const map = new google.maps.Map(elm, {
-      center: {lat: 7.8731, lng: 80.7718},
-      zoom: 7.5,
-      mapTypeId: google.maps.MapTypeId.HYBRID
-    })
-
-    // Create the search box and link it to the UI element.
-    const input = this._qs("#pac-input");
-    const searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener("bounds_changed", () => {
-      searchBox.setBounds(map.getBounds());
-    });
-
-    let markers = [];
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener("places_changed", () => {
-      const places = searchBox.getPlaces();
-
-      if (places.length == 0) {
-        return;
-      }
-      // Clear out the old markers.
-      markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      markers = [];
-      // For each place, get the icon, name and location.
-      const bounds = new google.maps.LatLngBounds();
-      places.forEach((place) => {
-        if (!place.geometry) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-        const icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25),
-        };
-        // Create a marker for each place.
-        markers.push(
-          new google.maps.Marker({
-            map,
-            icon,
-            title: place.name,
-            position: place.geometry.location,
-          })
-        );
-
-        if (place.geometry.viewport) {
-          // Only geocodes have viewport.
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
-      });
-      map.fitBounds(bounds);
-    });
-
-    var marker = false;
-
-    //Listen for any clicks on the map.
-    google.maps.event.addListener(map, 'click', function(event) {                
-      //Get the location that the user clicked.
-      var clickedLocation = event.latLng;
-      //If the marker hasn't been added.
-      if(marker === false){
-          //Create the marker.
-          marker = new google.maps.Marker({
-              position: clickedLocation,
-              map: map,
-              draggable: true //make it draggable
-          });
-          //Listen for drag events!
-          google.maps.event.addListener(marker, 'dragend', function(event){
-              markerLocation();
-          });
-      } else{
-          //Marker has already been added, so just change its location.
-          marker.setPosition(clickedLocation);
-      }
-      //Get the marker's location.
-      console.log(marker.getPosition())
-  });
-
-
-  function markerLocation(){
-    //Get location.
-    var currentLocation = marker.getPosition();
-    //Add lat and lng values to a field that we can save.
-    document.getElementById('lat').value = currentLocation.lat(); //latitude
-    document.getElementById('lng').value = currentLocation.lng(); //longitude
-}
+      // Innitialize map
+      const initMap = async () => {
+        const map = new google.maps.Map(this._qs('#map'), {
+          center: {lat: 7.8731, lng: 80.7718},
+          zoom: 7.5,
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        })
     
+        // Create the search box and link it to the UI element.
+        const input = this._qs("#pac-input")
+        const searchBox = new google.maps.places.SearchBox(input)
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener("bounds_changed", () => {
+          searchBox.setBounds(map.getBounds())
+        })
+
+        let markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener("places_changed", () => {
+          const places = searchBox.getPlaces()
+          if (places.length == 0) return
+
+          // Clear out the old markers.
+          markers.forEach((marker) => marker.setMap(null))
+
+          markers = []
+
+          // For each place, get the icon, name and location.
+          const bounds = new google.maps.LatLngBounds()
+          places.forEach((place) => {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry")
+              return
+            }
+            const icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(35, 35),
+            }
+
+            // Create a marker for each place.
+            markers.push(
+              new google.maps.Marker({
+                map,
+                icon,
+                title: place.name,
+                position: place.geometry.location,
+              })
+            )
+    
+            if (place.geometry.viewport) // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            else 
+              bounds.extend(place.geometry.location);
+          })
+          map.fitBounds(bounds)
+        })
+
+        
+          //Listen for any clicks on the map.
+          let marker = false
+          google.maps.event.addListener(map, 'click', event => {                
+            //Get the location that the user clicked.
+            let clickedLocation = event.latLng;
+            //If the marker hasn't been added.
+            if(marker === false){
+                //Create the marker.
+                marker = new google.maps.Marker({
+                    position: clickedLocation,
+                    map: map,
+                    draggable: true //make it draggable
+                })
+                //Listen for drag events!
+                google.maps.event.addListener(marker, 'dragend', event => markerLocation())
+            } else//Marker has already been added, so just change its location.
+                marker.setPosition(clickedLocation);
+            //Get the marker's location.
+            console.log(marker.getPosition().lat())
+            console.log(marker.getPosition().lng())
+        })
+        
+      }//End of initMap()
+
+      addEventListener('map-loaded', ()=> initMap())
 
     // API call for get Districts
     await axios.get(`${this.host}/district`)
