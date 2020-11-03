@@ -81,9 +81,25 @@ export default CSS = `
   }
 
   #map {
-    width: 100%;
-    height: 50vh;
+    width: 50%;
+    height: 50vw;
     margin: auto;
+  }
+
+  .gmnoprint {
+    display: none;
+  }
+
+  #pac-input {
+    z-index: 0;
+    position: absolute;
+    margin: 1rem;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(0, 0, 0);
+    width: 75%;
+    left: 20px;
+    top: 0px;
+    color: #000000;
   }
 
   .form {

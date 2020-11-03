@@ -77,7 +77,7 @@ export default class Nav extends Base {
                         <button id="admin-dashboard" class="nav-link">Admin Dashboard</button>
                       `
               // Load the admin area
-              this._qs('#admin-dashboard').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+              this._qs('#admin-dashboard') != null ? this._qs('#admin-dashboard').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } }))) : null
 
               this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `home/main/main`, compName: 'main-comp' } })))
               this._qs('#logout-button') != null ? this._qs('#logout-button').addEventListener('click', () => dispatchEvent(new Event('log-out'))) : null

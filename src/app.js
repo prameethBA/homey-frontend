@@ -80,7 +80,7 @@ export default class App extends Base {
     // Event Listner for pop-up
     addEventListener('pop-up', async (res) => {
         await import(`./componets/popup/popup.js`)
-          .then(() => this._qs('#pop-up').innerHTML = `<pop-up type=${res.detail.pop}><div slot="message">${res.detail.msg}</div></pop-up>`)
+          .then(() => this._qs('#pop-up').innerHTML = `<pop-up type=${res.detail.pop} duration=${res.detail.duration == undefined ? 10 : res.detail.duration}><div slot="message">${res.detail.msg}</div></pop-up>`)
     })
 
     //Event listner for Load a component

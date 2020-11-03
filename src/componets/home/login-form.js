@@ -136,7 +136,7 @@ export default class LoginForm extends Base {
                             localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
                             sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
                             
-                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message } }))
+                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: res.data.message, duration: 5 } }))
                         }
                         this.stopLoader();
                     })
@@ -144,7 +144,7 @@ export default class LoginForm extends Base {
                         localStorage.login = 'false';localStorage.userId = '';localStorage.token = ''
                         sessionStorage.login = 'false';sessionStorage.userId = '';sessionStorage.token = ''
 
-                        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message } }))
+                        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message} }))
                         this.stopLoader();
                     })//End of Login API call
             }// End of login()
