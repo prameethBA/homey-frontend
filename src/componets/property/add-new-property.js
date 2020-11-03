@@ -220,6 +220,7 @@ constructor() {
                         this._qs('#city-list').innerHTML = ''
                         let index = 0
                         res.data.forEach(element =>  {
+                          this._qs('#district').value = element.district
                           index == 0 ? this._qs('#city').value = element.city : null
                           this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`
                           index++
