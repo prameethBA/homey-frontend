@@ -124,7 +124,7 @@ constructor() {
     super()
     if(!this.isLogin()) {
       dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
-      dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Log in to your account to continue.", duration: 3 } }))
+      dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Log in to your account to continue.", duration: 5 } }))
       dispatchEvent(new Event('load-login-form'))
     }
     this.mount()
@@ -357,7 +357,7 @@ constructor() {
                         id="uploaded-image-${index}" 
                         alt="image-${index}"
                         onclick="this.outerHTML = ''"
-                      />`
+                        />`
       fileReader.readAsDataURL(file)
     }//End of readImages
     
@@ -369,7 +369,7 @@ constructor() {
         window.scrollTo(0, document.body.scrollHeight)
       } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Maximum 5 images can be uploaded." } }))
     })
-
+    
     this._qs('#add-property-button').addEventListener('click', () => {
       try {
         const title = this._qs("#title").value;
@@ -385,9 +385,9 @@ constructor() {
         const description = this._qs("#description").value;
         let facilities = []
         let images = []
-
+        
         window.scrollTo(0, 0)
-
+        
         this._qsAll('facility-comp').forEach(item => {
           const feature = item.shadowRoot.querySelector('input')
           if (feature.checked) {
@@ -401,43 +401,40 @@ constructor() {
         })
 
         this._qs('#previewImages').childNodes.forEach(item => images.push(item.src))
-
+        
         // validate the details
-        if (title == '') throw {message:'<b>Title<b> cannot be empty.', duration: 3}
-
+        if (title == '') throw {message:'<b>Title<b> cannot be empty.', duration: 5}
+        
         let rentalPer
         switch (rentalPeriod) {
           case '1': rentalPer = 'Daily'; break;
           case '2': rentalPer = 'Weekly'; break;
           case '3': rentalPer = 'Monthly'; break;
           case '4': rentalPer = 'Yearly'; break;
-          default: throw {message:'<b>Select a rental period<b>', duration: 3}
+          default: throw {message:'<b>Select a rental period<b>', duration: 5}
         }
 
-        if (price == '') throw {message: '<b>Price<b> cannot be empty.', duration: 3}
-        if (!price.match(/^[0-9]+$/)) throw {message: '<b>Price<b> cannot be contain letters or any other characters except numbers.', duration: 3}
+        if (price == '') throw {message: '<b>Price<b> cannot be empty.', duration: 5}
+        if (!price.match(/^[0-9]+$/)) throw {message: '<b>Price<b> cannot be contain letters or any other characters except numbers.', duration: 5}
 
         switch (keyMoneyPeriod) {
           case 'enter-value': ; break;
           case 'enter-period': keyMoney = keyMoney * price; break;
-          case '0': throw {message:'<b>Select a rental period<b>', duration: 3}
+          case '0': throw {message:'<b>Select a rental period<b>', duration: 5}
           default: ;
         }
 
         switch (minimumPeriod) {
           case '': ; break;
           default:
-            if (!minimumPeriod.match(/^[0-9]+$/)) throw {message:'<b>Minimum period<b> cannot be contain letters or any other characters except numbers.', duration: 3}
+            if (!minimumPeriod.match(/^[0-9]+$/)) throw {message:'<b>Minimum period<b> cannot be contain letters or any other characters except numbers.', duration: 5}
             break;
         }
 
-        console.log(this.state.location)
+        if (district == 'Select a district' || district == '0') throw {message: 'Select a district', duration: 5}
+        if (city == '') throw {message: 'Select a city', duration: 5}
 
-        if (district == 'Select a district' || district == '0') throw {message: 'Select a district', duration: 3}
-        if (city == '') throw {message: 'Select a city', duration: 3}
-
-        if (!description.match(/\w+[\s\.]\w+/)) throw {message: 'Add a description about the property. (double spaces and fullstops are not allowed)', duration: 3}
-
+        if (!description.match(/\w+[\s\.]\w+/)) throw {message: 'Add a description about the property. (double spaces and fullstops are not allowed)', duration: 5}
         this._qs("#add-preview").style.display = 'block';
         this._qs("#add-preview").innerHTML = `
             <div>Title 👉 <b> ${title}</b></div>
@@ -490,6 +487,7 @@ constructor() {
               availableFrom: availableFrom,
               district: district,
               city: city,
+              location: this.state.location =! null ? this.state.location : {},
               propertyType: propertyType,
               description: description,
               facilities: facilities,
@@ -527,7 +525,7 @@ constructor() {
           
         })
       } catch (err) {
-        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: console.log(err.duration == undefined ? 10 : err.duration) } }))
+        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
       }//End of the catch for try
     })
 
