@@ -80,7 +80,23 @@ export default CSS = `
     margin: 0.4rem auto;
   }
 
-  #map {
+  #pickLocation {
+    height: 2rem;
+    border-radius: 2px;
+    outline: none;
+    border: none;
+    background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 1s;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    text-indent: 1rem;
+  }
+
+  .map {
     width: 50%;
     height: 50vw;
     margin: auto;
@@ -91,6 +107,7 @@ export default CSS = `
   }
 
   #pac-input {
+    display: none;
     z-index: 0;
     position: absolute;
     margin: 1rem;

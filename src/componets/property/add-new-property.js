@@ -56,16 +56,7 @@ export default class AddNewProperty extends Base {
                     <input type="date" id="availableFrom" value="${new Date().toISOString().slice(0, 10)}">
                 </div>
                 <div class="col">
-                    <label for="">District</label>
-                    <select class="district_type" id="district">
-                      <option value='0' selected disabled> Select a district</option> 
-                    </select>
-                </div>
-                <div class="col">
-                    <label for="city">City</label>
-                    <input type="text" id="city" list="city-list" autocomplete="false"/>
-                      <datalist id="city-list">
-                      </datalist>
+                    <div type="date" id="pickLocation">Pick a location<span>📌</span></div>
                 </div>
               </div>
 
@@ -80,6 +71,18 @@ export default class AddNewProperty extends Base {
               </div>
 
               <div class="row">
+              <div class="col">
+                    <label for="">District</label>
+                    <select class="district_type" id="district">
+                      <option value='0' selected disabled> Select a district</option> 
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="city">City</label>
+                    <input type="text" id="city" list="city-list" autocomplete="false"/>
+                      <datalist id="city-list">
+                      </datalist>
+                </div>
                 <div class="col">
                   <label for="propertyType">Property Type</label>
                   <select class="property_type" id="propertyType">
@@ -130,16 +133,22 @@ constructor() {
 
     async connectedCallback() {
 
+      
       // Innitialize map
       const initMap = async () => {
-        const map = new google.maps.Map(this._qs('#map'), {
+        const mapDiv = this._qs('#map')
+        const input = this._qs("#pac-input")
+  
+        mapDiv.classList.add('map')
+        input.style.display =  'block';
+        
+        const map = new google.maps.Map(mapDiv, {
           center: {lat: 7.8731, lng: 80.7718},
           zoom: 7.5,
           mapTypeId: google.maps.MapTypeId.HYBRID
         })
     
         // Create the search box and link it to the UI element.
-        const input = this._qs("#pac-input")
         const searchBox = new google.maps.places.SearchBox(input)
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
         // Bias the SearchBox results towards current map's viewport.
@@ -166,19 +175,11 @@ constructor() {
               console.log("Returned place contains no geometry")
               return
             }
-            const icon = {
-              url: place.icon,
-              size: new google.maps.Size(71, 71),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(17, 34),
-              scaledSize: new google.maps.Size(35, 35),
-            }
 
             // Create a marker for each place.
             markers.push(
               new google.maps.Marker({
                 map,
-                icon,
                 title: place.name,
                 position: place.geometry.location,
               })
@@ -195,7 +196,9 @@ constructor() {
         
           //Listen for any clicks on the map.
           let marker = false
-          google.maps.event.addListener(map, 'click', event => {                
+          google.maps.event.addListener(map, 'click', async event => {
+            // Clear out the old markers.
+            markers.forEach((marker) => marker.setMap(null))  
             //Get the location that the user clicked.
             let clickedLocation = event.latLng;
             //If the marker hasn't been added.
@@ -206,18 +209,39 @@ constructor() {
                     map: map,
                     draggable: true //make it draggable
                 })
-                //Listen for drag events!
-                google.maps.event.addListener(marker, 'dragend', event => markerLocation())
+
+                //get nearest Location!
+                this.state.getNearestLocation = async () => {
+                  await axios.post(`${this.host}/cities/nearest-city`, {
+                    lng:marker.getPosition().lng(),
+                    ltd:marker.getPosition().lat()
+                  })
+                    .then(res => {
+                        this._qs('#city-list').innerHTML = ''
+                        let index = 0
+                        res.data.forEach(element =>  {
+                          index == 0 ? this._qs('#city').value = element.city : null
+                          this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`
+                          index++
+                        })
+                    })
+                }
+
+                google.maps.event.addListener(marker, 'dragend', event => this.state.getNearestLocation())
+
             } else//Marker has already been added, so just change its location.
-                marker.setPosition(clickedLocation);
-            //Get the marker's location.
-            console.log(marker.getPosition().lat())
-            console.log(marker.getPosition().lng())
+            marker.setPosition(clickedLocation)
+            this.state.getNearestLocation()
         })
         
       }//End of initMap()
 
-      addEventListener('map-loaded', ()=> initMap())
+      // try {
+      //   google != undefined
+      // } catch(err) {
+      //   initMap()
+      // }
+      // addEventListener('map-loaded', ()=> initMap())
 
     // API call for get Districts
     await axios.get(`${this.host}/district`)
@@ -288,6 +312,12 @@ constructor() {
           else throw "Server Error."
         })
         .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+    })
+
+    this._qs('#pickLocation').addEventListener('click', () => {
+      initMap()
+      this._qs('#pickLocation').display = 'none'
+      this._qs('#pickLocation').removeEventListener('click', {} )
     })
 
     await import("./subcomp/facility.js")
