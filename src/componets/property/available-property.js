@@ -87,7 +87,7 @@ export default class AvalibaleProperty extends Base {
     const fetchAdds = async (limit, page, find='find') => {
         this.setLoader()
         this.state.ids = []
-        await axios.get(`http://homey-api.atwebpages.com/property/all/${limit}/${page}`)
+        await axios.get(`${this.host}/property/all/${limit}/${page}`)
             .then(async res => {
                     res.data.forEach((item, index) =>{
                     this.stopLoader()
@@ -103,7 +103,7 @@ export default class AvalibaleProperty extends Base {
                     this._qs(`#id-${index}`).shadowRoot.innerHTML = ''
                 }
                 
-                await axios.post(`http://homey-api.atwebpages.com/images/property`,{'ids':this.state.ids})
+                await axios.post(`${this.host}/images/property`,{'ids':this.state.ids})
                     .then(res => {
                         res.data.forEach((id, index) => {
                             id.images.forEach(image => {
