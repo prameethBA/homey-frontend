@@ -29,7 +29,7 @@ export default class App extends Base {
 
         // Method to load dynamic froms
         const loadForm = async (form) => {
-            this.setPath('/' + form)
+            // this.setPath('/' + form)
             this.setLoader()
             
             await import('./componets/home/' + form + '-form.js')
@@ -53,6 +53,7 @@ export default class App extends Base {
         addEventListener('load-login-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('login') : this.setPath('/'))
         addEventListener('load-signup-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('signup') : this.setPath('/'))
         addEventListener('reset-password-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('reset-password') : this.setPath('/'))
+        addEventListener('confirm-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('confirm') : this.setPath('/'))
         
         // Load login form component
         router.get('/login', () => dispatchEvent(new Event('load-login-form')))
@@ -60,8 +61,11 @@ export default class App extends Base {
         // Load signup form component
         router.get('/signup', () => dispatchEvent(new Event('load-signup-form')))
 
-        // Load login form component
+        // Load reset-password form component
         router.get('/reset-password', () => dispatchEvent(new Event('reset-password-form')))
+
+        // Load confirm form component
+        router.get('/confirm', () => dispatchEvent(new Event('confirm-form')))
 
         // Load add new property component
         router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
