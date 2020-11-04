@@ -58,6 +58,7 @@ export default class AdminDashboard extends Base {
         })
     }//End of sideBar()
 
+    // load comp
     async loadContent(comp) {
         await import(`./comps/${comp}.js`)
         .then( () => {
@@ -67,12 +68,13 @@ export default class AdminDashboard extends Base {
             this._qs('#backdrop').style.display = 'none'
         })
         .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
-    }
+    }//End of loadComp()
     
+    // redirect Admin URIs
     redirectURI() {
         const uri = window.location.pathname.split('/')
         this._qs(`#${uri[2]}`) != null ? this._qs(`#${uri[2]}`).click() : null 
-    }
+    }// End of redirectURI
 
     //connectedCallback
     connectedCallback() {

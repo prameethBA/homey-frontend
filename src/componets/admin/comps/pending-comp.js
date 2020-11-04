@@ -28,6 +28,7 @@ export default class Pendings extends Base {
                 <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
             </div>
     </div>
+    <div class="preview-advertisement"></div>
 `
     constructor() {
         super()
@@ -42,11 +43,16 @@ export default class Pendings extends Base {
                 this.setLoader()
                 await axios.post(`${this.host}/admin-property-preview/pending-approval`, {
                     userId: this.getUserId(),
-                    token: this.getToken()
+                    token: this.getToken(),
+                    id: item.dataset.id
                 })
-                .then(res => {
-                    console.log(res.data)
-                    this.stopLoader()
+                .then(async res => {
+                    await import('./subcomp/preview-advertisement.js')
+                        .then( () => {
+                            this._qs('.preview-advertisement').innerHTML = `<preview-advertisement></preview-advertisement>`
+                            console.log(res.data)
+                        })
+                        this.stopLoader()
                 })
                 .catch(err => {
                     this.stopLoader()
@@ -56,6 +62,7 @@ export default class Pendings extends Base {
         })
     }//End of adPreview()
 
+    // get summary about pendin approvals
     async getSummary() {
         this.setLoader()
         await axios.post(`${this.host}/admin-property-summary/pending-approval`, {
@@ -83,7 +90,7 @@ export default class Pendings extends Base {
                 this.stopLoader()
                 dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
             })
-    }
+    }//End of getSummary()
 
     
 

@@ -6,9 +6,13 @@ export default class PreviewAdvertisement extends Base {
     css = CSS
 
     content = `
-    <div class="container">
-        
+    <div class="backdrop">
     </div>
+    <div class="container">
+        <span id="close-popup">+</span>
+        saojsasjiasjajsasjas?sakskasjksj
+    </div>
+    
 `
     constructor() {
         super()
@@ -18,6 +22,11 @@ export default class PreviewAdvertisement extends Base {
 
     //connectedCallback
     connectedCallback() {
+
+        this._qs('#close-popup').addEventListener('click', () => {
+            this._qs('.container').style.top = '-100%'
+            this._qs('.backdrop').style.backgroundColor = 'transparent'
+        })
 
     }//End of connectedCallback()
     
