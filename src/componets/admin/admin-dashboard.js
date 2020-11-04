@@ -41,7 +41,8 @@ export default class AdminDashboard extends Base {
         super()
         this.mount()
         // Remove nav-bar
-        document.querySelector('app-comp').shadowRoot.querySelector('navigation-bar').shadowRoot.innerHTML = ''
+        const navbar= document.querySelector('app-comp').shadowRoot.querySelector('navigation-bar')
+        navbar.parentNode.removeChild(navbar)
 
     }//End of the constructor
 
