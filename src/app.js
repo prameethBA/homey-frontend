@@ -1,9 +1,9 @@
-import Base from './componets/Base.js'
-import CSS from './app.css.js'
-import Router from './assets/js/Router.js'
+import Base from '/componets/Base.js'
+import CSS from '/app.css.js'
+import Router from '/assets/js/Router.js'
 
-import './componets/home/navigation-bar.js'
-import './componets/home/footer.js'
+import '/componets/home/navigation-bar.js'
+import '/componets/home/footer.js'
 
 const router = new Router()
 
@@ -25,14 +25,14 @@ export default class App extends Base {
         addEventListener('route-found', () => this.state.routeFound = true)
         
         // Load home component
-        router.get('/', async () => { await import('./componets/home/main/main.js').then(this._qs('.container').innerHTML = `<main-comp></main-comp>`) })
+        router.get('/', async () => { await import('/componets/home/main/main.js').then(this._qs('.container').innerHTML = `<main-comp></main-comp>`) })
 
         // Method to load dynamic froms
         const loadForm = async (form) => {
             // this.setPath('/' + form)
             this.setLoader()
             
-            await import('./componets/home/' + form + '-form.js')
+            await import('/componets/home/' + form + '-form.js')
             .then(() => {
             this._qs('#login-form').innerHTML = `<` + form + `-form></` + form + `-form>` 
     
@@ -83,7 +83,7 @@ export default class App extends Base {
 
     // Event Listner for pop-up
     addEventListener('pop-up', async (res) => {
-        await import(`./componets/popup/popup.js`)
+        await import(`/componets/popup/popup.js`)
           .then(() => this._qs('#pop-up').innerHTML = `<pop-up type=${res.detail.pop} duration=${res.detail.duration == undefined ? 10 : res.detail.duration}><div slot="message">${res.detail.msg}</div></pop-up>`)
     })
 
@@ -91,7 +91,7 @@ export default class App extends Base {
     addEventListener('load-comp', async (e) => {
         this.setLoader()
         this.setPath(e.detail.path)
-        await import('./componets/' + e.detail.comp + '.js')
+        await import('/componets/' + e.detail.comp + '.js')
         .then(() => {
             this._qs('#container').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`
                 this.stopLoader()
@@ -104,7 +104,7 @@ export default class App extends Base {
         })//End of the Event listner for Load a component
         
         // Add event listener for an error Page
-        addEventListener('customError', async (e) => await import(`./componets/errors/Error${e.detail.err}.js`).then(this._qs('#container').innerHTML = `<err-404></err-404>`))
+        addEventListener('customError', async (e) => await import(`/componets/errors/Error${e.detail.err}.js`).then(this._qs('#container').innerHTML = `<err-404></err-404>`))
 
         router.init()
     }//End of connectedCallback

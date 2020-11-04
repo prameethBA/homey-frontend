@@ -41,7 +41,7 @@ export default class Nav extends Base {
 
     this.state.loginContent = `
         <div class='navbar'>
-          <img src="./assets/img/homey_logo.png" class="logo" />
+          <img src="/assets/img/homey_logo.png" class="logo" />
           <span class="separator"></span>
           <span class="wrapper">
             <a class="nav-link" id="properties">Properties</a>
