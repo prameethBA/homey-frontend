@@ -10,30 +10,30 @@ export default class AdminDashboard extends Base {
     <div id="hamburger-icon" class="hamburger-collapse"></div>
         <header class="container" role="banner">
             <h1 class="logo">
-            <a href="#">Admin <span>Homey</span></a>
+            <a>Admin <span>Homey</span></a>
             </h1>
             <div class="nav-wrap">
             <nav class="main-nav" role="navigation">
                 <ul class="unstyled list-hover-slide">
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Properties</a></li>
-                <li><a href="#">Users</a></li>
-                <li><a href="#">Payments</a></li>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Properties</a></li>
-                <li><a href="#">Payments</a></li>
+                <li><a>Dashboard</a></li>
+                <li><a id="pendings">Pendings</a></li>
+                <li><a>Properties</a></li>
+                <li><a>Users</a></li>
+                <li><a>Payments</a></li>
+                <li><a>Home</a></li>
+                <li><a>Properties</a></li>
+                <li><a>Payments</a></li>
                 </ul>
             </nav>
             <ul class="links list-inline unstyled list-hover-slide">
-                <li><a href="#">Comments</a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Logout</a></li>
+                <li><a>Comments</a></li>
+                <li><a>Reports</a></li>
+                <li><a>Settings</a></li>
+                <li><a>Logout</a></li>
             </ul>
             </div>
         </header>
-    <div class="content">
+    <div id="mainContainer">
         Welcome Admin
     </div>
 `
@@ -45,20 +45,49 @@ export default class AdminDashboard extends Base {
 
     }//End of the constructor
 
-    connectedCallback() {
-
+    //Listners for view hide sidbar
+    sideBar() {
         this._qs('#hamburger-icon').addEventListener('click', () => {
             this._qs('.container').style.left = '0'
             this._qs('#backdrop').style.display = 'block'
-
+            
             this._qs('#backdrop').addEventListener('click', () => {
                 this._qs('.container').style.left = '-100%'
                 this._qs('#backdrop').style.display = 'none'
             })
         })
+    }//End of sideBar()
 
-    }//End of connectedCallback
+    async loadContent(comp) {
+        await import(`./comps/${comp}.js`)
+        .then( () => {
+            this._qs('#mainContainer').innerHTML = `<${comp}></${comp}>`
+            this._qs('.container').style.left = '-100%'
+            this._qs('#backdrop').style.display = 'none'
+        })
+        .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
+    }
+    
 
+    //connectedCallback
+    connectedCallback() {
+
+        // Display hide sidebar
+        this.sideBar()
+
+        const navLinks = [
+            {link: '#pendings', comp: 'pending-comp'}
+        ]
+
+        navLinks.forEach(item => {
+            this._qs(item.link).addEventListener('click', () => {
+
+                this.loadContent(item.comp)
+            })
+        })
+
+    }//End of connectedCallback()
+    
 }//End of Class
 
 window.customElements.define('admin-dashboard', AdminDashboard)

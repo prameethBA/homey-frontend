@@ -61,7 +61,7 @@ export default CSS = `
         transition: 1s ease-in-out;
     }
 
-    .content {
+    #mainContainer {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -106,6 +106,7 @@ export default CSS = `
         text-align: center;
         letter-spacing: 0.3em;
         text-transform: uppercase;
+        cursor: pointer;
     }
     .main-nav a:hover {
         color: #fff;
