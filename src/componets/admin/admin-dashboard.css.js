@@ -27,10 +27,10 @@ export default CSS = `
       }
       
       .hamburger-collapse {
-        background : url('./assets/icon/hamburger-icon.png');
+        background : url('/assets/icon/hamburger-icon.png');
       }
       .hamburger-expand {
-        background : url('./assets/icon/close-icon.png');
+        background : url('/assets/icon/close-icon.png');
       }
 
     *, :before, :after {
@@ -62,11 +62,11 @@ export default CSS = `
     }
 
     #mainContainer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 95vh;
-        font-size: 5rem;
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+        // height: 95vh;
+        // font-size: 5rem;
     }
 
     .logo {

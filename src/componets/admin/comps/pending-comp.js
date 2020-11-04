@@ -7,52 +7,90 @@ export default class Pendings extends Base {
 
     content = `
     <div class="container">
-        Welcome to Pendings
+        <div class="pending-approval">
+            <table id="pending-approval-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Advertisement</th>
+                        <th>User</th>
+                        <th>Posted on</th>
+                        <th>Approve</th>
+                        <th>Decline</th>
+                    </tr>
+                </thead>
+                <tbody id="pending-approval-table-body">
+                    
+                </tbody>
+            </table>
+            </div>
+            <div class="pagination">
+                <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+            </div>
     </div>
 `
     constructor() {
         super()
         this.mount()
-        // Remove nav-bar
-        document.querySelector('app-comp').shadowRoot.querySelector('navigation-bar').shadowRoot.innerHTML = ''
 
     }//End of the constructor
 
-    //Listners for view hide sidbar
-    sideBar() {
-        this._qs('#hamburger-icon').addEventListener('click', () => {
-            this._qs('.container').style.left = '0'
-            this._qs('#backdrop').style.display = 'block'
-            
-            this._qs('#backdrop').addEventListener('click', () => {
-                this._qs('.container').style.left = '-100%'
-                this._qs('#backdrop').style.display = 'none'
+    // Preview advertisement
+    adPreview() {
+        this._qsAll('.ad-link').forEach(item => {
+            item.addEventListener('click', async () => {
+                this.setLoader()
+                await axios.post(`${this.host}/admin-property-preview/pending-approval`, {
+                    userId: this.getUserId(),
+                    token: this.getToken()
+                })
+                .then(res => {
+                    console.log(res.data)
+                    this.stopLoader()
+                })
+                .catch(err => {
+                    this.stopLoader()
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+                })
             })
         })
-    }//End of sideBar()
+    }//End of adPreview()
 
-    async loadContent(comp) {
-        await import(`./${comp}/.js`)
-        .then( () => {
-            this._qs('#content').innerHTML = `<${comp}></${comp}>`
+    async getSummary() {
+        this.setLoader()
+        await axios.post(`${this.host}/admin-property-summary/pending-approval`, {
+            userId: this.getUserId(),
+            token: this.getToken()
         })
-        .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
+            .then(res => {
+                let index = 1
+                res.data.forEach(item => {
+                    this._qs('#pending-approval-table-body').innerHTML += `
+                        <tr>
+                            <td>${index++}</td>
+                            <td><a class="ad-link" data-id="${item._id}">${item.title}</a></td>
+                            <td><a class="user-link" data-id="${item._id}">View user</a></td>
+                            <td>${item.created}</td>
+                            <td><button class="approve-button" data-id="${item._id}">Approve</button></td>
+                            <td><button class="decline-button" data-id="${item._id}">Decline</button></td>
+                        </tr>
+                    `
+                })
+                this.adPreview()
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+            })
     }
+
     
 
     //connectedCallback
     connectedCallback() {
-
-        // Display hide sidebar
-        this.sideBar()
-
-        const navLinks = [
-            {link: '#pendings', comp: 'pending-comp'}
-        ]
-
-        navLinks.forEach(item => {
-            this._qs(item.link).addEventListener('click', () => this.loadContent(item.comp))
-        })
+        // Api call for getting the data 
+        this.getSummary()
 
     }//End of connectedCallback()
     

@@ -16,7 +16,7 @@ export default class AdminDashboard extends Base {
             <nav class="main-nav" role="navigation">
                 <ul class="unstyled list-hover-slide">
                 <li><a>Dashboard</a></li>
-                <li><a id="pendings">Pendings</a></li>
+                <li><a id="pending">Pendings</a></li>
                 <li><a>Properties</a></li>
                 <li><a>Users</a></li>
                 <li><a>Payments</a></li>
@@ -61,6 +61,7 @@ export default class AdminDashboard extends Base {
     async loadContent(comp) {
         await import(`./comps/${comp}.js`)
         .then( () => {
+            this.setPath(`/admin/${comp.substr(0, comp.length - 5)}`)//remove '-comp' string piece to set path
             this._qs('#mainContainer').innerHTML = `<${comp}></${comp}>`
             this._qs('.container').style.left = '-100%'
             this._qs('#backdrop').style.display = 'none'
@@ -68,6 +69,10 @@ export default class AdminDashboard extends Base {
         .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
     }
     
+    redirectURI() {
+        const uri = window.location.pathname.split('/')
+        this._qs(`#${uri[2]}`) != null ? this._qs(`#${uri[2]}`).click() : null 
+    }
 
     //connectedCallback
     connectedCallback() {
@@ -76,7 +81,7 @@ export default class AdminDashboard extends Base {
         this.sideBar()
 
         const navLinks = [
-            {link: '#pendings', comp: 'pending-comp'}
+            {link: '#pending', comp: 'pending-comp'}
         ]
 
         navLinks.forEach(item => {
@@ -85,6 +90,10 @@ export default class AdminDashboard extends Base {
                 this.loadContent(item.comp)
             })
         })
+
+        
+        // redirect URI
+        this.redirectURI()
 
     }//End of connectedCallback()
     

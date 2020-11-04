@@ -73,8 +73,12 @@ export default class App extends Base {
         // Load add new property component
         router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
 
-        // Load add new property component
+        // +ADMIN+ +TODO this part can be move another file set when only admin user logged IN
+        // Load admin component
         router.get('/admin', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+
+         // Load admin/pendings component
+         router.get('/admin/pending', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/pending`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
         
     }//End of constructor
     

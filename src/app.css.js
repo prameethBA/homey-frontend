@@ -4,6 +4,7 @@ export default CSS = `
     padding: 0;
     width: 100%;
     height: 100%;
+    min-height: 95vh;
     overflow-x: auto;
 }
 
