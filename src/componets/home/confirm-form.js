@@ -9,7 +9,10 @@ export default class Confirm extends Base {
           </div>
 
           <div class="form">
-            <p>Waiting for the server...</p>
+            <div class="container">
+              <p>Waiting for the server...</p>
+              <span>Go to <a>home 🏠</a></span>
+            </div>
           </div>
   `
 
@@ -56,8 +59,9 @@ export default class Confirm extends Base {
 
   connectedCallback() {
 
-    this._qs('#backdrop').addEventListener('click', () => {
+    this._qs('a').addEventListener('click', () => {
       dispatchEvent(new Event('exit-form'))
+      dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
       this.setPath('/')
     })
   }//End of callback

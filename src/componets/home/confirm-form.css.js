@@ -24,7 +24,7 @@ export default CSS = `
   right: 0;
 }
 
-p {
+.container {
   background-color: rgba(0,0,0,0.9);
   color: #eeeeee;
   width: 50%;
@@ -32,7 +32,19 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
+
+a {
+  color: rgb(176, 200, 240);
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+a:hover {
+  color: rgb(125, 150, 255);
+}
+
 
 @media screen and (max-width: 1200px) {
 

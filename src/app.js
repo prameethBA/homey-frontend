@@ -39,7 +39,7 @@ export default class App extends Base {
                 // Listen for exit-login-form Event for unset the visilility of Login Form
                 addEventListener('exit-form', () => {
                 this._qs('#login-form').innerHTML = ''
-                dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
+                    dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
                 })
             this.stopLoader()
             })
