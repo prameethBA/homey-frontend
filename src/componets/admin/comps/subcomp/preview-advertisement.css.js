@@ -52,7 +52,7 @@ export default CSS = `
         align-content: flex-start;
     }
 
-    img {
+    ::slotted(img) {
         width: 10rem;
         border: 5px solid;
         border-radius: 2px;
@@ -65,9 +65,9 @@ export default CSS = `
         text-align: justify;
         padding: 2rem 2rem 1rem 2rem;
         font-weight: bold;
-        // overflow: hidden;
-        // line-height: 1em;
-        // height: 2.1em;
+        /*overflow: hidden;*/
+        /*line-height: 1em;*/
+        /*height: 2.1em;*/
     }
 
     button {
@@ -94,7 +94,7 @@ export default CSS = `
         margin: 0 2rem;
     }
 
-    .row span {
+    ::slotted(span) {
         font-weight: bold;
         margin: 1rem;
         color: rebeccapurple;
@@ -104,42 +104,16 @@ export default CSS = `
         text-transform: capitalize;
         text-align: justify;
         padding: 2rem 2rem 1rem 2rem;
-        // overflow: hidden;
-        // line-height: 1em;
-        // height: 2.1em;
+        /*overflow: hidden;*/
+        /*line-height: 1em;*/
+        /*height: 2.1em;*/
     }
 
-    .facilities {
+    ::slotted(.facilities) {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
         margin: 0 4rem;
-    }
-
-    .location {
-        border: solid 1px;
-        width: 60%;
-        margin: 2rem auto;
-        min-height: 20rem;
-    }
-
-    .location-details {
-        justify-content: space-around;
-    }
-
-    .user-details {
-        display: flex;
-        justify-content: center;
-    }
-
-    .user-details span {
-        font-weight: unset;
-        color: #4212ff;
-    }
-
-    .user-details span > a {
-        text-decoration: underline;
-        cursor: pointer;
     }
 
     .approval {

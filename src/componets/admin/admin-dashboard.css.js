@@ -58,7 +58,7 @@ export default CSS = `
         bottom: 0;
         width: 17.5em;
         background: #35302d;
-        transition: 1s ease-in-out;
+        transition: 0.5s ease-in-out;
     }
 
     #mainContainer {
