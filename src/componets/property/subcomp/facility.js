@@ -4,11 +4,11 @@ export default class Facility extends Base {
 
     css = `
 
-        .container {
-            display: grid;
-            grid-template-columns: auto 15% 10%;
-            margin: 0.5rem;
-        }
+    .container {
+        display: grid;
+        grid-template-columns: auto 15% 10%;
+        margin: 0.5rem;
+    }
 
       .container > label {
           cursor: pointer;
@@ -52,11 +52,17 @@ export default class Facility extends Base {
           transform: rotate(45deg);
       }
 
+      .disabled {
+        border: none;
+        pointer-events: none;
+        padding: 0.3rem;
+      }
+
 `
 
     content = `
     <div class="container">
-        <input type="checkbox" id="${this.getAttribute('key')}" class="checkbox">
+        <input type="checkbox" id="${this.getAttribute('key')}" class="checkbox ${this.getAttribute('checked') == 'true' ? 'disabled' : null}" ${this.getAttribute('checked') == 'true' ? 'checked' : null} ${this.getAttribute('checked') == 'true' ? 'disabled' : null}>
         <label for="${this.getAttribute('key')}" class="checkmark"></label>
         <label for="${this.getAttribute('key')}" class="name">${this.getAttribute('name')}</label>
     </div>
@@ -65,7 +71,7 @@ export default class Facility extends Base {
         super()
         this.mount()
 
-        if (this.getAttribute('measurable') == 1) this._qs('.container').innerHTML += `<span> x</span><input class ="quantity" type="text" value="0"/>`
+        if (this.getAttribute('measurable') == 1) this._qs('.container').innerHTML += `<span> x</span><input class ="quantity ${this.getAttribute('checked') == 'true' ? 'disabled' : 'abled'}" type="text" value="0"/>`
     }
 
     async connectedCallback() {

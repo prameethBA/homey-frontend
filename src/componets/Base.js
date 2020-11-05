@@ -3,8 +3,10 @@ export default class Base extends HTMLElement {
 
     state = {}
 
+    host = 'http://api.homeylk.tk'
+
     styled() {
-        return '<style>' + this.css + '</style>'
+        return `<style>${this.css}</style>`
     }
     render() {
         this.template.innerHTML = this.styled() + this.content
@@ -21,10 +23,34 @@ export default class Base extends HTMLElement {
 
     //Authentication 
 
-    getUserId() {
-        if(sessionStorage.login = 'true') return sessionStorage.userId
-        if(localStorage.login = 'true') return localStorage.userId
+    isLogin() {
+        if(sessionStorage.login == 'true' || localStorage.login == 'true') return true 
+        else return false
     }
+
+    getToken() {
+        if(sessionStorage.login == 'true') return sessionStorage.token
+        if(localStorage.login == 'true') return localStorage.token
+        return false
+    }
+
+    getUserId() {
+        if(sessionStorage.login == 'true') return sessionStorage.userId
+        if(localStorage.login == 'true') return localStorage.userId
+        return false
+    }
+
+    getUserType() {
+        if(sessionStorage.login == 'true') return sessionStorage.userType
+        if(localStorage.login == 'true') return localStorage.userType
+        return false
+    }
+
+    logOut() {
+        localStorage.login = 'false'; localStorage.userId = ''; localStorage.token = ''
+        sessionStorage.login = 'false'; sessionStorage.userId = ''; sessionStorage.token = ''
+    }
+
 
     // Helpers
     _qs(selector) {

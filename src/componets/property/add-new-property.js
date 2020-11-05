@@ -1,286 +1,9 @@
 import Base from './../Base.js'
+import CSS from './add-new-property.css.js'
 
 export default class AddNewProperty extends Base {
 
-  css = `
-  .container {
-    margin-top: 5rem;
-  }
-
-  #add-preview {
-    color: #ffffff;
-    position: fixed;
-    display: none;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    overflow: auto;
-    z-index: 1;
-    transition: all 1s;
-    background-color: rgba(0,0,0,0.8);
-  }
-
-  #add-preview::-webkit-scrollbar {
-    width: 0 !important;
-  }
-
-  #add-preview > div {
-    margin: 1.5rem auto;
-    display: table;
-    font-family: monospace;
-  }
-
-  #add-preview b {
-    color: lightblue;
-  }
-
-  #add-preview #preview-images img {
-    background-color: #ffffff;
-    width: 5rem;
-    height: 4rem;
-    padding: 0.7rem;
-    margin: 0.5rem;
-    padding: 0.2rem;
-    border-radius: 2px;
-  }
-
-  #progress {
-    width: 100%;
-    text-align: center;
-  }
-
-  #progress-bar {
-    width: 50%;
-    background-color: #777777;
-    border-radius: 25px;
-    margin: auto;
-  }
-  
-  #progress-bar-progress {
-    background-color: green;
-    border-radius: 25px;
-    height: 3px;
-    width: 0%;
-    background-image: linear-gradient(to right top, #138722, #179331, #1ba040, #1ead4f, #20ba5e, #20bf66, #1fc36d, #1fc875, #1ec676, #1dc378, #1cc179, #1cbe7a);
-    text-align: center;
-  }
-
-  .preview-buttons {
-    display: block !important;
-  }
-
-  #edit {
-    background-image: linear-gradient(to right, #aaaaaa, #aaaaaa);
-  }
-
-  #preview-facilities {
-    display: grid !important;
-    grid-template-columns: auto auto auto auto !important;
-    margin: 1rem 8rem !important;
-  }
-
-  #preview-facilities span {
-    margin: 0.4rem auto;
-  }
-
-
-  .form {
-    position: relative;
-    margin: 1rem auto 0 auto;
-    background-color: rgba(0,0,0,0.75);
-    color: #eeeeee;
-    padding: 0.5rem 3rem;
-    padding-bottom: 3rem;
-    border-radius: 1px;
-    transition: all 0.5s ease;
-  }
-  
-  .row {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .col {
-    width: 30%;
-    margin-top: 1rem;
-  }
-
-  input {
-    outline: none;
-    width: 100%;
-    background-color: transparent;
-    border: none;
-    border-bottom: solid 1.25px #33dd22;
-    color: #ffffff;
-    margin: 1rem auto;
-    transition: all 0.5s ease;
-  }
-
-  select {
-    height: 2rem;
-    border-radius: 2px;
-    outline: none;
-    border: none;
-    background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-    font-size: 0.8rem;
-    color: #fff;
-    cursor: pointer;
-    width: 100%;
-    transition: all 1s;
-    text-indent: 1rem;
-    margin-top: 0.3rem;
-  }
-
-  select option {
-    color: #ffffff;
-    background-color: #000000;
-  }
-
-  label {
-      display: block;
-      transition: all 0.2s;
-  }
-
-  .description textarea {
-    width: 90vw;
-    min-height: 3rem;
-    border-radius: 2px;
-    outline: none;
-    border: solid 1px;
-    background-color: transparent;
-    color: #fff;
-    transition: all 0.1s;
-    text-indent: 2px;
-    margin-top: 0.3rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-  #facilities {
-    margin-top: 2rem;
-    display: grid;
-    grid-template-columns: 50% 50%;  
-  }
-
-  facility-comp {
-    list-style: inside;
-    margin-left: 10rem;
-  }
-
-  .imageUpload {
-    width: 100%;
-  }
-
-  input[type='file'] {
-    display:none;
-  }
-  
-  .upload-image-label,
-    button {
-      position: relative;
-      width: 80%;
-      display: block;
-      height: 3em;
-      border-radius: 25px;
-      outline: none;
-      border: none;
-      background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-      font-size: 0.8rem;
-      color: #fff;
-      text-transform: uppercase;
-      margin: 2rem auto;
-      cursor: pointer;
-      transition: all 1s;
-  }
- 
-  button:hover{
-      background-position: right;
-      color: black;
-  }
-
-  .upload-image-label {
-    text-align: center;
-    padding: 1rem 0 0 0;
-    font-size: 0.8rem;
-    border-radius: 2px;
-    padding: 0 0 1rem 0;
-    width: 80%;
-  }
-
-  .upload-image-label b {
-    font-size: 2rem;
-  }
-
-  .uploaded-image {
-    width: 4rem;
-    height: 4rem;
-    margin: 0.5em;
-    cursor: url(./assets/icon/remove-icon.png), auto;
-    background-color: #eeeeee;
-    padding: 0.2rem;
-    border-radius: 2px;
-  }
-
-  #previewImages {
-    margin: auto;
-  }
-
-  @media screen and (max-width: 1200px) {
-    #preview-facilities {
-      grid-template-columns: auto auto auto auto !important;
-    }
-  }
-
-  @media screen and (max-width: 992px) {
-    facility-comp {
-      margin-left: 5rem;
-    }
-    #preview-facilities {
-      grid-template-columns: auto auto auto !important;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    #facilities {
-      margin: auto;
-      display: block;  
-    }
-
-    facility-comp {
-      margin: 1rem;
-    }
-
-    .row {
-      display: block;
-    }
-  
-    .col {
-      width: 100%;
-      margin-top: 1rem;
-    }
-
-    .description textarea {
-      width: 100%;
-    }
-
-    #preview-facilities {
-      grid-template-columns: auto auto !important;
-    }
-
-  }
-
-  @media screen and (max-width: 512px) {
-    #facilities {
-      width: 85%
-      font-size: 0.9rem;
-    }
-    #preview-facilities {
-      grid-template-columns: auto !important;
-    }
-  }
-
-`
+  css = CSS
 
   content = `
     <div class="popup"></div>
@@ -333,6 +56,22 @@ export default class AddNewProperty extends Base {
                     <input type="date" id="availableFrom" value="${new Date().toISOString().slice(0, 10)}">
                 </div>
                 <div class="col">
+                    <div type="date" id="pickLocation">Pick a location<span>📌</span></div>
+                </div>
+              </div>
+
+              <div class="row">
+              <input
+                  id="pac-input"
+                  class="controls"
+                  type="text"
+                  placeholder="Search Box"
+                />
+                <div id="map"></div>
+              </div>
+
+              <div class="row">
+              <div class="col">
                     <label for="">District</label>
                     <select class="district_type" id="district">
                       <option value='0' selected disabled> Select a district</option> 
@@ -344,9 +83,6 @@ export default class AddNewProperty extends Base {
                       <datalist id="city-list">
                       </datalist>
                 </div>
-              </div>
-
-              <div class="row">
                 <div class="col">
                   <label for="propertyType">Property Type</label>
                   <select class="property_type" id="propertyType">
@@ -383,26 +119,144 @@ export default class AddNewProperty extends Base {
           </div>
     </div>
 `
-  constructor() {
-    if(!(sessionStorage.login == 'true' || localStorage.login == 'true')) {
-      dispatchEvent(new Event('load-login-form'))
-      dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Log in to your account to continue." } }))
-    }
-    
-    super()
-    this.mount()
-    
-  }//end of constructor
 
-  async connectedCallback() {
+constructor() {
+    super()
+    if(!this.isLogin()) {
+      dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
+      dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Log in to your account to continue.", duration: 5 } }))
+      dispatchEvent(new Event('load-login-form'))
+    }
+    this.mount()
+
+    }//end of constructor
+
+    async connectedCallback() {
+
+      
+      // Innitialize map
+      const initMap = async () => {
+        const mapDiv = this._qs('#map')
+        const input = this._qs("#pac-input")
+  
+        mapDiv.classList.add('map')
+        
+        const map = new google.maps.Map(mapDiv, {
+          center: {lat: 7.8731, lng: 80.7718},
+          zoom: 7.5,
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        })
+        
+        // Create the search box and link it to the UI element.
+        const searchBox = new google.maps.places.SearchBox(input)
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener("bounds_changed", () => {
+          searchBox.setBounds(map.getBounds())
+        })
+        
+        input.style.display =  'block'
+        let markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener("places_changed", () => {
+          const places = searchBox.getPlaces()
+          if (places.length == 0) return
+
+          // Clear out the old markers.
+          markers.forEach((marker) => marker.setMap(null))
+
+          markers = []
+
+          // For each place, get the icon, name and location.
+          const bounds = new google.maps.LatLngBounds()
+          places.forEach((place) => {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry")
+              return
+            }
+
+            // Create a marker for each place.
+            markers.push(
+              new google.maps.Marker({
+                map,
+                title: place.name,
+                position: place.geometry.location,
+              })
+            )
+    
+            if (place.geometry.viewport) // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            else 
+              bounds.extend(place.geometry.location);
+          })
+          map.fitBounds(bounds)
+        })
+
+        
+          //Listen for any clicks on the map.
+          let marker = false
+          google.maps.event.addListener(map, 'click', async event => {
+            // Clear out the old markers.
+            markers.forEach((marker) => marker.setMap(null))  
+            //Get the location that the user clicked.
+            let clickedLocation = event.latLng;
+            //If the marker hasn't been added.
+            if(marker === false){
+                //Create the marker.
+                marker = new google.maps.Marker({
+                    position: clickedLocation,
+                    map: map,
+                    draggable: true //make it draggable
+                })
+
+                //get nearest Location!
+                this.state.getNearestLocation = async () => {
+                  
+                  this.state.location = {
+                    lng:marker.getPosition().lng(),
+                    ltd:marker.getPosition().lat()
+                  }
+
+                  await axios.post(`${this.host}/cities/nearest-city`, {
+                    lng:marker.getPosition().lng(),
+                    ltd:marker.getPosition().lat()
+                  })
+                    .then(res => {
+                        this._qs('#city-list').innerHTML = ''
+                        let index = 0
+                        res.data.forEach(element =>  {
+                          this._qs('#district').value = element.district
+                          index == 0 ? this._qs('#city').value = element.city : null
+                          this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`
+                          index++
+                        })
+                    })
+                }
+
+                google.maps.event.addListener(marker, 'dragend', event => this.state.getNearestLocation())
+
+            } else//Marker has already been added, so just change its location.
+            marker.setPosition(clickedLocation)
+            this.state.getNearestLocation()
+        })
+        
+      }//End of initMap()
+
+      // try {
+      //   google != undefined
+      // } catch(err) {
+      //   initMap()
+      // }
+      // addEventListener('map-loaded', ()=> initMap())
 
     // API call for get Districts
-    await axios.get('http://homey-api.atwebpages.com/district')
+    await axios.get(`${this.host}/district`)
       .then(res => res.data.data.forEach(element => this._qs('#district').innerHTML += `<option value="${element._id}">${element.district}</option>`))
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
     // API call for get property types
-    await axios.get('http://homey-api.atwebpages.com/property-type')
+    await axios.get(`${this.host}/property-type`)
       .then(res => res.data.data.forEach(element => this._qs('#propertyType').innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`))
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
 
@@ -449,7 +303,7 @@ export default class AddNewProperty extends Base {
       this._qs(elm).addEventListener(eve, () => calculateKeyMoney())
     }))
 
-    // Add evenrlistner to load citeis
+    // Add eventlistner to load citeis
     this._qs("#district").addEventListener('change', async () => {
       // Prevent laggin when do rapid changing
       addEventListener('change',async ()=> {
@@ -458,7 +312,7 @@ export default class AddNewProperty extends Base {
       })
       await this.sleep(101);
       // API call for get Districts
-      await axios.get(`http://homey-api.atwebpages.com/cities/districtId/${this._qs("#district").value}`)
+      await axios.get(`${this.host}/cities/districtId/${this._qs("#district").value}`)
         .then(res => {
           this._qs('#city-list').innerHTML = ''
           if (res.status == '200') res.data.data.forEach(element => this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`)
@@ -467,10 +321,16 @@ export default class AddNewProperty extends Base {
         .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
     })
 
+    this._qs('#pickLocation').addEventListener('click', () => {
+      initMap()
+      this._qs('#pickLocation').display = 'none'
+      this._qs('#pickLocation').removeEventListener('click', {} )
+    })
+
     await import("./subcomp/facility.js")
       .then(
         // API call for get Facilities List
-        await axios.get(`http://homey-api.atwebpages.com/facility`)
+        await axios.get(`${this.host}/facility`)
           .then(res => {
             if (res.status == '200') {
               res.data.data.forEach(element => this._qs('#facilities').innerHTML += `
@@ -497,7 +357,7 @@ export default class AddNewProperty extends Base {
                         id="uploaded-image-${index}" 
                         alt="image-${index}"
                         onclick="this.outerHTML = ''"
-                      />`
+                        />`
       fileReader.readAsDataURL(file)
     }//End of readImages
     
@@ -509,7 +369,7 @@ export default class AddNewProperty extends Base {
         window.scrollTo(0, document.body.scrollHeight)
       } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Maximum 5 images can be uploaded." } }))
     })
-
+    
     this._qs('#add-property-button').addEventListener('click', () => {
       try {
         const title = this._qs("#title").value;
@@ -525,9 +385,9 @@ export default class AddNewProperty extends Base {
         const description = this._qs("#description").value;
         let facilities = []
         let images = []
-
+        
         window.scrollTo(0, 0)
-
+        
         this._qsAll('facility-comp').forEach(item => {
           const feature = item.shadowRoot.querySelector('input')
           if (feature.checked) {
@@ -541,41 +401,40 @@ export default class AddNewProperty extends Base {
         })
 
         this._qs('#previewImages').childNodes.forEach(item => images.push(item.src))
-
+        
         // validate the details
-        if (title == '') throw '<b>Title<b> cannot be empty.'
-
+        if (title == '') throw {message:'<b>Title<b> cannot be empty.', duration: 5}
+        
         let rentalPer
         switch (rentalPeriod) {
           case '1': rentalPer = 'Daily'; break;
           case '2': rentalPer = 'Weekly'; break;
           case '3': rentalPer = 'Monthly'; break;
           case '4': rentalPer = 'Yearly'; break;
-          default: throw '<b>Select a rental period<b>';
+          default: throw {message:'<b>Select a rental period<b>', duration: 5}
         }
 
-        if (price == '') throw '<b>Price<b> cannot be empty.'
-        if (!price.match(/^[0-9]+$/)) throw '<b>Price<b> cannot be contain letters or any other characters except numbers.'
+        if (price == '') throw {message: '<b>Price<b> cannot be empty.', duration: 5}
+        if (!price.match(/^[0-9]+$/)) throw {message: '<b>Price<b> cannot be contain letters or any other characters except numbers.', duration: 5}
 
         switch (keyMoneyPeriod) {
           case 'enter-value': ; break;
           case 'enter-period': keyMoney = keyMoney * price; break;
-          case '0': throw '<b>Select a rental period<b>';
+          case '0': throw {message:'<b>Select a rental period<b>', duration: 5}
           default: ;
         }
 
         switch (minimumPeriod) {
           case '': ; break;
           default:
-            if (!minimumPeriod.match(/^[0-9]+$/)) throw '<b>Minimum period<b> cannot be contain letters or any other characters except numbers.';
+            if (!minimumPeriod.match(/^[0-9]+$/)) throw {message:'<b>Minimum period<b> cannot be contain letters or any other characters except numbers.', duration: 5}
             break;
         }
 
-        if (district == 'Select a district' || district == '0') throw 'Select a district'
-        if (city == '') throw 'Select a city'
+        if (district == 'Select a district' || district == '0') throw {message: 'Select a district', duration: 5}
+        if (city == '') throw {message: 'Select a city', duration: 5}
 
-        if (!description.match(/\w+[\s\.]\w+/)) throw 'Add a description about the property. (double spaces and fullstops are not allowed)'
-
+        if (!description.match(/\w+[\s\.]\w+/)) throw {message: 'Add a description about the property. (double spaces and fullstops are not allowed)', duration: 5}
         this._qs("#add-preview").style.display = 'block';
         this._qs("#add-preview").innerHTML = `
             <div>Title 👉 <b> ${title}</b></div>
@@ -614,58 +473,61 @@ export default class AddNewProperty extends Base {
             newImages.push(item)
           } 
         })
+
+        // Save add at the database
+        const getAdData = () => {
+            const data = {
+              userId: this.getUserId(),
+              token: this.getToken(),
+              title: title,
+              rentalperiod: rentalPeriod,
+              price: price,
+              keyMoney: keyMoney,
+              minimumPeriod: minimumPeriod,
+              availableFrom: availableFrom,
+              district: district,
+              city: city,
+              location: this.state.location =! null ? this.state.location : {},
+              propertyType: propertyType,
+              description: description,
+              facilities: facilities,
+              images: newImages
+            }
+            return data
+          }
+
         this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
 
         this._qs('#save').addEventListener('click', async () => {
-          // Popup for enable add fetures
-          await import('./subcomp/advertisement-settings.js')
-          .then(
-            this._qs('.popup').innerHTML = `<advertisement-settings data=""></advertisement-settings>`
-          )
+          
+          // Api call to add Advertisement to the databsse
+          await axios.post(`${this.host}/property/add-new`, getAdData(), {
+                  onUploadProgress: (progressEvent) => {
+                    const {loaded, total} = progressEvent;
+                    let percent = Math.floor( (loaded * 100) / total )
+                    this._qs('#save').style.display = 'none'
+                    this._qs('#edit').style.display = 'none'
+                    this._qs('#progress-bar-progress').style.width = percent + '%'
+                    this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
+                  }
+                })
+                .then(async res => {
+                  // Popup for enable add fetures
+                  if(res.status == 201) {
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
+                    await import('./subcomp/advertisement-settings.js')
+                    .then(
+                      this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${res.data}"></advertisement-settings>`
+                    )
+                  } else throw res.data
+                })
+                .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
           
         })
       } catch (err) {
-        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+        dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
       }//End of the catch for try
     })
-    
-    
-    const saveAdd = async () => {
-      const data = {
-        userId: this.getUserId(),
-        title: title,
-        rentalperiod: rentalPeriod,
-        price: price,
-        keyMoney: keyMoney,
-        minimumPeriod: minimumPeriod,
-        availableFrom: availableFrom,
-        district: district,
-        city: city,
-        propertyType: propertyType,
-        description: description,
-        facilities: facilities,
-        images: newImages
-      }
-
-      return data
-      
-      // Api call to add Advertisement to the databsse
-      // await axios.post('http://homey-api.atwebpages.com/property/add-new', data, {
-      //         onUploadProgress: (progressEvent) => {
-      //           const {loaded, total} = progressEvent;
-      //           let percent = Math.floor( (loaded * 100) / total )
-      //           this._qs('#save').style.display = 'none'
-      //           this._qs('#edit').style.display = 'none'
-      //           this._qs('#progress-bar-progress').style.width = percent + '%'
-      //           this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
-      //         }
-      //       })
-      //       .then(res => {
-      //         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
-      //         dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } }))
-      //       })
-      //       .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
-          }
 
   }//End of connectedCallback
 

@@ -24,8 +24,11 @@ export default class UserComp extends Base {
     }
 
     ::slotted(h1) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem;
       width: 20vw;
-      margin: 5rem 0.1rem 0 1rem;
       font-size: 4vw;
     }
 
