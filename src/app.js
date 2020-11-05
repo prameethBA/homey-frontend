@@ -18,105 +18,118 @@ export default class App extends Base {
     <footer-c></footer-c>
 `
     constructor() {
-        super()
-        this.mount()
+            super()
+            this.mount()
 
-        this.state.routeFound = false
-        addEventListener('route-found', () => this.state.routeFound = true)
-        
-        // Load home component
-        router.get('/', async () => { await import('/componets/home/main/main.js').then(this._qs('.container').innerHTML = `<main-comp></main-comp>`) })
+            this.state.routeFound = false
+            addEventListener('route-found', () => this.state.routeFound = true)
 
-        // Method to load dynamic froms
-        const loadForm = async (form) => {
-            // this.setPath('/' + form)
-            this.setLoader()
-            
-            await import('/componets/home/' + form + '-form.js')
-            .then(() => {
-            this._qs('#login-form').innerHTML = `<` + form + `-form></` + form + `-form>` 
-    
-                // Listen for exit-login-form Event for unset the visilility of Login Form
-                addEventListener('exit-form', () => {
-                this._qs('#login-form').innerHTML = ''
-                    dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
-                })
-            this.stopLoader()
-            })
-            .catch(err => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
-                this.stopLoader()
-            }) 
-        }// End of Method to load dynamic froms
+            // Load home component
+            router.get('/', async() => { await import ('/componets/home/main/main.js').then(this._qs('.container').innerHTML = `<main-comp></main-comp>`) })
 
-        // Listen for login-form Event to set visible Login Form
-        addEventListener('load-login-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('login') : this.setPath('/'))
-        addEventListener('load-signup-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('signup') : this.setPath('/'))
-        addEventListener('reset-password-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('reset-password') : this.setPath('/'))
-        addEventListener('confirm-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('confirm') : this.setPath('/'))
-        
-        // Load login form component
-        router.get('/login', () => dispatchEvent(new Event('load-login-form')))
+            // Method to load dynamic froms
+            const loadForm = async(form) => {
+                    // this.setPath('/' + form)
+                    this.setLoader()
 
-        // Load signup form component
-        router.get('/signup', () => dispatchEvent(new Event('load-signup-form')))
+                    await
+                    import ('/componets/home/' + form + '-form.js')
+                    .then(() => {
+                            this._qs('#login-form').innerHTML = `<` + form + `-form></` + form + `-form>`
 
-        // Load reset-password form component
-        router.get('/reset-password', () => dispatchEvent(new Event('reset-password-form')))
+                            // Listen for exit-login-form Event for unset the visilility of Login Form
+                            addEventListener('exit-form', () => {
+                                this._qs('#login-form').innerHTML = ''
+                                dispatchEvent(new CustomEvent("load-comp", { detail: { parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
+                            })
+                            this.stopLoader()
+                        })
+                        .catch(err => {
+                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+                            this.stopLoader()
+                        })
+                } // End of Method to load dynamic froms
 
-        // Load confirm form component
-        router.get('/confirm', () => dispatchEvent(new Event('confirm-form')))
+            // Listen for login-form Event to set visible Login Form
+            addEventListener('load-login-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('login') : this.setPath('/'))
+            addEventListener('load-signup-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('signup') : this.setPath('/'))
+            addEventListener('reset-password-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('reset-password') : this.setPath('/'))
+            addEventListener('confirm-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('confirm') : this.setPath('/'))
 
-        // Load add new property component
-        router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+            // Load login form component
+            router.get('/login', () => dispatchEvent(new Event('load-login-form')))
 
-        // Load add new property component
-        router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
+            // Load signup form component
+            router.get('/signup', () => dispatchEvent(new Event('load-signup-form')))
 
-        // Load payment gateway component
-        router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
+            // Load reset-password form component
+            router.get('/reset-password', () => dispatchEvent(new Event('reset-password-form')))
 
-        // +ADMIN+ +TODO this part can be move another file set when only admin user logged IN
-        // Load admin component
-        router.get('/admin', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+            // Load confirm form component
+            router.get('/confirm', () => dispatchEvent(new Event('confirm-form')))
 
-         // Load admin/pendings component
-         router.get('/admin/pending', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/pending`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
-        
-    }//End of constructor
-    
+            // Load add new property component
+            router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+
+            // Load add new property component
+            router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
+
+            // Load payment gateway component
+            router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
+
+            // +ADMIN+ +TODO this part can be move another file set when only admin user logged IN
+            // Load admin component
+            router.get('/admin', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+
+            // Load admin/pendings component
+            router.get('/admin/pending', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/pending`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+                // Load admin/properties component
+            router.get('/admin/properties', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/properties`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+                // Load admin/users component
+            router.get('/admin/users', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/users`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+                // Load admin/payments component
+            router.get('/admin/payments', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/payments`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+                // Load admin/home component
+            router.get('/admin/home', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/home`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+
+
+        } //End of constructor
+
 
     connectedCallback() {
 
-    // Event Listner for pop-up
-    addEventListener('pop-up', async (res) => {
-        await import(`/componets/popup/popup.js`)
-          .then(() => this._qs('#pop-up').innerHTML = `<pop-up type=${res.detail.pop} duration=${res.detail.duration == undefined ? 10 : res.detail.duration}><div slot="message">${res.detail.msg}</div></pop-up>`)
-    })
-
-    //Event listner for Load a component
-    addEventListener('load-comp', async (e) => {
-        this.setLoader()
-        this.setPath(e.detail.path)
-        await import('/componets/' + e.detail.comp + '.js')
-        .then(() => {
-            this._qs('#container').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`
-                this.stopLoader()
+            // Event Listner for pop-up
+            addEventListener('pop-up', async(res) => {
+                await
+                import (`/componets/popup/popup.js`)
+                .then(() => this._qs('#pop-up').innerHTML = `<pop-up type=${res.detail.pop} duration=${res.detail.duration == undefined ? 10 : res.detail.duration}><div slot="message">${res.detail.msg}</div></pop-up>`)
             })
-            .catch(err => {
-                console.log(err)
-                this.stopLoader()
-                this.setPath('/')
-            })
-        })//End of the Event listner for Load a component
-        
-        // Add event listener for an error Page
-        addEventListener('customError', async (e) => await import(`/componets/errors/Error${e.detail.err}.js`).then(this._qs('#container').innerHTML = `<err-404></err-404>`))
 
-        router.init()
-    }//End of connectedCallback
-    
-}//End of Class
+            //Event listner for Load a component
+            addEventListener('load-comp', async(e) => {
+                    this.setLoader()
+                    this.setPath(e.detail.path)
+                    await
+                    import ('/componets/' + e.detail.comp + '.js')
+                    .then(() => {
+                            this._qs('#container').innerHTML = `<` + e.detail.compName + `></` + e.detail.compName + `>`
+                            this.stopLoader()
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            this.stopLoader()
+                            this.setPath('/')
+                        })
+                }) //End of the Event listner for Load a component
+
+            // Add event listener for an error Page
+            addEventListener('customError', async(e) => await
+                import (`/componets/errors/Error${e.detail.err}.js`).then(this._qs('#container').innerHTML = `<err-404></err-404>`))
+
+            router.init()
+        } //End of connectedCallback
+
+} //End of Class
 
 
 window.customElements.define('app-comp', App)
