@@ -115,6 +115,8 @@ export default class Pendings extends Base {
             token: this.getToken()
         })
             .then(res => {
+                if(res.data.length < 1 || res.data.length == undefined) throw res
+                console.log(res.data.length)
                 let index = 1
                 res.data.forEach(item => {
                     this._qs('#pending-approval-table-body').innerHTML += `
