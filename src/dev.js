@@ -97,6 +97,7 @@ export default class Dev extends Base {
     }
 
     async getData(table) {
+        this.setLoader()
         await axios.get(`${this.host}/dev/data/${table}`)
             .then(res => {
                 let table = ''
@@ -118,8 +119,12 @@ export default class Dev extends Base {
                     table +=  `</tr>`
                 })
                 this._qs('.tabel-data').innerHTML = table
+                this.stopLoader()
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                this.stopLoader()
+                console.log(err)
+            })
     }
 
     connectedCallback() {
