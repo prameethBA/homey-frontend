@@ -49,7 +49,19 @@ export default class Pendings extends Base {
                 .then(async res => {
                     await import('./subcomp/preview-advertisement.js')
                         .then( () => {
-                            this._qs('.preview-advertisement').innerHTML = `<preview-advertisement></preview-advertisement>`
+                            this._qs('.preview-advertisement').innerHTML = `
+                                <preview-advertisement>
+                                    <img slot='image' src="/assets/img/house.jpg" />
+                                    <p slot='title'>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque enim odio, semper at ultrices vel, imperdiet quis tortor. Nam ut mauris ac leo iaculis s
+                                        <button class="load-more">Load more >></button>
+                                    </p>
+                                    <span slot="price" class="price">Rs. 17,000/Month</span>
+                                    <span slot="key-money" class="key-money">Key Money : Rs. 34,000</span>
+                                    <span slot="minimum-period" class="minimum-period">Minimum Period: 2 Months</span>
+                                    <span slot="available-from" class="available-from">Available From: 2020 May 21</span>
+                                </preview-advertisement>
+                            `
                             console.log(res.data)
                         })
                         this.stopLoader()

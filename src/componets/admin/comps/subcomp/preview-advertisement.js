@@ -12,21 +12,16 @@ export default class PreviewAdvertisement extends Base {
         <span id="close-popup">+</span>
         <div class="advertisement">
             <div class="images">
-                <img src="/assets/img/house.jpg" />
-                <img src="/assets/img/house.jpg" />
-                <img src="/assets/img/house.jpg" />
-                <img src="/assets/img/house.jpg" />
-                <img src="/assets/img/house.jpg" />
+                <slot name="image"></slot>
             </div>
             <div class="title">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque enim odio, semper at ultrices vel, imperdiet quis tortor. Nam ut mauris ac leo iaculis s
-                <button class="load-more">Load more >></button>
+                <slot name="title"></slot>
             </div>
             <div class="row">
-                <span class="price">Rs. 17,000/Month</span>
-                <span class="key-money">Key Money : Rs. 34,000</span>
-                <span class="minimum-period">Minimum Period: 2 Months</span>
-                <span class="available-from">Available From: 2020 May 21</span>
+                <slot name="price"></slot>
+                <slot name="key-money"></slot>
+                <slot name="minimum-period"></slot>
+                <slot name="available-from"></slot>
             </div>
             <div class="description">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque enim odio, semper at ultrices vel, imperdiet quis tortor. Nam ut mauris ac leo iaculis s

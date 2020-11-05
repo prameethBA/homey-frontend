@@ -52,7 +52,7 @@ export default CSS = `
         align-content: flex-start;
     }
 
-    img {
+    ::slotted(img) {
         width: 10rem;
         border: 5px solid;
         border-radius: 2px;
@@ -65,12 +65,12 @@ export default CSS = `
         text-align: justify;
         padding: 2rem 2rem 1rem 2rem;
         font-weight: bold;
-        // overflow: hidden;
-        // line-height: 1em;
-        // height: 2.1em;
+        /*overflow: hidden;*/
+        /*line-height: 1em;*/
+        /*height: 2.1em;*/
     }
 
-    button {
+    ::slotted(p) button, button {
         height: 2em;
         border-radius: 5px;
         outline: none;
@@ -104,9 +104,9 @@ export default CSS = `
         text-transform: capitalize;
         text-align: justify;
         padding: 2rem 2rem 1rem 2rem;
-        // overflow: hidden;
-        // line-height: 1em;
-        // height: 2.1em;
+        /*overflow: hidden;*/
+        /*line-height: 1em;*/
+        /*height: 2.1em;*/
     }
 
     .facilities {
