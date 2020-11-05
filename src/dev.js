@@ -82,11 +82,11 @@ export default class Dev extends Base {
                     this._qs('.tabels').innerHTML += `<button id="${element.Tables_in_3606050_homey}">${element.Tables_in_3606050_homey}</button>`
                 })
                 this.addListener()
-                this.setLoader()
+                this.stopLoader()
             })
             .catch(err => {
                 console.log(err)
-                this.setLoader()
+                this.stopLoader()
             })
     }
 
