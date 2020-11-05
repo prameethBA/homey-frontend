@@ -70,7 +70,7 @@ export default CSS = `
         /*height: 2.1em;*/
     }
 
-    ::slotted(p) button, button {
+    button {
         height: 2em;
         border-radius: 5px;
         outline: none;
@@ -94,7 +94,7 @@ export default CSS = `
         margin: 0 2rem;
     }
 
-    .row span {
+    ::slotted(span) {
         font-weight: bold;
         margin: 1rem;
         color: rebeccapurple;
@@ -109,37 +109,11 @@ export default CSS = `
         /*height: 2.1em;*/
     }
 
-    .facilities {
+    ::slotted(.facilities) {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
         margin: 0 4rem;
-    }
-
-    .location {
-        border: solid 1px;
-        width: 60%;
-        margin: 2rem auto;
-        min-height: 20rem;
-    }
-
-    .location-details {
-        justify-content: space-around;
-    }
-
-    .user-details {
-        display: flex;
-        justify-content: center;
-    }
-
-    .user-details span {
-        font-weight: unset;
-        color: #4212ff;
-    }
-
-    .user-details span > a {
-        text-decoration: underline;
-        cursor: pointer;
     }
 
     .approval {
