@@ -1,55 +1,9 @@
 import Base from '../Base.js'
+import CSS from './available-property.css.js'
 
 export default class AvalibaleProperty extends Base {
 
-    css = `
-    #container {
-       display: grid;
-       justify-content: center;
-       grid-gap: 10px;
-       grid-template-columns: repeat(auto-fill, 20rem);
-       overflow-x: auto;
-       margin-top: 5rem;
-    }
-
-    #container::-webkit-scrollbar {
-        height: 0;
-    }
-
-    property-view {
-        display: inline-block;
-    }
-
-    .pagination {
-        margin: 0.1rem auto 2rem auto;
-        display: table;
-    }
-
-    .pagination a {
-        color: blue;
-        cursor: pointer;
-    }
-
-    @media screen and (max-width: 1200px) {
-
-    }
-
-    @media screen and (max-width: 992px) {
-
-    }
-
-    @media screen and (max-width: 768px) {
-
-    }
-
-    @media screen and (max-width: 512px) {
-        #container {
-            display: flex;
-            overflow: scroll;
-        }
-    }
-
-    `
+    css = CSS
 
     content = `
     <div id="container">
@@ -87,7 +41,7 @@ export default class AvalibaleProperty extends Base {
     const fetchAdds = async (limit, page, find='find') => {
         this.setLoader()
         this.state.ids = []
-        await axios.get(`http://homey-api.atwebpages.com/property/all/${limit}/${page}`)
+        await axios.get(`${this.host}/property/all/${limit}/${page}`)
             .then(async res => {
                     res.data.forEach((item, index) =>{
                     this.stopLoader()
@@ -103,7 +57,7 @@ export default class AvalibaleProperty extends Base {
                     this._qs(`#id-${index}`).shadowRoot.innerHTML = ''
                 }
                 
-                await axios.post(`http://homey-api.atwebpages.com/images/property`,{'ids':this.state.ids})
+                await axios.post(`${this.host}/images/property`,{'ids':this.state.ids})
                     .then(res => {
                         res.data.forEach((id, index) => {
                             id.images.forEach(image => {
