@@ -1,10 +1,9 @@
 import Base from './../Base.js'
+import CSS from './payment-gateway.css.js'
 
 export default class PaymentGateway extends Base {
 
-  css =  `
-
-  `
+  css =  CSS
 
   content = `
     <div class="container">
