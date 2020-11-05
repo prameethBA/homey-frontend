@@ -87,6 +87,11 @@ export default CSS = `
         cursor: pointer;
     }
 
+    map-view {
+        display: flex;
+        justify-content: center;
+    }
+
 
     .pagination {
         margin: 5rem auto auto auto;

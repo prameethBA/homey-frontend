@@ -78,7 +78,7 @@ export default class Pendings extends Base {
                                             <facility-comp key="id" name="beds" measurable="1" checked="true"></facility-comp>
                                             <facility-comp key="id" name="beds" measurable="1" checked="true"></facility-comp>
                                     </div>
-                                    <map-view slot="location" class="location" location="${encodeURIComponent(JSON.stringify({lat: 20.8731, lng: 80.7718}))}"></map-view>
+                                    <map-view slot="location" class="location" location="${encodeURIComponent(res.data.location)}"></map-view>
                                     <div slot="location-details" class="row location-details">
                                         <span class="location-details-span district">Anuradhapura</span>
                                         <span class="location-details-span city">Eppawala</span>
@@ -91,7 +91,8 @@ export default class Pendings extends Base {
                                 </preview-advertisement>
                                 
                             `
-                            console.log(res.data)
+                            console.log()
+
                         })
                         this.stopLoader()
                 })
