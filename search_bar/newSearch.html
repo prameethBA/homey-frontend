@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            background-color: #012c57;
+        }
+        .all-boxes{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding-top: 4em;
+            padding-bottom: 0.3em;
+            padding-left: 20em;
+            padding-right: 20em;
+            /*margin-left: 5%;*/
+        }
+        .box2tobutton{
+            display: flex;
+            margin-top: -7.3%;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding-top: 4em;
+            padding-bottom: 0.3em;
+            padding-left: 2em;
+            padding-right: 2em;
+            /*margin-left: 5%;*/
+        }
+        .box1{
+            flex: 1;
+        }
+        input{
+            width: 15%;
+            /*margin-bottom: 0;*/
+            position: absolute;
+            padding: 10.2px;
+            border: none;
+            border-radius: 2px;
+        }
+        select{
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 2px;
+        }
+        @media(max-width: 768px){
+            .all-boxes{
+                flex-direction: column;
+                margin-left: 1%;
+            }
+        }
+        .search{
+			position: relative;
+			margin-right: -20%;
+            padding-top: 0.3em;
+            padding-bottom: 0.3em;
+            padding-left: 1em;
+            padding-right: 1em;			
+			color: black;
+			text-decoration: none;
+			letter-spacing: 4px;
+			font-size: 1.2em;
+			transition: 0.1s;
+			z-index: 1;
+			overflow: hidden;
+		}
+		.search:hover{
+            font-weight: bold;
+            border: 2px solid white;
+            box-shadow: 0 0 15px -5px white;
+		}
+        input:hover{
+            box-shadow: 0 0 15px -5px white;
+        }
+        select:hover{
+            box-shadow: 0 0 15px -5px white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="all-boxes">
+            <div class="box1">
+                <input id="KeyWord" name="KeyWord" placeholder="Keywords, e.g. Property Title, Property Type" type="text" value="">
+            </div>
+
+            <span class="box2tobutton">
+            	
+            <div class="box2">
+                <select id="district">
+                    <option value="0" selected disabled>Select a District</option>
+                </select>
+            </div>
+            <div class="box3">
+                <select id="city">
+                    <option value="0" selected disabled>Select a City</option>
+                </select>
+            </div>
+            <div class="box4">
+                <select id="property-type">
+                    <option value="0" selected disabled>Select a Property Type</option>
+                </select>
+            </div>
+            <button class="search">Search</button>
+        </div>
+    </div>
+</body>
+</html>
