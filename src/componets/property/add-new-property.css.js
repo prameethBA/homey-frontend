@@ -4,41 +4,8 @@ export default CSS = `
   }
 
   #add-preview {
-    color: #ffffff;
-    position: fixed;
-    display: none;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    overflow: auto;
+    position: sticky;
     z-index: 1;
-    transition: all 1s;
-    background-color: rgba(0,0,0,0.8);
-  }
-
-  #add-preview::-webkit-scrollbar {
-    width: 0 !important;
-  }
-
-  #add-preview > div {
-    margin: 1.5rem auto;
-    display: table;
-    font-family: monospace;
-  }
-
-  #add-preview b {
-    color: lightblue;
-  }
-
-  #add-preview #preview-images img {
-    background-color: #ffffff;
-    width: 5rem;
-    height: 4rem;
-    padding: 0.7rem;
-    margin: 0.5rem;
-    padding: 0.2rem;
-    border-radius: 2px;
   }
 
   #progress {

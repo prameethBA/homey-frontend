@@ -323,7 +323,7 @@ constructor() {
 
     this._qs('#pickLocation').addEventListener('click', () => {
       initMap()
-      this._qs('#pickLocation').display = 'none'
+      this._qs('#pickLocation').style.display = 'none'
       this._qs('#pickLocation').removeEventListener('click', {} )
     })
 
@@ -370,7 +370,7 @@ constructor() {
       } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Maximum 5 images can be uploaded." } }))
     })
     
-    this._qs('#add-property-button').addEventListener('click', () => {
+    this._qs('#add-property-button').addEventListener('click', async () => {
       try {
         const title = this._qs("#title").value;
         const rentalPeriod = this._qs("#rentalPeriod").value;
@@ -435,44 +435,89 @@ constructor() {
         if (city == '') throw {message: 'Select a city', duration: 5}
 
         if (!description.match(/\w+[\s\.]\w+/)) throw {message: 'Add a description about the property. (double spaces and fullstops are not allowed)', duration: 5}
-        this._qs("#add-preview").style.display = 'block';
-        this._qs("#add-preview").innerHTML = `
-            <div>Title 👉 <b> ${title}</b></div>
-          <div>Rental Period 👉 <b> ${rentalPer}</b></div>
-          <div>Price : <b>Rs. ${parseFloat(price).toLocaleString('en')}</b></div>
-          <div>Key Money 👉 <b>Rs. ${keyMoney}</b></div>
-          <div>Minimum Period 👉 <b> ${minimumPeriod} ${rentalPer.slice(-3) == 'ily' ? rentalPer.slice(0, -3) + 'ys' : rentalPer.slice(0, -2) + 's'}</b></div>
-          <div>Available From 👉 <b> ${availableFrom}</b></div>
-          <div>District 👉 <b> ${district}</b></div>
-          <div>City 👉 <b> ${city}</b></div>
-          <div>Property Type 👉 <b> ${propertyType}</b></div>
-          <div>Description 👉 <b> ${description}</b></div>
-          <div id="preview-facilities">Features : </div>
-          <div id="preview-images"></div>
-          <div id="progress">
-            <div id="progress-bar"><div id="progress-bar-progress"></div></div>
-            <div id="progress-progress">0%</div>
-          </div>
-          <div class="preview-buttons">
-            <button calss="save" id="save">Add this Advertisement</button>
-            <button calss="edit" id="edit">Edit</button>
-          </div>
+        await import('/componets/universal/preview-advertisement.js')
+          .then(() => {
 
-      `
+            let data = `<preview-advertisement>`
 
-        let previewFacilities = this._qs("#preview-facilities")
-        facilities.forEach(item => previewFacilities.innerHTML += `<span>${item.feature} ${item.quantity != 'null' ? ' -' + item.quantity : ''}</span>`)
+            images.forEach(item => {
+              
+              data += `<img slot='image' src="${item}" />`
+            })
 
-        let previewImages = this._qs("#preview-images")
-        previewImages.innerHTML = ''
-        let newImages = []
+                      
+                  data +=` <p slot='title'>
+                          ${title}
+                          <button class="load-more">Load more >></button>
+                      </p>
+                      <span slot="price" class="row-1 price">Rs. ${price}/Month</span>
+                      <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${keyMoney}</span>
+                      <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${minimumPeriod} Months</span>
+                      <span slot="available-from" class="row-1 available-from">Available From: ${availableFrom}</span>
+                      <p slot='description'>
+                          ${description}
+                          <button class="load-more">Load more >></button>
+                      </p>
+                      <div slot="facilities" class="facilities">`
 
-        images.forEach(item => {
-          if(item !== undefined) {
-            previewImages.innerHTML += `<img src="${item}" />`
-            newImages.push(item)
-          } 
-        })
+                      facilities.forEach(item => {
+                              data += `<facility-comp key="${item.featureId}" name="${item.feature}" measurable="1" checked="true" quantity="${item.quantity}"></facility-comp>`
+                      })
+
+                      data += `</div>
+                                  <map-view slot="location" class="location" location="${encodeURIComponent(location)}"></map-view>
+                                  <div slot="location-details" class="row location-details">
+                                      <!--<span class="location-details-span district">${district}</span>-->
+                                      <span class="location-details-span city">${city}</span>
+                                      <span class="location-details-span address">Address : 141, Mediyawa, Eppawala.</span>
+                                  </div>
+                                  <div slot="user-details" class="row user-details">
+                                      <span class="user"><a>userId</a></span>
+                                      <span class="created">created</span>
+                                  </div>
+                              </preview-advertisement>
+                  
+                                        `
+
+            this._qs("#add-preview").innerHTML = data
+          })
+      //   this._qs("#add-preview").innerHTML = `
+      //       <div>Title 👉 <b> ${title}</b></div>
+      //     <div>Rental Period 👉 <b> ${rentalPer}</b></div>
+      //     <div>Price : <b>Rs. ${parseFloat(price).toLocaleString('en')}</b></div>
+      //     <div>Key Money 👉 <b>Rs. ${keyMoney}</b></div>
+      //     <div>Minimum Period 👉 <b> ${minimumPeriod} ${rentalPer.slice(-3) == 'ily' ? rentalPer.slice(0, -3) + 'ys' : rentalPer.slice(0, -2) + 's'}</b></div>
+      //     <div>Available From 👉 <b> ${availableFrom}</b></div>
+      //     <div>District 👉 <b> ${district}</b></div>
+      //     <div>City 👉 <b> ${city}</b></div>
+      //     <div>Property Type 👉 <b> ${propertyType}</b></div>
+      //     <div>Description 👉 <b> ${description}</b></div>
+      //     <div id="preview-facilities">Features : </div>
+      //     <div id="preview-images"></div>
+      //     <div id="progress">
+      //       <div id="progress-bar"><div id="progress-bar-progress"></div></div>
+      //       <div id="progress-progress">0%</div>
+      //     </div>
+      //     <div class="preview-buttons">
+      //       <button calss="save" id="save">Add this Advertisement</button>
+      //       <button calss="edit" id="edit">Edit</button>
+      //     </div>
+
+      // `
+
+        // let previewFacilities = this._qs("#preview-facilities")
+        // facilities.forEach(item => previewFacilities.innerHTML += `<span>${item.feature} ${item.quantity != 'null' ? ' -' + item.quantity : ''}</span>`)
+
+        // let previewImages = this._qs("#preview-images")
+        // previewImages.innerHTML = ''
+        // let newImages = []
+
+        // images.forEach(item => {
+        //   if(item !== undefined) {
+        //     previewImages.innerHTML += `<img src="${item}" />`
+        //     newImages.push(item)
+        //   } 
+        // })
 
         // Save add at the database
         const getAdData = () => {
@@ -496,34 +541,34 @@ constructor() {
             return data
           }
 
-        this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
+        // this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
 
-        this._qs('#save').addEventListener('click', async () => {
+        // this._qs('#save').addEventListener('click', async () => {
           
-          // Api call to add Advertisement to the databsse
-          await axios.post(`${this.host}/property/add-new`, getAdData(), {
-                  onUploadProgress: (progressEvent) => {
-                    const {loaded, total} = progressEvent;
-                    let percent = Math.floor( (loaded * 100) / total )
-                    this._qs('#save').style.display = 'none'
-                    this._qs('#edit').style.display = 'none'
-                    this._qs('#progress-bar-progress').style.width = percent + '%'
-                    this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
-                  }
-                })
-                .then(async res => {
-                  // Popup for enable add fetures
-                  if(res.status == 201) {
-                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
-                    await import('./subcomp/advertisement-settings.js')
-                    .then(
-                      this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${res.data}"></advertisement-settings>`
-                    )
-                  } else throw res.data
-                })
-                .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
+        //   // Api call to add Advertisement to the databsse
+        //   await axios.post(`${this.host}/property/add-new`, getAdData(), {
+        //           onUploadProgress: (progressEvent) => {
+        //             const {loaded, total} = progressEvent;
+        //             let percent = Math.floor( (loaded * 100) / total )
+        //             this._qs('#save').style.display = 'none'
+        //             this._qs('#edit').style.display = 'none'
+        //             this._qs('#progress-bar-progress').style.width = percent + '%'
+        //             this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
+        //           }
+        //         })
+        //         .then(async res => {
+        //           // Popup for enable add fetures
+        //           if(res.status == 201) {
+        //             dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
+        //             await import('./subcomp/advertisement-settings.js')
+        //             .then(
+        //               this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${res.data}"></advertisement-settings>`
+        //             )
+        //           } else throw res.data
+        //         })
+        //         .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
           
-        })
+        // })
       } catch (err) {
         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
       }//End of the catch for try
