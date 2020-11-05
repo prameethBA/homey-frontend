@@ -75,14 +75,19 @@ export default class Dev extends Base {
     } //End of constructor
 
     async getTables() {
+        this.setLoader()
         await axios.get(`${this.host}/dev/tables`)
             .then(res => {
                 res.data.forEach(element => {
                     this._qs('.tabels').innerHTML += `<button id="${element.Tables_in_3606050_homey}">${element.Tables_in_3606050_homey}</button>`
                 })
                 this.addListener()
+                this.setLoader()
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                this.setLoader()
+            })
     }
 
     addListener() {
