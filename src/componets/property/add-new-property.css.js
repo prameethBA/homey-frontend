@@ -4,46 +4,21 @@ export default CSS = `
   }
 
   #add-preview {
-    color: #ffffff;
-    position: fixed;
-    display: none;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    overflow: auto;
+    position: sticky;
     z-index: 1;
-    transition: all 1s;
-    background-color: rgba(0,0,0,0.8);
-  }
-
-  #add-preview::-webkit-scrollbar {
-    width: 0 !important;
-  }
-
-  #add-preview > div {
-    margin: 1.5rem auto;
-    display: table;
-    font-family: monospace;
-  }
-
-  #add-preview b {
-    color: lightblue;
-  }
-
-  #add-preview #preview-images img {
-    background-color: #ffffff;
-    width: 5rem;
-    height: 4rem;
-    padding: 0.7rem;
-    margin: 0.5rem;
-    padding: 0.2rem;
-    border-radius: 2px;
   }
 
   #progress {
-    width: 100%;
-    text-align: center;
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
   }
 
   #progress-bar {
@@ -51,15 +26,28 @@ export default CSS = `
     background-color: #777777;
     border-radius: 25px;
     margin: auto;
+    height: 1rem;
   }
   
   #progress-bar-progress {
     background-color: green;
     border-radius: 25px;
-    height: 3px;
+    height: 1rem;
     width: 0%;
     background-image: linear-gradient(to right top, #138722, #179331, #1ba040, #1ead4f, #20ba5e, #20bf66, #1fc36d, #1fc875, #1ec676, #1dc378, #1cc179, #1cbe7a);
     text-align: center;
+  }
+
+  #progress-progress {
+    position: absolute;
+    top: 2rem;
+    bottom: 0;
+    color: #ffffff;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .preview-buttons {
@@ -233,6 +221,12 @@ export default CSS = `
       color: black;
   }
 
+  .load-more {
+    width: 20%;
+    display: inline;
+    height: 2em;
+  }
+
   .upload-image-label {
     text-align: center;
     padding: 1rem 0 0 0;
@@ -258,6 +252,23 @@ export default CSS = `
 
   #previewImages {
     margin: auto;
+  }
+
+  .row-2 {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2rem;
+    justify-content: space-evenly;
+  }
+
+  .row-2 span {
+      font-weight: unset;
+      color: #4212ff;
+  }
+
+  .row-2 span > a {
+      text-decoration: underline;
+      cursor: pointer;
   }
 
   @media screen and (max-width: 1200px) {
