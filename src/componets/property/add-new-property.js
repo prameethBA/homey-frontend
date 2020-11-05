@@ -435,14 +435,14 @@ constructor() {
         if (city == '') throw {message: 'Select a city', duration: 5}
 
         if (!description.match(/\w+[\s\.]\w+/)) throw {message: 'Add a description about the property. (double spaces and fullstops are not allowed)', duration: 5}
+       
         await import('/componets/universal/preview-advertisement.js')
           .then(() => {
 
             let data = `<preview-advertisement>`
 
             images.forEach(item => {
-              
-              data += `<img slot='image' src="${item}" />`
+              if(item !== undefined) data += `<img slot='image' src="${item}" />`
             })
 
                       
@@ -452,7 +452,7 @@ constructor() {
                       </p>
                       <span slot="price" class="row-1 price">Rs. ${price}/Month</span>
                       <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${keyMoney}</span>
-                      <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${minimumPeriod} Months</span>
+                      <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${minimumPeriod}</span>
                       <span slot="available-from" class="row-1 available-from">Available From: ${availableFrom}</span>
                       <p slot='description'>
                           ${description}
@@ -466,18 +466,21 @@ constructor() {
 
                       data += `</div>
                                   <map-view slot="location" class="location" location="${encodeURIComponent(location)}"></map-view>
-                                  <div slot="location-details" class="row location-details">
+                                  <div slot="location-details" class="row-2 location-details">
                                       <!--<span class="location-details-span district">${district}</span>-->
                                       <span class="location-details-span city">${city}</span>
                                       <span class="location-details-span address">Address : 141, Mediyawa, Eppawala.</span>
                                   </div>
-                                  <div slot="user-details" class="row user-details">
+                                  <div slot="user-details" class="row-2 user-details">
                                       <span class="user"><a>userId</a></span>
                                       <span class="created">created</span>
                                   </div>
                               </preview-advertisement>
-                  
-                                        `
+                              <div id="progress">
+                                <div id="progress-bar"><div id="progress-bar-progress"></div></div>
+                                <div id="progress-progress">20%</div>
+                              </div>
+                            `
 
             this._qs("#add-preview").innerHTML = data
           })
@@ -510,14 +513,14 @@ constructor() {
 
         // let previewImages = this._qs("#preview-images")
         // previewImages.innerHTML = ''
-        // let newImages = []
+        let newImages = []
 
-        // images.forEach(item => {
-        //   if(item !== undefined) {
-        //     previewImages.innerHTML += `<img src="${item}" />`
-        //     newImages.push(item)
-        //   } 
-        // })
+        images.forEach(item => {
+          if(item !== undefined) {
+            // previewImages.innerHTML += `<img src="${item}" />`
+            newImages.push(item)
+          } 
+        })
 
         // Save add at the database
         const getAdData = () => {
@@ -543,32 +546,35 @@ constructor() {
 
         // this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
 
-        // this._qs('#save').addEventListener('click', async () => {
+        addEventListener('upload-advertisement', async (event) => {
+          if(event.detail.userId != this.getUserId()) throw {message: "Faild to upload to the server"}
+          this._qs('#progress').style.display = 'flex'
+          // Api call to add Advertisement to the databsse
+          await axios.post(`${this.host}/property/add-new`, getAdData(), {
+                  onUploadProgress: (progressEvent) => {
+                    const {loaded, total} = progressEvent;
+                    let percent = Math.floor( (loaded * 100) / total )
+                    this._qs('#progress-bar-progress').style.width = percent + '%'
+                    this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
+                    if(percent >= 100) {
+                      this._qs('#progress').innerHTML = ''
+                      this._qs('#add-preview').innerHTML = ''
+                    }
+                  }
+                })
+                .then(async res => {
+                  // Popup for enable add fetures
+                  if(res.status == 201) {
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
+                    await import('./subcomp/advertisement-settings.js')
+                    .then(
+                      this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${res.data}"></advertisement-settings>`
+                    )
+                  } else throw res.data
+                })
+                .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
           
-        //   // Api call to add Advertisement to the databsse
-        //   await axios.post(`${this.host}/property/add-new`, getAdData(), {
-        //           onUploadProgress: (progressEvent) => {
-        //             const {loaded, total} = progressEvent;
-        //             let percent = Math.floor( (loaded * 100) / total )
-        //             this._qs('#save').style.display = 'none'
-        //             this._qs('#edit').style.display = 'none'
-        //             this._qs('#progress-bar-progress').style.width = percent + '%'
-        //             this._qs('#progress-progress').innerText = `${Math.round(loaded/1024/1024* 100)/100}MB of ${ Math.round(total/1024/1024* 100)/100}MB | ${percent}%`
-        //           }
-        //         })
-        //         .then(async res => {
-        //           // Popup for enable add fetures
-        //           if(res.status == 201) {
-        //             dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message } }))
-        //             await import('./subcomp/advertisement-settings.js')
-        //             .then(
-        //               this._qs('.popup').innerHTML = `<advertisement-settings data="${res.data}" key="${res.data}"></advertisement-settings>`
-        //             )
-        //           } else throw res.data
-        //         })
-        //         .catch(err =>  dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
-          
-        // })
+        })
       } catch (err) {
         dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
       }//End of the catch for try

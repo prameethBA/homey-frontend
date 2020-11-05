@@ -52,6 +52,12 @@ export default class PreviewAdvertisement extends Base {
             this._qs('.backdrop').style.backgroundColor = 'transparent'
         })
 
+        this._qs('.approve-button').addEventListener('click', () => dispatchEvent(new CustomEvent('upload-advertisement', {detail : {userId: this.getUserId()}})))
+        this._qs('.decline-button').addEventListener('click', () => {
+            this._qs('.container').style.display = 'none'
+            this._qs('.backdrop').style.backgroundColor = 'transparent'
+        })
+
     }//End of connectedCallback()
     
 }//End of Class
