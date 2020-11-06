@@ -27,8 +27,8 @@ span {
     animation: animation-up 2s infinite ease;
     cursor: pointer;
     background-color: #ffffff;
-    width: 7vw;
-    height: 7vw;
+    width: 4rem;
+    height: 4rem;
     align-items: center;
     justify-content: center;
     border-radius: 50%;

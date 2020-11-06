@@ -7,7 +7,7 @@ export default class Questioner extends Base {
     content = `
         <div class="container">
             <div class="form">
-                <span id="close-popup">+</span>
+                <span id="close-popup" title="close">+</span>
                 <div class="inner-form">
                     <span class="number"> 01 of 05 </span>
                     <span class="title">What is you looking for?</span>
@@ -24,7 +24,18 @@ export default class Questioner extends Base {
         
     }//End of constructor
 
+    //close the dock
+    close() {
+        this._qs('#close-popup').addEventListener('click', () => {
+            this._qs('.container').style.opacity = '0'
+            this._qs('.container').style.pointerEvents = 'none'
+        })
+    }//End of the close()
+
     connectedCallback() {
+
+        // close the dock
+        this.close()
 
     }//end of connected callback
 

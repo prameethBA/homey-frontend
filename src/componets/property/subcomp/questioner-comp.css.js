@@ -11,6 +11,7 @@ export default CSS = `
         align-items: center;
         scroll-behavior: auto;
         background-color: rgba(0, 0, 0, 0.7);
+        transition: all 0.5s ease-in-out;
     }
 
     .form {
@@ -64,6 +65,7 @@ export default CSS = `
         color: #ffffff;
         text-indent: 1rem;
         text-align: center;
+        background-image: linear-gradient(to right top, #ff9900, #f69d14, #eea122, #e6a42d, #dea738);
     }
     
     .button {
