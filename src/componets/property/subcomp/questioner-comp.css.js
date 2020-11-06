@@ -20,6 +20,7 @@ export default CSS = `
         border-radius: 2px;
         display: flex;
         flex-direction: column;
+        transition: all 1s ease-in-out;
     }
 
     #close-popup {
@@ -27,17 +28,61 @@ export default CSS = `
         font-size: 3rem;
         transform: rotate(45deg);
         cursor: pointer;
-        position: relative;
-        margin: 0 0 auto auto;
+        position: absolute;
+        right: 20%;
+        margin-top: -1rem;
     }
 
     .inner-form {
-        position: absolute;
-        margin: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: auto;
+        transition: all 1s ease-in-out;
+    }
+
+    .number {
+        font-weight: bold;
+        margin: 2rem;
     }
 
     .title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: auto auto 1rem auto;
+    }
 
+    .answer {
+        outline: none;
+        border: navajowhite;
+        background-color: #a9a9a9;
+        height: 2rem;
+        width: 100%;
+        border-radius: 1rem;
+        margin: auto auto 1rem auto;
+        color: #ffffff;
+        text-indent: 1rem;
+        text-align: center;
+    }
+    
+    .button {
+        height: 2rem;
+        border-radius: 1rem;
+        outline: none;
+        border: none;
+        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+        color: aliceblue;
+        cursor: pointer;
+        transition: all 1s;
+        text-transform: unset;
+        padding: 0.3rem;
+        margin: 1rem;
+        width: 50%;
+    }
+
+    .button:hover {
+        color: #000000;
     }
 
 `

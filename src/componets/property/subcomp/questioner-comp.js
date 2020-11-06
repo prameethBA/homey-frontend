@@ -9,7 +9,10 @@ export default class Questioner extends Base {
             <div class="form">
                 <span id="close-popup">+</span>
                 <div class="inner-form">
-                    <span class="title">Title</span>
+                    <span class="number"> 01 of 05 </span>
+                    <span class="title">What is you looking for?</span>
+                    <input type='text' class="answer"/>
+                    <button class="button">Next »</button>
                 </div> 
             </div>
         </div>
