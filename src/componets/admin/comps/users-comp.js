@@ -7,8 +7,12 @@ export default class users extends Base {
 
     content = `
     <div class="container">
-        <div class="pending-approval">
-            <table id="pending-approval-table">
+        <div class="options">
+            <button class="btn-approve">Approved Users</button>
+            <button class="btn-reject">Rejected Users</button>
+        </div>
+        <div class="users-comp">
+            <table id="users-comp-table">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -16,10 +20,10 @@ export default class users extends Base {
                         <th>User</th>
                         <th>Posted on</th>
                         <th>Approve</th>
-                        <th>Decline</th>
+                        <th>Reject</th>
                     </tr>
                 </thead>
-                <tbody id="pending-approval-table-body">
+                <tbody id="users-comp-table-body">
                     
                 </tbody>
             </table>
@@ -108,12 +112,13 @@ export default class users extends Base {
 
 
     //connectedCallback
+    /*
     connectedCallback() {
             // Api call for getting the data 
             this.getSummary()
 
         } //End of connectedCallback()
-
+    */
 } //End of Class
 
 window.customElements.define('users-comp', users)
