@@ -9,9 +9,11 @@ export default class Questioner extends Base {
             <div class="form">
                 <span id="close-popup" title="close">+</span>
                 <div class="inner-form">
-                    <span class="number"> 01 of 05 </span>
-                    <span class="title">What is you looking for?</span>
-                    <input type='text' class="answer"/>
+                    <span class="number"> <span class="current-quiz"> 01 </span> of <span class="total-quiz"> 05 </span> </span>
+                    <span class="title">What are you looking for?</span>
+                    <div class="input">
+                        <input type='text' class="answer"/>
+                    </div>
                     <button class="button">Next »</button>
                 </div> 
             </div>
@@ -31,6 +33,10 @@ export default class Questioner extends Base {
             this._qs('.container').style.pointerEvents = 'none'
         })
     }//End of the close()
+
+    loadQuiz(number) {
+        this._qs('.current-quiz')
+    }
 
     connectedCallback() {
 

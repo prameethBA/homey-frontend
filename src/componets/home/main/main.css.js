@@ -1,4 +1,18 @@
 export default CSS = `
+
+    #count-down {
+        position: absolute;
+        top: 5rem;
+        left: 0;
+        right: 0;
+        margin: auto;
+        text-align: center;
+        font-size: 11rem;
+        color: red;
+        background-color: rgba(0, 0, 0, 0.3);
+        pointer-events: none;
+    }
+
     .user-comp {
         display: flex;
         justify-content: center;
