@@ -7,19 +7,23 @@ export default class properties extends Base {
 
     content = `
     <div class="container">
-        <div class="pending-approval">
-            <table id="pending-approval-table">
+        <div class="options">
+            <button class="btn-approve">Approved Properties</button>
+            <button class="btn-reject">Rejected Properties</button>
+        </div>
+        <div class="properties-comp">
+            <table id="properties-comp-table">
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Advertisement</th>
+                        <th>Advertisement Title</th>
                         <th>User</th>
                         <th>Posted on</th>
                         <th>Approve</th>
-                        <th>haiuaaaaaaaa</th>
+                        <th>Reject</th>
                     </tr>
                 </thead>
-                <tbody id="pending-approval-table-body">
+                <tbody id="properties-comp-table-body">
                     
                 </tbody>
             </table>
@@ -27,7 +31,7 @@ export default class properties extends Base {
             <div class="pagination">
                 <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
             </div>
-    </div>
+        </div>
     <div class="preview-advertisement"></div>
 `
     constructor() {
@@ -108,12 +112,13 @@ export default class properties extends Base {
 
 
     //connectedCallback
+    /*
     connectedCallback() {
             // Api call for getting the data 
             this.getSummary()
 
         } //End of connectedCallback()
-
+    */
 } //End of Class
 
 window.customElements.define('properties-comp', properties)
