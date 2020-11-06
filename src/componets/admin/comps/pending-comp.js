@@ -12,7 +12,7 @@ export default class Pendings extends Base {
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Advertisement</th>
+                        <th>Advertisement Title</th>
                         <th>User</th>
                         <th>Posted on</th>
                         <th>Approve</th>
