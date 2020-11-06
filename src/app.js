@@ -77,6 +77,9 @@ export default class App extends Base {
             // Load payment gateway component
             router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
 
+            // +++DEV+++ Only for develompent 
+            router.get('/dev', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/dev`, comp: `../dev`, compName: 'dev-dev' } })))
+
             // +ADMIN+ +TODO this part can be move another file set when only admin user logged IN
             // Load admin component
             router.get('/admin', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
