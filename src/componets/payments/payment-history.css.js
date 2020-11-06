@@ -52,4 +52,13 @@ button {
   font-size:1.5em;
 }
 
+.pagination {
+  margin: 5rem auto auto auto;
+}
+
+.pagination a {
+  color: blue;
+  cursor: pointer;
+}
+
 `

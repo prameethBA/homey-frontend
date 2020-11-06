@@ -48,8 +48,10 @@ export default class Dev extends Base {
         }
 
         button:hover{
+            cursor: pointer;
             background-position: right;
             color: black;
+            box-shadow: 0 0 20px -5px;
         }
     `
     content = `

@@ -81,11 +81,13 @@ export default CSS = `
     }
 
     .btn-approve:hover{
+        cursor: pointer;
         background-position: right;
         color: black;
         box-shadow: 0 0 20px -5px;
     }
     .btn-reject:hover{
+        cursor: pointer;
         background-position: right;
         color: black;
         box-shadow: 0 0 20px -5px;
