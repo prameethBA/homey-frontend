@@ -79,7 +79,9 @@ export default class Questioner extends Base {
             this.loadQuiz(this.quiz[index - 1])
         }
         if(index >= 5) {
-            this._qs('.button').removeEventListener('click', () => {})
+            this._qs('.button').addEventListener('click', () => {
+                this._qs('#close-popup').click()
+            })
             this._qs('.button').innerHTML = 'Submit & Search'
         }
     }// End of nextQuiz()

@@ -1,4 +1,4 @@
-import Base from '../Base.js'
+import Base from '../../Base.js'
 import CSS from './comment-comp.css.js'
 
 export default class Comment extends Base {

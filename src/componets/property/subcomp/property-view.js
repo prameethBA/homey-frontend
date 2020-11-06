@@ -74,7 +74,7 @@ export default class PropertyView extends Base {
         })
 
         this._qs('.comment').addEventListener('click', async ()=> {
-            import('/componets/comment/comment-comp.js').then(
+            import('/componets/universal/comment/comment-comp.js').then(
                 this._qs('#comment-box').innerHTML = `<comment-comp></comment-comp>`
             )
         })
