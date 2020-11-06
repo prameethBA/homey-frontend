@@ -16,7 +16,7 @@ export default CSS = `
         margin: 1rem;
         width: 2.5rem;
         height: 2rem;
-        transition: 1s ease-in-out;
+        transition: 0.1s ease-in-out;
         background-repeat: no-repeat;
         border-radius: 1px;
         background-size: contain;
@@ -58,7 +58,7 @@ export default CSS = `
         bottom: 0;
         width: 17.5em;
         background: #35302d;
-        transition: 1s ease-in-out;
+        transition: 0.2s ease-in-out;
     }
 
     #mainContainer {

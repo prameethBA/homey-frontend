@@ -12,7 +12,7 @@ export default class Pendings extends Base {
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Advertisement</th>
+                        <th>Advertisement Title</th>
                         <th>User</th>
                         <th>Posted on</th>
                         <th>Approve</th>
@@ -49,20 +49,53 @@ export default class Pendings extends Base {
                 .then(async res => {
                     await import('./subcomp/preview-advertisement.js')
                         .then( () => {
-                            this._qs('.preview-advertisement').innerHTML = `
+                            import('/componets/property/subcomp/facility.js')
+                                .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
+                            import('/componets/admin/comps/subcomp/map-view.js')
+                                .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
+                             let data = `
                                 <preview-advertisement>
                                     <img slot='image' src="/assets/img/house.jpg" />
+                                    <img slot='image' src="/assets/img/house.jpg" />
+                                    <img slot='image' src="/assets/img/house.jpg" />
+                                    <img slot='image' src="/assets/img/house.jpg" />
+                                    <img slot='image' src="/assets/img/house.jpg" />
                                     <p slot='title'>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque enim odio, semper at ultrices vel, imperdiet quis tortor. Nam ut mauris ac leo iaculis s
+                                        ${res.data.title}
                                         <button class="load-more">Load more >></button>
                                     </p>
-                                    <span slot="price" class="price">Rs. 17,000/Month</span>
-                                    <span slot="key-money" class="key-money">Key Money : Rs. 34,000</span>
-                                    <span slot="minimum-period" class="minimum-period">Minimum Period: 2 Months</span>
-                                    <span slot="available-from" class="available-from">Available From: 2020 May 21</span>
-                                </preview-advertisement>
-                            `
-                            console.log(res.data)
+                                    <span slot="price" class="row-1 price">Rs. ${res.data.price}/Month</span>
+                                    <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${res.data.key_money}</span>
+                                    <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${res.data.minimum_period} Months</span>
+                                    <span slot="available-from" class="row-1 available-from">Available From: ${res.data.available_from}</span>
+                                    <p slot='description'>
+                                        ${res.data.description}
+                                        <button class="load-more">Load more >></button>
+                                    </p>
+                                    <div slot="facilities" class="facilities">`
+
+                                    // console.log(res.data.facilities)
+
+                                    // res.data.facilities.forEach(item => {
+                                    //         data += `<facility-comp key="${item.featureId}" name="${item.feature}" measurable="1" checked="true" quantity="${item.quantity}"></facility-comp>`
+                                    // })
+
+                                    data += `</div>
+                                                <map-view slot="location" class="location" location="${encodeURIComponent(res.data.location)}"></map-view>
+                                                <div slot="location-details" class="row location-details">
+                                                    <!--<span class="location-details-span district">${res.data.district_id}</span>-->
+                                                    <span class="location-details-span city">${res.data.city_id}</span>
+                                                    <span class="location-details-span address">Address : 141, Mediyawa, Eppawala.</span>
+                                                </div>
+                                                <div slot="user-details" class="row user-details">
+                                                    <span class="user"><a>${res.data.user_id}</a></span>
+                                                    <span class="created">${res.data.created}</span>
+                                                </div>
+                                            </preview-advertisement>
+                                
+                                        `
+                            this._qs('.preview-advertisement').innerHTML = data
+
                         })
                         this.stopLoader()
                 })
@@ -82,6 +115,8 @@ export default class Pendings extends Base {
             token: this.getToken()
         })
             .then(res => {
+                if(res.data.length < 1 || res.data.length == undefined) throw res
+                console.log(res.data.length)
                 let index = 1
                 res.data.forEach(item => {
                     this._qs('#pending-approval-table-body').innerHTML += `
@@ -110,6 +145,7 @@ export default class Pendings extends Base {
     connectedCallback() {
         // Api call for getting the data 
         this.getSummary()
+
 
     }//End of connectedCallback()
     

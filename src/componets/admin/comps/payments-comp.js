@@ -6,29 +6,92 @@ export default class payments extends Base {
     css = CSS
 
     content = `
+
+    <div class="payment-history-heading">
+    <h1>Payment History</h1>
+  </div>
+  <div class="block">
+
     <div class="container">
-        <div class="pending-approval">
-            <table id="pending-approval-table">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Advertisement</th>
-                        <th>User</th>
-                        <th>huhhh on</th>
-                        <th>Approve</th>
-                        <th>Decline</th>
-                    </tr>
-                </thead>
-                <tbody id="pending-approval-table-body">
-                    
-                </tbody>
-            </table>
-            </div>
-            <div class="pagination">
-                <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
-            </div>
+      <div class="heading">
+        <h1>Recived</h1>
+        <h3>LKR 5,356,543.00</h3>
+      </div>
+      <div class="details">
+        <div class="description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed urna eu lacus facilisis mollis. Sed consequat odio lorem, ac vulputate nisi imperdiet efficitur. Quisque non nunc eu sapien.
+        </div>
+        <div>
+          <button class="continue">Continue>></button>
+        </div>
+      </div>
     </div>
-    <div class="preview-advertisement"></div>
+
+    <div class="container">
+      <div class="heading">
+        <h1>Pendings</h1>
+        <h3>LKR 5,356,543.00</h3>
+      </div>
+      <div class="details">
+        <div class="description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed urna eu lacus facilisis mollis. Sed consequat odio lorem, ac vulputate nisi imperdiet efficitur. Quisque non nunc eu sapien.
+        </div>
+        <div>
+          <button class="continue">Continue>></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="heading">
+        <h1>Falied</h1>
+        <h3>LKR 5,356,543.00</h3>
+      </div>
+      <div class="details">
+        <div class="description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed urna eu lacus facilisis mollis. Sed consequat odio lorem, ac vulputate nisi imperdiet efficitur. Quisque non nunc eu sapien.
+        </div>
+        <div>
+          <button class="continue">Continue>></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="heading">
+        <h1>Cashouts</h1>
+        <h3>LKR 5,356,543.00</h3>
+      </div>
+      <div class="details">
+        <div class="description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed urna eu lacus facilisis mollis. Sed consequat odio lorem, ac vulputate nisi imperdiet efficitur. Quisque non nunc eu sapien.
+        </div>
+        <div>
+          <button class="continue">Continue>></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="heading">
+        <h1>Expences/Fees</h1>
+        <h3>LKR 5,356,543.00</h3>
+      </div>
+      <div class="details">
+        <div class="description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sed urna eu lacus facilisis mollis. Sed consequat odio lorem, ac vulputate nisi imperdiet efficitur. Quisque non nunc eu sapien.
+        </div>
+        <div>
+          <button class="continue">Continue>></button>
+        </div>
+      </div>
+    </div>
+ 
+  </div>
+    
+    <div class="pagination">
+        <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+    </div>
 `
     constructor() {
             super()
@@ -108,12 +171,13 @@ export default class payments extends Base {
 
 
     //connectedCallback
+    /*
     connectedCallback() {
             // Api call for getting the data 
             this.getSummary()
 
         } //End of connectedCallback()
-
+    */
 } //End of Class
 
 window.customElements.define('payments-comp', payments)

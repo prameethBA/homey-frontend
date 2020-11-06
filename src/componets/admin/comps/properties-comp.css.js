@@ -7,28 +7,28 @@ export default CSS = `
         margin: 5rem auto 5rem auto;
     }
 
-    .pending-approval {
+    .properties-comp {
         width: 100%;
         justify-content: center;
         display: flex;
     }
 
-    #pending-approval-table {
+    #properties-comp-table {
         font-family: Arial, Helvetica, sans-serif;
         border-collapse: collapse;
         width: 90%;
     }
     
-    #pending-approval-table td, #pending-approval-table th {
+    #properties-comp-table td, #properties-comp-table th {
         border: 1px solid #ddd;
         padding: 8px;
     }
     
-    #pending-approval-table tr:nth-child(even){background-color: #f2f2f2;}
+    #properties-comp-table tr:nth-child(even){background-color: #f2f2f2;}
     
-    #pending-approval-table tr:hover {background-color: #ddd;}
+    #properties-comp-table tr:hover {background-color: #ddd;}
     
-    #pending-approval-table th {
+    #properties-comp-table th {
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: left;
@@ -56,6 +56,41 @@ export default CSS = `
     .ad-link:hover {
         #0077cc;
     }
+    .btn-approve, .btn-reject{
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        display: inline-block;
+        height: 3em;
+        border-radius: 25px;
+        outline: none;
+        border: none;
+        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+        font-size: 0.8rem;
+        color: #fff;
+        margin: 0.5rem;
+        cursor: pointer;
+        transition: all 0.5s;
+        min-width: 15%;
+    }
+    .btn-approve{
+        margin-left: 30%;
+    }
+
+    .btn-approve:hover{
+        cursor: pointer;
+        background-position: right;
+        color: black;
+        box-shadow: 0 0 20px -5px;
+    }
+    .btn-reject:hover{
+        cursor: pointer;
+        background-position: right;
+        color: black;
+        box-shadow: 0 0 20px -5px;
+    }
 
     button {
         height: 2rem;
@@ -64,7 +99,6 @@ export default CSS = `
         border: none;
         font-size: 0.8rem;
         color: #fff;
-        text-transform: uppercase;
         cursor: pointer;
         transition: all 1s;
     }

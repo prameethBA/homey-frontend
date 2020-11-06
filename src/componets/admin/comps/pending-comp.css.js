@@ -66,8 +66,32 @@ export default CSS = `
         color: #fff;
         text-transform: uppercase;
         cursor: pointer;
+        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
         transition: all 1s;
     }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 2rem;
+        justify-content: space-evenly;
+    }
+
+    .row span {
+        font-weight: unset;
+        color: #4212ff;
+    }
+
+    .row span > a {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    map-view {
+        display: flex;
+        justify-content: center;
+    }
+
 
     .pagination {
         margin: 5rem auto auto auto;

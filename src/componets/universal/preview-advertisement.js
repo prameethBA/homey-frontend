@@ -1,4 +1,4 @@
-import Base from '../../../Base.js'
+import Base from '/componets/Base.js'
 import CSS from './preview-advertisement.css.js'
 
 export default class PreviewAdvertisement extends Base {
@@ -31,8 +31,8 @@ export default class PreviewAdvertisement extends Base {
             <slot name="location-details"></slot>
             <slot name="user-details"></slot>
             <div class="row approval">
-                <div class="button approve-button">Approve</div>
-                <div class="button decline-button">Decline</div>
+                <div class="button approve-button">Post the advertisement</div>
+                <div class="button decline-button">edit</div>
             </div>
         </div>
     </div>
@@ -48,6 +48,12 @@ export default class PreviewAdvertisement extends Base {
     connectedCallback() {
 
         this._qs('#close-popup').addEventListener('click', () => {
+            this._qs('.container').style.display = 'none'
+            this._qs('.backdrop').style.backgroundColor = 'transparent'
+        })
+
+        this._qs('.approve-button').addEventListener('click', () => dispatchEvent(new CustomEvent('upload-advertisement', {detail : {userId: this.getUserId()}})))
+        this._qs('.decline-button').addEventListener('click', () => {
             this._qs('.container').style.display = 'none'
             this._qs('.backdrop').style.backgroundColor = 'transparent'
         })

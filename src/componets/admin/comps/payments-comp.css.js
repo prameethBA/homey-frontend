@@ -1,97 +1,65 @@
 export default CSS = `
-
-    .container {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        margin: 5rem auto 5rem auto;
-    }
-
-    .pending-approval {
-        width: 100%;
-        justify-content: center;
-        display: flex;
-    }
-
-    #pending-approval-table {
-        font-family: Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 90%;
-    }
+.block .container {
+    position: relative;
+    display: inline-block;
+    width: 400px;
+    height: 300px;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.86);
+    margin: 2em;
+    background-color: rgba(300,300,300,0.5);
     
-    #pending-approval-table td, #pending-approval-table th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
+}
+.block .container:hover {
+    box-shadow: 0 0 25px -5px;
+}
+
+.details {
     
-    #pending-approval-table tr:nth-child(even){background-color: #f2f2f2;}
-    
-    #pending-approval-table tr:hover {background-color: #ddd;}
-    
-    #pending-approval-table th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #4CAF50;
-        color: white;
-    }    
+    background-color: rgba(200, 200, 200, 1);
+    padding-bottom: 50px;
+}
 
-    a {
-        transition: all 0.5s ease;
-    }
+span {
+    margin: auto;
+}
 
-    .user-link {
-        cursor: pointer;
-        text-decoration: underline;
-        color: #3543bf;
-    }
+.description {
+    margin: 0.5em;
+    height: 5em;
+    text-align: justify;
+}
+.heading{
+  text-align: center;;
+}
 
-    .ad-link {
-        cursor: pointer;
-        color: #03077F;
-        text-transform: capitalize;
-        font-style: italic;
-    }
-
-    .ad-link:hover {
-        #0077cc;
-    }
-
-    button {
-        height: 2rem;
-        border-radius: 2px;
-        outline: none;
-        border: none;
-        font-size: 0.8rem;
-        color: #fff;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: all 1s;
-    }
-
-    .pagination {
-        margin: 5rem auto auto auto;
-    }
-
-    .pagination a {
-        color: blue;
-        cursor: pointer;
-    }
-    
-    .approve-button {
-        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-    }
-
-    .approve-button:hover {
-        box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
-    }
-
-    .decline-button {
-        background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
-    }
-
-    .decline-button:hover {
-        box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
-    }
+button {
+    font-weight: bold;
+    font-size: 1.1em;
+    border:none;
+    border-radius: 2px;
+    padding: 0.3em;
+    display: inline;
+    margin:0.1em;
+    color: #eeeeee;
+    cursor: pointer;
+}
+button:hover{
+    cursor: pointer;
+    background-position: right;
+    color: black;
+    box-shadow: 0 0 20px -5px;
+}
+.continue{
+  position: absolute;
+  font-size: 1.5em;
+  background-color: rgba(12, 164, 44, 0.8);
+}
+.payment-history-heading {
+  text-align: center;
+  font-size: 2.5em;
+}
+.heading{
+  font-size:1.5em;
+}
 
 `

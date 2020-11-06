@@ -20,7 +20,7 @@ export default CSS = `
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 5rem auto;
+        margin: auto;
         padding: 1rem;
         border-radius: 2px;
         box-shadow: 1px 1px 5px 2px rgba(0,0,0,0.75);
@@ -69,6 +69,7 @@ export default CSS = `
         /*line-height: 1em;*/
         /*height: 2.1em;*/
     }
+    
 
     button {
         height: 2em;
