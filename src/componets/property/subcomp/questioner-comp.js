@@ -9,7 +9,7 @@ export default class Questioner extends Base {
             <div class="form">
                 <span id="close-popup" title="close">+</span>
                 <div class="inner-form">
-                    <span class="number"> <span class="current-quiz"> 01 </span> of <span class="total-quiz"> 05 </span> </span>
+                    <span class="number"> <span class="current-quiz"> 1 </span> of <span class="total-quiz"> 5 </span> </span>
                     <span class="title">What are you looking for?</span>
                     <div class="input">
                         <input type='text' class="answer"/>
@@ -19,6 +19,38 @@ export default class Questioner extends Base {
             </div>
         </div>
     `
+
+    quiz = [
+        {
+            number: 1,
+            title: 'What are you Looking for?',
+            input: `<select class="propertyType"></select>`
+        },
+
+        {
+            number: 2,
+            title: 'Budget per Month? (Rs/Month)',
+            input: `<input class="answer" placeholder="Rs. XX,XXX"/>`
+        },
+        
+        {
+            number: 3,
+            title: 'Which area you preffer?',
+            input: `<input class="answer" placeholder="Colombo"/>`
+        },
+
+        {
+            number: 4,
+            title: 'From when do you want it?',
+            input: `<input class="answer" type="date"/>`
+        },
+
+        {
+            number: 5,
+            title: 'How many individuals <br/> going to use the property?',
+            input: `<input class="answer" type="number" placeholder="XX"/>`
+        }
+    ]
 
     constructor() {
         super()
@@ -34,11 +66,35 @@ export default class Questioner extends Base {
         })
     }//End of the close()
 
-    loadQuiz(number) {
-        this._qs('.current-quiz')
-    }
+    //Load quiz
+    loadQuiz(data) {
+        this._qs('.current-quiz').innerHTML = data.number
+        this._qs('.title').innerHTML = data.title
+        this._qs('.input').innerHTML = data.input
+    }//End of the loadQuiz()
+
+    //next quiz
+    nextQuiz(index) {
+        if(this.state.quizCount >= index) {
+            this.loadQuiz(this.quiz[index - 1])
+        }
+        if(index >= 5) {
+            this._qs('.button').removeEventListener('click', () => {})
+            this._qs('.button').innerHTML = 'Submit & Search'
+        }
+    }// End of nextQuiz()
 
     connectedCallback() {
+        
+        //load first quiz
+        this.state.quizCount = this.quiz.length 
+        this.state.quiz = 1
+        this.nextQuiz(this.state.quiz++)
+
+        //Add event listner for next button 
+        this._qs('.button').addEventListener('click', () => {
+            this.nextQuiz(this.state.quiz++)
+        })
 
         // close the dock
         this.close()
