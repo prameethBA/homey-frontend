@@ -1,4 +1,4 @@
-import Base from '/components/Base.js'
+import Base from './../Base.js'
 import CSS from './property-details.css.js'
 
 export default class PropertyDetails extends Base {
