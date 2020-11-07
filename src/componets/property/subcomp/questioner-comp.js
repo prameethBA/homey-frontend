@@ -7,7 +7,7 @@ export default class Questioner extends Base {
     content = `
         <div class="container">
             <div class="form">
-                <span id="close-popup" title="close">+</span>
+                <span id="close-popup" title="close(Esc)">+</span>
                 <div class="inner-form">
                     <span class="number"> <span class="current-quiz"> 1 </span> of <span class="total-quiz"> 5 </span> </span>
                     <span class="title">What are you looking for?</span>
@@ -61,10 +61,15 @@ export default class Questioner extends Base {
     //close the dock
     close() {
         this._qs('#close-popup').addEventListener('click', () => {
-            this._qs('.container').style.opacity = '0'
-            this._qs('.container').style.pointerEvents = 'none'
+            this.exitDock()
         })
     }//End of the close()
+
+    // Exit the dock
+    exitDock() {
+        this._qs('.container').style.opacity = '0'
+        this._qs('.container').style.pointerEvents = 'none'
+    }// End of exitDock()
 
     //Load quiz
     loadQuiz(data) {
@@ -86,6 +91,11 @@ export default class Questioner extends Base {
         }
     }// End of nextQuiz()
 
+    //Exit with Escape key
+    exitWithEscape() {
+        addEventListener('keyup', ({key}) => (key === 'Escape') ? this.exitDock() : null )
+    }// End of exitWithEscape()
+
     connectedCallback() {
         
         //load first quiz
@@ -100,6 +110,8 @@ export default class Questioner extends Base {
 
         // close the dock
         this.close()
+        // Exit with escape key
+        this.exitWithEscape()
 
     }//end of connected callback
 
