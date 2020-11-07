@@ -25,8 +25,12 @@ export default class Main extends Base {
          </div>
             
         <div class="description">
-            <h1 class="title">MultCloud - Focus on Transferring across Clouds</h1>
-            <h4 class="title">Transfer and manage your multiple cloud files with one app. 100% Free.</h4>
+            <h1 class="title title-head">Everyone Deserves the Opportunity of a Home. <br/> it's just a touch away.</h1>
+            <h4 class="title">
+                <span>find great home or find someone for your home</span>
+                <span>Need to find a tenant ? advertise your place for rent or lease </span>
+                <span>Need to find a property ? look through our vast property collection to find one that suit your needs</span>
+            </h4>
             <div class="horizontal-buttons">
                 <button class="login">Login</button>
                 <button class="signup">Sign Up</button>
@@ -43,13 +47,13 @@ export default class Main extends Base {
 
         <div class="features">
             <div class="features-row">
-                <div class="features-image"></div>
+                <div class="features-image features-image-1"></div>
                 <div class="features-description">
                     <div class="feature-title">
-                        Cloud Transfer
+                        Stay safe while trading!
                     </div>
                     <div class="feature-body">
-                        Transfer files between cloud drives, FTP and WebDav. For instance, you can easily move all files from one Google Drive to another or use “copy and paste” to copy certain files from Dropbox to Google Drive. And as cloud transfer runs on Multicloud, transfer process continues even when your computer is powered off.
+                        All ads are manually reviewed by our team of admins for your safety. All unreliable properties are taken care of by our  admins.
                     </div>
                     <div class="feature-more">
                         <a> Learn More >> </a>
@@ -59,7 +63,7 @@ export default class Main extends Base {
             <div class="features-row">
                 <div class="features-description-reverse">
                     <div class="feature-title">
-                        Cloud Transfer
+                        Security and reliability
                     </div>
                     <div class="feature-body">
                         Transfer files between cloud drives, FTP and WebDav. For instance, you can easily move all files from one Google Drive to another or use “copy and paste” to copy certain files from Dropbox to Google Drive. And as cloud transfer runs on Multicloud, transfer process continues even when your computer is powered off.
@@ -68,7 +72,7 @@ export default class Main extends Base {
                         <a> Learn More >> </a>
                     </div>
                 </div>
-                <div class="features-image"></div>
+                <div class="features-image features-image-2"></div>
             </div>
             <div class="features-row">
                 <div class="features-image"></div>
@@ -102,10 +106,10 @@ export default class Main extends Base {
 
         <div class="parallax parallax-3">
             <h1 class="api-title">
-                Online Storage Services Supported by MultCloud
+                Technologies and Partners
             </h1>
             <h4 class="api-description">
-                MultCloud supports more than 30 cloud services like Google Drive, Dropbox, MEGA, OneDrive, etc. Evernote WebDAV HubiC AmazonS3 OwnCloud MySQL
+                They make homey more effecient 
             </h4>
             <div class="api-row">
                 <span class="slider slider-previous">‹</span>
@@ -126,18 +130,18 @@ export default class Main extends Base {
                         About Us
                     </div>
                     <div class="about-us-paragraph">
-                        even when your computer is powered off.Transfer files between cloud drives, FTP and WebDav. For instance, you can easily move all files from one Google Drive to another or use “copy and paste” to copy certain files from Dropbox to Google Drive. And as cloud transfer runs on Multicloud, transfer process continues even when your computer is powered off.
+                        Homey.lk is for finding Boarding places, Annexes and other properties and We try to provide exact matches, or matches which are similar to the criteria provided.
                     </div>
                 </span>
             </div>
             <div class="news-letter">
                 <span>
                     <div class="news-letter-title">
-                        News Letter
+                        Receive renting advice, tips, and more...
                     </div>
                     <div>
                         <div class="news-letter-description">
-                            Transfer files between cloud drives, FTP and WebDav. For instance, you can easily move all files from one Google Drive to another or use “copy and paste” to copy certain files from Dropbox to Google Drive. And as cloud transfer runs on Multicloud, transfer process continues even when your computer is powered off.
+                            Subscribe to our newsletter to get latest updates on our offers and features on homey.lk
                         </div>
                         <div class="news-letter-form">
                             <label for="email"> Enter your email </label>
@@ -190,6 +194,14 @@ export default class Main extends Base {
         }, 1000);
     }//End of countDown()
 
+    // Load signuo or login form
+    loadForm(elem) {
+        this._qs(`.${elem}`).addEventListener('click', () => {
+            dispatchEvent(new Event(`load-${elem}-form`))
+        })
+        if(this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
+    }//End of loadForm()
+
     connectedCallback() {
 
         //scroll down page when click scroll down arrow
@@ -197,6 +209,10 @@ export default class Main extends Base {
 
         // Count down for interim
         this.countDown()
+
+        // Load signup or login form
+        this.loadForm('login')
+        this.loadForm('signup')
 
     }//End of connectedCallback()
 

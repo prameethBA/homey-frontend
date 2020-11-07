@@ -8,6 +8,7 @@ export default CSS = `
     .preview-image-container {
       position: relative;
       display:none;
+      z-index: 1;
     }
 
     .preview-image {
