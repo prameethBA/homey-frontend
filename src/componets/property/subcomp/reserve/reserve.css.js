@@ -11,6 +11,7 @@ export default CSS = `
         display: flex;
         justify-content: center;
         align-items: center;
+        transition: all 0.5s ease-in-out;
     }
 
     .container {
@@ -21,10 +22,67 @@ export default CSS = `
         min-height: 60%;
         padding: 2rem;
         border-radius: 2px;
+        max-width: 90%;
+        transition: all 0.5s ease-in-out;
+    }
+
+    #close-popup {
+        color: #444444;
+        font-size: 3rem;
+        transform: rotate(45deg);
+        cursor: pointer;
+        position: absolute;
+        right: 20%;
+        margin-top: -1rem;
     }
 
     .row {
         margin: 1rem 0;
+    }
+
+    .menu-title {
+        display: flex;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    
+    #propertyId {
+        color: #3512Df;
+        font-weight: bold;
+    }
+
+    .title {
+        text-transform: capitalize;
+        font-weight: bold;
+        line-height: 1rem;
+        max-height: 3.1rem;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: wrap;
+        min-width: 50vw;
+        max-width: 60vw;
+    }
+
+    .keymoney-title, .keymoney {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .keymoney {
+        color: #dc3106;
+    }
+
+    .payment-type {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pay-advance, .pay-keymoney {
+        text-transform: capitalize;
+        font-weight: bold;
+        color: midnightblue;
     }
 
     .switch {
@@ -32,6 +90,7 @@ export default CSS = `
         display: inline-block;
         width: 60px;
         height: 34px;
+        margin: auto 1rem;
       }
       
       .switch input {
@@ -85,4 +144,48 @@ export default CSS = `
       .slider.round:before {
         border-radius: 50%;
       }
+
+      hr {
+        height: 1px;
+        background-color: #765498;
+        width: 100%;
+      }
+
+      .sub-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+      }
+
+      .total {
+        font-size: 1.5rem;
+        font-weight: bold;
+        border-top: solid 1px;
+        margin: 0.2rem 0;
+      }
+
+      .reserve {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+      }
+
+      .reserve-button {
+        width: 40%;
+        height: 2.5em;
+        border-radius: 2rem;
+        outline: none;
+        border: none;
+        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+        font-size: 1.2rem;
+        color: aliceblue;
+        text-transform: uppercase;
+        margin: 2rem auto;
+        cursor: pointer;
+        transition: all 1s;
+    }
+
+    .reserve-button:hover{
+        box-shadow: 1px 1px 5px 0px rgba(0,62,21,0.8);
+    }
 `
