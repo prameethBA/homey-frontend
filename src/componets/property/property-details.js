@@ -10,17 +10,20 @@ export default class PropertyDetails extends Base {
 
       <div class="images">
         <div class="main-image-container">
-          <img class="main-image" src="/assets/img/house.jpg" />
+          <img class="img main-image" src="/assets/img/house.jpg" />
         </div>
         <div class="sub-images">
-          <img class="sub-image" src="/assets/img/background.jpg" />
-          <img class="sub-image" src="/assets/img/mountain.jpg" />
-          <img class="sub-image" src="/assets/img/1.png" />
-          <img class="sub-image" src="/assets/img/house.jpg" />
+          <img class="img sub-image" src="/assets/img/background.jpg" />
+          <img class="img sub-image" src="/assets/img/mountain.jpg" />
+          <img class="img sub-image" src="/assets/img/1.png" />
+          <img class="img sub-image" src="/assets/img/house.jpg" />
         </div>
       </div>
 
       <div class="details">
+        <div class="preview-image-container">
+          <img class="preview-image" />
+        </div>
         <div class="row rwo-title">
           <div class="title">Boarding place in Nugegoda</div>
           <div class="price">Rs.17,000/Month</div>
@@ -66,6 +69,36 @@ export default class PropertyDetails extends Base {
       this.mount()
 
     }//end of the constructor
+
+    //preview image
+    previewImage() {
+        this._qs('.main-image').addEventListener('mouseover', (e) => {
+          this._qs('.preview-image-container').style.display = 'flex'
+
+          // img1 is the first img    
+          var canvas = document.createElement("canvas"); 
+          canvas.width = e.clientX;  // size of new image
+          canvas.height = e.clientY;
+          // var ctx = canvas.getContext("2d");      // get the context
+          // // draw part of the first image onto the new canvas
+          // ctx.drawImage(this._qs('.main-image'),0,0);            
+          // create a new image    
+          // var imgNew = new Image();
+          // // set the src from the canvas 
+          // imgNew.src = canvas.toDataURL();
+
+          this._qs('.preview-image').src = canvas.toDataURL()
+        })
+
+        this._qs('.main-image').addEventListener('mouseout', () => {
+          this._qs('.preview-image-container').style.display = 'none'
+        })
+    }//end of previewImage()
+
+    connectedCallback() {
+      //preview Images
+      this.previewImage()
+    }//End of connectedCallback()
     
   }//End of the class
 

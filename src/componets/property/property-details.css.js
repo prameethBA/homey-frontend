@@ -5,13 +5,21 @@ export default CSS = `
       flex-direction: row;
     }
 
+    .preview-image-container {
+      position: relative;
+      display:none;
+    }
+
+    .preview-image {
+      position: absolute;
+      width: 100%;
+      border: 0.5rem solid #ffffff;
+      border-radius: 3px;
+     }
+
     .images {
       width: 75%;
       margin: 2rem;
-    }
-
-    img {
-      cursor: zoom-in;
     }
 
     .main-image-container {
@@ -22,12 +30,14 @@ export default CSS = `
       width: 100%;
       border: 0.5rem solid #ffffff;
       border-radius: 2px;
+      cursor: zoom-in;
     }
 
     .sub-images {
       width: 100%;
       display: flex;
       justify-content: space-around;
+      cursor: pointer;
     }
 
     .sub-image {
