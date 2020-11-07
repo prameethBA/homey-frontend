@@ -27,7 +27,7 @@ export default class AdvertisementSettings extends Base {
               <label class="switch">
                   <input type="checkbox" id="private" >
                   <span class="slider round"></span>
-                </label>
+              </label>
           </div>
           <div class="toggle_opt">
               <label for="">Schedule to post</label>
