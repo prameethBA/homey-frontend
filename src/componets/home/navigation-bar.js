@@ -7,7 +7,7 @@ export default class Nav extends Base {
 
   preContent = `
       <nav class='navbar'>
-          <img src="./assets/img/homey_logo.png" class="logo" />
+          <img src="/assets/img/homey_logo.png" class="logo" />
           <span class="separator"></span>
           <button id="login-button"> login </button>
       </nav>

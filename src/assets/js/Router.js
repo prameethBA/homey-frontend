@@ -43,15 +43,20 @@ export default class Router {
         this.routerFound = false
         this.routes.some(route => {
             let regEx = new RegExp(`^${route.uri}$`) // i'll explain this conversion to regular expression below
+            let regEx2 = new RegExp(`^${route.uri}\/\w*`) // i'll explain this conversion to regular expression below
             let path = window.location.pathname
 
             if (path.match(regEx)) {
                 // our route logic is true, return the corresponding callback
-
                 let req = { path } // i'll also explain this code below
                 this.routerFound = true
                 return route.callback.call(this, req)
-            } else this.routerFound =false
+            } else if(path.match(regEx2)) {
+                let req = { path } // i'll also explain this code below
+                this.routerFound = true
+                return route.callback.call(this, req)
+            } 
+            else this.routerFound =false
         })
         if(!this.routerFound) dispatchEvent(new CustomEvent("customError", { detail: { err: '404' } }))
     }

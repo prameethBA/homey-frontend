@@ -75,7 +75,7 @@ export default class App extends Base {
             router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
 
             // Load avalibale property full details
-            router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property`, compName: 'property-details' } })))
+            router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))
 
             // Load payment gateway component
             router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
