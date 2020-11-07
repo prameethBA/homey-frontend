@@ -15,6 +15,7 @@ export default CSS = `
       width: 100%;
       border: 0.5rem solid #ffffff;
       border-radius: 3px;
+      height: 27.5rem;
      }
 
     .images {
@@ -31,6 +32,7 @@ export default CSS = `
       border: 0.5rem solid #ffffff;
       border-radius: 2px;
       cursor: zoom-in;
+      height: 17.5rem;
     }
 
     .sub-images {
