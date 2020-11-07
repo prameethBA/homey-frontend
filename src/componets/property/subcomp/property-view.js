@@ -57,6 +57,13 @@ export default class PropertyView extends Base {
         this._qs('.reserve').addEventListener('click', () => this.reserve())
     }//end of loadReserve()
 
+    //load the full details about the property
+    fullDetails() {
+        this._qs('.more').addEventListener('click', () => {
+            dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/property/propertyId`, comp: `property/property-details`, compName: 'property-details' } }))
+        })
+    }
+
     connectedCallback() {
 
         const slider = () => {
@@ -100,6 +107,9 @@ export default class PropertyView extends Base {
 
         //Load the reserve component
         this.loadReserve()
+
+        //load the full details about the property
+        this.fullDetails()
         
     }//end of connected callback
 
