@@ -11,30 +11,64 @@ export default class AvalibaleProperty extends Base {
     <div class="pagination">
         <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
     </div>
+    <div id="questioner">
+    </div>
     `
 
     constructor() {
         super()
         this.mount()
-        this.setLoader()
-        import('./subcomp/property-view.js')
 
-        this.state.page = 1
-        this.state.limit = 12
+        // load Questioner
+        this.loadQuestioner()
 
-        for (let index = 0; index < this.state.limit; index++) {
-            this._qs('#container').innerHTML += `
-                    <property-view id="id-${index}" key="${index}">
-                        <img slot="thumbnail" class="thumbnail" src="./assets/img/alt/load-post.gif" style="display: block !important;"/>
-                        <p slot="title" class=" title title-${index}">Title</p>
-                        <p slot="price" class=" price price-${index}">Price</p>
-                        <p slot="description" class=" description description-${index}">Description</p>
-                        <input class="id id-${index}" type="hidden" slot="id" value=""/>
-                    </property-view>
-                `
-        }
-        this.stopLoader()
+        //Load ad preview cards
+        this.loadpropertyView()
+        
     }//end of constructor
+    
+    // load questioner
+    async loadQuestioner() {
+        this.setLoader()
+        await import('./subcomp/questioner-comp.js')
+            .then(() => {
+                this._qs('#questioner').innerHTML = `<questioner-comp></questioner-comp>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+                this.setLoader()
+            })
+
+    }//End of loadQuestioner
+
+    // Load add comps 
+    async loadpropertyView() {
+        this.setLoader()
+        await import('./subcomp/property-view.js')
+            .then(() => {
+                this.state.page = 1
+                this.state.limit = 12
+        
+                for (let index = 0; index < this.state.limit; index++) {
+                    this._qs('#container').innerHTML += `
+                            <property-view id="id-${index}" key="${index}">
+                                <img slot="thumbnail" class="thumbnail" src="./assets/img/alt/load-post.gif" style="display: block !important;"/>
+                                <p slot="title" class=" title title-${index}">Title</p>
+                                <p slot="price" class=" price price-${index}">Price</p>
+                                <p slot="description" class=" description description-${index}">Description</p>
+                                <input class="id id-${index}" type="hidden" slot="id" value=""/>
+                            </property-view>
+                        `
+                }
+                this.stopLoader()
+            })
+            .catch(err => {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+                this.setLoader()
+            })
+
+    }//End of loadpropertyView()
     
    connectedCallback() {
 

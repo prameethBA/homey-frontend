@@ -53,6 +53,8 @@ export default class Base extends HTMLElement {
 
 
     // Helpers
+    
+    // Slectors
     _qs(selector) {
         return this.shadowRoot.querySelector(selector)
     }
@@ -69,10 +71,12 @@ export default class Base extends HTMLElement {
         return this.querySelectorAll(selector)
     }
 
+    // sleep
     sleep = ms => {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
 
+    // Loader
     setLoader = () => dispatchEvent(new Event('pre-load'))
 
     stopLoader = () => dispatchEvent(new Event('stop-pre-load'))

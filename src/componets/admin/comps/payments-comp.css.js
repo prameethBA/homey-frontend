@@ -7,7 +7,8 @@ export default CSS = `
     box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.86);
     margin: 2em;
     background-color: rgba(300,300,300,0.5);
-    
+    z-index: -1;
+    position: relative;
 }
 .block .container:hover {
     box-shadow: 0 0 25px -5px;
@@ -57,6 +58,8 @@ button:hover{
 .payment-history-heading {
   text-align: center;
   font-size: 2.5em;
+  z-index: -1;
+  position: relative;
 }
 .heading{
   font-size:1.5em;
