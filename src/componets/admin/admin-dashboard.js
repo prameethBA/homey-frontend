@@ -25,7 +25,7 @@ export default class AdminDashboard extends Base {
             </nav>
             <ul class="links list-inline unstyled list-hover-slide">
                 <li><a>Comments</a></li>
-                <li><a>Reports</a></li>
+                <li><a id="report">Reports</a></li>
                 <li><a>Settings</a></li>
                 <li><a>Logout</a></li>
             </ul>
@@ -92,7 +92,8 @@ export default class AdminDashboard extends Base {
                 { link: '#properties', comp: 'properties-comp' },
                 { link: '#users', comp: 'users-comp' },
                 { link: '#payments', comp: 'payments-comp' },
-                { link: '#home', comp: 'home-comp' }
+                { link: '#home', comp: 'home-comp' },
+                { link: '#report', comp: 'report-comp' }
             ]
 
             navLinks.forEach(item => {
