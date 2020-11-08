@@ -34,6 +34,8 @@ export default CSS =`
     width: 75%;
     height: 75%;
     border-radius: 50%;
+    border: solid #ffffff 6px;
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
   }
 
   .name-container {

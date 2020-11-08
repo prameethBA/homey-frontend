@@ -15,7 +15,7 @@ export default class AdminDashboard extends Base {
             <div class="nav-wrap">
             <nav class="main-nav" role="navigation">
                 <ul class="unstyled list-hover-slide">
-                <li><a>Dashboard</a></li>
+                <li><a id="dashBoard">Dashboard</a></li>
                 <li><a id="pending">Pendings</a></li>
                 <li><a id="properties">Properties</a></li>
                 <li><a id="users">Users</a></li>
@@ -33,7 +33,6 @@ export default class AdminDashboard extends Base {
             </div>
         </header>
     <div id="mainContainer">
-        Welcome Admin
     </div>
 `
     constructor() {
@@ -89,6 +88,7 @@ export default class AdminDashboard extends Base {
             this.sideBar()
 
             const navLinks = [
+                { link: '#dashBoard', comp: 'dashboard-comp' },
                 { link: '#pending', comp: 'pending-comp' },
                 { link: '#properties', comp: 'properties-comp' },
                 { link: '#users', comp: 'users-comp' },
