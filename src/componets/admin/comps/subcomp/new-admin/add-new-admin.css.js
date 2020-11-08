@@ -39,9 +39,9 @@ export default CSS = `
     .row {
         margin: 1rem 0;
         text-align: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
     }
 
     .form {
