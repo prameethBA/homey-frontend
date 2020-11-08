@@ -3,7 +3,7 @@ export default CSS = `
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 5rem auto 5rem auto;
+    margin: 7rem auto 5rem auto;
     transition: all 1s ease-in-out;
   }
 

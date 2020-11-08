@@ -83,7 +83,7 @@ export default class PropertyView extends Base {
         this._qs('.more').addEventListener('click', () => {
             dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/property/propertyId`, comp: `property/property-details`, compName: 'property-details' } }))
         })
-    }
+    }//end of fullDetails()
 
     connectedCallback() {
 

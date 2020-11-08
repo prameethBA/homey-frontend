@@ -61,6 +61,11 @@ export default CSS = `
         transition: 0.2s ease-in-out;
     }
 
+    #breadcrumb {
+        margin: 4rem 3rem;
+        position: absolute;
+    }
+
     #mainContainer {
     }
 

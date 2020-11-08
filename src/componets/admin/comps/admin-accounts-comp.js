@@ -15,9 +15,10 @@ export default class AdminAccounts extends Base {
             </span>
         </div>
         <div class="row admins">
-            
         </div>
     </div>
+
+    <div class="popup"></div>
 `
 
 profile = `
@@ -46,10 +47,29 @@ profile = `
 
         } //End of the constructor
 
-        //Load admin component
-        loadAdmin() {
-            this._qs('.admins').innerHTML += this.profile
-        }//End of loadAdmin()
+    //Load admin component
+    loadAdmin() {
+        this._qs('.admins').innerHTML += this.profile
+    }//End of loadAdmin()
+
+    //Add new admin component 
+    async newAdmin() {
+        this.setLoader()
+        await import('./subcomp/new-admin/add-new-admin.js')
+            .then(() => {
+                this._qs('.popup').innerHTML = `<add-new-admin></add-new-admin>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+            })
+    }//End of reserve()
+
+    //loadNewAdminForm
+    loadNewAdminForm() {
+        this._qs('.create-new').addEventListener('click', () => this.newAdmin())
+    }//end of loadNewAdminForm()
 
     // connectedCallback
     connectedCallback() {
@@ -59,6 +79,9 @@ profile = `
         this.loadAdmin()
         this.loadAdmin()
         this.loadAdmin()
+
+        //loadNewAdminForm
+        this.loadNewAdminForm()
 
     } //End of connectedCallback()
 

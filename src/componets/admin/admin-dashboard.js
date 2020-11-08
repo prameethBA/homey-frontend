@@ -8,6 +8,8 @@ export default class AdminDashboard extends Base {
     content = `
     <div id="backdrop" title="click to close side bar"></div>
     <div id="hamburger-icon" class="hamburger-collapse"></div>
+    <div id="breadcrumb" class="breadcrumb">
+    </div>
         <header class="container" role="banner">
             <h1 class="logo">
             <a>Admin <span>Homey</span></a>
@@ -71,15 +73,30 @@ export default class AdminDashboard extends Base {
                     this._qs('#mainContainer').innerHTML = `<${comp}></${comp}>`
                     this._qs('.container').style.left = '-100%'
                     this._qs('#backdrop').style.display = 'none'
+
+                    //Set breadcrumbs
+                    this.setBreadCrumbs(window.location.pathname.split('/'))
                 })
                 .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
         } //End of loadComp()
 
-    // redirect Admin URIs
-    redirectURI() {
+        // redirect Admin URIs
+        redirectURI() {
             const uri = window.location.pathname.split('/')
             this._qs(`#${uri[2]}`) != null ? this._qs(`#${uri[2]}`).click() : null
+            //Set breadcrumbs
+            this.setBreadCrumbs(uri)
         } // End of redirectURI
+
+        //Set breadcrumbs
+        setBreadCrumbs(uri) {
+            let breadCrumb = ''
+            uri.forEach(link => {
+                if(link == '') breadCrumb += 'Homey '
+                else breadCrumb += ` » <a>${link}`
+            })
+            this._qs('#breadcrumb').innerHTML = breadCrumb
+        }//End of setBreadCrumbs()
 
     //connectedCallback
     connectedCallback() {
