@@ -14,6 +14,10 @@ export default CSS = `
         transition: all 0.5s ease-in-out;
     }
 
+    .backdrop::-webkit-scrollbar {
+      width: 0;
+    }
+
     .container {
         display: flex;
         flex-direction: column;
@@ -40,10 +44,21 @@ export default CSS = `
 
     .row {
         margin: 1rem 0;
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-transform: uppercase;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-title {
+      font-size: 2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: monospace;
     }
 
     .sub-row {
@@ -53,7 +68,31 @@ export default CSS = `
       align-items: center;
       margin: 0.5rem auto;
     }
+
+    .collapsible {
+      display: flex;
+      width: 100%;
+    }
+
+    .collapsible-row {
+      justify-content: space-around;
+      width: 100%;
+    }
+
+    .collapse {
+      width: 100%;
+    }
+
+    .collapse > .row {
+      justify-content: space-between;
+    }
   
+    .expand {
+      font-size: 2rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     .display-picture {
       width: 10rem;
       height: 10rem;
@@ -139,21 +178,9 @@ export default CSS = `
      }
   
     .profile{
-      display: flex;
-      width: 17.5rem;
-      min-height: 25rem;
       margin: 1rem;
-      position: relative;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      flex-direction: column;
       transition: all 1s ease-in-out;
       background-color: #ffffff;
-      border-radius: 2px;
-      box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
-      cursor: pointer;
-      position: inherit;
     }
   
     .users {

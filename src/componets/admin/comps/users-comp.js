@@ -30,10 +30,10 @@ export default class users extends Base {
     profile = `
     <div class="profile">
         <div class="sub-row">
-            <img class="display-picture" src="/assets/img/house.jpg" />
+            <img class="display-picture view-profile" src="/assets/img/house.jpg" />
         </div>
         <div class="sub-row">
-            <span class="name">Prameeth Madhuwantha</span>
+            <span class="name view-profile">Prameeth Madhuwantha</span>
             <span class="status">🟠 Unconfirmed</span>
         </div>
         <div class="sub-row">
@@ -75,7 +75,7 @@ export default class users extends Base {
 
     //load view user component
     loadViewUser() {
-        this._qsAll('.profile').forEach(item => {
+        this._qsAll('.view-profile').forEach(item => {
             item.addEventListener('click', () => this.viewUser())
         })
     }//end of loadViewUser()

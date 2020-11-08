@@ -25,6 +25,41 @@ export default class ViewUser extends Base {
                     <span class="email"><a href="mailto:prameethba@gmail.com">prameethba@gmail.com<a></span>
                     <span class="mobile"><a href="callto:0769802214">076 980 2214</a></span>
                 </div>
+
+                <div class="sub-row">
+                    <div class="collapse">
+                        <div class="row">
+                            <span> Own properties </span>
+                            <span class="expand"> + </span>
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="collapsible">
+                        <div class="row collapsible-row">
+                            <span class="column">property Id </span>
+                            <span class="column">Title </span>
+                            <span class="column">Approved Date </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-row">
+                    <div class="collapse">
+                        <div class="row">
+                            <span> Borrowed properties </span>
+                            <span class="expand"> + </span>
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="collapsible">
+                        <div class="row collapsible-row">
+                            <span class="column">property Id </span>
+                            <span class="column">Title </span>
+                            <span class="column">Borrowed Date </span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="sub-row button-group-user">
                     <button class="primary-button">Deactivate</button>
                     <button class="danger-button">Temporaly Block</button>
@@ -32,7 +67,7 @@ export default class ViewUser extends Base {
                     <button class="danger-button">Make confirm contacts</button>
                 </div>
             </div>
-            
+
         </div>
     </div>
 `
