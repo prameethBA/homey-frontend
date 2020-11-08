@@ -7,94 +7,61 @@ export default class AdminAccounts extends Base {
 
     content = `
     <div class="container">
-    Admin Accounts
+        <div class="row">
+            <span class="search-container">
+                <input id="search" type="text" class="search" placeholder="Search here" />
+                <label for="search">🔍</label>
+                <span class="create-new" title="Create New Account">➕</span>
+            </span>
+        </div>
+        <div class="row admins">
+            
+        </div>
     </div>
 `
+
+profile = `
+    <div class="profile">
+        <div class="sub-row">
+            <img class="display-picture" src="/assets/img/1.png" />
+        </div>
+        <div class="sub-row">
+            <span class="name">Dimuthu Lakmal</span>
+            <span class="status">🟢 Active</span>
+        </div>
+        <div class="sub-row">
+            <span class="email"><a href="mailto:lakmalepp@gmail.com">lakmalepp@gmail.com<a></span>
+            <span class="mobile"><a href="callto:0775277373">077 527 7373</a></span>
+        </div>
+        <div class="sub-row">
+            <button class="change-status">Deactivate</button>
+            <button class="remove">Remove Account</button>
+        </div>
+    </div>
+`
+
     constructor() {
             super()
             this.mount()
 
         } //End of the constructor
 
-    // Preview advertisement
-    adPreview() {
-            this._qsAll('.ad-link').forEach(item => {
-                item.addEventListener('click', async() => {
-                    this.setLoader()
-                    await axios.post(`${this.host}/admin-property-preview/pending-approval`, {
-                            userId: this.getUserId(),
-                            token: this.getToken(),
-                            id: item.dataset.id
-                        })
-                        .then(async res => {
-                            await
-                            import ('./subcomp/preview-advertisement.js')
-                            .then(() => {
-                                this._qs('.preview-advertisement').innerHTML = `
-                                <preview-advertisement>
-                                    <img slot='image' src="/assets/img/house.jpg" />
-                                    <p slot='title'>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque enim odio, semper at ultrices vel, imperdiet quis tortor. Nam ut mauris ac leo iaculis s
-                                        <button class="load-more">Load more >></button>
-                                    </p>
-                                    <span slot="price" class="price">Rs. 17,000/Month</span>
-                                    <span slot="key-money" class="key-money">Key Money : Rs. 34,000</span>
-                                    <span slot="minimum-period" class="minimum-period">Minimum Period: 2 Months</span>
-                                    <span slot="available-from" class="available-from">Available From: 2020 May 21</span>
-                                </preview-advertisement>
-                            `
-                                console.log(res.data)
-                            })
-                            this.stopLoader()
-                        })
-                        .catch(err => {
-                            this.stopLoader()
-                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
-                        })
-                })
-            })
-        } //End of adPreview()
+        //Load admin component
+        loadAdmin() {
+            this._qs('.admins').innerHTML += this.profile
+        }//End of loadAdmin()
 
-    // get summary about pendin approvals
-    async getSummary() {
-            this.setLoader()
-            await axios.post(`${this.host}/admin-property-summary/pending-approval`, {
-                    userId: this.getUserId(),
-                    token: this.getToken()
-                })
-                .then(res => {
-                    let index = 1
-                    res.data.forEach(item => {
-                        this._qs('#pending-approval-table-body').innerHTML += `
-                        <tr>
-                            <td>${index++}</td>
-                            <td><a class="ad-link" data-id="${item._id}">${item.title}</a></td>
-                            <td><a class="user-link" data-id="${item._id}">View user</a></td>
-                            <td>${item.created}</td>
-                            <td><button class="approve-button" data-id="${item._id}">Approve</button></td>
-                            <td><button class="decline-button" data-id="${item._id}">Decline</button></td>
-                        </tr>
-                    `
-                    })
-                    this.adPreview()
-                    this.stopLoader()
-                })
-                .catch(err => {
-                    this.stopLoader()
-                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
-                })
-        } //End of getSummary()
-
-
-
-    //connectedCallback
-    /*
+    // connectedCallback
     connectedCallback() {
-            // Api call for getting the data 
-            this.getSummary()
 
-        } //End of connectedCallback()
-    */
+        //Load admin component
+        this.loadAdmin()
+        this.loadAdmin()
+        this.loadAdmin()
+        this.loadAdmin()
+
+    } //End of connectedCallback()
+
 } //End of Class
 
 window.customElements.define('admin-accounts-comp', AdminAccounts)
