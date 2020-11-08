@@ -67,6 +67,11 @@ export default CSS = `
         text-align: center;
         background-image: linear-gradient(to right top, #ff9900, #f69d14, #eea122, #e6a42d, #dea738);
     }
+
+    .buttons {
+        display: flex;
+        width: 100%;
+    }
     
     .button {
         height: 2rem;

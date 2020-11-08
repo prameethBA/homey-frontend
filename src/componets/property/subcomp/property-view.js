@@ -17,6 +17,7 @@ export default class PropertyView extends Base {
                     <span>
                         <div class="star"></div>
                         <div class="share"></div>
+                        <div class="report">❗</div>
                         <slot name="price"></slot>
                     </span>
                 </div>
@@ -37,6 +38,26 @@ export default class PropertyView extends Base {
         this.mount()
         
     }//End of constructor
+
+
+    //report component 
+    async report() {
+        this.setLoader()
+        await import('./report/report.js')
+            .then(() => {
+                this._qs('#comment-box').innerHTML = `<report-comp></report-comp>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+            })
+    }//End of report()
+
+    //loadReport
+    loadReport() {
+        this._qs('.report').addEventListener('click', () => this.report())
+    }//end of loadReport()
 
     //reserve component 
     async reserve() {
@@ -104,6 +125,10 @@ export default class PropertyView extends Base {
                 this._qs('#comment-box').innerHTML = `<comment-comp></comment-comp>`
             )
         })
+
+        
+        //load report component
+        this.loadReport()
 
         //Load the reserve component
         this.loadReserve()

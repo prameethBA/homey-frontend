@@ -40,12 +40,6 @@ export default class PropertyDetails extends Base {
         </div>
         <div class="row">
           <div class="features">
-            <span>feature 1</span>
-            <span>feature 1</span>
-            <span>feature 1</span>
-            <span>feature 1</span>
-            <span>feature 1</span>
-            <span>feature 1</span>
           </div>
         </div>
         <div class="row">
@@ -61,8 +55,10 @@ export default class PropertyDetails extends Base {
           </div>
         </div>
       </div>
+      
+    </div>
 
-    </div/
+    <div class="popup"></div>
   `
     constructor() {
       super()
@@ -70,24 +66,50 @@ export default class PropertyDetails extends Base {
 
     }//end of the constructor
 
+    // load feature List
+    async loadFeatureList() {
+      await import("./subcomp/facility.js")
+      .then(
+        // API call for get Facilities List
+        await axios.get(`${this.host}/facility`)
+          .then(res => {
+            if (res.status == '200') {
+              res.data.data.forEach(item => this._qs('.features').innerHTML += `
+                <facility-comp 
+                key="${item.feature_id}" 
+                name="${item.feature}" 
+                measurable="1" 
+                checked="true" 
+                quantity="${item.quantity}"
+                ></facility-comp>
+                `
+              )}
+            else throw "Server Error."
+          })
+          .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+      )
+      .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+    }//End of loadFetureList()
+
+    // load map view
+    async mapView() {
+      await import("../universal/popup-map.js")
+        .then( res => {
+          this._qs('.popup').innerHTML= `<map-view location="${encodeURIComponent(JSON.stringify({lat: 7.8, lng:80.4}))}"></map-view>`
+        })
+        .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+    }//End of mapView()
+
+    //Load map view
+    loadMapView() {
+      this._qs('.map').addEventListener('click', () => this.mapView())
+    }
+
     //preview image
     previewImage() {
-        this._qs('.main-image').addEventListener('mouseover', (e) => {
-          this._qs('.preview-image-container').style.display = 'flex'
-
-          // img1 is the first img    
-          var canvas = document.createElement("canvas"); 
-          canvas.width = e.clientX;  // size of new image
-          canvas.height = e.clientY;
-          // var ctx = canvas.getContext("2d");      // get the context
-          // // draw part of the first image onto the new canvas
-          // ctx.drawImage(this._qs('.main-image'),0,0);            
-          // create a new image    
-          // var imgNew = new Image();
-          // // set the src from the canvas 
-          // imgNew.src = canvas.toDataURL();
-
-          this._qs('.preview-image').src = canvas.toDataURL()
+      this._qs('.main-image').addEventListener('mousemove', () => {
+        this._qs('.preview-image-container').style.display = 'flex'
+        this._qs('.preview-image').src = this._qs('.main-image').src
         })
 
         this._qs('.main-image').addEventListener('mouseout', () => {
@@ -95,9 +117,74 @@ export default class PropertyDetails extends Base {
         })
     }//end of previewImage()
 
+    //set as main image
+    setMainImage() {
+      this._qsAll('.sub-image').forEach( item => {
+        item.addEventListener('click', () => {
+          const previousMainImage = this._qs('.main-image').src
+          this._qs('.main-image').src = item.src
+          item.src = previousMainImage
+        })
+      })
+    }//end of setMainImage
+
+     //reserve component 
+     async reserve() {
+      this.setLoader()
+        await import('./subcomp/reserve/reserve.js')
+            .then(() => {
+                this._qs('.popup').innerHTML = `<reserve-comp></reserve-comp>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+            })
+    }//End of reserve()
+
+    //loadReserve
+    loadReserve() {
+        this._qs('.reserve').addEventListener('click', () => this.reserve())
+    }//end of loadReserve()
+
+    //comment component 
+    async comment() {
+      this.setLoader()
+        await import('./../universal/comment/comment-comp.js')
+            .then(() => {
+                this._qs('.popup').innerHTML = `<comment-comp></comment-comp>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+            })
+    }//End of comment()
+
+    //loadComment
+    loadComment() {
+        this._qs('.feedback').addEventListener('click', () => this.comment())
+    }//End of loadComment()
+
     connectedCallback() {
+
+       // load feature List
+      this.loadFeatureList()
+
       //preview Images
       this.previewImage()
+      //Set sub image as main Image
+      this.setMainImage()
+
+      //Load the reserve component
+      this.loadReserve()
+
+       //loadComment
+      this.loadComment()
+        
+      //Load map view component
+      this.loadMapView()
+
     }//End of connectedCallback()
     
   }//End of the class

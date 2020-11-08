@@ -91,6 +91,17 @@ export default CSS = `
 
     .title {
         text-align: center;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .title-head {
+        font-family: monospace;
+    }
+
+    .title > span {
+        margin: 0.5rem auto;
     }
 
     button {
@@ -174,6 +185,14 @@ export default CSS = `
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+    }
+
+    .features-image-1 {
+        background-image: url(/assets/img/safe.jpg);
+    }
+
+    .features-image-2 {
+        background-image: url(/assets/img/security.jpg);
     }
 
     .features-description {

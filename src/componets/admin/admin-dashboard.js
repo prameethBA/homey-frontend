@@ -20,6 +20,7 @@ export default class AdminDashboard extends Base {
                 <li><a id="properties">Properties</a></li>
                 <li><a id="users">Users</a></li>
                 <li><a id="payments">Payments</a></li>
+                <li><a id="admin-accounts">Admin Accounts</a></li>
                 <li><a id="home">Home</a></li>
                 </ul>
             </nav>
@@ -92,6 +93,7 @@ export default class AdminDashboard extends Base {
                 { link: '#properties', comp: 'properties-comp' },
                 { link: '#users', comp: 'users-comp' },
                 { link: '#payments', comp: 'payments-comp' },
+                { link: '#admin-accounts', comp: 'admin-accounts-comp' },
                 { link: '#home', comp: 'home-comp' },
                 { link: '#report', comp: 'report-comp' }
             ]

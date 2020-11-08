@@ -104,7 +104,7 @@ export default class AvalibaleProperty extends Base {
                 .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
         }
         
-        fetchAdds(10, 0)
+        // fetchAdds(10, 0)
         
     }//End of connected callback
 

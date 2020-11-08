@@ -84,6 +84,12 @@ export default CSS = `
         margin: 0.5rem auto 0 0.5rem;
     }
 
+    .report {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
     ::slotted(.price) {
         position: absolute;
         right: 1rem;

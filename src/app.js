@@ -67,12 +67,15 @@ export default class App extends Base {
 
             // Load confirm form component
             router.get('/confirm', () => dispatchEvent(new Event('confirm-form')))
+            
+            // Load avalibale property component
+            router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
 
             // Load add new property component
             router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
 
-            // Load avalibale property component
-            router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
+            // Load profile component
+            router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))
 
             // Load avalibale property full details
             router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))
@@ -85,18 +88,7 @@ export default class App extends Base {
 
             // +ADMIN+ +TODO this part can be move another file set when only admin user logged IN
             // Load admin component
-            router.get('/admin', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
-
-            // Load admin/pendings component
-            router.get('/admin/pending', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/pending`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
-                // Load admin/properties component
-            router.get('/admin/properties', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/properties`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
-                // Load admin/users component
-            router.get('/admin/users', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/users`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
-                // Load admin/payments component
-            router.get('/admin/payments', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/payments`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
-                // Load admin/home component
-            router.get('/admin/home', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin/home`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+            router.get('/admin', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
 
 
         } //End of constructor
