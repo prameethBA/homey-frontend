@@ -14,7 +14,8 @@ export default class Questioner extends Base {
                     <div class="input">
                         <input type='text' class="answer"/>
                     </div>
-                    <button class="button">Next »</button>
+                    <button class="button button-previous">« Previous</button>
+                    <button class="button button-next">Next »</button>
                 </div> 
             </div>
         </div>
@@ -24,7 +25,7 @@ export default class Questioner extends Base {
         {
             number: 1,
             title: 'What are you Looking for?',
-            input: `<select class="propertyType"></select>`
+            input: `<select class="propertyType answer"></select>`
         },
 
         {
@@ -36,13 +37,13 @@ export default class Questioner extends Base {
         {
             number: 3,
             title: 'Which area you preffer?',
-            input: `<input class="answer" placeholder="Colombo"/>`
+            input: `<input list="city-list" class="area answer" placeholder="Colombo"/>`
         },
 
         {
             number: 4,
             title: 'From when do you want it?',
-            input: `<input class="answer" type="date"/>`
+            input: `<input class="answer" type="date" value="${new Date().toISOString().slice(0, 10)}"/>`
         },
 
         {
@@ -71,6 +72,46 @@ export default class Questioner extends Base {
         this._qs('.container').style.pointerEvents = 'none'
     }// End of exitDock()
 
+    //fetch property types
+    async fetchPropertyTypes() {
+        // API call for get property types
+        await axios.get(`${this.host}/property-type`)
+            .then(res => {
+                let data = ''
+                res.data.data.forEach(element => {
+                   data += `
+                        <option value="${element.property_type_id}">${element.property_type_name}</option>
+                        `
+                })
+                this._qs('.propertyType') != null ? this._qs('.propertyType').innerHTML = data : null
+                this.quiz[0].input = `<select class="propertyType"> ${data} </select>`
+
+            })
+            .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+    }// End of fetchPropertyTypes()
+
+    //fetch cities
+    async fetchCities() {
+        // API call for get cities
+        await axios.get(`${this.host}/cities`)
+            .then(res => {
+                let data = ''
+                res.data.forEach(city => {
+                   data += `
+                        <option value="${city.name}">${city._id}</option>
+                        `
+                })
+                this._qs('.area') != null 
+                    ? 
+                    this._qs('.area').innerHTML += `<data-list id="city-list"> ${data} </data-list>` 
+                    : null
+
+                    this.quiz[2].input += `<datalist id="city-list"> ${data} </datalist>`
+
+            })
+            .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+    }// End of fetchCities()
+
     //Load quiz
     loadQuiz(data) {
         this._qs('.current-quiz').innerHTML = data.number
@@ -84,12 +125,22 @@ export default class Questioner extends Base {
             this.loadQuiz(this.quiz[index - 1])
         }
         if(index >= 5) {
-            this._qs('.button').addEventListener('click', () => {
+            this.state.quiz = 5
+            this._qs('.button-next').addEventListener('click', () => {
                 this._qs('#close-popup').click()
             })
-            this._qs('.button').innerHTML = 'Submit & Search'
+            this._qs('.button-next').innerHTML = 'Submit & Search'
         }
     }// End of nextQuiz()
+
+     //previous quiz
+     previousQuiz(index) {
+         console.log(index)
+        if(index > 1) {
+            this.loadQuiz(this.quiz[index - 2])
+            this._qs('.button-next').innerHTML = 'Next »'
+        } else this.state.quiz = 3
+    }// End of previousQuiz()
 
     //Exit with Escape key
     exitWithEscape() {
@@ -97,6 +148,12 @@ export default class Questioner extends Base {
     }// End of exitWithEscape()
 
     connectedCallback() {
+
+        //fetch property types
+        this.fetchPropertyTypes()
+
+        //fetch cities
+        this.fetchCities()
         
         //load first quiz
         this.state.quizCount = this.quiz.length 
@@ -104,8 +161,13 @@ export default class Questioner extends Base {
         this.nextQuiz(this.state.quiz++)
 
         //Add event listner for next button 
-        this._qs('.button').addEventListener('click', () => {
+        this._qs('.button-next').addEventListener('click', () => {
             this.nextQuiz(this.state.quiz++)
+        })
+
+        //Add event listner for previous button 
+        this._qs('.button-previous').addEventListener('click', () => {
+            this.previousQuiz(this.state.quiz--)
         })
 
         // close the dock

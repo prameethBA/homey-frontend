@@ -312,10 +312,10 @@ constructor() {
       })
       await this.sleep(101);
       // API call for get Districts
-      await axios.get(`${this.host}/cities/districtId/${this._qs("#district").value}`)
+      await axios.get(`${this.host}/cities`)
         .then(res => {
           this._qs('#city-list').innerHTML = ''
-          if (res.status == '200') res.data.data.forEach(element => this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`)
+          if (res.status == '200') res.data.forEach(element => this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`)
           else throw "Server Error."
         })
         .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
