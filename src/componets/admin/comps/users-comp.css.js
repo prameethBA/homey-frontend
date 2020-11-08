@@ -1,133 +1,162 @@
 export default CSS = `
+  .container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 7rem auto 5rem auto;
+    transition: all 1s ease-in-out;
+  }
 
-    .container {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        margin: 5rem auto 5rem auto;
-    }
+  .row {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .users-comp {
-        width: 100%;
-        justify-content: center;
-        display: flex;
-    }
+  .search-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+   }
 
-    #users-comp-table {
-        font-family: Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 90%;
-    }
-    
-    #users-comp-table td, #users-comp-table th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-    
-    #users-comp-table tr:nth-child(even){background-color: #f2f2f2;}
-    
-    #users-comp-table tr:hover {background-color: #ddd;}
-    
-    #users-comp-table th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #4CAF50;
-        color: white;
-    }    
+  .search-container label {
+    cursor: pointer;
+  }
 
-    a {
-        transition: all 0.5s ease;
-    }
+  .search {
+    min-width: 30%;
+    height: 1.5rem;
+    outline: none;
+    border: solid 1px;
+    border-radius: 1rem;
+    text-align: center;
+    transition: all 1s ease-in-out;
+  }
 
-    .user-link {
-        cursor: pointer;
-        text-decoration: underline;
-        color: #3543bf;
-    }
+  .create-new {
+    margin: auto 5rem;
+    cursor: pointer;
+    transition: all 1s ease-in-out;
+  }
 
-    .ad-link {
-        cursor: pointer;
-        color: #03077F;
-        text-transform: capitalize;
-        font-style: italic;
-    }
+  .sub-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5rem auto;
+  }
 
-    .ad-link:hover {
-        #0077cc;
-    }
+  .display-picture {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    border: solid #ffffff 2px;
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+  }
 
-    .btn-approve, .btn-reject{
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        flex-wrap: wrap;
+  .name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: inherit;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
-        display: inline-block;
-        height: 3em;
-        border-radius: 25px;
-        outline: none;
-        border: none;
-        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-        font-size: 0.8rem;
-        color: #fff;
-        margin: 0.5rem;
-        cursor: pointer;
-        transition: all 0.5s;
-        min-width: 15%;
-    }
-    .btn-approve{
-        margin-left: 30%;
-    }
+  .status {
+    font-size: 0.8rem;
+  }
 
-    .btn-approve:hover{
-        cursor: pointer;
-        background-position: right;
-        color: black;
-        box-shadow: 0 0 20px -5px;
-    }
-    .btn-reject:hover{
-        cursor: pointer;
-        background-position: right;
-        color: black;
-        box-shadow: 0 0 20px -5px;
-    }
+  .email, .mobile {
+    margin: 0.2rem;
+    font-size: 0.9rem;
+  }
 
+  .sub-row:last-child {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
-    button {
-        height: 2rem;
-        border-radius: 2px;
-        outline: none;
-        border: none;
-        font-size: 0.8rem;
-        color: #fff;
-        cursor: pointer;
-        transition: all 1s;
-    }
+  
+  button {
+    height: 2rem;
+    border-radius: 2px;
+    outline: none;
+    border: none;
+    font-size: 0.8rem;
+    color: #fff;
+    cursor: pointer;
+    transition: all 1s;
+    width: 45%;
+  }
 
-    .pagination {
-        margin: 5rem auto auto auto;
-    }
+  .danger-button {
+    background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
+  }
 
-    .pagination a {
-        color: blue;
-        cursor: pointer;
-    }
-    
-    .approve-button {
-        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-    }
+  .danger-button:hover {
+    box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
+  }
 
-    .approve-button:hover {
-        box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
-    }
+  .primary-button {
+      background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+  }
 
-    .decline-button {
-        background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
-    }
+  .primary-button:hover {
+      box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
+  }
 
-    .decline-button:hover {
-        box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
-    }
+  .button-group > button {
+      width: 10rem;
+      margin: 0.5rem auto;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .button-group-user {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .button-group-user > button {
+    margin: 0.4rem auto;
+   }
+
+  .profile{
+    display: flex;
+    width: 17.5rem;
+    min-height: 25rem;
+    margin: 1rem;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    transition: all 1s ease-in-out;
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+    cursor: pointer;
+    position: inherit;
+  }
+
+  .users {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  
 
 `

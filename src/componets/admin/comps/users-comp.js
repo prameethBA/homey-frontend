@@ -7,118 +7,93 @@ export default class users extends Base {
 
     content = `
     <div class="container">
-        <div class="options">
-            <button class="btn-approve">Approved Users</button>
-            <button class="btn-reject">Rejected Users</button>
+        <div class="row">
+            <span class="search-container">
+                <input id="search" type="text" class="search" placeholder="Search here" />
+                <label for="search">🔍</label>
+                </span>
+                <div class="button-group">
+                    <button class="reported danger-button">Reported users</button>
+                    <button class="unconfiremed primary-button">Unconfiremed Users</button>
+                    <button class="banned danger-button">Banned Users</button>
+                    <button class="deactivated primary-button">Deactivated Users</button>
+                    <button class="deleted danger-button">Deleted Users</button>
+                </div>
         </div>
-        <div class="users-comp">
-            <table id="users-comp-table">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Advertisement</th>
-                        <th>User</th>
-                        <th>Posted on</th>
-                        <th>Approve</th>
-                        <th>Reject</th>
-                    </tr>
-                </thead>
-                <tbody id="users-comp-table-body">
-                    
-                </tbody>
-            </table>
-            </div>
-            <div class="pagination">
-                <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
-            </div>
+        <div class="row users">
+        </div>
     </div>
-    <div class="preview-advertisement"></div>
-`
+
+    <div class="popup"></div>
+    `
+
+    profile = `
+    <div class="profile">
+        <div class="sub-row">
+            <img class="display-picture" src="/assets/img/house.jpg" />
+        </div>
+        <div class="sub-row">
+            <span class="name">Prameeth Madhuwantha</span>
+            <span class="status">🟠 Unconfirmed</span>
+        </div>
+        <div class="sub-row">
+            <span class="email"><a href="mailto:prameethba@gmail.com">prameethba@gmail.com<a></span>
+            <span class="mobile"><a href="callto:0769802214">076 980 2214</a></span>
+        </div>
+        <div class="sub-row button-group-user">
+            <button class="primary-button">Deactivate</button>
+            <button class="danger-button">Temporaly Block</button>
+            <button class="danger-button">Permenatly Ban</button>
+            <button class="danger-button">Make confirm contacts</button>
+        </div>
+    </div>
+ `
     constructor() {
             super()
             this.mount()
 
         } //End of the constructor
 
-    // Preview advertisement
-    adPreview() {
-            this._qsAll('.ad-link').forEach(item => {
-                item.addEventListener('click', async() => {
-                    this.setLoader()
-                    await axios.post(`${this.host}/admin-property-preview/pending-approval`, {
-                            userId: this.getUserId(),
-                            token: this.getToken(),
-                            id: item.dataset.id
-                        })
-                        .then(async res => {
-                            await
-                            import ('./subcomp/preview-advertisement.js')
-                            .then(() => {
-                                this._qs('.preview-advertisement').innerHTML = `
-                                <preview-advertisement>
-                                    <img slot='image' src="/assets/img/house.jpg" />
-                                    <p slot='title'>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque enim odio, semper at ultrices vel, imperdiet quis tortor. Nam ut mauris ac leo iaculis s
-                                        <button class="load-more">Load more >></button>
-                                    </p>
-                                    <span slot="price" class="price">Rs. 17,000/Month</span>
-                                    <span slot="key-money" class="key-money">Key Money : Rs. 34,000</span>
-                                    <span slot="minimum-period" class="minimum-period">Minimum Period: 2 Months</span>
-                                    <span slot="available-from" class="available-from">Available From: 2020 May 21</span>
-                                </preview-advertisement>
-                            `
-                                console.log(res.data)
-                            })
-                            this.stopLoader()
-                        })
-                        .catch(err => {
-                            this.stopLoader()
-                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
-                        })
-                })
+    //Load user component
+    loadUser() {
+        this._qs('.users').innerHTML += this.profile
+    }//End of loadUser()
+
+    //View user account summary 
+    async viewUser() {
+        this.setLoader()
+        await import('./subcomp/view-user/view-user.js')
+            .then(() => {
+                this._qs('.popup').innerHTML = `<view-user></view-user>`
+                this.stopLoader()
             })
-        } //End of adPreview()
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+            })
+    }//End of viewUser()
 
-    // get summary about pendin approvals
-    async getSummary() {
-            this.setLoader()
-            await axios.post(`${this.host}/admin-property-summary/pending-approval`, {
-                    userId: this.getUserId(),
-                    token: this.getToken()
-                })
-                .then(res => {
-                    let index = 1
-                    res.data.forEach(item => {
-                        this._qs('#pending-approval-table-body').innerHTML += `
-                        <tr>
-                            <td>${index++}</td>
-                            <td><a class="ad-link" data-id="${item._id}">${item.title}</a></td>
-                            <td><a class="user-link" data-id="${item._id}">View user</a></td>
-                            <td>${item.created}</td>
-                            <td><button class="approve-button" data-id="${item._id}">Approve</button></td>
-                            <td><button class="decline-button" data-id="${item._id}">Decline</button></td>
-                        </tr>
-                    `
-                    })
-                    this.adPreview()
-                    this.stopLoader()
-                })
-                .catch(err => {
-                    this.stopLoader()
-                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
-                })
-        } //End of getSummary()
+    //load view user component
+    loadViewUser() {
+        this._qsAll('.profile').forEach(item => {
+            item.addEventListener('click', () => this.viewUser())
+        })
+    }//end of loadViewUser()
 
-
-
-    //connectedCallback
-    /*
+    // connectedCallback
     connectedCallback() {
-            // Api call for getting the data 
-            this.getSummary()
 
-        } //End of connectedCallback()
-    */
+        //Load user component
+        this.loadUser()
+        this.loadUser()
+        this.loadUser()
+        this.loadUser()
+
+        //loadViewUser
+        this.loadViewUser()
+
+    } //End of connectedCallback()
+
 } //End of Class
 
 window.customElements.define('users-comp', users)
