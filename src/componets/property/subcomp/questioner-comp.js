@@ -14,8 +14,10 @@ export default class Questioner extends Base {
                     <div class="input">
                         <input type='text' class="answer"/>
                     </div>
-                    <button class="button button-previous">« Previous</button>
-                    <button class="button button-next">Next »</button>
+                    <div class="buttons">
+                        <button class="button button-previous">« Previous</button>
+                        <button class="button button-next">Next »</button>
+                    </div>
                 </div> 
             </div>
         </div>
@@ -139,7 +141,7 @@ export default class Questioner extends Base {
         if(index > 1) {
             this.loadQuiz(this.quiz[index - 2])
             this._qs('.button-next').innerHTML = 'Next »'
-        } else this.state.quiz = 3
+        } else this.state.quiz = 1
     }// End of previousQuiz()
 
     //Exit with Escape key

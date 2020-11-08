@@ -133,7 +133,6 @@ export default class PropertyDetails extends Base {
       this.setLoader()
         await import('./subcomp/reserve/reserve.js')
             .then(() => {
-              console.log(this._qs('.popup'))
                 this._qs('.popup').innerHTML = `<reserve-comp></reserve-comp>`
                 this.stopLoader()
             })
@@ -148,6 +147,25 @@ export default class PropertyDetails extends Base {
         this._qs('.reserve').addEventListener('click', () => this.reserve())
     }//end of loadReserve()
 
+    //comment component 
+    async comment() {
+      this.setLoader()
+        await import('./../universal/comment/comment-comp.js')
+            .then(() => {
+                this._qs('.popup').innerHTML = `<comment-comp></comment-comp>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+            })
+    }//End of comment()
+
+    //loadComment
+    loadComment() {
+        this._qs('.feedback').addEventListener('click', () => this.comment())
+    }//End of loadComment()
+
     connectedCallback() {
 
        // load feature List
@@ -160,6 +178,9 @@ export default class PropertyDetails extends Base {
 
       //Load the reserve component
       this.loadReserve()
+
+       //loadComment
+      this.loadComment()
         
       //Load map view component
       this.loadMapView()
