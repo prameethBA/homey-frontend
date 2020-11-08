@@ -11,7 +11,7 @@ export default class AdminAccounts extends Base {
             <span class="search-container">
                 <input id="search" type="text" class="search" placeholder="Search here" />
                 <label for="search">🔍</label>
-                <span class="create-new" title="Create New Account">➕</span>
+                <button class="create-new" title="Create New Account">Create New Admin</button>
             </span>
         </div>
         <div class="row admins">

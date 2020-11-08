@@ -12,6 +12,30 @@ export default class AddNewAdmin extends Base {
             <div class="row">
                     <span class="menu-title">Add new admin to the system</span>
             </div>
+            <div class="form">
+                <div class="form-row">
+                    <div class="form-column">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" value="" />
+                    </div>
+                    <div class="form-column">
+                        <label for="LastName">First Name</label>
+                        <input type="text" id="LastName" value="" />
+                    </div>
+                </div>
+                <div class="form-column">
+                    <label for="email">Email <span class="require" title="Required">*</span></label>
+                    <input type="email" id="email" value="" />
+                </div>
+                <div class="form-column">
+                    <label for="nic">NIC</label>
+                    <input type="text" id="nic" value="" />
+                </div>
+                <div class="form-row">
+                        <button id="create">Add New Admin</button>
+                        <button id="cancel">Cancel</button>
+                </div>
+            </div>
         </div>
     </div>
 `

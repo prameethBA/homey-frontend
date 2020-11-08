@@ -99,6 +99,15 @@ export default CSS = `
     box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
   }
 
+  .create-new {
+      background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+      width: 15%;
+  }
+
+  .create-new:hover {
+      box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
+  }
+
   .profile{
     display: flex;
     width: 17.5rem;
