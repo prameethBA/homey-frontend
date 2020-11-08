@@ -12,30 +12,27 @@ export default class ViewUser extends Base {
             <div class="row">
                     <span class="menu-title">User Profile</span>
             </div>
-            <div class="form">
-                <div class="form-row">
-                    <div class="form-column">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" value="" />
-                    </div>
-                    <div class="form-column">
-                        <label for="LastName">First Name</label>
-                        <input type="text" id="LastName" value="" />
-                    </div>
+
+            <div class="profile">
+                <div class="sub-row">
+                    <img class="display-picture" src="/assets/img/house.jpg" />
                 </div>
-                <div class="form-column">
-                    <label for="email">Email <span class="require" title="Required">*</span></label>
-                    <input type="email" id="email" value="" />
+                <div class="sub-row">
+                    <span class="name">Prameeth Madhuwantha</span>
+                    <span class="status">🟠 Unconfirmed</span>
                 </div>
-                <div class="form-column">
-                    <label for="nic">NIC</label>
-                    <input type="text" id="nic" value="" />
+                <div class="sub-row">
+                    <span class="email"><a href="mailto:prameethba@gmail.com">prameethba@gmail.com<a></span>
+                    <span class="mobile"><a href="callto:0769802214">076 980 2214</a></span>
                 </div>
-                <div class="form-row">
-                        <button id="create">Add New Admin</button>
-                        <button id="cancel">Cancel</button>
+                <div class="sub-row button-group-user">
+                    <button class="primary-button">Deactivate</button>
+                    <button class="danger-button">Temporaly Block</button>
+                    <button class="danger-button">Permenatly Ban</button>
+                    <button class="danger-button">Make confirm contacts</button>
                 </div>
             </div>
+            
         </div>
     </div>
 `

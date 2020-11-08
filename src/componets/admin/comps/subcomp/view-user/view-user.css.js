@@ -1,7 +1,7 @@
 export default CSS = `
     .backdrop {
         position: fixed;
-        scroll-behavior: auto;
+        overflow: auto;
         top: 0;
         bottom: 0;
         left: 0;
@@ -24,6 +24,8 @@ export default CSS = `
         border-radius: 2px;
         max-width: 90%;
         transition: all 0.5s ease-in-out;
+        position: absolute;
+        top: 5rem;
     }
 
     #close-popup {
@@ -32,83 +34,132 @@ export default CSS = `
         transform: rotate(45deg);
         cursor: pointer;
         position: absolute;
-        right: 20%;
-        margin-top: -1rem;
+        right: 2%;
+        top: 0;
     }
 
     .row {
         margin: 1rem 0;
         text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-transform: uppercase;
     }
 
-    .form {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        flex-direction: column;
-        width: 75%;
-        margin: 3rem auto;
-      }
+    .sub-row {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0.5rem auto;
+    }
+  
+    .display-picture {
+      width: 10rem;
+      height: 10rem;
+      border-radius: 50%;
+      border: solid #ffffff 2px;
+      box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+    }
+  
+    .name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-family: inherit;
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0.5rem;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+  }
+  
+    .status {
+      font-size: 0.8rem;
+    }
+  
+    .email, .mobile {
+      margin: 0.2rem;
+      font-size: 0.9rem;
+    }
+  
+    .sub-row:last-child {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  
     
-      .form-column {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-      }
-    
-      .form-row {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      }
-    
-      button {
-        height: 2.2rem;
-        border-radius: 1rem;
-        outline: none;
-        border: none;
-        font-size: 0.8rem;
-        color: #fff;
-        text-transform: uppercase;
-        cursor: pointer;
+    button {
+      height: 2rem;
+      border-radius: 2px;
+      outline: none;
+      border: none;
+      font-size: 0.8rem;
+      color: #fff;
+      cursor: pointer;
+      transition: all 1s;
+      width: 45%;
+    }
+  
+    .danger-button {
+      background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
+    }
+  
+    .danger-button:hover {
+      box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
+    }
+  
+    .primary-button {
         background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-        transition: all 1s;
-        margin: 1rem auto;
-        width: 40%;
-      }
-    
-      button:hover {
+    }
+  
+    .primary-button:hover {
         box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
-      }
-    
-      #cancel {
-        background-image: none;
-        color: #000000;
-      }
-    
-      #cancel:hover {
-        box-shadow: 1px 1px 10px 3px rgba(150,150,150,0.5);
-      }
-    
-      input {
-        margin: 0.4rem;
-        height: 2rem;
-        outline: none;
-        border: 1px solid;
-        border-radius: 1rem;
-        text-indent: 1rem;
-      }
-    
-      label {
-        text-indent: 0.5rem;
-      }
-
-      .require {
-          color: red;
-          cursor: help;
-      }
+    }
+  
+    .button-group > button {
+        width: 10rem;
+        margin: 0.5rem auto;
+    }
+  
+    .button-group {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+  
+    .button-group-user {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+  
+    .button-group-user > button {
+      margin: 0.4rem auto;
+     }
+  
+    .profile{
+      display: flex;
+      width: 17.5rem;
+      min-height: 25rem;
+      margin: 1rem;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      flex-direction: column;
+      transition: all 1s ease-in-out;
+      background-color: #ffffff;
+      border-radius: 2px;
+      box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+      cursor: pointer;
+      position: inherit;
+    }
+  
+    .users {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  
 
 `

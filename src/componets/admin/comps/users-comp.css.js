@@ -36,12 +36,6 @@ export default CSS = `
     transition: all 1s ease-in-out;
   }
 
-  .create-new {
-    margin: auto 5rem;
-    cursor: pointer;
-    transition: all 1s ease-in-out;
-  }
-
   .sub-row {
     display: flex;
     flex-direction: column;
