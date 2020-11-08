@@ -17,7 +17,7 @@ export default class Profiel extends Base {
                     <span class="name">Dimuthu Lakmal</span>
                 </div>
                 <div class="last-login-container">
-                    <div class="column">
+                    <div class="row">
                         <span class="last-login-date">2020-10-20</span>
                         <span class="last-login-time">@ 15:43:23</span>
                     </div>
@@ -67,8 +67,9 @@ export default class Profiel extends Base {
                             <input type="text" id="day" value="21" />
                         </div>
                     </div>
-                    <div class="form-column">
+                    <div class="form-row">
                             <button id="update">Update Profile</button>
+                            <button id="cancel">Cancel</button>
                     </div>
                     <div class="form-column">
                         <hr/>

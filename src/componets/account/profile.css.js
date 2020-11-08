@@ -81,7 +81,7 @@ export default CSS =`
   }
 
   button {
-    height: 2rem;
+    height: 2.2rem;
     border-radius: 1rem;
     outline: none;
     border: none;
@@ -92,11 +92,20 @@ export default CSS =`
     background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
     transition: all 1s;
     margin: 1rem auto;
-    width: 50%;
+    width: 40%;
   }
 
   button:hover {
     box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
+  }
+
+  #cancel {
+    background-image: none;
+    color: #000000;
+  }
+
+  #cancel:hover {
+    box-shadow: 1px 1px 10px 3px rgba(150,150,150,0.5);
   }
 
   input {
