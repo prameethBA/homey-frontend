@@ -67,12 +67,15 @@ export default class App extends Base {
 
             // Load confirm form component
             router.get('/confirm', () => dispatchEvent(new Event('confirm-form')))
+            
+            // Load avalibale property component
+            router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
 
             // Load add new property component
             router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
 
-            // Load avalibale property component
-            router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
+            // Load profile component
+            router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))
 
             // Load avalibale property full details
             router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))

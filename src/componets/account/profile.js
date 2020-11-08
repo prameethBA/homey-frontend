@@ -1,7 +1,7 @@
-import Base from './../Base.js'
-import CSS from './account-settings.css.js'
+import Base from '../Base.js'
+import CSS from './profile.css.js'
 
-export default class AccountSettings extends Base {
+export default class Profiel extends Base {
 
   css =  CSS
 
@@ -81,4 +81,4 @@ export default class AccountSettings extends Base {
 
   }
 
-  window.customElements.define('account-settings', AccountSettings)
+  window.customElements.define('profile-comp', Profiel)
