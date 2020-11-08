@@ -62,11 +62,6 @@ export default CSS = `
     }
 
     #mainContainer {
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
-        // height: 95vh;
-        // font-size: 5rem;
     }
 
     .logo {

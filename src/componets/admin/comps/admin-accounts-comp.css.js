@@ -54,6 +54,8 @@ export default CSS = `
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
+    border: solid #ffffff 2px;
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
   }
 
   .name {
@@ -112,6 +114,7 @@ export default CSS = `
     border-radius: 2px;
     box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
     cursor: pointer;
+    position: inherit;
   }
 
   .admins {
