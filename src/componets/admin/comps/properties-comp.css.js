@@ -41,6 +41,8 @@ export default CSS = `
         flex-direction: row;
         justify-content: space-around;
         flex-wrap: wrap;
+        z-index: -1;
+        position: relative;
     }
 
     property-view {

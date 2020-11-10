@@ -24,6 +24,8 @@ export default class PropertyView extends Base {
                 <slot name="description" class="description"></slot>
                 <div class='buttons'>
                     <button class="comment">Comment</button>
+                    <button class="remove">Remove</button>
+                    <button class="block">block</button>
                     <button class="reserve">Reserve</button>
                     <button class="more">More >></button>
                 </div>
