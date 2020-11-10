@@ -5,7 +5,116 @@ export default class AvalibaleProperty extends Base {
 
     css = CSS
 
+    filter = `
+    <div class="left_nav column">
+		<div class="nav_container column">
+            <h3>Browse</h3>
+            <dir></dir>
+            <div class="column filter-items">
+                <div class="row filter-item">
+                    <input id="home" type="checkbox" />
+                    <label for="home">Home</label>
+                </div>
+                <div class="row filter-item">
+                    <input id="appartment" type="checkbox" />
+                    <label for="appartment">Appartment</label>
+                </div>
+                <div class="row filter-item">
+                    <input id="annex" type="checkbox" />
+                    <label for="annex">Annex</label>
+                </div>
+                <div class="row filter-item">
+                    <input id="building" type="checkbox" />
+                    <label for="building">Building</label>
+                </div>
+            </div>
+		</div>
+		
+		<div class="nav_container column">
+            <h3>Availability</h3>
+            <dir></dir>
+            <div class="column filter-items">
+                <div class="row filter-item">
+                    <input id="now" type="checkbox" />
+                    <label for="now">Available now</label>
+                </div>
+                <div class="row filter-item">
+                    <input id="later" type="checkbox" />
+                    <label for="later">Available later</label>
+                </div>
+                <div class="row filter-item">
+                    <input id="sharing" type="checkbox" />
+                    <label for="sharing">Available sharing</label>
+                </div>
+            </div>	
+		</div>
+		
+		<div class="nav_container column">
+            <h3>Rental Period</h3>
+            <dir></dir>
+            <div class="column filter-items">
+                <div class="row filter-item">
+                    <input id="daily" type="checkbox" />
+                    <label for="daily">Daily</label>
+                </div>
+                <div class="row filter-item">
+                    <input id="weekly" type="checkbox" />
+                    <label for="weekly">Weekly</label>
+                </div>
+                <div class="row filter-item">
+                    <input id="monthly" type="checkbox" />
+                    <label for="monthly">Monthly</label>
+                </div>
+                <div class="row filter-item">
+                    <input id="yearly" type="checkbox" />
+                    <label for="yearly">Yearly</label>
+                </div>
+            </div>
+		</div>
+		
+		<div class="nav_container column">
+				<h3>Price</h3>
+				<dir></dir>
+                <div class="column filter-items">
+                    <div class="row price">
+                        <input type="text" placeholder="100"> 
+                        <span> to </span>  
+                        <input type="text" placeholder="1000">
+                    </div>
+					<button>Go</button>
+				</div>	
+		</div>
+		
+		<div class="nav_container column">
+				<h3>Key Money</h3>
+				<dir></dir>
+				<div class="column filter-items">
+                    <div class="row price">
+                        <input type="text" placeholder="100"> 
+                        <span> to </span>  
+                        <input type="text" placeholder="1000">
+                    </div>
+					<button>Go</button>
+				</div>		
+		</div>
+		
+		<div class="nav_container column">
+				<h3>District</h3>
+				<dir></dir>
+				<div class="column filter-select">
+					<select name="District" id="District">
+                		<option value="Colombo">Colombo</option>
+                		<option value="Gampaha">Gampaha</option>
+                		<option value="Kurunegala">Kurunegala</option>
+                		<option value="Galle">Galle</option>
+       				</select>
+       			</div>	
+		</div>
+	</div>
+    `
+
     content = `
+    ${this.filter}
     <div id="container">
     </div>
     <div class="pagination">
