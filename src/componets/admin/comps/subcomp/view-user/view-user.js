@@ -27,14 +27,14 @@ export default class ViewUser extends Base {
                 </div>
 
                 <div class="sub-row">
-                    <div class="collapse">
+                    <div class="collapse collapse-1">
                         <div class="row">
                             <span> Own properties </span>
-                            <span class="expand"> + </span>
+                            <span class="expand expand-1"> + </span>
                         </div>
                         <hr />
                     </div>
-                    <div class="collapsible">
+                    <div class="collapsible collapsible-1">
                         <div class="row collapsible-row">
                             <span class="column">property Id </span>
                             <span class="column">Title </span>
@@ -44,14 +44,14 @@ export default class ViewUser extends Base {
                 </div>
 
                 <div class="sub-row">
-                    <div class="collapse">
+                    <div class="collapse collapse-2">
                         <div class="row">
                             <span> Borrowed properties </span>
-                            <span class="expand"> + </span>
+                            <span class="expand expand-2"> + </span>
                         </div>
                         <hr />
                     </div>
-                    <div class="collapsible">
+                    <div class="collapsible collapsible-2">
                         <div class="row collapsible-row">
                             <span class="column">property Id </span>
                             <span class="column">Title </span>
@@ -77,6 +77,23 @@ export default class ViewUser extends Base {
         
     }//End of constructor
 
+    //Toggle collapse  
+    toggleCollapse(index) {
+        let collapse = true
+        this._qs(`.collapse-${index}`).addEventListener('click', () => {
+            let state = this._qs(`.collapsible-${index}`)
+            let expand = this._qs(`.expand-${index}`)
+            if(collapse) {
+                state.classList.add('collapsed')
+                expand.classList.add('expanded')
+            } else {
+                state.classList.remove('collapsed')
+                expand.classList.remove('expanded')
+            }
+            collapse = !collapse
+        })
+    }//End of toggleCollapse()
+
     //close the dock
     close() {
         this._qs('#close-popup').addEventListener('click', () => {
@@ -96,6 +113,10 @@ export default class ViewUser extends Base {
     }// End of exitWithEscape()
 
     connectedCallback() {
+
+        //Toggle collapse 
+        this.toggleCollapse(1)
+        this.toggleCollapse(2)
 
         // close the dock
         this.close()

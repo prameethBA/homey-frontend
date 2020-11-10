@@ -70,8 +70,15 @@ export default CSS = `
     }
 
     .collapsible {
-      display: flex;
+      display: none;
       width: 100%;
+      height: 0;
+      transition: all 1s ease-in-out;
+    }
+
+    .collapsed {
+      display: flex;
+      height: auto;
     }
 
     .collapsible-row {
@@ -91,6 +98,11 @@ export default CSS = `
       font-size: 2rem;
       font-weight: 700;
       cursor: pointer;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .expanded {
+      transform: rotate(45deg);
     }
 
     .display-picture {
