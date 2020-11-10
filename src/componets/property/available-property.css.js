@@ -1,13 +1,39 @@
+const search = `
+    .search {
+        margin: 5rem 0rem 0rem 0rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 4rem;
+        background: #ffffff;
+    }
+
+    .search-box {
+        width: 40%;
+        margin: auto 1rem;
+        border-radius: 1rem;
+        height: 2rem;
+        outline: none;
+        justify-content: center;
+        display: flex;
+        text-align: center;
+    }
+
+    .toggle-filter {
+        font-size: 2rem;
+        cursor: pointer;
+    }
+`
+
 const filter  = `
+
     input[type=text]{
         width: 4em;
         height: 2.05em;
     }
     .nav_container{
-        background: #f2f2f2;
-        border: 1px solid #c9c9bf;
-        margin: 1rem 0;
-        border-radius: 3px;
+        background: #ffffff;
     }
 
     .column {
@@ -21,11 +47,12 @@ const filter  = `
     }
 
     .left_nav{
-        position: absolute;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        margin: 5rem 2rem;
-        z-index: 10;
+        display: none;
+        justify-content: space-evenly;
+        flex-direction: row;
+        flex-wrap: wrap;
+        background-color: #ffffff;
+        transition: all 0.5s ease;
     }
 
     .left_nav::-webkit-scrollbar {
@@ -67,7 +94,7 @@ const filter  = `
         margin-bottom: 1rem;
     }
 
-    button {
+    select, button {
         position: relative;
         height: 2rem;
         border-radius: 1rem;
@@ -82,7 +109,7 @@ const filter  = `
         margin: 0.2rem;
     }
 
-    button:hover{
+    select:hover, button:hover{
         background-position: right;
         color: black;
     }
@@ -105,51 +132,51 @@ const filter  = `
 
 
 export default CSS = `
-${filter}
-#container {
-   display: grid;
-   justify-content: center;
-   grid-gap: 10px;
-   grid-template-columns: repeat(auto-fill, 20rem);
-   overflow-x: auto;
-   margin-top: 5rem;
-}
-
-#container::-webkit-scrollbar {
-    height: 0;
-}
-
-property-view {
-    margin: 0.5rem;
-}
-
-.pagination {
-    margin: 0.1rem auto 2rem auto;
-    display: table;
-}
-
-.pagination a {
-    color: blue;
-    cursor: pointer;
-}
-
-@media screen and (max-width: 1200px) {
-
-}
-
-@media screen and (max-width: 992px) {
-
-}
-
-@media screen and (max-width: 768px) {
-
-}
-
-@media screen and (max-width: 512px) {
+    ${filter}
+    ${search}
     #container {
-        display: flex;
-        overflow: scroll;
+    display: grid;
+    justify-content: center;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, 20rem);
+    overflow-x: auto;
     }
-}
+
+    #container::-webkit-scrollbar {
+        height: 0;
+    }
+
+    property-view {
+        margin: 0.5rem;
+    }
+
+    .pagination {
+        margin: 0.1rem auto 2rem auto;
+        display: table;
+    }
+
+    .pagination a {
+        color: blue;
+        cursor: pointer;
+    }
+
+    @media screen and (max-width: 1200px) {
+
+    }
+
+    @media screen and (max-width: 992px) {
+
+    }
+
+    @media screen and (max-width: 768px) {
+
+    }
+
+    @media screen and (max-width: 512px) {
+        #container {
+            display: flex;
+            overflow: scroll;
+        }
+    }
 
 `

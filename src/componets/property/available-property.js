@@ -6,7 +6,7 @@ export default class AvalibaleProperty extends Base {
     css = CSS
 
     filter = `
-    <div class="left_nav column">
+    <div class="left_nav row">
 		<div class="nav_container column">
             <h3>Browse</h3>
             <dir></dir>
@@ -110,18 +110,39 @@ export default class AvalibaleProperty extends Base {
        				</select>
        			</div>	
 		</div>
-	</div>
+    </div>
+    `
+
+    search = `
+        <div class="search">
+            <input type="search" class="search-box" placeholder="Search here..." />
+            <select class="district">
+                <option selected disabled>Select a district</option>
+                <option >All</option>
+            </select>
+            <select class="city">
+                <option selected disabled>Select a city</option>
+                <option >All</option>
+            </select>
+            <select class="property-type">
+                <option selected disabled>Select a Property type</option>
+                <option >All</option>
+            </select>
+            <button class="search-button"> Search now! </button>
+            <span class="toggle-filter">🔃</span>
+        </div>
     `
 
     content = `
-    ${this.filter}
-    <div id="container">
-    </div>
-    <div class="pagination">
-        <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
-    </div>
-    <div id="questioner">
-    </div>
+        ${this.search}
+        ${this.filter}
+        <div id="container">
+        </div>
+        <div class="pagination">
+            <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+        </div>
+        <div id="questioner">
+        </div>
     `
 
     constructor() {
@@ -182,6 +203,17 @@ export default class AvalibaleProperty extends Base {
             })
 
     }//End of loadpropertyView()
+
+    // Toggle filter
+    toggleFilter() {
+        let visible = true
+
+        this._qs('.toggle-filter').addEventListener('click', () => {
+            if(visible) this._qs('.left_nav').style.display = "flex"
+            else this._qs('.left_nav').style.display = "none"
+            visible = !visible
+        })
+    }//End of toggleFilter()
     
    connectedCallback() {
 
@@ -218,6 +250,9 @@ export default class AvalibaleProperty extends Base {
         }
         
         fetchAdds(10, 0)
+
+        // Toggle filter
+        this.toggleFilter()
         
     }//End of connected callback
 
