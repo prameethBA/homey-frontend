@@ -46,6 +46,7 @@ export default CSS = `
     property-view {
         display: flex;
         width: 20rem;
+        margin: 1rem auto;
     }
     
     .pagination {

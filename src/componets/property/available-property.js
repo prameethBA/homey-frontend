@@ -53,10 +53,14 @@ export default class AvalibaleProperty extends Base {
                 for (let index = 0; index < this.state.limit; index++) {
                     this._qs('#container').innerHTML += `
                             <property-view id="id-${index}" key="${index}">
-                                <img slot="thumbnail" class="thumbnail" src="./assets/img/alt/load-post.gif" style="display: block !important;"/>
-                                <p slot="title" class=" title title-${index}">Boarding place at Colombo</p>
+                                <img slot="thumbnail" class="thumbnail" src="./assets/img/alt/load-post.gif"/>
+                                <p slot="title" class=" title title-${index}">
+                                    Boarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at Colombo
+                                </p>
                                 <p slot="price" class=" price price-${index}">Price</p>
-                                <p slot="description" class=" description description-${index}">Description</p>
+                                <p slot="description" class=" description description-${index}">
+                                Boarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at Colombo
+                                </p>
                                 <input class="id id-${index}" type="hidden" slot="id" value=""/>
                             </property-view>
                         `
@@ -104,7 +108,7 @@ export default class AvalibaleProperty extends Base {
                 .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
         }
         
-        // fetchAdds(10, 0)
+        fetchAdds(10, 0)
         
     }//End of connected callback
 

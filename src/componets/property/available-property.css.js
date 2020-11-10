@@ -13,7 +13,7 @@ export default CSS = `
 }
 
 property-view {
-    display: inline-block;
+    margin: 0.5rem;
 }
 
 .pagination {

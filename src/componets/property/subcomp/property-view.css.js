@@ -1,19 +1,36 @@
 export default CSS = `
     .container {
-        min-width: 300px;
-        width: 30%;
-        min-height: 450px;
-        height: 26rem;
         border-radius: 4px;
         box-shadow: 0 0 3px 2px rgba(36,31,135,0.7);
-        display: flex;
-        flex-direction: column;
         position: relative;
+        height: 100%;
+    }
+
+    .row {
+        display: flex;
+        align-items: center;
+    }
+
+    .row > div {
+        display: flex;
+        align-items: center;
     }
 
     .slide  {
         display: flex;
         justify-content: space-between;
+        position: absolute;
+        width: 100%;
+    }
+
+    .slider {
+        opacity: 0.5;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .slider:hover {
+        opacity: 0.8;
     }
 
     .toggle:hover {
@@ -35,12 +52,9 @@ export default CSS = `
     }
 
     ::slotted(img) {
-        display: none;
+        display: flex;
         width: 100%;
-        max-height: 210px;
-        min-height: 210px;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
+        height: 12.5rem;
     }
 
     ::slotted(.title) {
@@ -81,49 +95,20 @@ export default CSS = `
         cursor: pointer;
     }
 
-    // .details > div:first-child > span {
-    //     position: absolute;
-    //     right: 0;
-    //     left: 0;
-    //     display: grid;
-    //     grid-template-columns: 15% 20% auto;
-    // }
-
-    // .star {
-    //     background: url(/assets/icon/start-yellow.png);
-    //     width: 35px;
-    //     height: 35px;
-    //     background-size: contain;
-    //     background-repeat: no-repeat;
-    //     cursor: pointer;
-    //     margin: 0.5rem auto 0 0.5rem;
-    // }
-
-    // .share {
-    //     background: url(/assets/icon/share.png);
-    //     width: 35px;
-    //     height: 35px;
-    //     background-size: contain;
-    //     background-repeat: no-repeat;
-    //     cursor: pointer;
-    //     margin: 0.5rem auto 0 0.5rem;
-    // }
-
-    // .report {
-    //     display: flex;
-    //     align-items: center;
-    //     cursor: pointer;
-    // }
-
     ::slotted(.price) {
         right: 1rem;
         font-weight: bold;
     }
 
-    .online-payment {
+    .toggle-menu {
         display: flex;
         justify-content: space-between;
-        margin: auto 1rem;
+        margin: 0.1rem 1rem;
+        align-items: center;
+    }
+
+    .visibility {
+        justify-content: space-evenly;
     }
 
     .switch {
@@ -153,13 +138,13 @@ export default CSS = `
     .toggle:before {
         position: absolute;
         content: '';
-        height: 95%;
-        width: 1.4rem;
-        left: 1px;
-        bottom: 1px;
+        height: 85%;
+        width: 1.3rem;
+        left: 2px;
+        bottom: 2px;
         background-color: #eeeeee;
         transition: 0.4s;
-      }
+    }
 
     input:checked + .toggle {
         background-color: #34af32;
@@ -176,7 +161,7 @@ export default CSS = `
     }
     
     .toggle.round {
-        border-radius: 34px;
+        border-radius: 1rem;
     }
     
     .toggle.round:before {
@@ -184,30 +169,34 @@ export default CSS = `
     }
 
     ::slotted(.description) {
-        padding: 0.5rem;
-        margin-top: 2.5rem;
-        height: 4.5rem;
         overflow: hidden;
         word-break: break-word;
+        line-height: 0.9rem;
+        display: flex;
+        justify-content: center;
+        margin: 1rem;
+        max-height: 4.5rem;
     }
 
     button {
-        width: 30%;
-        display: inline-block;
-        height: 2em;
-        border-radius: 25px;
+        position: relative;
+        width: 45%;
+        height: 2rem;
+        border-radius: 1rem;
         outline: none;
         border: none;
+        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
         font-size: 0.8rem;
         color: #fff;
         text-transform: uppercase;
         cursor: pointer;
-        margin-top: -1rem;
         transition: all 1s;
+        margin: 0.2rem;
     }
-   
+
     button:hover{
-        color: #000000;
+        background-position: right;
+        color: black;
     }
 
     .comment {
@@ -223,9 +212,12 @@ export default CSS = `
         color: #777777;
     }
 
-    .buttons {
-        display: inline;
-        padding-left: 0.75rem;
+    .button-group {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin: auto 1rem;
     }
 
     `

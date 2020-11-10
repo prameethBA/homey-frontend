@@ -28,16 +28,35 @@ export default class PropertyView extends Base {
                     </div>
                     <slot name="price"></slot>
                 </span>
-                <div class="online-payment">
+
+                <div class="online-payment toggle-menu">
                     <span>Accept Online payments</span>
                     <label class="switch">
                         <input type="checkbox" />
                         <span class="toggle round"></span>
                     </label>
                 </div>
+
+                <div class="boost-property toggle-menu">
+                    <span>Boost</span>
+                    <label class="switch">
+                        <input type="checkbox" />
+                        <span class="toggle round"></span>
+                    </label>
+                </div>
+
+                <div class="visibility toggle-menu">
+                    <span>Private</span>
+                    <label class="switch">
+                        <input type="checkbox" />
+                        <span class="toggle round"></span>
+                    </label>
+                    <span>Public</span>
+                </div>
+
             </div>
             <slot name="description" class="description"></slot>
-            <div class='buttons'>
+            <div class='button-group'>
                 <button class="comment">Comment</button>
                 <button class="remove">Remove</button>
                 <button class="block">block</button>
