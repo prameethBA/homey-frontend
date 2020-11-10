@@ -24,9 +24,9 @@ export default class Reserve extends Base {
             </div>
             <div class="row payment-type">
                 <span class="pay-keymoney">Pay Key Money</span>
-                <label class="switch">
-                    <input type="checkbox" />
-                    <span class="slider round"></span>
+                    <label class="switch">
+                        <input type="checkbox" />
+                        <span class="slider round"></span>
                     </label>
                 <span class="pay-advance">Pay an Advance</span>
             </div>

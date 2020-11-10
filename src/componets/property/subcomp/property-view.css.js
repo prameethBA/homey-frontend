@@ -1,39 +1,36 @@
 export default CSS = `
     .container {
-        border: solid 1px;
-        position: relative;
         min-width: 300px;
         width: 30%;
-        margin: 2rem;
         min-height: 450px;
         height: 26rem;
         border-radius: 4px;
-        box-shadow: 1px 1px 3px 2px rgba(36,31,135,0.7);
+        box-shadow: 0 0 3px 2px rgba(36,31,135,0.7);
+        display: flex;
+        flex-direction: column;
+        position: relative;
     }
 
-    .slider {
-        position: absolute;
-        opacity: 0.5;
-        cursor: pointer;
-        transition: 0.5s;
-        transform: translateY(100%);
+    .slide  {
+        display: flex;
+        justify-content: space-between;
     }
 
-    .slider:hover {
+    .toggle:hover {
         opacity: 0.7;
         transition: 0.1s;
 
     }
 
-    .slider:active {
+    .toggle:active {
         opacity: 0.9;
     }
 
-    .slider-next {
+    .toggle-next {
         right: 1%;
     }
     
-    .slider-previous {
+    .toggle-previous {
         left: 1%;
     }
 
@@ -48,52 +45,142 @@ export default CSS = `
 
     ::slotted(.title) {
         font-weight: bold;
-        padding: 0 0.4rem 0 0.4rem;
-        height: 3.5rem;
-        text-align: justify;
+        max-height: 4.1rem;
         overflow: hidden;
         word-break: break-word;
-        margin: 0;
-    }
-
-    .details > div:first-child > span {
-        position: absolute;
-        right: 0;
-        left: 0;
-        display: grid;
-        grid-template-columns: 15% 20% auto;
-    }
-
-    .star {
-        background: url(/assets/icon/start-yellow.png);
-        width: 35px;
-        height: 35px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        cursor: pointer;
-        margin: 0.5rem auto 0 0.5rem;
-    }
-
-    .share {
-        background: url(/assets/icon/share.png);
-        width: 35px;
-        height: 35px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        cursor: pointer;
-        margin: 0.5rem auto 0 0.5rem;
-    }
-
-    .report {
+        margin: 0.5rem;
         display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        line-height: 1rem;
+        text-align: justify;
+    }
+
+    .details {
+        display: flex;
+        flex-direction: column;
+     }
+
+    .detail-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
+        margin: auto 1rem;
+    }
+
+    .quick-links {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        position: relative;
+        width: 40%;
+    }
+
+    .quick-links > div {
         cursor: pointer;
     }
+
+    // .details > div:first-child > span {
+    //     position: absolute;
+    //     right: 0;
+    //     left: 0;
+    //     display: grid;
+    //     grid-template-columns: 15% 20% auto;
+    // }
+
+    // .star {
+    //     background: url(/assets/icon/start-yellow.png);
+    //     width: 35px;
+    //     height: 35px;
+    //     background-size: contain;
+    //     background-repeat: no-repeat;
+    //     cursor: pointer;
+    //     margin: 0.5rem auto 0 0.5rem;
+    // }
+
+    // .share {
+    //     background: url(/assets/icon/share.png);
+    //     width: 35px;
+    //     height: 35px;
+    //     background-size: contain;
+    //     background-repeat: no-repeat;
+    //     cursor: pointer;
+    //     margin: 0.5rem auto 0 0.5rem;
+    // }
+
+    // .report {
+    //     display: flex;
+    //     align-items: center;
+    //     cursor: pointer;
+    // }
 
     ::slotted(.price) {
-        position: absolute;
         right: 1rem;
         font-weight: bold;
+    }
+
+    .online-payment {
+        display: flex;
+        justify-content: space-between;
+        margin: auto 1rem;
+    }
+
+    .switch {
+        position: relative;
+        display: flex;
+        width: 3rem;
+        height: 1.5rem;
+    }
+      
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #767676;
+        transition: 0.4s;
+    }
+
+    .toggle:before {
+        position: absolute;
+        content: '';
+        height: 95%;
+        width: 1.4rem;
+        left: 1px;
+        bottom: 1px;
+        background-color: #eeeeee;
+        transition: 0.4s;
+      }
+
+    input:checked + .toggle {
+        background-color: #34af32;
+    }
+    
+    input:focus + .toggle {
+        box-shadow: 0 0 1px #00a5cf;
+    }
+    
+    input:checked + .toggle:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    
+    .toggle.round {
+        border-radius: 34px;
+    }
+    
+    .toggle.round:before {
+        border-radius: 50%;
     }
 
     ::slotted(.description) {
