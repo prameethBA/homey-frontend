@@ -7,8 +7,8 @@ export default class PropertyView extends Base {
     content = `
         <div class="container">
            <div class="slide">
-                <img class="slider slider-previous" src="./assets/icon/slide-previous.svg">
-                <img class="slider slider-next" src="./assets/icon/slide-next.svg">
+                <img class="slider slider-previous" src="/assets/icon/slide-previous.svg">
+                <img class="slider slider-next" src="/assets/icon/slide-next.svg">
                 <slot name="thumbnail" class="thumbnail"></slot>
            </div>
            <div class="details">

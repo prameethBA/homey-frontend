@@ -1,95 +1,61 @@
 export default CSS = `
 
-    .container {
+    #container {
         display: flex;
         justify-content: center;
         flex-direction: column;
         margin: 5rem auto 5rem auto;
     }
 
-    .properties-comp {
+    .row {
+        flex-direction: row;
+        flex-wrap: nowrap;
         width: 100%;
         justify-content: center;
+        align-items: center;
+    }
+
+    .search-container {
         display: flex;
-    }
-
-    #properties-comp-table {
-        font-family: Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 90%;
-    }
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+       }
     
-    #properties-comp-table td, #properties-comp-table th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-    
-    #properties-comp-table tr:nth-child(even){background-color: #f2f2f2;}
-    
-    #properties-comp-table tr:hover {background-color: #ddd;}
-    
-    #properties-comp-table th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #4CAF50;
-        color: white;
-    }    
-
-    a {
-        transition: all 0.5s ease;
-    }
-
-    .user-link {
+      .search-container label {
         cursor: pointer;
-        text-decoration: underline;
-        color: #3543bf;
-    }
-
-    .ad-link {
-        cursor: pointer;
-        color: #03077F;
-        text-transform: capitalize;
-        font-style: italic;
-    }
-
-    .ad-link:hover {
-        #0077cc;
-    }
-    .btn-approve, .btn-reject{
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        flex-wrap: wrap;
-
-        display: inline-block;
-        height: 3em;
-        border-radius: 25px;
+      }
+    
+      .search {
+        min-width: 30%;
+        height: 1.5rem;
         outline: none;
-        border: none;
-        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-        font-size: 0.8rem;
-        color: #fff;
-        margin: 0.5rem;
-        cursor: pointer;
-        transition: all 0.5s;
-        min-width: 15%;
-    }
-    .btn-approve{
-        margin-left: 30%;
+        border: solid 1px;
+        border-radius: 1rem;
+        text-align: center;
+        transition: all 1s ease-in-out;
+      }
+    
+    .content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
     }
 
-    .btn-approve:hover{
-        cursor: pointer;
-        background-position: right;
-        color: black;
-        box-shadow: 0 0 20px -5px;
+    property-view {
+        display: flex;
+        width: 20rem;
     }
-    .btn-reject:hover{
+    
+    .pagination {
+        margin: 0.1rem auto 2rem auto;
+        display: table;
+    }
+    
+    .pagination a {
+        color: blue;
         cursor: pointer;
-        background-position: right;
-        color: black;
-        box-shadow: 0 0 20px -5px;
     }
 
     button {
@@ -101,31 +67,44 @@ export default CSS = `
         color: #fff;
         cursor: pointer;
         transition: all 1s;
-    }
-
-    .pagination {
-        margin: 5rem auto auto auto;
-    }
-
-    .pagination a {
-        color: blue;
-        cursor: pointer;
-    }
+        width: 45%;
+      }
     
-    .approve-button {
-        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-    }
-
-    .approve-button:hover {
-        box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
-    }
-
-    .decline-button {
+      .danger-button {
         background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
-    }
-
-    .decline-button:hover {
+      }
+    
+      .danger-button:hover {
         box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
-    }
+      }
+    
+      .primary-button {
+          background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+      }
+    
+      .primary-button:hover {
+          box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
+      }
+    
+      .button-group > button {
+          width: 10rem;
+          margin: 0.5rem auto;
+      }
+    
+      .button-group {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+    
+      .button-group-user {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+    
+      .button-group-user > button {
+        margin: 0.4rem auto;
+       }
 
 `

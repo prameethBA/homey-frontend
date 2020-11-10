@@ -65,7 +65,7 @@ export default CSS = `
     }
 
     .star {
-        background: url(./assets/icon/start-yellow.png);
+        background: url(/assets/icon/start-yellow.png);
         width: 35px;
         height: 35px;
         background-size: contain;
@@ -75,7 +75,7 @@ export default CSS = `
     }
 
     .share {
-        background: url(./assets/icon/share.png);
+        background: url(/assets/icon/share.png);
         width: 35px;
         height: 35px;
         background-size: contain;

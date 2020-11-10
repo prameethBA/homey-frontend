@@ -45,9 +45,9 @@ export default class AdminDashboard extends Base {
             dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
             return
         }
-        // Remove nav-bar
-        const navbar= document.querySelector('app-comp').shadowRoot.querySelector('navigation-bar')
-        navbar.parentNode.removeChild(navbar)
+            // Remove nav-bar
+            const navbar= document.querySelector('app-comp').shadowRoot.querySelector('navigation-bar')
+            navbar != null ? navbar.parentNode.removeChild(navbar) : null
 
         } //End of the constructor
 

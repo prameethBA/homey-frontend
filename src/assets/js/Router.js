@@ -18,10 +18,10 @@ export default class Router {
             throw new TypeError('typeof callback must be a function')
 
         // throw an error if the route uri already exists to avoid confilicting routes
-        this.routes.forEach(route => {
-            if (route.uri === uri)
-                throw new Error(`the uri ${route.uri} already exists`)
-        })
+        // this.routes.forEach(route => {
+        //     if (route.uri === uri)
+        //         throw new Error(`the uri ${route.uri} already exists`)
+        // })
 
         // Step 5 - add route to the array of routes
         const route = {
