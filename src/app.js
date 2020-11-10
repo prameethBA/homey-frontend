@@ -75,6 +75,9 @@ export default class App extends Base {
                 // Load add new property component
                 router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
 
+                // Load own-properties component
+                router.get('/own-properties', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/own-properties`, comp: `property/own-properties`, compName: 'own-properties' } })))
+
                 // Load profile component
                 router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))
 
@@ -111,6 +114,9 @@ export default class App extends Base {
 
             // Load add new property component
             router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+
+            // Load own-properties component
+            router.get('/own-properties', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/own-properties`, comp: `property/own-properties`, compName: 'own-properties' } })))
 
             // Load profile component
             router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))

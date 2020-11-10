@@ -17,9 +17,14 @@ export default class PropertyView extends Base {
                     <span>
                         <div class="star"></div>
                         <div class="share"></div>
+                        <div class="status">🟢</div>
                         <div class="report">❗</div>
                         <slot name="price"></slot>
                     </span>
+                    <div class="online-payment">
+                        <input type="checkbox" />
+                        <label>Accept Online payment</label>
+                    </div>
                 </div>
                 <slot name="description" class="description"></slot>
                 <div class='buttons'>
