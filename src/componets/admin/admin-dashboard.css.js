@@ -9,6 +9,7 @@ export default CSS = `
         right: 0;
         cursor: pointer;
         transition: 1s ease-in-out;
+        z-index: 9;
     }
 
     #hamburger-icon {
@@ -59,6 +60,12 @@ export default CSS = `
         width: 17.5em;
         background: #35302d;
         transition: 0.2s ease-in-out;
+        z-index: 10;
+    }
+
+    #breadcrumb {
+        margin: 4rem 3rem;
+        position: absolute;
     }
 
     #mainContainer {

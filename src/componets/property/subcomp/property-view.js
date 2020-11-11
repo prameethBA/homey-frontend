@@ -6,27 +6,62 @@ export default class PropertyView extends Base {
     css = CSS
     content = `
         <div class="container">
-           <div class="slide">
-                <img class="slider slider-previous" src="./assets/icon/slide-previous.svg">
-                <img class="slider slider-next" src="./assets/icon/slide-next.svg">
-                <slot name="thumbnail" class="thumbnail"></slot>
+           <div class="row">
+                <div class="">
+                    <div class="slide">
+                        <img class="slider slider-previous" src="/assets/icon/slide-previous.svg">
+                        <img class="slider slider-next" src="/assets/icon/slide-next.svg">
+                    </div>
+                </div>
+                <div>
+                    <slot name="thumbnail" class="thumbnail"></slot>
+                </div>
            </div>
            <div class="details">
-                <div>
-                    <slot name="title" class="title"></slot>
-                    <span>
-                        <div class="star"></div>
-                        <div class="share"></div>
-                        <div class="report">❗</div>
-                        <slot name="price"></slot>
-                    </span>
+                <slot name="title" class="title"></slot>
+                <span class="detail-bar">
+                    <div class="quick-links">
+                        <div class="favourite" title="Add to favoutite">⭐</div>
+                        <div class="share" title="Share">✉</div>
+                        <div class="status" title="Avalable">🟢</div>
+                        <div class="report" title="Report">⚠</div>
+                    </div>
+                    <slot name="price"></slot>
+                </span>
+
+                <div class="online-payment toggle-menu">
+                    <span>Accept Online payments</span>
+                    <label class="switch">
+                        <input type="checkbox" />
+                        <span class="toggle round"></span>
+                    </label>
                 </div>
-                <slot name="description" class="description"></slot>
-                <div class='buttons'>
-                    <button class="comment">Comment</button>
-                    <button class="reserve">Reserve</button>
-                    <button class="more">More >></button>
+
+                <div class="boost-property toggle-menu">
+                    <span>Boost</span>
+                    <label class="switch">
+                        <input type="checkbox" />
+                        <span class="toggle round"></span>
+                    </label>
                 </div>
+
+                <div class="visibility toggle-menu">
+                    <span>Private</span>
+                    <label class="switch">
+                        <input type="checkbox" />
+                        <span class="toggle round"></span>
+                    </label>
+                    <span>Public</span>
+                </div>
+
+            </div>
+            <slot name="description" class="description"></slot>
+            <div class='button-group'>
+                <button class="comment">Comment</button>
+                <button class="remove">Remove</button>
+                <button class="block">block</button>
+                <button class="reserve">Reserve</button>
+                <button class="more">More >></button>
             </div>
         </div>
         <div id="comment-box"></div>
@@ -83,7 +118,7 @@ export default class PropertyView extends Base {
         this._qs('.more').addEventListener('click', () => {
             dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/property/propertyId`, comp: `property/property-details`, compName: 'property-details' } }))
         })
-    }
+    }//end of fullDetails()
 
     connectedCallback() {
 

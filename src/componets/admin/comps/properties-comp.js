@@ -6,78 +6,64 @@ export default class properties extends Base {
     css = CSS
 
     content = `
-    <div class="container">
-        <div class="options">
-            <button class="btn-approve">Approved Properties</button>
-            <button class="btn-reject">Rejected Properties</button>
-        </div>
-        <div class="properties-comp">
-            <table id="properties-comp-table">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Advertisement Title</th>
-                        <th>User</th>
-                        <th>Posted on</th>
-                        <th>Approve</th>
-                        <th>Reject</th>
-                    </tr>
-                </thead>
-                <tbody id="properties-comp-table-body">
-                    
-                </tbody>
-            </table>
+        <div id="container">
+            <div class="row">
+                <span class="search-container">
+                    <input id="search" type="text" class="search" placeholder="Search here" />
+                    <label for="search">🔍</label>
+                    </span>
+                    <div class="button-group">
+                        <button class="reported danger-button">Reported Properties</button>
+                        <button class="pending primary-button">Pending Approvals</button>
+                        <button class="rejected danger-button">Rejected Properties</button>
+                    </div>
             </div>
-            <div class="pagination">
-                <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+            <div class="row">
+                <div class="content"></div>
             </div>
         </div>
-    <div class="preview-advertisement"></div>
-`
+        <div class="pagination">
+            <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+        </div>
+        <div id="questioner">
+        </div>
+    `
+
     constructor() {
             super()
             this.mount()
 
         } //End of the constructor
 
-    // Preview advertisement
-    adPreview() {
-            this._qsAll('.ad-link').forEach(item => {
-                item.addEventListener('click', async() => {
-                    this.setLoader()
-                    await axios.post(`${this.host}/admin-property-preview/pending-approval`, {
-                            userId: this.getUserId(),
-                            token: this.getToken(),
-                            id: item.dataset.id
-                        })
-                        .then(async res => {
-                            await
-                            import ('./subcomp/preview-advertisement.js')
-                            .then(() => {
-                                this._qs('.preview-advertisement').innerHTML = `
-                                <preview-advertisement>
-                                    <img slot='image' src="/assets/img/house.jpg" />
-                                    <p slot='title'>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque enim odio, semper at ultrices vel, imperdiet quis tortor. Nam ut mauris ac leo iaculis s
-                                        <button class="load-more">Load more >></button>
-                                    </p>
-                                    <span slot="price" class="price">Rs. 17,000/Month</span>
-                                    <span slot="key-money" class="key-money">Key Money : Rs. 34,000</span>
-                                    <span slot="minimum-period" class="minimum-period">Minimum Period: 2 Months</span>
-                                    <span slot="available-from" class="available-from">Available From: 2020 May 21</span>
-                                </preview-advertisement>
-                            `
-                                console.log(res.data)
-                            })
-                            this.stopLoader()
-                        })
-                        .catch(err => {
-                            this.stopLoader()
-                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
-                        })
-                })
+    // Load add comps 
+    async loadpropertyView() {
+        this.setLoader()
+        await import('./../../property/subcomp/property-view.js')
+            .then(() => {
+                this.state.page = 1
+                this.state.limit = 12
+        
+                for (let index = 0; index < this.state.limit; index++) {
+                    this._qs('.content').innerHTML += `
+                            <property-view id="id-${index}" key="${index}">
+                                <img slot="thumbnail" class="thumbnail" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
+                                <p slot="title" class=" title title-${index}">Boarding place at Colombo-08</p>
+                                <p slot="price" class=" price price-${index}">Rs. 17, 000</p>
+                                <p slot="description" class=" description description-${index}">
+                                    A boarding house is a house (frequently a family home) in which lodgers rent one or more rooms for one or more nights, and sometimes for extended periods of weeks, months, and years. The common parts of the house are maintained, and some services, such as laundry and cleaning, may be supplied.
+                                </p>
+                                <input class="id id-${index}" type="hidden" slot="id" value=""/>
+                            </property-view>
+                        `
+                }
+                this.stopLoader()
             })
-        } //End of adPreview()
+            .catch(err => {
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+                this.setLoader()
+            })
+
+    }//End of loadpropertyView()
 
     // get summary about pendin approvals
     async getSummary() {
@@ -112,13 +98,12 @@ export default class properties extends Base {
 
 
     //connectedCallback
-    /*
     connectedCallback() {
-            // Api call for getting the data 
-            this.getSummary()
+        // Load add comps 
+        this.loadpropertyView()
 
-        } //End of connectedCallback()
-    */
+    } //End of connectedCallback()
+
 } //End of Class
 
 window.customElements.define('properties-comp', properties)

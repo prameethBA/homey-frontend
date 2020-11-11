@@ -56,6 +56,47 @@ export default class App extends Base {
             addEventListener('reset-password-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('reset-password') : this.setPath('/'))
             addEventListener('confirm-form', () => !(sessionStorage.login == 'true' || localStorage.login == 'true') ? loadForm('confirm') : this.setPath('/'))
 
+            window.addEventListener('popstate', function (e) {
+                // Load login form component
+                router.get('/login', () => dispatchEvent(new Event('load-login-form')))
+
+                // Load signup form component
+                router.get('/signup', () => dispatchEvent(new Event('load-signup-form')))
+
+                // Load reset-password form component
+                router.get('/reset-password', () => dispatchEvent(new Event('reset-password-form')))
+
+                // Load confirm form component
+                router.get('/confirm', () => dispatchEvent(new Event('confirm-form')))
+                
+                // Load avalibale property component
+                router.get('/available-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/available-property`, comp: `property/available-property`, compName: 'available-property' } })))
+
+                // Load add new property component
+                router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+
+                // Load own-properties component
+                router.get('/own-properties', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/own-properties`, comp: `property/own-properties`, compName: 'own-properties' } })))
+
+                // Load profile component
+                router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))
+
+                // Load avalibale property full details
+                router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))
+
+                // Load payment gateway component
+                router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
+
+                // +++DEV+++ Only for develompent 
+                router.get('/dev', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/dev`, comp: `../dev`, compName: 'dev-dev' } })))
+
+                // +ADMIN+ +TODO this part can be move another file set when only admin user logged IN
+                // Load admin component
+                router.get('/admin', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } })))
+
+                router.init()
+            })
+
             // Load login form component
             router.get('/login', () => dispatchEvent(new Event('load-login-form')))
 
@@ -73,6 +114,9 @@ export default class App extends Base {
 
             // Load add new property component
             router.get('/add-new-property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+
+            // Load own-properties component
+            router.get('/own-properties', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/own-properties`, comp: `property/own-properties`, compName: 'own-properties' } })))
 
             // Load profile component
             router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))

@@ -7,24 +7,19 @@ export default class Report extends Base {
 
     content = `
     <div class="container">
-        <div class="options">
-            <button class="btn-approve">Reviewed Reports</button>
-            <button class="btn-reject">Pending Reports</button>
-        </div>
         <div class="report-comp">
             <table id="report-comp-table">
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Discrption</th>
-                        <th>Reported User ID</th>
-                        <th>Property Owner ID</th>
-                        <th>Reviewed</th>
-                        <th>Pending</th>
+                        <th>Report type</th>
+                        <th>Reporter</th>
+                        <th>Reporting</th>
+                        <th>Review</th>
+                        <th>Time Stamp</th>
                     </tr>
                 </thead>
                 <tbody id="report-comp-table-body">
-                    
                 </tbody>
             </table>
             </div>
@@ -35,36 +30,58 @@ export default class Report extends Base {
     <div class="preview-advertisement"></div>
     `
 
+    row  = `
+        <tr>
+            <td>1</td>
+            <td>User Report</td>
+            <td>#userId</td>
+            <td>#userId</td>
+            <td>2020 Nov 10, 10:44:16</td>
+            <td><button class="primary-button">Review</button></td>
+        </tr>
+    `
+
     constructor() {
         super()
         this.mount()
         
     }//End of constructor
 
-    //close the dock
-    close() {
-        this._qs('#close-popup').addEventListener('click', () => {
-            this.exitDock()
-        })
-    }//End of the close()
+    // load rows
+    loadRow() {
+        this._qs('tbody').innerHTML += this.row
+    }//End loadRow()
 
-    // Exit the dock
-    exitDock() {
-        this._qs('.backdrop').style.opacity = '0'
-        this._qs('.backdrop').style.pointerEvents = 'none'
-    }// End of exitDock()
+    // //close the dock
+    // close() {
+    //     this._qs('#close-popup').addEventListener('click', () => {
+    //         this.exitDock()
+    //     })
+    // }//End of the close()
 
-    //Exit with Escape key
-    exitWithEscape() {
-        addEventListener('keyup', ({key}) => (key === 'Escape') ? this.exitDock() : null )
-    }// End of exitWithEscape()
+    // // Exit the dock
+    // exitDock() {
+    //     this._qs('.backdrop').style.opacity = '0'
+    //     this._qs('.backdrop').style.pointerEvents = 'none'
+    // }// End of exitDock()
+
+    // //Exit with Escape key
+    // exitWithEscape() {
+    //     addEventListener('keyup', ({key}) => (key === 'Escape') ? this.exitDock() : null )
+    // }// End of exitWithEscape()
 
     connectedCallback() {
 
-        // close the dock
-        this.close()
-        // Exit with escape key
-        this.exitWithEscape()
+        // load rows
+        this.loadRow() 
+        this.loadRow() 
+        this.loadRow() 
+        this.loadRow() 
+
+        // // close the dock
+        // this.close()
+        // // Exit with escape key
+        // this.exitWithEscape()
 
     }//End of connectedCallback
 

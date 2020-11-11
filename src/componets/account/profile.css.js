@@ -61,6 +61,10 @@ export default CSS =`
     margin: 0.2rem auto;
   }
 
+  .last-login-title {
+    font-weight: bold;
+  }
+
   .form {
     display: flex;
     flex-wrap: nowrap;
@@ -110,6 +114,14 @@ export default CSS =`
     box-shadow: 1px 1px 10px 3px rgba(150,150,150,0.5);
   }
 
+  .danger-button {
+    background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
+  }
+
+  .danger-button:hover {
+      box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
+  }
+
   input {
     margin: 0.4rem;
     height: 2rem;
@@ -129,11 +141,19 @@ export default CSS =`
     background-color: #444444;
   }
 
-  .password-title {
+  .danger-title, .password-title {
     font-size: 1.2rem;
     font-weight: bold;
     text-indent: 0.5rem;
     margin: 1rem 0;
+  }
+
+  .danger-title {
+    color: #fc0269;
+  }
+
+  #deactivate {
+    background-image: linear-gradient(to right top, #755252, #744140, #712f2d, #6c1c1a, #650000);
   }
 
   #year, #day, #month {

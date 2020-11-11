@@ -3,7 +3,7 @@ export default CSS = `
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 5rem auto 5rem auto;
+    margin: 7rem auto 5rem auto;
     transition: all 1s ease-in-out;
   }
 
@@ -97,6 +97,15 @@ export default CSS = `
 
   .remove:hover, .change-status:hover {
     box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
+  }
+
+  .create-new {
+      background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+      width: 15%;
+  }
+
+  .create-new:hover {
+      box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
   }
 
   .profile{

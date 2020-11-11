@@ -17,6 +17,7 @@ export default class Profiel extends Base {
                     <span class="name">Dimuthu Lakmal</span>
                 </div>
                 <div class="last-login-container">
+                    <span class="last-login-title">Last Login </span>
                     <div class="row">
                         <span class="last-login-date">2020-10-20</span>
                         <span class="last-login-time">@ 15:43:23</span>
@@ -92,6 +93,18 @@ export default class Profiel extends Base {
                     <div class="form-column">
                             <button id="changePassword">Change Password</button>
                     </div>
+
+                    <div class="form-column">
+                        <hr/>
+                    </div>
+                    <div class="form-column">
+                        <span class="danger-title">Danger Zone</span>
+                    </div>
+                    <div class="form-row">
+                            <button class="danger-button" id="remove">Delete Account</button>
+                            <button class="danger-button" id="deactivate">Deactivate Account</button>
+                    </div>
+
                 </div>
             </div>
         </div>
