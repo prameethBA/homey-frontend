@@ -168,6 +168,19 @@ export default class Nav extends Base {
     })
   }// toggleNavBar()
 
+  //Scrolbar behavoiur when scroll
+  scrollNavbar() {
+    addEventListener('scroll', () =>  {
+      if(document.documentElement.scrollTop > 10) {
+        this._qs('nav').classList.add('nav-scroll')
+        this._qs('header').classList.add('header-scroll')
+      } else {	  
+        this._qs('nav').classList.remove('nav-scroll') 
+        this._qs('header').classList.remove('header-scroll') 
+      }
+    })
+  }//End of scrollNavbar()
+
   //Login
   loginMethod() {
     addEventListener('login-success', () => {
@@ -188,6 +201,9 @@ export default class Nav extends Base {
 
     //Login method
     this.loginMethod()
+
+    //Scrolbar behavoiur when scroll
+    this.scrollNavbar()
 
   }// End of connected callback
 

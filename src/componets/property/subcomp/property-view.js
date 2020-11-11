@@ -81,6 +81,7 @@ export default class PropertyView extends Base {
         super()
         this.mount()
         
+        this.qs('img').style.display = 'block'
     }//End of constructor
 
 

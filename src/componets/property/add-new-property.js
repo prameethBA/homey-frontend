@@ -471,10 +471,10 @@ constructor() {
                                       <span class="location-details-span city">${city}</span>
                                       <span class="location-details-span address">Address : 141, Mediyawa, Eppawala.</span>
                                   </div>
-                                  <!--<div slot="user-details" class="row-2 user-details">
+                                  <!-- <div slot="user-details" class="row-2 user-details">
                                       <span class="user"><a>userId</a></span>
                                       <span class="created">created</span>
-                                  </div>-->
+                                  </div> -->
                               </preview-advertisement>
                               <div id="progress">
                                 <div id="progress-bar"><div id="progress-bar-progress"></div></div>

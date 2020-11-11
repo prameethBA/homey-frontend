@@ -52,7 +52,7 @@ export default CSS = `
     }
 
     ::slotted(img) {
-        display: flex;
+        display: none;
         width: 100%;
         height: 12.5rem;
     }

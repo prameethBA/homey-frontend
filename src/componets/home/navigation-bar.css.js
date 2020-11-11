@@ -22,10 +22,21 @@
   }
 `
 
+const scroll = `
+  // .nav-scroll {	
+  //   transform: scale(0.98);	
+  //   margin: 0.2rem 0rem 0.2rem 0.1rem !important;	
+  // }	
+  .header-scroll {	
+    background-color: #ffffff;
+    box-shadow: 0px 2px 8px -1px rgba(0,0,0,0.75);
+  }
+`
 
 export default CSS = `
 
   ${loginButton}
+  ${scroll}
 
   header {
     position: fixed;
