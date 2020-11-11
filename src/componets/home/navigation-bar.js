@@ -170,13 +170,18 @@ export default class Nav extends Base {
 
   //Login
   loginMethod() {
-    addEventListener('login-success', () => this.setNavBar())
+    addEventListener('login-success', () => {
+      this.setNavBar()
+      //Set Navigation
+      if(this.isLogin()) this.setNavigation()
+    })
   }//loginMethod()
 
   //Log out
   logOutMethod() {
     this.logOut()
     this.setNavBar()
+    dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `home/main/main`, compName: 'main-comp' } }))
   }//logOutMethod()
 
   connectedCallback() {

@@ -47,7 +47,7 @@ export default class OwnProperties extends Base {
       
               for (let index = 0; index < this.state.limit; index++) {
                   this._qs('.content').innerHTML += `
-                          <property-view id="id-${index}" key="${index}">
+                          <property-view id="id-${index}" key="${index}" overview='true'>
                               <img slot="thumbnail" class="thumbnail" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
                               <p slot="title" class=" title title-${index}">Boarding place at Colombo-08</p>
                               <p slot="price" class=" price price-${index}">Rs. 17, 000</p>
