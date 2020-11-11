@@ -18,7 +18,9 @@ export default CSS =`
   
   .comments-app{
     position: fixed;
-    padding: 6rem;
+    display: flex;
+    flex-direction: column;
+    padding: 5rem 10rem 1rem 10rem;
     top: 0;
     left: 0;
     right: 0;
@@ -33,7 +35,7 @@ export default CSS =`
   }
   
   .comments-app h1{
-    color: #191919;
+    color: #ffffff;
     margin-bottom: 1.5em;
     text-align: center;
     text-shadow: 0 0 2px rgba(152, 152, 152, 1);
@@ -72,7 +74,7 @@ export default CSS =`
   }
   
   .comment-form .form label{
-    color: #555f77;
+    color: #eeeeee;
     font-family: inherit;
     font-size: 14px;
   }

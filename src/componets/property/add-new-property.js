@@ -312,10 +312,10 @@ constructor() {
       })
       await this.sleep(101);
       // API call for get Districts
-      await axios.get(`${this.host}/cities/districtId/${this._qs("#district").value}`)
+      await axios.get(`${this.host}/cities`)
         .then(res => {
           this._qs('#city-list').innerHTML = ''
-          if (res.status == '200') res.data.data.forEach(element => this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`)
+          if (res.status == '200') res.data.forEach(element => this._qs('#city-list').innerHTML += `<option value="${element.city}"/>`)
           else throw "Server Error."
         })
         .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
@@ -323,8 +323,8 @@ constructor() {
 
     this._qs('#pickLocation').addEventListener('click', () => {
       initMap()
-      this._qs('#pickLocation').style.display = 'none'
-      this._qs('#pickLocation').removeEventListener('click', {} )
+      // this._qs('#pickLocation').style.display = 'none'
+      // this._qs('#pickLocation').removeEventListener('click', {} )
     })
 
     await import("./subcomp/facility.js")
@@ -471,10 +471,10 @@ constructor() {
                                       <span class="location-details-span city">${city}</span>
                                       <span class="location-details-span address">Address : 141, Mediyawa, Eppawala.</span>
                                   </div>
-                                  <div slot="user-details" class="row-2 user-details">
+                                  <!-- <div slot="user-details" class="row-2 user-details">
                                       <span class="user"><a>userId</a></span>
                                       <span class="created">created</span>
-                                  </div>
+                                  </div> -->
                               </preview-advertisement>
                               <div id="progress">
                                 <div id="progress-bar"><div id="progress-bar-progress"></div></div>

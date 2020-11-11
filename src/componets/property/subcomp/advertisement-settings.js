@@ -27,7 +27,7 @@ export default class AdvertisementSettings extends Base {
               <label class="switch">
                   <input type="checkbox" id="private" >
                   <span class="slider round"></span>
-                </label>
+              </label>
           </div>
           <div class="toggle_opt">
               <label for="">Schedule to post</label>
@@ -68,7 +68,10 @@ export default class AdvertisementSettings extends Base {
         this._qs('#backdrop').style.display = "none"
       })
 
-      this._qs('#apply').addEventListener('click', () => console.log('Applied'))
+      this._qs('#apply').addEventListener('click', () => {
+        //Add New property
+        dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `property/own-properties`, compName: 'own-properties' } }))
+      })
 
     }//End of connected callBack()
 

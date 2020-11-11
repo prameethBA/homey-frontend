@@ -54,18 +54,23 @@ export default CSS = `
         margin: auto auto 1rem auto;
     }
 
-    .answer {
+    select, .answer {
         outline: none;
         border: navajowhite;
         background-color: #a9a9a9;
         height: 2rem;
-        width: 100%;
+        min-width: 10rem;
         border-radius: 1rem;
         margin: auto auto 1rem auto;
         color: #ffffff;
         text-indent: 1rem;
         text-align: center;
         background-image: linear-gradient(to right top, #ff9900, #f69d14, #eea122, #e6a42d, #dea738);
+    }
+
+    .buttons {
+        display: flex;
+        width: 100%;
     }
     
     .button {

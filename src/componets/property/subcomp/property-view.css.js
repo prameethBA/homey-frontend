@@ -1,120 +1,202 @@
 export default CSS = `
     .container {
-        border: solid 1px;
-        position: relative;
-        min-width: 300px;
-        width: 30%;
-        margin: 2rem;
-        min-height: 450px;
-        height: 26rem;
         border-radius: 4px;
-        box-shadow: 1px 1px 3px 2px rgba(36,31,135,0.7);
+        box-shadow: 0 0 3px 2px rgba(36,31,135,0.7);
+        position: relative;
+        height: 100%;
+    }
+
+    .row {
+        display: flex;
+        align-items: center;
+    }
+
+    .row > div {
+        display: flex;
+        align-items: center;
+    }
+
+    .slide  {
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        width: 100%;
     }
 
     .slider {
-        position: absolute;
         opacity: 0.5;
         cursor: pointer;
-        transition: 0.5s;
-        transform: translateY(100%);
+        transition: all 0.2s ease-in-out;
     }
 
     .slider:hover {
+        opacity: 0.8;
+    }
+
+    .toggle:hover {
         opacity: 0.7;
         transition: 0.1s;
 
     }
 
-    .slider:active {
+    .toggle:active {
         opacity: 0.9;
     }
 
-    .slider-next {
+    .toggle-next {
         right: 1%;
     }
     
-    .slider-previous {
+    .toggle-previous {
         left: 1%;
     }
 
     ::slotted(img) {
         display: none;
         width: 100%;
-        max-height: 210px;
-        min-height: 210px;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
+        height: 12.5rem;
     }
 
     ::slotted(.title) {
         font-weight: bold;
-        padding: 0 0.4rem 0 0.4rem;
-        height: 3.5rem;
-        text-align: justify;
+        max-height: 4.1rem;
         overflow: hidden;
         word-break: break-word;
-        margin: 0;
+        margin: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        line-height: 1rem;
+        text-align: justify;
     }
 
-    .details > div:first-child > span {
-        position: absolute;
-        right: 0;
-        left: 0;
-        display: grid;
-        grid-template-columns: 15% 20% auto;
+    .details {
+        display: flex;
+        flex-direction: column;
+     }
+
+    .detail-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin: auto 1rem;
     }
 
-    .star {
-        background: url(./assets/icon/start-yellow.png);
-        width: 35px;
-        height: 35px;
-        background-size: contain;
-        background-repeat: no-repeat;
+    .quick-links {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        position: relative;
+        width: 40%;
+    }
+
+    .quick-links > div {
         cursor: pointer;
-        margin: 0.5rem auto 0 0.5rem;
-    }
-
-    .share {
-        background: url(./assets/icon/share.png);
-        width: 35px;
-        height: 35px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        cursor: pointer;
-        margin: 0.5rem auto 0 0.5rem;
     }
 
     ::slotted(.price) {
-        position: absolute;
         right: 1rem;
         font-weight: bold;
     }
 
+    .toggle-menu {
+        display: flex;
+        justify-content: space-between;
+        margin: 0.1rem 1rem;
+        align-items: center;
+    }
+
+    .visibility {
+        justify-content: space-evenly;
+    }
+
+    .switch {
+        position: relative;
+        display: flex;
+        width: 3rem;
+        height: 1.5rem;
+    }
+      
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #767676;
+        transition: 0.4s;
+    }
+
+    .toggle:before {
+        position: absolute;
+        content: '';
+        height: 85%;
+        width: 1.3rem;
+        left: 2px;
+        bottom: 2px;
+        background-color: #eeeeee;
+        transition: 0.4s;
+    }
+
+    input:checked + .toggle {
+        background-color: #34af32;
+    }
+    
+    input:focus + .toggle {
+        box-shadow: 0 0 1px #00a5cf;
+    }
+    
+    input:checked + .toggle:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    
+    .toggle.round {
+        border-radius: 1rem;
+    }
+    
+    .toggle.round:before {
+        border-radius: 50%;
+    }
+
     ::slotted(.description) {
-        padding: 0.5rem;
-        margin-top: 2.5rem;
-        height: 4.5rem;
         overflow: hidden;
         word-break: break-word;
+        line-height: 0.9rem;
+        display: flex;
+        justify-content: center;
+        margin: 1rem;
+        max-height: 4.5rem;
     }
 
     button {
-        width: 30%;
-        display: inline-block;
-        height: 2em;
-        border-radius: 25px;
+        position: relative;
+        width: 45%;
+        height: 2rem;
+        border-radius: 1rem;
         outline: none;
         border: none;
+        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
         font-size: 0.8rem;
         color: #fff;
         text-transform: uppercase;
         cursor: pointer;
-        margin-top: -1rem;
         transition: all 1s;
+        margin: 0.2rem;
     }
-   
+
     button:hover{
-        color: #000000;
+        background-position: right;
+        color: black;
     }
 
     .comment {
@@ -130,9 +212,12 @@ export default CSS = `
         color: #777777;
     }
 
-    .buttons {
-        display: inline;
-        padding-left: 0.75rem;
+    .button-group {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin: auto 1rem;
     }
 
     `

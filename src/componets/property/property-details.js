@@ -6,244 +6,187 @@ export default class PropertyDetails extends Base {
   css =  CSS
 
   content = `
-  <div class="container container_about">
-    <aside>
-        <div class="about_main_image">
-            <img src="../assets/img/1.png" alt="">
+    <div class="container">
+
+      <div class="images">
+        <div class="main-image-container">
+          <img class="img main-image" src="/assets/img/house.jpg" />
         </div>
-        <div class="about_sub_images">
-            <div class="about_sub_image">
-                <img src="../assets/img/2.jpg" alt="">
-            </div>
-            <div class="about_sub_image">
-                <img src="../assets/img/2.jpg" alt="">
-            </div>
-            <div class="about_sub_image">
-                <img src="../assets/img/2.jpg" alt="">
-            </div>
-            <div class="about_sub_image">
-                <img src="../assets/img/2.jpg" alt="">
-            </div>
+        <div class="sub-images">
+          <img class="img sub-image" src="/assets/img/background.jpg" />
+          <img class="img sub-image" src="/assets/img/mountain.jpg" />
+          <img class="img sub-image" src="/assets/img/1.png" />
+          <img class="img sub-image" src="/assets/img/house.jpg" />
         </div>
+      </div>
 
-        <div class="about-p">
-
-              <div class="property">
-                <label for="">KeyMoney</label>
-                <input type="text" name="" id="">
-              </div>
-
-              <div class="property">
-                <label for="">Minimum Period</label>
-                <input type="text" name="" id="">
-              </div>
-
-              <div class="property">
-                <label for="">Available From</label>
-                <input type="date" name="" id="">
-              </div>
-
-              <div class="property">
-                <label for="">District</label>
-                <select class="district_type">
-                  <option>Ampara</option>
-                  <option>Anuradhapura</option>
-                  <option>Badulla</option>
-                  <option>Batticaloa</option>
-                  <option>Colombo/Office</option>
-                  <option>Galle</option>
-                  <option>Gampaha</option>
-                  <option>Hambantota</option>
-                  <option>Jaffna</option>
-                  <option>Kalutara</option>
-                  <option>Kandy</option>
-                  <option>Kegalle</option>
-                  <option>Kilinochchi</option>
-                  <option>Kurunegala</option>
-                  <option>Mannar</option>
-                  <option>Matale</option>
-                  <option>Matara</option>
-                  <option>Monaragala</option>
-                  <option>Mullaitivu</option>
-                  <option>Nuwara Eliya</option>
-                  <option>Polonnaruwa</option>
-                  <option>Puttalam</option>
-                  <option>Ratnapura</option>
-                  <option>Trincomalee</option>
-                  <option>Vavuniya</option>
-                </select>
-              </div>
-
-              <div class="property">
-                  <label for="">City</label>
-                  <input type="text" name="" id="">
-              </div>
-
-              <div class="property">
-                  <label for="">Property Type</label>
-                  <select class="property_type">
-                    <option>Home</option>
-                    <option>Annex</option>
-                    <option>Room</option>
-                    <option>Apartment</option>
-                    <option>Business/Office</option>
-                    <option>Warehouse</option>
-                    <option>Mixed Use Buildings</option>
-                  </select>
-              </div>
-              
-            </div>
-    </aside>
-
-    <main>
-      <section class="about_section">
-          <div class="about_section_details">
-              <h2>TITLE</h2>
-              <h2>PRICE</h2>
-              
+      <div class="details">
+        <div class="preview-image-container">
+          <img class="preview-image" />
+        </div>
+        <div class="row rwo-title">
+          <div class="title">Boarding place in Nugegoda</div>
+          <div class="price">Rs.17,000/Month</div>
+        </div>
+        <div class="row row-status">
+          <div class="status">Avalible 🟢</div>
+          <div class="favourite">⭐</div>
+          <div class="share">📩</div>
+        </div>
+        <div class="row">
+          <div class="description">
+            \/ matches the character / literally (case sensitive)\w* matches any word character (equal to [a-zA-Z0-9_])* Quantifier — Matches between zero and unlimited times, as many times as possible, giving back as needed
           </div>
-          <div class="about_icons">
-              <i class="fa fa-heart" style="font-size:18px;color:red"></i>
-              <i class="fa fa-star"style="font-size:18px;"></i>
-              <i class="fa fa-upload" style="font-size:18px;"></i>
+        </div>
+        <div class="row">
+          <div class="features">
           </div>
-          <div class="about-p">
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate porro beatae nam et perferendis, veritatis dolor consequatur. Eligendi vel recusandae, unde quisquam commodi pariatur minima maiores? Omnis voluptas similique repellat, sed sit saepe molestias ipsa, corporis ab optio, ipsum nostrum et harum error sapiente neque impedit eos! Totam, optio omnis?</p>
+        </div>
+        <div class="row">
+          <div class="contact-info">
+            <span> <a>Show contacts </a></span>
           </div>
-          <form action="">
-              <div class="select_properties">
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  <div class="select_property_about">
-                      <input type="checkbox" name="" id="">
-                      <label for="">Feature x</label>
-                  </div>
-                  
-              </div>
-              
-          </form>
-          
-          <div class="btn-group btn-group-bw">
-              <button class="btn btn-primary btn-sm"> RESERVE</button>
-              <button class="btn btn-secondary btn-sm">FEEDBACK</button>
-              <button class="btn btn-success btn-sm"><i class="fa fa-map-marker" aria-hidden="true"></i> ON MAP</button>
+        </div>
+        <div class="row">
+          <div class="action">
+            <button class="reserve"> Reserve Now! </button>
+            <button class="feedback"> Feedback </button>
+            <button class="map"> On map 📌</button>
           </div>
-          
-      </section>
-    </main>
-  </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="popup"></div>
   `
     constructor() {
       super()
       this.mount()
+
+    }//end of the constructor
+
+    // load feature List
+    async loadFeatureList() {
+      await import("./subcomp/facility.js")
+      .then(
+        // API call for get Facilities List
+        await axios.get(`${this.host}/facility`)
+          .then(res => {
+            if (res.status == '200') {
+              res.data.data.forEach(item => this._qs('.features').innerHTML += `
+                <facility-comp 
+                key="${item.feature_id}" 
+                name="${item.feature_name}" 
+                measurable="1" 
+                checked="true" 
+                quantity="${0}"
+                ></facility-comp>
+                `
+              )}
+            else throw "Server Error."
+          })
+          .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+      )
+      .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+    }//End of loadFetureList()
+
+    // load map view
+    async mapView() {
+      await import("../universal/popup-map.js")
+        .then( res => {
+          this._qs('.popup').innerHTML= `<map-view location="${encodeURIComponent(JSON.stringify({lat: 7.8, lng:80.4}))}"></map-view>`
+        })
+        .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+    }//End of mapView()
+
+    //Load map view
+    loadMapView() {
+      this._qs('.map').addEventListener('click', () => this.mapView())
     }
+
+    //preview image
+    previewImage() {
+      this._qs('.main-image').addEventListener('mousemove', () => {
+        this._qs('.preview-image-container').style.display = 'flex'
+        this._qs('.preview-image').src = this._qs('.main-image').src
+        })
+
+        this._qs('.main-image').addEventListener('mouseout', () => {
+          this._qs('.preview-image-container').style.display = 'none'
+        })
+    }//end of previewImage()
+
+    //set as main image
+    setMainImage() {
+      this._qsAll('.sub-image').forEach( item => {
+        item.addEventListener('click', () => {
+          const previousMainImage = this._qs('.main-image').src
+          this._qs('.main-image').src = item.src
+          item.src = previousMainImage
+        })
+      })
+    }//end of setMainImage
+
+     //reserve component 
+     async reserve() {
+      this.setLoader()
+        await import('./subcomp/reserve/reserve.js')
+            .then(() => {
+                this._qs('.popup').innerHTML = `<reserve-comp></reserve-comp>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+            })
+    }//End of reserve()
+
+    //loadReserve
+    loadReserve() {
+        this._qs('.reserve').addEventListener('click', () => this.reserve())
+    }//end of loadReserve()
+
+    //comment component 
+    async comment() {
+      this.setLoader()
+        await import('./../universal/comment/comment-comp.js')
+            .then(() => {
+                this._qs('.popup').innerHTML = `<comment-comp></comment-comp>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+            })
+    }//End of comment()
+
+    //loadComment
+    loadComment() {
+        this._qs('.feedback').addEventListener('click', () => this.comment())
+    }//End of loadComment()
+
+    connectedCallback() {
+
+       // load feature List
+      this.loadFeatureList()
+
+      //preview Images
+      this.previewImage()
+      //Set sub image as main Image
+      this.setMainImage()
+
+      //Load the reserve component
+      this.loadReserve()
+
+       //loadComment
+      this.loadComment()
+        
+      //Load map view component
+      this.loadMapView()
+
+    }//End of connectedCallback()
     
-  }
+  }//End of the class
 
   window.customElements.define('property-details', PropertyDetails)

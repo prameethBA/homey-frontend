@@ -27,12 +27,18 @@ export default CSS = `
   }
 
   .search {
-    min-width: 30%;
+    width: 15rem;
     height: 1.5rem;
     outline: none;
     border: solid 1px;
     border-radius: 1rem;
     text-align: center;
+    transition: all 1s ease-in-out;
+  }
+
+  .create-new {
+    margin: auto 5rem;
+    cursor: pointer;
     transition: all 1s ease-in-out;
   }
 
@@ -56,13 +62,7 @@ export default CSS = `
     font-size: 1.5rem;
     font-weight: bold;
     font-family: inherit;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0.5rem;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
+  }
 
   .status {
     font-size: 0.8rem;
@@ -91,47 +91,27 @@ export default CSS = `
     width: 45%;
   }
 
-  .danger-button {
+  .remove, .change-status {
     background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
   }
 
-  .danger-button:hover {
+  .remove:hover, .change-status:hover {
     box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
   }
 
-  .primary-button {
+  .create-new {
       background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+      width: 15%;
   }
 
-  .primary-button:hover {
+  .create-new:hover {
       box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
   }
-
-  .button-group > button {
-      width: 10rem;
-      margin: 0.5rem auto;
-  }
-
-  .button-group {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-
-  .button-group-user {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-
-  .button-group-user > button {
-    margin: 0.4rem auto;
-   }
 
   .profile{
     display: flex;
     width: 17.5rem;
-    min-height: 25rem;
+    height: 25rem;
     margin: 1rem;
     position: relative;
     justify-content: center;
@@ -146,7 +126,7 @@ export default CSS = `
     position: inherit;
   }
 
-  .users {
+  .admins {
     display: flex;
     flex-wrap: wrap;
   }

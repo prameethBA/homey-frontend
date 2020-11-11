@@ -18,10 +18,10 @@ export default class Router {
             throw new TypeError('typeof callback must be a function')
 
         // throw an error if the route uri already exists to avoid confilicting routes
-        this.routes.forEach(route => {
-            if (route.uri === uri)
-                throw new Error(`the uri ${route.uri} already exists`)
-        })
+        // this.routes.forEach(route => {
+        //     if (route.uri === uri)
+        //         throw new Error(`the uri ${route.uri} already exists`)
+        // })
 
         // Step 5 - add route to the array of routes
         const route = {
@@ -43,15 +43,20 @@ export default class Router {
         this.routerFound = false
         this.routes.some(route => {
             let regEx = new RegExp(`^${route.uri}$`) // i'll explain this conversion to regular expression below
+            let regEx2 = new RegExp(`^${route.uri}\/\w*`) // i'll explain this conversion to regular expression below
             let path = window.location.pathname
 
             if (path.match(regEx)) {
                 // our route logic is true, return the corresponding callback
-
                 let req = { path } // i'll also explain this code below
                 this.routerFound = true
                 return route.callback.call(this, req)
-            } else this.routerFound =false
+            } else if(path.match(regEx2)) {
+                let req = { path } // i'll also explain this code below
+                this.routerFound = true
+                return route.callback.call(this, req)
+            } 
+            else this.routerFound =false
         })
         if(!this.routerFound) dispatchEvent(new CustomEvent("customError", { detail: { err: '404' } }))
     }
