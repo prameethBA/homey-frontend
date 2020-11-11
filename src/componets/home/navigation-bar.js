@@ -19,8 +19,7 @@ export default class Nav extends Base {
   </nav>
   `
 
-  content = `
-      <header>
+  loginContent = `
         <nav class="topnav">
           <div class="row">
             <span class="logo">
@@ -70,23 +69,31 @@ export default class Nav extends Base {
             <a class="hamburger">&#9776;</a>
           </div>
         </nav>
-      </header>
-  `
+        `
+        
+  content = `<header></header>`
+
   constructor() {
     super()
     this.mount()
 
     //pre Content Behaviour
     this.setNavBar()
-
+    //Set Navigation
+    if(this.isLogin()) this.setNavigation()
   }//End of the constructor
 
   //Set Nav Bar
   setNavBar() {
-    if(!this.isLogin()) this._qs('header').innerHTML = this.preContent
+    
+    if(!this.isLogin()) {
+      this._qs('header').innerHTML = this.preContent
+      //load login form
+      this.loadLoginForm()
+    }
     else {
-      // Navigation 
-      this.navigation()
+      this._qs('header').innerHTML = this.loginContent
+      
       //Toggle Nav bar
       this.toggleNavBar()
       //Set admin dashboard button
@@ -95,14 +102,15 @@ export default class Nav extends Base {
         //load Admin bashboard
         this.loadAdminDashboard()
       }//End of setting admin dashboard button 
-    }//End of setting nvigation
+    }//End of setting navigation
 
+    // load Home
+    this.loadHome()
+    
   }// End of setNavBar()
 
   // Navigation 
-  navigation() {
-    //Home
-    this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `home/main/main`, compName: 'main-comp' } })))
+  setNavigation() {
     // properties
     this._qs('#properties').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `property/available-property`, compName: 'available-property' } })))
     //Add New property
@@ -112,8 +120,8 @@ export default class Nav extends Base {
     //Profile
     this._qs('#profile').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `account/profile`, compName: 'profile-comp' } })))
     //Log out
-    this._qs('#log-out').addEventListener('click', () => this.logOut())
-  }//end of navigation()
+    this._qs('#log-out').addEventListener('click', () => this.logOutMethod())
+  }//end of setNavigation()
 
   //load Admin bashboard
   loadAdminDashboard() {
@@ -121,6 +129,21 @@ export default class Nav extends Base {
       dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } }))
     })
   }// End of loadAdminDashboard()
+
+  //load home
+  loadHome() {
+   //Home
+   this._qs('.logo').addEventListener('click', () => {
+     dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `home/main/main`, compName: 'main-comp' } }))
+    })
+  }// End of loadHome()
+
+  //load login form
+  loadLoginForm() {
+    this._qs('#login-button').addEventListener('click', () => {
+      dispatchEvent(new CustomEvent('load-login-form'))
+     })
+   }// End of loadLoginForm()
   
   //Toggle Nav bar
   toggleNavBar() {
@@ -145,13 +168,21 @@ export default class Nav extends Base {
     })
   }// toggleNavBar()
 
+  //Login
+  loginMethod() {
+    addEventListener('login-success', () => this.setNavBar())
+  }//loginMethod()
+
   //Log out
-  logOut() {
+  logOutMethod() {
     this.logOut()
     this.setNavBar()
-  }//logOut()
+  }//logOutMethod()
 
   connectedCallback() {
+
+    //Login method
+    this.loginMethod()
 
   }// End of connected callback
 
