@@ -20,12 +20,11 @@ export default CSS = `
      }
 
     .images {
-      width: 75%;
       margin: 2rem;
     }
 
     .main-image-container {
-      width: 100%;
+      width: 25rem;
     }
 
     .main-image {
@@ -37,7 +36,7 @@ export default CSS = `
     }
 
     .sub-images {
-      width: 100%;
+      width: 25rem;
       display: flex;
       justify-content: space-around;
       cursor: pointer;
@@ -90,10 +89,9 @@ export default CSS = `
     }
 
     .features {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      flex-wrap: wrap;
+      display: grid;
+      grid-gap: 0 3rem;
+      grid-template-columns: repeat(auto-fill, 17.5rem);
     }
     
     .contact-info {

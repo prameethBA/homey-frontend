@@ -4,6 +4,39 @@ import CSS from './property-view.css.js'
 export default class PropertyView extends Base {
 
     css = CSS
+
+    options = `
+    <div class="online-payment toggle-menu">
+        <span>Accept Online payments</span>
+        <label class="switch">
+            <input type="checkbox" />
+            <span class="toggle round"></span>
+        </label>
+    </div>
+
+    <div class="boost-property toggle-menu">
+        <span>Boost</span>
+        <label class="switch">
+            <input type="checkbox" />
+            <span class="toggle round"></span>
+        </label>
+    </div>
+
+    <div class="visibility toggle-menu">
+        <span>Private</span>
+        <label class="switch">
+            <input type="checkbox" />
+            <span class="toggle round"></span>
+        </label>
+        <span>Public</span>
+    </div>
+    `
+
+    optionButtons = `
+        <button class="remove">Remove</button>
+        <button class="block">block</button>
+    `
+
     content = `
         <div class="container">
            <div class="row">
@@ -29,37 +62,13 @@ export default class PropertyView extends Base {
                     <slot name="price"></slot>
                 </span>
 
-                <div class="online-payment toggle-menu">
-                    <span>Accept Online payments</span>
-                    <label class="switch">
-                        <input type="checkbox" />
-                        <span class="toggle round"></span>
-                    </label>
-                </div>
-
-                <div class="boost-property toggle-menu">
-                    <span>Boost</span>
-                    <label class="switch">
-                        <input type="checkbox" />
-                        <span class="toggle round"></span>
-                    </label>
-                </div>
-
-                <div class="visibility toggle-menu">
-                    <span>Private</span>
-                    <label class="switch">
-                        <input type="checkbox" />
-                        <span class="toggle round"></span>
-                    </label>
-                    <span>Public</span>
-                </div>
+                ${this.getAttribute('overview') == 'true' ? this.options : `<span></span>`}
 
             </div>
             <slot name="description" class="description"></slot>
             <div class='button-group'>
                 <button class="comment">Comment</button>
-                <button class="remove">Remove</button>
-                <button class="block">block</button>
+                ${this.getAttribute('overview') == 'true' ? this.optionButtons : `<span></span>`}
                 <button class="reserve">Reserve</button>
                 <button class="more">More >></button>
             </div>
@@ -72,6 +81,7 @@ export default class PropertyView extends Base {
         super()
         this.mount()
         
+        this.qs('img').style.display = 'block'
     }//End of constructor
 
 
@@ -141,7 +151,7 @@ export default class PropertyView extends Base {
         
                 this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
                 this._qs('.slider-next').addEventListener('click', () => {slideNext()})
-                this._qs('.slider-previous').click();
+                this._qs('.slider-next').click();
                 this.state.rootImg = 1
         
                 let autoSlide = setInterval(() => slideNext(),5000)

@@ -323,8 +323,8 @@ constructor() {
 
     this._qs('#pickLocation').addEventListener('click', () => {
       initMap()
-      this._qs('#pickLocation').style.display = 'none'
-      this._qs('#pickLocation').removeEventListener('click', {} )
+      // this._qs('#pickLocation').style.display = 'none'
+      // this._qs('#pickLocation').removeEventListener('click', {} )
     })
 
     await import("./subcomp/facility.js")
@@ -471,10 +471,10 @@ constructor() {
                                       <span class="location-details-span city">${city}</span>
                                       <span class="location-details-span address">Address : 141, Mediyawa, Eppawala.</span>
                                   </div>
-                                  <div slot="user-details" class="row-2 user-details">
+                                  <!-- <div slot="user-details" class="row-2 user-details">
                                       <span class="user"><a>userId</a></span>
                                       <span class="created">created</span>
-                                  </div>
+                                  </div> -->
                               </preview-advertisement>
                               <div id="progress">
                                 <div id="progress-bar"><div id="progress-bar-progress"></div></div>

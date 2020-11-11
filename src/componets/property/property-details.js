@@ -77,10 +77,10 @@ export default class PropertyDetails extends Base {
               res.data.data.forEach(item => this._qs('.features').innerHTML += `
                 <facility-comp 
                 key="${item.feature_id}" 
-                name="${item.feature}" 
+                name="${item.feature_name}" 
                 measurable="1" 
                 checked="true" 
-                quantity="${item.quantity}"
+                quantity="${0}"
                 ></facility-comp>
                 `
               )}

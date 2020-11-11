@@ -84,6 +84,9 @@ export default class App extends Base {
                 // Load avalibale property full details
                 router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))
 
+                // Load favourite full details
+                router.get('/favourite', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/favourite`, compName: 'favourite-comp' } })))
+
                 // Load payment gateway component
                 router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
 
@@ -123,6 +126,9 @@ export default class App extends Base {
 
             // Load avalibale property full details
             router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))
+
+            // Load favourite full details
+            router.get('/favourite', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/favourite`, compName: 'favourite-comp' } })))
 
             // Load payment gateway component
             router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))

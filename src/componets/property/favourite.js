@@ -1,7 +1,7 @@
 import Base from '../Base.js'
 import CSS from './own-properties.css.js'
 
-export default class OwnProperties extends Base {
+export default class Favourite extends Base {
 
   css =  CSS
 
@@ -12,14 +12,6 @@ export default class OwnProperties extends Base {
                     <input id="search" type="text" class="search" placeholder="Search here" />
                     <label for="search">🔍</label>
                     </span>
-                    <div class="button-group">
-                        <button class="blocked danger-button">Blocked Properties</button>
-                        <button class="pending primary-button">Pending Approvals</button>
-                        <button class="rejected danger-button">Rejected Properties</button>
-                        <button class="private primary-button">Private</button>
-                        <button class="public primary-button">Public</button>
-                        <button class="boosted danger-button">Boosted Properties</button>
-                    </div>
             </div>
             <div class="row">
                 <div class="content"></div>
@@ -47,7 +39,7 @@ export default class OwnProperties extends Base {
       
               for (let index = 0; index < this.state.limit; index++) {
                   this._qs('.content').innerHTML += `
-                          <property-view id="id-${index}" key="${index}" overview='true'>
+                          <property-view id="id-${index}" key="${index}" overview='false'>
                               <img slot="thumbnail" class="thumbnail" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
                               <p slot="title" class=" title title-${index}">Boarding place at Colombo-08</p>
                               <p slot="price" class=" price price-${index}">Rs. 17, 000</p>
@@ -76,4 +68,4 @@ export default class OwnProperties extends Base {
     
   }//End of the class
 
-  window.customElements.define('own-properties', OwnProperties)
+  window.customElements.define('favourite-comp', Favourite)
