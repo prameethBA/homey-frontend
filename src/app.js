@@ -88,7 +88,7 @@ export default class App extends Base {
                 router.get('/favourite', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/favourite`, compName: 'favourite-comp' } })))
 
                 // Load payment gateway component
-                router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
+                router.get('/payment/received', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `payments/payment-received`, compName: 'payment-received' } })))
 
                 // +++DEV+++ Only for develompent 
                 router.get('/dev', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/dev`, comp: `../dev`, compName: 'dev-dev' } })))
@@ -131,7 +131,7 @@ export default class App extends Base {
             router.get('/favourite', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/favourite`, compName: 'favourite-comp' } })))
 
             // Load payment gateway component
-            router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
+            router.get('/payment/received', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `payments/payment-received`, compName: 'payment-received' } })))
 
             // +++DEV+++ Only for develompent 
             router.get('/dev', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/dev`, comp: `../dev`, compName: 'dev-dev' } })))
