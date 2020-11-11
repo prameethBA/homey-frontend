@@ -53,6 +53,8 @@ const filter  = `
         flex-wrap: wrap;
         background-color: #ffffff;
         transition: all 0.5s ease;
+        z-index: 0;
+        position: relative;
     }
 
     .left_nav::-webkit-scrollbar {

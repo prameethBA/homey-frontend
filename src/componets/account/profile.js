@@ -14,7 +14,7 @@ export default class Profiel extends Base {
                     <img  class="profile-picture" src="/assets/img/1.png" />
                 </div>
                 <div class="name-container">
-                    <span class="name">Dimuthu Lakmal</span>
+                    <span class="name">Osanda Rathnayake</span>
                 </div>
                 <div class="last-login-container">
                     <span class="last-login-title">Last Login </span>
