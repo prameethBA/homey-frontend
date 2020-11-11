@@ -44,7 +44,7 @@ export default class Profiel extends Base {
                     </div>
                     <div class="form-column">
                         <label for="address-1">Address Line 1</label>
-                        <input type="text" id="address-1" value="No.500/A" />
+                        <input type="text" id="address-1" value="" />
                         <label for="address-2">Address Line 2</label>
                         <input type="text" id="address-1" value="" />
                         <label for="address-3">Address Line 3</label>
