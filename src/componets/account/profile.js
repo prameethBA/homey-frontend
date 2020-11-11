@@ -14,7 +14,7 @@ export default class Profiel extends Base {
                     <img  class="profile-picture" src="/assets/img/1.png" />
                 </div>
                 <div class="name-container">
-                    <span class="name">Osanda Rathnayake</span>
+                    <span class="name">Name</span>
                 </div>
                 <div class="last-login-container">
                     <span class="last-login-title">Last Login </span>
@@ -31,12 +31,16 @@ export default class Profiel extends Base {
                     <div class="form-row">
                         <div class="form-column">
                             <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" value="Osanda" />
+                            <input type="text" id="firstName" value="" />
                         </div>
                         <div class="form-column">
                             <label for="LastName">First Name</label>
-                            <input type="text" id="LastName" value="Rathnayake" />
+                            <input type="text" id="lastName" value="" />
                         </div>
+                    </div>
+                    <div class="form-column">
+                        <label for="email">NIC</label>
+                        <input type="email" id="email" value="" />
                     </div>
                     <div class="form-column">
                         <label for="address-1">Address Line 1</label>
@@ -48,24 +52,24 @@ export default class Profiel extends Base {
                         <div class="form-row">
                             <div class="form-column">
                                 <label for="city">City</label>
-                                <input type="text" id="city" value="Matara" />
+                                <input type="text" id="city" value="" />
                             </div>
                             <div class="form-column">
                                 <label for="district">District</label>
-                                <input type="text" id="district" value="Matara" />
+                                <input type="text" id="district" value="" />
                             </div>
                         </div>
                     </div>
                     <div class="form-column">
                         <label for="nic">NIC</label>
-                        <input type="text" id="nic" value="983829393V" />
+                        <input type="text" id="nic" value="" />
                     </div>
                     <div class="form-column">
                         <label >Date of birth</label>
                         <div class="form-row">
-                            <input type="text" id="year" value="1998" />
-                            <input type="text" id="month" value="Aug" />
-                            <input type="text" id="day" value="04" />
+                            <input type="text" id="year" value="" />
+                            <input type="text" id="month" value="" />
+                            <input type="text" id="day" value="" />
                         </div>
                     </div>
                     <div class="form-row">
@@ -101,8 +105,8 @@ export default class Profiel extends Base {
                         <span class="danger-title">Danger Zone</span>
                     </div>
                     <div class="form-row">
-                            <button class="danger-button" id="remove">Delete Account</button>
-                            <button class="danger-button" id="deactivate">Deactivate Account</button>
+                        <button class="danger-button" id="remove">Delete Account</button>
+                        <button class="danger-button" id="deactivate">Deactivate Account</button>
                     </div>
 
                 </div>
@@ -114,8 +118,26 @@ export default class Profiel extends Base {
       super()
       this.mount()
 
-    }
+      //Get profile info
+        this.getProfileInfo()
 
-  }
+    }//End of constructor
+
+    //Get profile info
+    getProfileInfo() {
+        axios.post(`${this.host}/profile/info`, {
+            userId: this.getUserId(),
+            token: this.getToken()
+        })
+            .then(res => {
+                this._qs('.name').innerHTML = `${res.data.userData.firstName} ${res.data.userData.lastName}`
+                this._qs('#firstName').value = res.data.userData.firstName
+                this._qs('#lastName').value = res.data.userData.lastName
+                this._qs('#email').value = res.data.authData.email
+                // this._qs('#mobile').value = res.data.authData.mobile
+            })
+    }//End of getProfileInfo()
+
+  }//End of class
 
   window.customElements.define('profile-comp', Profiel)
