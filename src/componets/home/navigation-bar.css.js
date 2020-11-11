@@ -29,13 +29,14 @@ export default CSS = `
   }
 
   /* Style the links inside the navigation bar */
-  .topnav a {
+  .nav-items a {
     text-decoration: none;
-    font-size: 1.1rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    padding: 0 0.5rem;
+    transition: all 0.2s ease;
+    width: auto;
   }
 
   .logo {
@@ -52,9 +53,9 @@ export default CSS = `
   }
 
   .nav-items {
-    margin: auto 1rem;
-    display: flex;
     justify-content: space-around;
+    display: flex;
+    flex-direction: row;
   }
 
   /* Add an active class to highlight the current page */
@@ -64,26 +65,28 @@ export default CSS = `
   }
 
   /* Hide the link that should open and close the topnav on small screens */
-  .topnav .icon {
+  .topnav .hamburger {
     display: none;
   }
 
   /* Dropdown container - needed to position the dropdown content */
   .dropdown {
-    float: left;
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   /* Style the dropdown button to fit inside the topnav */
   .dropdown .dropbtn {
-    font-size: 17px;
-    border: none;
     outline: none;
-    color: white;
-    padding: 14px 16px;
+    color: #000000;
     background-color: inherit;
     font-family: inherit;
     margin: 0;
+    border: none;
+    font-size: 1.1rem;
+    height: 100%;
+    padding: 0 1rem;
   }
 
   /* Style the dropdown content (hidden by default) */
@@ -91,25 +94,30 @@ export default CSS = `
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    min-width: 8rem;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    top: 4rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   /* Style the links inside the dropdown */
   .dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 3rem;
+    color: #000000;
   }
 
   /* Add a dark background on topnav links and the dropdown button on hover */
-  .topnav a:hover, .dropdown:hover .dropbtn {
+  .topnav a:hover, .dropdown:hover, .dropdown button:hover {
     background-color: #555;
     color: white;
+    cursor: pointer;
   }
 
   /* Add a grey background to dropdown links on hover */
@@ -120,24 +128,58 @@ export default CSS = `
 
   /* Show the dropdown menu when the user moves the mouse over the dropdown button */
   .dropdown:hover .dropdown-content {
+    display: flex;
+  }
+
+  .responsive-nav-items {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    right: 0;
+  } 
+
+  .responsive-dropdown{
+    display: block;
+    text-align: center;
+  }
+
+  .responsive-topnav a {
+    display: flex !important;
+  }
+
+  .responsive-dropbtn{
+    display: flex !important;
+  }
+
+  .responsive-dropdown-content{
+    display: block;
+    position: relative;
+  }
+
+  .responsive-dropbtn :not(.nohover):hover{
+    display: none;
+  }
+
+  .responsive-dropdown-content :not(.nohover):hover{
     display: block;
   }
 
-  /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+  /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.hamburger) */
   @media screen and (max-width: 600px) {
     .topnav a:not(:first-child), .dropdown .dropbtn {
       display: none;
     }
-    .topnav a.icon {
-      float: right;
-      display: block;
+    .topnav a.hamburger {
+      display: flex;
+      font-size: 2.5rem;
     }
   }
 
   /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
   @media screen and (max-width: 600px) {
     .topnav.responsive {position: relative;}
-    .topnav.responsive a.icon {
+    .topnav.responsive a.hamburger {
       position: absolute;
       right: 0;
       top: 0;

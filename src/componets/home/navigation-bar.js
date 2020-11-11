@@ -15,7 +15,7 @@ export default class Nav extends Base {
 
   content = `
       <header>
-        <nav class="topnav" id="myTopnav">
+        <nav class="topnav">
           <div class="row">
             <span class="logo">
               <img src="/assets/img/homey_logo.png" />
@@ -23,20 +23,45 @@ export default class Nav extends Base {
           </div>
           <div class="row separator"></div>
           <div class="row nav-items">
-            <a href="#news">News</a>
-            <a href="#contact">Contact</a>
+            <a>🔔</a>
+            <a id="properties">Properties</a>
+            <a>Favourites</a>
+
             <div class="dropdown">
-              <button class="dropbtn">Dropdown
+              <button class="dropbtn">Own Properties
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
+                <a id="add-new-property">Add New Property</a>
+                <a id="own-properties">View Own Properties</a>
               </div>
             </div>
-            <a href="#about">About</a>
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+
+            <div class="dropdown">
+              <button class="dropbtn">Payments
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content">
+                <a>Received Payments</a>
+                <a>Paying History</a>
+                <a>Cash out</a>
+                <a>Bank Account Details</a>
+              </div>
+            </div>
+
+            <a> Forum </a>
+
+            <div class="dropdown">
+              <button class="dropbtn">Account & Settings
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content">
+                <a id="profile">Profile</a>
+                <a>Wallet</a>
+                <a id="log-out">Logout</a>
+              </div>
+            </div>
+            <a class="hamburger">&#9776;</a>
           </div>
         </nav>
       </header>
@@ -188,16 +213,64 @@ export default class Nav extends Base {
 
   }//End of the constructor
 
+
+  logOut() {
+    addEventListener('log-out', () => {
+      // this._qs('header').innerHTML = this.preContent
+      // this.preContentBehaviour()
+      // this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
+    })
+  }
+
+  // Navigation 
+  navigation() {
+    //Home
+    this._qs('.logo').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `home/main/main`, compName: 'main-comp' } })))
+    // properties
+    this._qs('#properties').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `property/available-property`, compName: 'available-property' } })))
+    //Add New property
+    this._qs('#add-new-property').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+    //Own property
+    this._qs('#own-properties').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `property/own-properties`, compName: 'own-properties' } })))
+    //Profile
+    this._qs('#profile').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `account/profile`, compName: 'profile-comp' } })))
+    //Log out
+    this._qs('#log-out').addEventListener('click', () => this.logOut())
+  }//end of navigation()
+
+  //Toggle Nav bar
+  toggleNavBar() {
+    let visible = true
+    this._qs('.hamburger').addEventListener('click', () => {
+        if(visible) {
+          this._qs('.dropbtn').classList.add('responsive-dropbtn')
+          this._qs('.nav-items').classList.add('responsive-nav-items')
+          this._qs('.dropdown').classList.add('responsive-dropdown')
+          this._qs('.dropdown-content').classList.add('responsive-dropdown-content')
+          this._qs('.topnav').classList.add('responsive-topnav')
+        }
+        else {
+          this._qs('.dropbtn').classList.remove('responsive-dropbtn')
+          this._qs('.nav-items').classList.remove('responsive-nav-items')
+          this._qs('.dropdown').classList.remove('responsive-dropdown')
+          this._qs('.dropdown-content').classList.remove('responsive-dropdown-content')
+          this._qs('.topnav').classList.remove('responsive-topnav')
+        }
+
+        visible = !visible
+    })
+  }// toggleNavBar()
+
   connectedCallback() {
+
+    // Navigation 
+    this.navigation()
+
+    //Toggle Nav bar
+    this.toggleNavBar()
 
     // addEventListener('login-success', () => {
     //   this.setLoginNavBar()
-    // })
-
-    // addEventListener('log-out', () => {
-    //   this._qs('header').innerHTML = this.preContent
-    //   this.preContentBehaviour()
-    //   this._qs('#login-button').addEventListener('click', () => dispatchEvent(new Event('load-login-form')))
     // })
 
   }// End of connected callback
