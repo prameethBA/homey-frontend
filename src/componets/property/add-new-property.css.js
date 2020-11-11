@@ -217,8 +217,10 @@ export default CSS = `
   }
  
   button:hover{
+      cursor: pointer;
       background-position: right;
       color: black;
+      box-shadow: 0 0 20px -5px white;
   }
 
   .load-more {
