@@ -1,4 +1,32 @@
+
+ const loginButton = `
+  #login-button, #admin-dashboard {	
+    height: 2.5rem;	
+    width: 10rem;	
+    margin: auto 2rem;	
+    text-transform: uppercase;	
+    color: #eeeeee;	
+    background-color: #239710;	
+    border: none;	
+    box-shadow: 1px 1px 5px 1px rgba(23,97,10,0.64);	
+    outline: none;	
+    cursor: pointer;	
+    transition: 0.4s;	
+  }	
+  #admin-dashboard {	
+      height: 2rem;	
+    }	
+        
+  #login-button:hover {	
+      background-color: #34a832;	
+  }
+`
+
+
 export default CSS = `
+
+  ${loginButton}
+
   header {
     position: fixed;
     width: 100%;
