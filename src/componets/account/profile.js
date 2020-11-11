@@ -31,41 +31,41 @@ export default class Profiel extends Base {
                     <div class="form-row">
                         <div class="form-column">
                             <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" value="Dimuthu" />
+                            <input type="text" id="firstName" value="Osanda" />
                         </div>
                         <div class="form-column">
                             <label for="LastName">First Name</label>
-                            <input type="text" id="LastName" value="Lakmal" />
+                            <input type="text" id="LastName" value="Rathnayake" />
                         </div>
                     </div>
                     <div class="form-column">
                         <label for="address-1">Address Line 1</label>
-                        <input type="text" id="address-1" value="No.141" />
+                        <input type="text" id="address-1" value="No.500/A" />
                         <label for="address-2">Address Line 2</label>
                         <input type="text" id="address-1" value="" />
                         <label for="address-3">Address Line 3</label>
-                        <input type="text" id="address-3" value="Mediyawa" />
+                        <input type="text" id="address-3" value="" />
                         <div class="form-row">
                             <div class="form-column">
                                 <label for="city">City</label>
-                                <input type="text" id="city" value="Eppawala" />
+                                <input type="text" id="city" value="Matara" />
                             </div>
                             <div class="form-column">
                                 <label for="district">District</label>
-                                <input type="text" id="district" value="Anuradhapura" />
+                                <input type="text" id="district" value="Matara" />
                             </div>
                         </div>
                     </div>
                     <div class="form-column">
                         <label for="nic">NIC</label>
-                        <input type="text" id="nic" value="981421485V" />
+                        <input type="text" id="nic" value="983829393V" />
                     </div>
                     <div class="form-column">
                         <label >Date of birth</label>
                         <div class="form-row">
                             <input type="text" id="year" value="1998" />
-                            <input type="text" id="month" value="May" />
-                            <input type="text" id="day" value="21" />
+                            <input type="text" id="month" value="Aug" />
+                            <input type="text" id="day" value="04" />
                         </div>
                     </div>
                     <div class="form-row">

@@ -28,45 +28,45 @@ export default class Nav extends Base {
           </div>
           <div class="row separator"></div>
           <div class="row nav-items">
-            <a>🔔</a>
-            <a id="properties">Properties</a>
-            <a>Favourites</a>
+            <a data-path="">🔔</a>
+            <a data-path="property" id="property" class="nav-link">Properties</a>
+            <a data-path="favourite" id="favourite" class="nav-link">Favourites</a>
 
             <div class="dropdown">
-              <button class="dropbtn">Own Properties
+              <button class="dropbtn" class="nav-link" id="own-property">Own Properties
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <a id="add-new-property">Add New Property</a>
-                <a id="own-properties">View Own Properties</a>
+                <a data-path="own-properties" id="add-new-property">Add New Property</a>
+                <a data-path="own-properties" id="own-properties">View Own Properties</a>
               </div>
             </div>
 
             <div class="dropdown">
-              <button class="dropbtn">Payments
+              <button class="dropbtn" class="nav-link" id="payments">Payments
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <a>Received Payments</a>
-                <a>Paying History</a>
-                <a>Cash out</a>
-                <a>Bank Account Details</a>
+                <a data-path="payments">Received Payments</a>
+                <a data-path="payments">Paying History</a>
+                <a data-path="payments">Cash out</a>
+                <a data-path="payments">Bank Account Details</a>
               </div>
             </div>
 
-            <a> Forum </a>
+            <a data-path=""> Forum </a>
 
             <div class="dropdown">
-              <button class="dropbtn">Account & Settings
+              <button class="dropbtn" class="nav-link" id="account">Account & Settings
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <a id="profile">Profile</a>
-                <a>Wallet</a>
-                <a id="log-out">Logout</a>
+                <a data-path="account" id="profile">Profile</a>
+                <a data-path="account">Wallet</a>
+                <a data-path="account" id="log-out">Logout</a>
               </div>
             </div>
-            <a class="hamburger">&#9776;</a>
+            <a data-path="" class="hamburger">&#9776;</a>
           </div>
         </nav>
         `
@@ -93,12 +93,13 @@ export default class Nav extends Base {
     }
     else {
       this._qs('header').innerHTML = this.loginContent
-      
+      //set as Active
+      this.setAsActive()
       //Toggle Nav bar
       this.toggleNavBar()
       //Set admin dashboard button
       if(this.getUserType() == 1) {
-        this._qs('.nav-items').innerHTML += `<a><button id="admin-dashboard">Admin Dashboard</button></a>`
+        this._qs('.nav-items').innerHTML += `<a data-path=""><button id="admin-dashboard">Admin Dashboard</button></a>`
         //load Admin bashboard
         this.loadAdminDashboard()
       }//End of setting admin dashboard button 
@@ -112,13 +113,15 @@ export default class Nav extends Base {
   // Navigation 
   setNavigation() {
     // properties
-    this._qs('#properties').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `property/available-property`, compName: 'available-property' } })))
+    this._qs('#property').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/property`, comp: `property/available-property`, compName: 'available-property' } })))
+    // favourite
+    this._qs('#favourite').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/favourite`, comp: `property/favourite`, compName: 'favourite-comp' } })))
     //Add New property
-    this._qs('#add-new-property').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
+    this._qs('#add-new-property').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
     //Own property
-    this._qs('#own-properties').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `property/own-properties`, compName: 'own-properties' } })))
+    this._qs('#own-properties').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/own-properties`, comp: `property/own-properties`, compName: 'own-properties' } })))
     //Profile
-    this._qs('#profile').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `account/profile`, compName: 'profile-comp' } })))
+    this._qs('#profile').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/profile`, comp: `account/profile`, compName: 'profile-comp' } })))
     //Log out
     this._qs('#log-out').addEventListener('click', () => this.logOutMethod())
   }//end of setNavigation()
@@ -126,7 +129,7 @@ export default class Nav extends Base {
   //load Admin bashboard
   loadAdminDashboard() {
     this._qs('#admin-dashboard').addEventListener('click', () => {
-      dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } }))
+      dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } }))
     })
   }// End of loadAdminDashboard()
 
@@ -168,6 +171,25 @@ export default class Nav extends Base {
     })
   }// toggleNavBar()
 
+  //set as Active
+  setAsActive() {
+    this._qsAll('a').forEach(item => {
+      if(item.id == window.location.pathname.split('/')[1]) {
+        // console.log(item.dataset.path)
+        item.classList.add('active')
+      }
+      else
+        item.classList.remove('active')
+    })
+  }//End of setAsActive()
+
+  //Monitor link clicks
+  monitorLinkClicks() {
+    this._qsAll('a').forEach(link => {
+      link.addEventListener('click', () => this.setAsActive())
+    })
+  }//End of monitorLinkClicks()
+
   //Scrolbar behavoiur when scroll
   scrollNavbar() {
     addEventListener('scroll', () =>  {
@@ -201,6 +223,9 @@ export default class Nav extends Base {
 
     //Login method
     this.loginMethod()
+
+    //Monitor link clicks
+    this.monitorLinkClicks()
 
     //Scrolbar behavoiur when scroll
     this.scrollNavbar()
