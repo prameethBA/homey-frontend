@@ -23,10 +23,10 @@ export default class Pendings extends Base {
                     
                 </tbody>
             </table>
-            </div>
-            <div class="pagination">
-                <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
-            </div>
+        </div>
+        <div class="pagination">
+            <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+        </div>
     </div>
     <div class="preview-advertisement"></div>
 `
