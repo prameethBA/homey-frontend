@@ -1,15 +1,15 @@
 import Base from '../Base.js'
 import CSS from './payment-received.css.js'
 
-export default class PaymentReceived extends Base {
+export default class PaymentAll extends Base {
 
   css =  CSS
 
   leftNav = `
       <div class="column left-nav">
-        <div class="active">Received Payments</div>
+        <div>Received Payments</div>
         <div>Paying History</div>
-        <div>All payments</div>
+        <div class="active">All payments</div>
         <div>Cash out</div>
         <div>Bank Account Details</div>
       </div>
@@ -19,9 +19,30 @@ export default class PaymentReceived extends Base {
       <tr>
           <td>91908091830</td>
           <td>Boarding fee for <a>#293b24o82g9vh4o</a></td>
-          <td>Rs. 17, 000</td>
+          <td>Rs. 27, 000</td>
           <td>2020-10-12 12:45:23</td>
-          <td>⬇ received</td>
+          <td>🔵 Recived</td>
+      </tr>
+      <tr>
+          <td>91908091830</td>
+          <td>Boarding fee for <a>#293b24o82g9vh4o</a></td>
+          <td>Rs. 27, 000</td>
+          <td>2020-10-12 12:45:23</td>
+          <td>🟢 Successfull</td>
+      </tr>
+      <tr>
+          <td>91908091830</td>
+          <td>Boarding fee for <a>#293b24o82g9vh4o</a></td>
+          <td>Rs. 27, 000</td>
+          <td>2020-10-12 12:45:23</td>
+          <td>🟠 Pending</td>
+      </tr>
+      <tr>
+          <td>91908091830</td>
+          <td>Boarding fee for <a>#293b24o82g9vh4o</a></td>
+          <td>Rs. 27, 000</td>
+          <td>2020-10-12 12:45:23</td>
+          <td>🔴 Rejected</td>
       </tr>
     `
 
@@ -43,9 +64,6 @@ export default class PaymentReceived extends Base {
                 <tbody id="received-table-body">
                     ${this.tr}
                     ${this.tr}
-                    ${this.tr}
-                    ${this.tr}
-                    ${this.tr}
                 </tbody>
             </table>
         </div>
@@ -64,4 +82,4 @@ export default class PaymentReceived extends Base {
     
   }
 
-  window.customElements.define('payment-received', PaymentReceived)
+  window.customElements.define('payment-all', PaymentAll)

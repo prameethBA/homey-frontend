@@ -32,11 +32,6 @@ export default CSS =`
         color: #ffffff;
     }
 
-    .active {
-        background-image: linear-gradient(to right top, #ff7e00, #ff7809, #ff7211, #ff6b17, #ff651c);
-        color: #ffffff;
-    }
-
     .content {
         width: 100%;
         margin-top: 1rem;
