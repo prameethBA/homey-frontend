@@ -83,9 +83,11 @@ export default class AdminDashboard extends Base {
         // redirect Admin URIs
         redirectURI() {
             const uri = window.location.pathname.split('/')
+            if(uri[2] == undefined || uri[2] == 'dashboard') this.loadContent('dashboard-comp')
             this._qs(`#${uri[2]}`) != null ? this._qs(`#${uri[2]}`).click() : null
             //Set breadcrumbs
             this.setBreadCrumbs(uri)
+
         } // End of redirectURI
 
         //Set breadcrumbs

@@ -64,7 +64,7 @@ export default class Pendings extends Base {
                                         ${res.data.title}
                                         <button class="load-more">Load more >></button>
                                     </p>
-                                    <span slot="price" class="row-1 price">Rs. ${res.data.price}/Month</span>
+                                    <span slot="price" class="row-1 price">Rental : Rs. ${res.data.price}/Month</span>
                                     <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${res.data.key_money}</span>
                                     <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${res.data.minimum_period} Months</span>
                                     <span slot="available-from" class="row-1 available-from">Available From: ${res.data.available_from}</span>

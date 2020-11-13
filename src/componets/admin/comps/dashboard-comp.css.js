@@ -4,8 +4,52 @@ export default CSS = `
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 5rem auto 5rem auto;
+    margin: 6rem 5rem;
 }
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card  {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 1px 1px 8px 1px rgba(0,0,0,0.75);
+    height: 10rem;
+    width: 15rem;
+    justify-content: space-around;
+    margin: 1rem auto;
+}
+
+.card > div {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+    align-items: center;
+}
+
+.card-value {
+    font-size: 2rem;
+}
+
+ rect {
+    fill: #ffffff;
+ }
+
+ .chart_div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+//  .chart-container {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//  }
 
 .report-comp {
     width: 100%;
@@ -89,8 +133,8 @@ a {
 }
 
 button {
-    height: 2rem;
-    border-radius: 2px;
+    height: 1.2rem;
+    border-radius: 1rem;
     outline: none;
     border: none;
     font-size: 0.8rem;
@@ -108,19 +152,19 @@ button {
     cursor: pointer;
 }
 
-.approve-button {
+.success {
     background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
 }
 
-.approve-button:hover {
+.success:hover {
     box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
 }
 
-.decline-button {
+.danger {
     background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
 }
 
-.decline-button:hover {
+.danger:hover {
     box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
 }
 

@@ -126,7 +126,7 @@ export default class PropertyView extends Base {
     //load the full details about the property
     fullDetails() {
         this._qs('.more').addEventListener('click', () => {
-            dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/property/propertyId`, comp: `property/property-details`, compName: 'property-details' } }))
+            dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/property/${this.qs('.id').value}`, comp: `property/property-details`, compName: 'property-details' } }))
         })
     }//end of fullDetails()
 

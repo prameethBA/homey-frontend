@@ -70,24 +70,25 @@ export default CSS = `
 
   #pickLocation {
     height: 2rem;
-    border-radius: 2px;
+    border-radius: 1rem;
     outline: none;
-    border: none;
-    background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
     font-size: 0.8rem;
     cursor: pointer;
     width: 100%;
     transition: all 1s;
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     text-indent: 1rem;
+    border: solid 1px;
   }
 
   .map {
-    width: 50%;
-    height: 50vw;
-    margin: auto;
+    width: 100%;
+    height: 30rem;
+    margin: 0.5rem auto;
+    border-radius: 4px;
+    box-shadow: 1px 1px 8px 1px rgba(0,0,0,0.75);
   }
 
   .gmnoprint {
@@ -109,18 +110,15 @@ export default CSS = `
 
   .form {
     position: relative;
-    margin: 1rem auto 0 auto;
-    background-color: rgba(0,0,0,0.75);
-    color: #eeeeee;
+    margin: 0 10rem;
     padding: 0.5rem 3rem;
-    padding-bottom: 3rem;
-    border-radius: 1px;
     transition: all 0.5s ease;
   }
   
   .row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .col {
@@ -128,30 +126,34 @@ export default CSS = `
     margin-top: 1rem;
   }
 
+  .title {
+    display: flex;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 0 1rem 0;
+  }
+
   input {
-    outline: none;
+    display: flex;
     width: 100%;
-    background-color: transparent;
-    border: none;
-    border-bottom: solid 1.25px #33dd22;
-    color: #ffffff;
-    margin: 1rem auto;
+    height: 1.5rem;
+    border-radius: 1rem;
+    text-indent: 1rem;
+    outline: none;
     transition: all 0.5s ease;
+    background-color: transparent;
   }
 
   select {
     height: 2rem;
-    border-radius: 2px;
+    border-radius: 1rem;
     outline: none;
-    border: none;
-    background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
     font-size: 0.8rem;
-    color: #fff;
     cursor: pointer;
     width: 100%;
     transition: all 1s;
     text-indent: 1rem;
-    margin-top: 0.3rem;
+    background-color: transparent;
   }
 
   select option {
@@ -160,34 +162,44 @@ export default CSS = `
   }
 
   label {
-      display: block;
-      transition: all 0.2s;
+    display: flex;
+    transition: all 0.2s;
+    margin: 0.1rem 0 0.2rem 0;
   }
 
   .description textarea {
-    width: 90vw;
     min-height: 3rem;
-    border-radius: 2px;
+    border-radius: 0.3rem;
     outline: none;
     border: solid 1px;
     background-color: transparent;
-    color: #fff;
     transition: all 0.1s;
-    text-indent: 2px;
-    margin-top: 0.3rem;
+    text-indent: 1rem;
     overflow-x: hidden;
     overflow-y: auto;
+    position: relative;
+    width: 50rem;
   }
 
-  #facilities {
+  .facilities {
     margin-top: 2rem;
     display: grid;
     grid-template-columns: 50% 50%;  
   }
 
+  #facilities {
+    flex-wrap: wrap;
+    grid-gap: 0.1rem;
+    grid-template-columns: repeat(auto-fill, 10rem);
+  }
+
   facility-comp {
-    list-style: inside;
-    margin-left: 10rem;
+    margin: 0 1rem;
+  }
+
+  .sub-title {
+    font-weight: bold;
+    margin: 2rem auto -2rem auto;
   }
 
   .imageUpload {
@@ -289,17 +301,13 @@ export default CSS = `
   }
 
   @media screen and (max-width: 768px) {
-    #facilities {
+    .facilities {
       margin: auto;
       display: block;  
     }
 
     facility-comp {
       margin: 1rem;
-    }
-
-    .row {
-      display: block;
     }
   
     .col {
@@ -318,7 +326,7 @@ export default CSS = `
   }
 
   @media screen and (max-width: 512px) {
-    #facilities {
+    .facilities {
       width: 85%
       font-size: 0.9rem;
     }

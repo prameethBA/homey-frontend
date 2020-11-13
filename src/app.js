@@ -81,6 +81,9 @@ export default class App extends Base {
                 // Load profile component
                 router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))
 
+                // Load wallet component
+                router.get('/wallet', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/wallet`, compName: 'wallet-comp' } })))
+
                 // Load avalibale property full details
                 router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))
 
@@ -100,7 +103,7 @@ export default class App extends Base {
                 router.get('/payment/cashout', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/cashout`, comp: `payments/payment-cashout`, compName: 'payment-cashout' } })))
 
                 // Load payment cashout component
-            router.get('/payment/bank-account', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/bank-account`, comp: `payments/payment-bank-account`, compName: 'payment-bank-account' } })))
+                router.get('/payment/bank-account', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/bank-account`, comp: `payments/payment-bank-account`, compName: 'payment-bank-account' } })))
 
                 // +++DEV+++ Only for develompent 
                 router.get('/dev', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/dev`, comp: `../dev`, compName: 'dev-dev' } })))
@@ -136,6 +139,9 @@ export default class App extends Base {
             // Load profile component
             router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))
 
+            // Load wallet component
+            router.get('/wallet', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/wallet`, compName: 'wallet-comp' } })))
+            
             // Load avalibale property full details
             router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))
 

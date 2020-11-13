@@ -20,27 +20,6 @@ export default class AdminAccounts extends Base {
 
     <div class="popup"></div>
 `
-
-profile = `
-    <div class="profile">
-        <div class="sub-row">
-            <img class="display-picture" src="/assets/img/1.png" />
-        </div>
-        <div class="sub-row">
-            <span class="name">Dimuthu Lakmal</span>
-            <span class="status">🟢 Active</span>
-        </div>
-        <div class="sub-row">
-            <span class="email"><a href="mailto:lakmalepp@gmail.com">lakmalepp@gmail.com<a></span>
-            <span class="mobile"><a href="callto:0775277373">077 527 7373</a></span>
-        </div>
-        <div class="sub-row">
-            <button class="change-status">Deactivate</button>
-            <button class="remove">Remove Account</button>
-        </div>
-    </div>
-`
-
     constructor() {
             super()
             this.mount()
@@ -48,8 +27,41 @@ profile = `
         } //End of the constructor
 
     //Load admin component
-    loadAdmin() {
-        this._qs('.admins').innerHTML += this.profile
+    loadAdmin(admin) {
+        let data = `
+            <div class="profile">
+                <div class="sub-row">
+                    <img class="display-picture view-profile" src="/assets/img/alt/no-mage.png" />
+                </div>
+                <div class="sub-row">
+                    <span class="name view-profile">${admin.firstName} ${admin.lastName}</span>
+                    <span class="status">`
+
+        switch (admin.status) {
+            case '0':
+                data += `🟠 Unconfirmed`
+                break;
+            case '1':
+                data += `🟢 Confirmed`
+                break;
+            default:
+                data += `🔴 Invalid User`
+                break;
+        }
+
+        data+=            `</span>
+                </div>
+                <div class="sub-row">
+                    <span class="email"><a href="mailto:${admin.email}">${admin.email}<a></span>
+                    <span class="mobile"><a href="callto:${admin.mobile}">${admin.mobile != null ? admin.mobile : 'Mobile number not updated'}</a></span>
+                </div>
+                <div class="sub-row">
+                    <button class="change-status">Deactivate</button>
+                    <button class="remove">Remove Account</button>
+                </div>
+            </div>
+        `
+        this._qs('.admins').innerHTML += data
     }//End of loadAdmin()
 
     //Add new admin component 
@@ -71,14 +83,27 @@ profile = `
         this._qs('.create-new').addEventListener('click', () => this.newAdmin())
     }//end of loadNewAdminForm()
 
+
+    // getUsers from API
+    async getAdmins() {
+        await axios.post(`${this.host}/AdminUsers/all-admins`, {
+            userId: this.getUserId(),
+            token: this.getToken()
+        })
+            .then(res => {
+                res.data.forEach(admin => {
+                    //Load Admin component
+                    this.loadAdmin(admin)
+                })
+            }) 
+            .catch(err => console.log(err))
+    }//end of getAdmins()
+
     // connectedCallback
     connectedCallback() {
 
-        //Load admin component
-        this.loadAdmin()
-        this.loadAdmin()
-        this.loadAdmin()
-        this.loadAdmin()
+         // getUsers from API
+        this.getAdmins()
 
         //loadNewAdminForm
         this.loadNewAdminForm()

@@ -12,6 +12,10 @@ export default class Profiel extends Base {
             <div class="column first-aside">
                 <div class="profile-picture-container">
                     <img  class="profile-picture" src="/assets/img/1.png" />
+                    <div class="upload">
+                        <input type="file" id="upload-image" accept=".jpg, .png, .jpeg, .gif"/>
+                        <label for="upload-image" class="img-label" title="upload an image">📷</label>
+                    </div>
                 </div>
                 <div class="name-container">
                     <span class="name">Name</span>
@@ -39,8 +43,12 @@ export default class Profiel extends Base {
                         </div>
                     </div>
                     <div class="form-column">
-                        <label for="email">NIC</label>
+                        <label for="email">Email</label>
                         <input type="email" id="email" value="" />
+                    </div>
+                    <div class="form-column">
+                        <label for="mobile">Mobile No: </label>
+                        <input type="number" id="mobile" value="" />
                     </div>
                     <div class="form-column">
                         <label for="address-1">Address Line 1</label>
@@ -67,9 +75,30 @@ export default class Profiel extends Base {
                     <div class="form-column">
                         <label >Date of birth</label>
                         <div class="form-row">
-                            <input type="text" id="year" value="" />
-                            <input type="text" id="month" value="" />
-                            <input type="text" id="day" value="" />
+                            <select id="month">
+                                <option value="0" selected disabled>Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">Month</option>
+                                <option value="5">Month</option>
+                                <option value="6">Month</option>
+                                <option value="7">Month</option>
+                                <option value="8">Month</option>
+                                <option value="9">Month</option>
+                                <option value="10">Month</option>
+                                <option value="11">Month</option>
+                                <option value="12">Month</option>
+                            </select>
+                            <select id="day">
+                                <option value="0" selected disabled>Day</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <input type="text" id="year" value="" placeholder="Year"/>
                         </div>
                     </div>
                     <div class="form-row">

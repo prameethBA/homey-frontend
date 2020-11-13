@@ -27,27 +27,6 @@ export default class users extends Base {
     <div class="popup"></div>
     `
 
-    profile = `
-    <div class="profile">
-        <div class="sub-row">
-            <img class="display-picture view-profile" src="/assets/img/house.jpg" />
-        </div>
-        <div class="sub-row">
-            <span class="name view-profile">Prameeth Madhuwantha</span>
-            <span class="status">🟠 Unconfirmed</span>
-        </div>
-        <div class="sub-row">
-            <span class="email"><a href="mailto:prameethba@gmail.com">prameethba@gmail.com<a></span>
-            <span class="mobile"><a href="callto:0769802214">076 980 2214</a></span>
-        </div>
-        <div class="sub-row button-group-user">
-            <button class="primary-button">Deactivate</button>
-            <button class="danger-button">Temporaly Block</button>
-            <button class="danger-button">Permenatly Ban</button>
-            <button class="danger-button">Make confirm contacts</button>
-        </div>
-    </div>
- `
     constructor() {
             super()
             this.mount()
@@ -55,8 +34,43 @@ export default class users extends Base {
         } //End of the constructor
 
     //Load user component
-    loadUser() {
-        this._qs('.users').innerHTML += this.profile
+    loadUser(user) {
+         let data = `
+            <div class="profile">
+                <div class="sub-row">
+                    <img class="display-picture view-profile" src="/assets/img/alt/no-mage.png" />
+                </div>
+                <div class="sub-row">
+                    <span class="name view-profile">${user.firstName} ${user.lastName}</span>
+                    <span class="status">`
+
+        switch (user.status) {
+            case '0':
+                data += `🟠 Unconfirmed`
+                break;
+            case '1':
+                data += `🟢 Confirmed`
+                break;
+            default:
+                data += `🔴 Invalid User`
+                break;
+        }
+
+        data+=            `</span>
+                </div>
+                <div class="sub-row">
+                    <span class="email"><a href="mailto:${user.email}">${user.email}<a></span>
+                    <span class="mobile"><a href="callto:${user.mobile}">${user.mobile != null ? user.mobile : 'Mobile number not updated'}</a></span>
+                </div>
+                <div class="sub-row button-group-user">
+                    <button class="primary-button">Deactivate</button>
+                    <button class="danger-button">Temporaly Block</button>
+                    <button class="danger-button">Permenatly Ban</button>
+                    <button class="danger-button">Make confirm contacts</button>
+                </div>
+            </div>
+        `
+        this._qs('.users').innerHTML += data
     }//End of loadUser()
 
     //View user account summary 
@@ -80,17 +94,29 @@ export default class users extends Base {
         })
     }//end of loadViewUser()
 
+    // getUsers from API
+    async getUsers() {
+        await axios.post(`${this.host}/AdminUsers/all-users`, {
+            userId: this.getUserId(),
+            token: this.getToken()
+        })
+            .then(res => {
+                res.data.forEach(user => {
+                    //Load user component
+                    this.loadUser(user)
+
+                    //loadViewUser
+                    this.loadViewUser()
+                })
+            }) 
+            .catch(err => console.log(err))
+    }//end of getUsers()
+
     // connectedCallback
     connectedCallback() {
 
-        //Load user component
-        this.loadUser()
-        this.loadUser()
-        this.loadUser()
-        this.loadUser()
-
-        //loadViewUser
-        this.loadViewUser()
+        // getUsers from API
+        this.getUsers()
 
     } //End of connectedCallback()
 

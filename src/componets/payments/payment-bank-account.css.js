@@ -73,4 +73,77 @@ export default CSS =`
         text-decoration: underline;
     }
 
+
+    .account-card {
+        width: 20rem;
+        height: auto;
+        box-shadow: 1px 1px 8px 1px rgba(0,0,0,0.75);
+        justify-content: center;
+        align-items: center;
+        margin: 1rem;
+        background: #ffffff;
+        border-radius: 3px;
+    }  
+
+    .account-card div {
+        margin: 1rem;
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .name {
+        margin: 1rem;
+        font-size: 1.5rem;
+    }
+
+    button {
+        height: 2rem;
+        border-radius: 1rem;
+        outline: none;
+        border: none;
+        font-size: 0.8rem;
+        color: #fff;
+        cursor: pointer;
+        transition: all 1s;
+        width: 45%;
+      }
+    
+      .danger {
+        background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
+        width: 30%;
+        margin: 0 1rem;
+      }
+    
+      .danger:hover {
+        box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
+      }
+    
+      .success {
+          background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+          width: 15%;
+      }
+    
+      .success:hover {
+          box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
+      }
+
+      .show-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 75%;
+        height: 1.2rem;
+        color: #000000;
+        margin: auto 1rem;
+      }
+
+      .account-number {
+        align-items: center;
+      }
+
+      .active {
+        background-image: linear-gradient(to right top, #ff7e00, #ff7809, #ff7211, #ff6b17, #ff651c);
+        color: #ffffff;
+    }
 `
