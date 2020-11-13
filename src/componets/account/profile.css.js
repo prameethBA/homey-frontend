@@ -38,6 +38,29 @@ export default CSS =`
     box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
   }
 
+  .upload {
+    position: absolute;
+    display: flex;
+    bottom: 2rem;
+    font-size: 2rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    justify-content: center;
+    align-items: center;
+    border-radius: 5rem;
+    cursor: pointer;
+    transition: all 0.5s ease;
+  }
+
+   .img-label {
+    text-indent: 0;
+    cursor: pointer;
+    transition: all 0.5s ease;
+   }
+
+  input[type="file"] {
+    display: none;
+  }
+
   .name-container {
     text-align: center;
   }
@@ -84,6 +107,7 @@ export default CSS =`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   }
 
   button {
@@ -122,9 +146,9 @@ export default CSS =`
       box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
   }
 
-  input {
+  input, select {
     margin: 0.4rem;
-    height: 2rem;
+    height: 1.5rem;
     outline: none;
     border: 1px solid;
     border-radius: 1rem;
@@ -159,6 +183,7 @@ export default CSS =`
   #year, #day, #month {
     text-align: center;
     text-indent: unset;
+    width: 100%;
   }
 
   .show-more a {
