@@ -47,10 +47,11 @@ export default class Nav extends Base {
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <a data-path="payments">Received Payments</a>
-                <a data-path="payments">Paying History</a>
-                <a data-path="payments">Cash out</a>
-                <a data-path="payments">Bank Account Details</a>
+                <a data-path="payments" id="received">Received Payments</a>
+                <a data-path="payments" id="paid">Paying History</a>
+                <a data-path="payments" id="all">Transaction History</a>
+                <a data-path="payments" id="cashout">Cash out</a>
+                <a data-path="payments" id="bank-account">Bank Account Details</a>
               </div>
             </div>
 
@@ -62,7 +63,7 @@ export default class Nav extends Base {
               </button>
               <div class="dropdown-content">
                 <a data-path="account" id="profile">Profile</a>
-                <a data-path="account">Wallet</a>
+                <a data-path="account" id="wallet">Wallet</a>
                 <a data-path="account" id="log-out">Logout</a>
               </div>
             </div>
@@ -120,8 +121,16 @@ export default class Nav extends Base {
     this._qs('#add-new-property').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
     //Own property
     this._qs('#own-properties').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/own-properties`, comp: `property/own-properties`, compName: 'own-properties' } })))
+    // Payments
+    this._qs('#received').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/received`, comp: `payments/payment-received`, compName: 'payment-received' } })))
+    this._qs('#paid').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/paid`, comp: `payments/payment-paid`, compName: 'payment-paid' } })))
+    this._qs('#all').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/all`, comp: `payments/payment-all`, compName: 'payment-all' } })))
+    this._qs('#cashout').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/cashout`, comp: `payments/payment-cashout`, compName: 'payment-cashout' } })))
+    this._qs('#bank-account').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/bank-account`, comp: `payments/payment-bank-account`, compName: 'payment-bank-account' } })))
     //Profile
     this._qs('#profile').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/profile`, comp: `account/profile`, compName: 'profile-comp' } })))
+    //wallet
+    this._qs('#wallet').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/wallet`, comp: `account/wallet`, compName: 'wallet-comp' } })))
     //Log out
     this._qs('#log-out').addEventListener('click', () => this.logOutMethod())
   }//end of setNavigation()

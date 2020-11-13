@@ -141,4 +141,9 @@ export default CSS =`
       .account-number {
         align-items: center;
       }
+
+      .active {
+        background-image: linear-gradient(to right top, #ff7e00, #ff7809, #ff7211, #ff6b17, #ff651c);
+        color: #ffffff;
+    }
 `
