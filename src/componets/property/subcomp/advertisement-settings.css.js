@@ -149,6 +149,48 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+}
+
+.schedule-container {
+    background: #ffffff;
+    padding: 6rem;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.schedule-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 auto 1rem auto;
+}
+
+.schedule-date {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.schedule-date > input {
+    margin: 0.5rem auto;
+    width: 100%;
+    border-radius: 1rem;
+    height: 1.5rem;
+    text-indent: 0.2rem;
+}
+
 @media(max-width: 768px) {
   .container {
     margin-left: 5%;

@@ -99,6 +99,13 @@ export default class AddNewProperty extends Base {
                   <textarea id="description"></textarea>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="description">
+                  <label for="address">Address</label>
+                  <textarea id="address"></textarea>
+                </div>
+              </div>
               
               <span class="row sub-title"> Facilities </span>
               <div class="row facilities" id="facilities-measurable">
@@ -402,6 +409,7 @@ constructor() {
         const city = this._qs("#city").value;
         const propertyType = this._qs("#propertyType").options[this._qs("#propertyType").selectedIndex].text;
         const description = this._qs("#description").value;
+        const address = this._qs("#address").value;
         let facilities = []
         let images = []
         
@@ -469,7 +477,7 @@ constructor() {
                           ${title}
                           <button class="load-more">Load more >></button>
                       </p>
-                      <span slot="price" class="row-1 price">Rs. ${price}/Month</span>
+                      <span slot="price" class="row-1 price">Rental: Rs. ${price}/Month</span>
                       <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${keyMoney}</span>
                       <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${minimumPeriod}</span>
                       <span slot="available-from" class="row-1 available-from">Available From: ${availableFrom}</span>
@@ -480,7 +488,7 @@ constructor() {
                       <div slot="facilities" class="facilities">`
 
                       facilities.forEach(item => {
-                              data += `<facility-comp key="${item.featureId}" name="${item.feature}" measurable="1" checked="true" quantity="${item.quantity}"></facility-comp>`
+                              data += `<facility-comp key="${item.featureId}" name="${item.feature}" ${item.quantity != 'null' ? 'measurable="1"' : 'measurable="0"'} checked="true" quantity="${item.quantity}"></facility-comp>`
                       })
 
                       data += `</div>
@@ -488,7 +496,7 @@ constructor() {
                                   <div slot="location-details" class="row-2 location-details">
                                       <!--<span class="location-details-span district">${district}</span>-->
                                       <span class="location-details-span city">${city}</span>
-                                      <span class="location-details-span address">Address : 141, Mediyawa, Eppawala.</span>
+                                      <span class="location-details-span address">Address : ${address}</span>
                                   </div>
                                   <!-- <div slot="user-details" class="row-2 user-details">
                                       <span class="user"><a>userId</a></span>
@@ -557,6 +565,7 @@ constructor() {
               location: this.state.location =! null ? this.state.location : {},
               propertyType: propertyType,
               description: description,
+              address: address,
               facilities: facilities,
               images: newImages
             }
