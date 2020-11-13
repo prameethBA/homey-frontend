@@ -11,6 +11,9 @@ export default class AddNewProperty extends Base {
       <div id="add-preview">
       </div>
           <div class="form">
+            <div class="row title">
+              <div class="title">Add new property</div>
+            </div>
               <div class="row">
                 <div class="col">
                   <label for="title">Title</label>
@@ -97,9 +100,12 @@ export default class AddNewProperty extends Base {
                 </div>
               </div>
               
-              <div class="row facilities">
-                <div id="facilities">
-                </div>
+              <span class="row sub-title"> Facilities </span>
+              <div class="row facilities" id="facilities-measurable">
+              </div>
+
+              <span class="row sub-title"> Features </span>
+              <div class="row facilities" id="facilities">
               </div>
 
               <div class="row">
@@ -333,14 +339,27 @@ constructor() {
         await axios.get(`${this.host}/facility`)
           .then(res => {
             if (res.status == '200') {
-              res.data.data.forEach(element => this._qs('#facilities').innerHTML += `
-              <facility-comp 
-                key="${element._id}" 
-                name="${element.feature_name}"
-                measurable="${element.measurable}
-                ">
-              </facility-comp>
-            `)
+              res.data.data.forEach(element => {
+                if(element.measurable == 1) {
+                  this._qs('#facilities-measurable').innerHTML += `
+                    <facility-comp 
+                      key="${element._id}" 
+                      name="${element.feature_name}"
+                      measurable="${element.measurable}
+                      ">
+                    </facility-comp>
+                `
+                } else {
+                  this._qs('#facilities').innerHTML += `
+                    <facility-comp 
+                      key="${element._id}" 
+                      name="${element.feature_name}"
+                      measurable="${element.measurable}
+                      ">
+                    </facility-comp>
+                `
+                }
+            })
             }
             else throw "Server Error."
           })
