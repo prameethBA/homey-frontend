@@ -95,8 +95,8 @@ export default class users extends Base {
     }//end of loadViewUser()
 
     // getUsers from API
-    getUsers() {
-        axios.post(`${this.host}/AdminUsers/all-users`, {
+    async getUsers() {
+        await axios.post(`${this.host}/AdminUsers/all-users`, {
             userId: this.getUserId(),
             token: this.getToken()
         })
