@@ -171,29 +171,6 @@ export default class Main extends Base {
         this._qs('.down-wrap').addEventListener('click', () => this.scrollHalf())
     }
 
-    // Count down
-    countDown() {
-        const countDownDate = new Date("Nov 13, 2020 23:59:59").getTime()
-        let x = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = countDownDate - now;
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Display the result in the element with id="demo"
-        this._qs("#count-down").innerHTML = days + "d " + hours + "h "
-        + minutes + "m " + seconds + "s ";
-
-        if (distance < 0) {
-            clearInterval(x);
-            this._qs("demo").innerHTML = "TOO LATE! HURRY UP!";
-        }
-        }, 1000);
-    }//End of countDown()
-
     // Load signuo or login form
     loadForm(elem) {
         this._qs(`.${elem}`).addEventListener('click', () => {
@@ -206,9 +183,6 @@ export default class Main extends Base {
 
         //scroll down page when click scroll down arrow
         this.scrollDown()
-
-        // Count down for interim
-        this.countDown()
 
         // Load signup or login form
         this.loadForm('login')
