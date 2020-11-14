@@ -14,6 +14,22 @@ export default CSS =`
     width: 70%;
   }
 
+  .loader {
+    width: 80%;
+    height: 1rem;
+    animation: dp-loader 5s infinite ease-in-out;
+    transition: all 1s ease; 
+    border-radius: 1rem;
+  }
+
+  .form-field {
+  }
+
+  @keyframes loader {
+    from {background-image: linear-gradient(to right, #858585, #7c7c7c, #747474, #6b6b6b, #636363);}
+    to {background-image: linear-gradient(to left, #858585, #7c7c7c, #747474, #6b6b6b, #636363);}
+  }
+
   .first-aside {
     position: relative;
     width: 30%;
@@ -36,6 +52,13 @@ export default CSS =`
     border-radius: 50%;
     border: solid #ffffff 6px;
     box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+    animation: dp-loader 5s infinite ease;
+  }
+
+  @keyframes dp-loader {
+    0%   { background: #bbbbbb;}
+    50%  { background: #767676;}
+    100%   { background: #bbbbbb;}
   }
 
   .upload {
@@ -63,11 +86,14 @@ export default CSS =`
 
   .name-container {
     text-align: center;
+    width: 100%;
   }
 
   .name {
     font-size: 2rem;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
   }
 
   .last-login-container {

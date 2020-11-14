@@ -1,7 +1,7 @@
 import Base from '../Base.js'
 import CSS from './profile.css.js'
 
-export default class Profiel extends Base {
+export default class Profile extends Base {
 
   css =  CSS
 
@@ -11,14 +11,14 @@ export default class Profiel extends Base {
         <div class="row">
             <div class="column first-aside">
                 <div class="profile-picture-container">
-                    <img  class="profile-picture" src="/assets/img/1.png" />
+                    <div class="profile-picture"></div>
                     <div class="upload">
-                        <input type="file" id="upload-image" accept=".jpg, .png, .jpeg, .gif"/>
+                        <input class="form-field" type="file" id="upload-image" accept=".jpg, .png, .jpeg, .gif"/>
                         <label for="upload-image" class="img-label" title="upload an image">📷</label>
                     </div>
                 </div>
                 <div class="name-container">
-                    <span class="name">Name</span>
+                    <span class="name"><div class="loader"></div></span>
                 </div>
                 <div class="last-login-container">
                     <span class="last-login-title">Last Login </span>
@@ -35,47 +35,47 @@ export default class Profiel extends Base {
                     <div class="form-row">
                         <div class="form-column">
                             <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" value="" />
+                            <input class="form-field" type="text" id="firstName" value="" />
                         </div>
                         <div class="form-column">
                             <label for="LastName">First Name</label>
-                            <input type="text" id="lastName" value="" />
+                            <input class="form-field" type="text" id="lastName" value="" />
                         </div>
                     </div>
                     <div class="form-column">
                         <label for="email">Email</label>
-                        <input type="email" id="email" value="" />
+                        <input class="form-field" type="email" id="email" value="" />
                     </div>
                     <div class="form-column">
                         <label for="mobile">Mobile No: </label>
-                        <input type="number" id="mobile" value="" />
+                        <input class="form-field" type="number" id="mobile" value="" />
                     </div>
                     <div class="form-column">
                         <label for="address-1">Address Line 1</label>
-                        <input type="text" id="address-1" value="" />
+                        <input class="form-field" type="text" id="address-1" value="" />
                         <label for="address-2">Address Line 2</label>
-                        <input type="text" id="address-1" value="" />
+                        <input class="form-field" type="text" id="address-2" value="" />
                         <label for="address-3">Address Line 3</label>
-                        <input type="text" id="address-3" value="" />
+                        <input class="form-field" type="text" id="address-3" value="" />
                         <div class="form-row">
                             <div class="form-column">
                                 <label for="city">City</label>
-                                <input type="text" id="city" value="" />
+                                <input class="form-field" type="text" id="city" value="" />
                             </div>
                             <div class="form-column">
                                 <label for="district">District</label>
-                                <input type="text" id="district" value="" />
+                                <input class="form-field" type="text" id="district" value="" />
                             </div>
                         </div>
                     </div>
                     <div class="form-column">
                         <label for="nic">NIC</label>
-                        <input type="text" id="nic" value="" />
+                        <input class="form-field" type="text" id="nic" value="" />
                     </div>
                     <div class="form-column">
                         <label >Date of birth</label>
                         <div class="form-row">
-                            <select id="month">
+                            <select id="month" class="form-field" disabled>
                                 <option value="0" selected disabled>Month</option>
                                 <option value="1">January</option>
                                 <option value="2">February</option>
@@ -90,7 +90,7 @@ export default class Profiel extends Base {
                                 <option value="11">Month</option>
                                 <option value="12">Month</option>
                             </select>
-                            <select id="day">
+                            <select id="day" class="form-field" disabled>
                                 <option value="0" selected disabled>Day</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -98,7 +98,7 @@ export default class Profiel extends Base {
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
-                            <input type="text" id="year" value="" placeholder="Year"/>
+                            <input class="form-field" type="text" id="year" value="" placeholder="Year"/>
                         </div>
                     </div>
                     <div class="form-row">
@@ -167,6 +167,61 @@ export default class Profiel extends Base {
             })
     }//End of getProfileInfo()
 
+    //update profile
+    updateProfile() {
+            this._qs('#update').addEventListener('click', () => {
+                 // edit profile
+                this.validateProfile()
+            })
+    }//End of updateProfile()
+
+    // validate profile
+    validateProfile() {
+        try {
+
+            //validate Name
+            const firstName = this._qs('#firstName').value
+            const lastName = this._qs('#lastName').value
+            if(firstName == '' || lastName == '') throw {message: "Name cannot be empty"}
+            if(!/^[A-Za-z ]+$/.test(firstName) || !/^[A-Za-z ]+$/.test(lastName)) throw {message: "Provide a valid name"}
+
+            //validate email
+            const email = this._qs("#email").value
+            if(email == '') throw {message: "Email cannot be empty"}
+            if(!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email)) throw {message: "Provide a valid email"}
+
+            //validate mobile
+            const mobile = this._qs('#mobile').value
+            if(!/^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(mobile)) throw {message: "Provide a valid Mobile number"}
+
+            const address1 = this._qs("#address-1").value
+            const address2 = this._qs("#address-2").value
+            const address3 = this._qs("#address-3").value
+            const addressRegX = /^[a-zA-Z0-9\s,.'-]{3,}$|^$/
+            if(!addressRegX.test(address1) || !addressRegX.test(address2) || !addressRegX.test(address3)) throw {message: "Provide a valid Address"}
+
+            //validate city and district
+            const city = this._qs('#city').value
+            const district = this._qs('#district').value
+            if(!/^[A-Za-z ]+$|^$/.test(city)) throw {message: "Provide a valid city name"}
+            if(!/^[A-Za-z ]+$|^$/.test(district)) throw {message: "Provide a valid district name"}
+
+            //validate NIC
+            const nic = this._qs('#nic').value
+            if(!/^([0-9]{9}[x|X|v|V]|[0-9]{12})$|^$/.test(nic)) throw {message: "Provide a valid NIC"}
+            
+        } catch(err){
+            console.log(err.message)
+        }
+    }//End of validateProfile()
+
+    connectedCallback() {
+       
+        //update profile
+        this.updateProfile()
+
+    }//End of connectedCallback()
+
   }//End of class
 
-  window.customElements.define('profile-comp', Profiel)
+  window.customElements.define('profile-comp', Profile)
