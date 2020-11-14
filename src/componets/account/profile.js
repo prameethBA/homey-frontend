@@ -75,31 +75,13 @@ export default class Profile extends Base {
                     <div class="form-column">
                         <label >Date of birth</label>
                         <div class="form-row">
-                            <select id="month" class="form-field" disabled>
-                                <option value="0" selected disabled>Month</option>
-                                <option value="1">January</option>
-                                <option value="2">February</option>
-                                <option value="3">March</option>
-                                <option value="4">Month</option>
-                                <option value="5">Month</option>
-                                <option value="6">Month</option>
-                                <option value="7">Month</option>
-                                <option value="8">Month</option>
-                                <option value="9">Month</option>
-                                <option value="10">Month</option>
-                                <option value="11">Month</option>
-                                <option value="12">Month</option>
-                            </select>
-                            <select id="day" class="form-field" disabled>
-                                <option value="0" selected disabled>Day</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
+                            <input type="text" id="month" class="form-field"/>
+                            <input type="text" id="day" class="form-field"/>
                             <input class="form-field" type="text" id="year" value="" placeholder="Year"/>
                         </div>
+                    </div>
+                    <div class="form-row error-container">
+                        <div class="error"></div>
                     </div>
                     <div class="form-row">
                             <button id="update">Update Profile</button>
@@ -170,15 +152,84 @@ export default class Profile extends Base {
     //update profile
     updateProfile() {
             this._qs('#update').addEventListener('click', () => {
-                 // edit profile
+                 // validate profile
                 this.validateProfile()
             })
     }//End of updateProfile()
 
+    //get DOB form NIC
+    getDob(nic) {
+        let dayText = 0, year = "", month = "", day = "", gender = ""
+        if (nic.length != 10 && nic.length != 12) return {action: false, message: "Invalid NIC"}
+        else if (nic.length == 10 && isNaN(nic.substr(0, 9))) return {action: false, message: "Invalid NIC"}
+        else {
+            // Year
+            if (nic.length == 10) {
+                year = "19" + nic.substr(0, 2)
+                dayText = parseInt(nic.substr(2, 3))
+            } else {
+                year = nic.substr(0, 4)
+                dayText = parseInt(nic.substr(4, 3))
+            }
+
+            year = parseInt(year)
+
+            // Gender
+            if (dayText > 500) {
+                gender = "Female"
+                dayText = dayText - 500
+            } else {
+                gender = "Male"
+            }
+
+            // Day Digit Validation
+            if (dayText < 1 && dayText > 366) return {action: false, message: "Invalid NIC"}
+            else {
+                let february = 29
+                // if(year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) february =  29 // Leap year
+                // else february =  28 // Not a leap year
+                
+                let noOfDates = [
+                    {month: 'january', dates: 31},
+                    {month: 'february', dates: february},
+                    {month: 'march', dates: 31},
+                    {month: 'april', dates: 30},
+                    {month: 'may', dates: 31},
+                    {month: 'june', dates: 30},
+                    {month: 'july', dates: 31},
+                    {month: 'august', dates: 31},
+                    {month: 'september', dates: 30},
+                    {month: 'october', dates: 31},
+                    {month: 'november', dates: 30},
+                    {month: 'december', dates: 31}
+                ]
+
+                let sum = 0 
+                try {
+                    noOfDates.forEach(element => {
+                        sum+= element.dates
+                        if(sum >= dayText) {
+                            throw { month: element.month, day: (dayText-sum + element.dates)}
+                        }
+                    })
+                } catch(err) {
+                    return {
+                        action: true, 
+                        year: year,
+                        month: err.month,
+                        day: err.day,
+                        gender: gender
+                    }
+                }
+
+            }
+            return {action: false, message: "Invalid NIC"}
+        }
+    }//End of getDob()
+
     // validate profile
     validateProfile() {
         try {
-
             //validate Name
             const firstName = this._qs('#firstName').value
             const lastName = this._qs('#lastName').value
@@ -192,7 +243,7 @@ export default class Profile extends Base {
 
             //validate mobile
             const mobile = this._qs('#mobile').value
-            if(!/^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(mobile)) throw {message: "Provide a valid Mobile number"}
+            if(!/^(?:7|0|(?:\+94))[0-9]{9,10}$|^$/.test(mobile)) throw {message: "Provide a valid Mobile number"}
 
             const address1 = this._qs("#address-1").value
             const address2 = this._qs("#address-2").value
@@ -208,17 +259,42 @@ export default class Profile extends Base {
 
             //validate NIC
             const nic = this._qs('#nic').value
-            if(!/^([0-9]{9}[x|X|v|V]|[0-9]{12})$|^$/.test(nic)) throw {message: "Provide a valid NIC"}
+            if(!/^$/.test(nic)) {
+                const dob = this.getDob(nic)
+                if(!dob.action) {
+                    this._qs('#month').value = ''; this._qs('#day').value = ''; this._qs('#year').value = ''; throw {message: dob.message}
+                }
+                else {
+                    this._qs('#month').value = dob.month.toUpperCase()
+                    this._qs('#day').value = dob.day
+                    this._qs('#year').value = dob.year
+                }
+            }
             
+            this._qs('.error').innerHTML = ''
+
         } catch(err){
-            console.log(err.message)
+            this._qs('.error').innerHTML = err.message
         }
     }//End of validateProfile()
+
+    //listen for validate 
+    listenInput() {
+        this._qsAll('.form-field').forEach(item => {
+            item.addEventListener('keyup', () => {
+                //validate profile
+                this.validateProfile()
+            })
+        })
+    }//End of listenInput()
 
     connectedCallback() {
        
         //update profile
         this.updateProfile()
+        
+        //listen for validate 
+        this.listenInput()
 
     }//End of connectedCallback()
 

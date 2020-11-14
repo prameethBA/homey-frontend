@@ -136,6 +136,15 @@ export default CSS =`
     align-items: center;
   }
 
+  .error-container {
+    justify-content: center;
+  }
+
+  .error {
+    color: red;
+    font-weight: bold;
+  }
+
   button {
     height: 2.2rem;
     border-radius: 1rem;
