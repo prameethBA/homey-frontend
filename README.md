@@ -6,7 +6,8 @@ Homey Front end with ES6 &amp; CSS3
 
 ### APIs using 👇
 - [Google Maps JavaScript](https://developers.google.com/maps/documentation/javascript/overview)
+- [Google charts](https://developers.google.com/chart)
 
-Development Server 👉 [homeylk.tk](http://homeylk.tk/)
+Development Server 👉 [homey.lk](httpa://homey.lk/)
 
 Back End 👉  [homey-backend](https://github.com/homey-lk/homey-backend)
