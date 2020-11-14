@@ -132,6 +132,11 @@ export default class Profile extends Base {
       super()
       this.mount()
 
+        if(!this.isLogin()) {
+            dispatchEvent(new CustomEvent("load-comp", { detail: {parh: '/', comp: 'home/main/main', compName: 'main-comp' } }))
+            return
+        }
+
       //Get profile info
         this.getProfileInfo()
 
@@ -332,6 +337,13 @@ export default class Profile extends Base {
 
 
     connectedCallback() {
+
+        axios.get('http://api.ipstack.com/check?access_key=6a8331292e236ab2f72127dcc28dd9b7')
+        .then(res => {
+            console.log(res.data)
+            this._qs('.last-location').innerHTML = res.data.country_name
+            this._qs('.last-location').innerHTML += `<img src="${res.data.location.country_flag}" style="width: 2rem;margin: 0 1rem;"/>`
+        })
        
         //update profile
         this.updateProfile()
