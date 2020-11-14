@@ -16,6 +16,9 @@ export default class Profile extends Base {
                         <input class="form-field" type="file" id="upload-image" accept=".jpg, .png, .jpeg, .gif"/>
                         <label for="upload-image" class="img-label" title="upload an image">📷</label>
                     </div>
+                    <div class="progress">
+                        <div class="progress-bar"></div>
+                    </div>
                 </div>
                 <div class="name-container">
                     <span class="name"><div class="loader"></div></span>
@@ -288,6 +291,46 @@ export default class Profile extends Base {
         })
     }//End of listenInput()
 
+    //read image
+    readImage(file, target) {
+        const fileReader = new FileReader()
+        fileReader.onload = fileLoadedEvent => {
+            target.innerHTML = `
+                        <img 
+                          class="uploaded-image" 
+                          src="${fileLoadedEvent.target.result}" 
+                          id="uploaded-image" 
+                          alt="Profile picture"
+                          />`
+            let data = {
+                image: fileLoadedEvent.target.result
+            }
+
+            this._qs('.progress').style.display = 'block'
+
+            axios.post(`${this.host}/property/add-new`, data, {
+                onUploadProgress: (progressEvent) => {
+                    const {loaded, total} = progressEvent;
+                    let percent = Math.floor( (loaded * 100) / total )
+                    this._qs('.progress-bar').style.width = percent + '%'
+                }
+            }).then(res => {
+                this._qs('.progress').style.display = 'none'
+                this._qs('.progress-bar').style.width = '0'
+            })
+            .catch(err => console.log(err))
+        }
+        fileReader.readAsDataURL(file)
+    }//End of readImage()
+
+    //uploadImage
+    uploadImage() {
+        this._qs('#upload-image').addEventListener('input', () => {
+            this.readImage(this._qs("#upload-image").files[0], this._qs('.profile-picture'))
+        })
+    }
+
+
     connectedCallback() {
        
         //update profile
@@ -295,6 +338,9 @@ export default class Profile extends Base {
         
         //listen for validate 
         this.listenInput()
+
+         //uploadImage
+        this.uploadImage()
 
     }//End of connectedCallback()
 

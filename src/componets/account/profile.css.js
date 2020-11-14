@@ -43,6 +43,7 @@ export default CSS =`
     justify-content: center;
     align-items: center;
     position: relative;
+    flex-direction: column;
   }
 
   .profile-picture {
@@ -55,10 +56,33 @@ export default CSS =`
     animation: dp-loader 5s infinite ease;
   }
 
+  .uploaded-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
   @keyframes dp-loader {
     0%   { background: #bbbbbb;}
     50%  { background: #767676;}
     100%   { background: #bbbbbb;}
+  }
+
+  .progress {
+    background: #bbbbbb;
+    width: 80%;
+    height: 0.2rem;
+    border-radius: 1rem;
+    margin: 0.2rem 0 0 0;
+    display: none;
+  }
+
+  .progress-bar {
+    width: 0;
+    height: 100%;
+    position: relative;
+    background: #37da07;
   }
 
   .upload {
