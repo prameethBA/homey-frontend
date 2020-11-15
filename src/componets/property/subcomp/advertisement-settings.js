@@ -6,6 +6,20 @@ export default class AdvertisementSettings extends Base {
   css =  CSS
 
 
+  schedule = `
+      <div class="schedule-container">
+        <div class="schedule-title">Post on</div>
+        <div class="schedule-date">
+          <input type="date" id="schedule-date" value="${new Date().toISOString().slice(0, 10)}"/>
+          <input type="time" id="schedule-time" value="${new Date().toISOString().slice(11,19)}"/>
+        </div>
+        <div>
+          <button id="save-schedule"> Save </button>
+          <button id="cancel-schedule"> cancel </button>
+        </div>
+      </div>
+  `
+
   content = `
   <div id="backdrop" title=">>Click to close this form">
   </div>
@@ -30,7 +44,7 @@ export default class AdvertisementSettings extends Base {
               </label>
           </div>
           <div class="toggle_opt">
-              <label for="">Schedule to post</label>
+              <label for="" id="schedule-label">Schedule to post</label>
               <label class="switch">
                   <input type="checkbox" id="schedule" >
                   <span class="slider round"></span>
@@ -52,6 +66,7 @@ export default class AdvertisementSettings extends Base {
       
   </section>
 
+    <div class="popup"></div>
 </div>
 `
     constructor() {
@@ -59,6 +74,32 @@ export default class AdvertisementSettings extends Base {
       this.mount()
 
     }//End of constructor
+
+    //schedule post
+    schedulePost() {
+      this._qs('#schedule').addEventListener('click', ()=> {
+        if(this._qs('#schedule').checked) {
+          this._qs('.popup').style.display = 'flex'
+          this._qs('.popup').innerHTML = this.schedule
+          
+          //save schedule
+          this.saveSchedule()
+        } else this._qs('#schedule-label').innerHTML = 'Schedule to post'
+      })
+    }//End of schedulePost()
+
+    //save schedule
+    saveSchedule() {
+      this._qs('#save-schedule').addEventListener('click', () => {
+        this._qs('.popup').style.display = 'none'
+        this._qs('#schedule-label').innerHTML = 'Schedule to (' + this._qs('#schedule-date').value + " " + this._qs('#schedule-time').value + ")"
+      })
+      this._qs('#cancel-schedule').addEventListener('click', () => {
+        this._qs('.popup').style.display = 'none'
+        this._qs('#schedule').checked = false
+        this._qs('#schedule-label').innerHTML = 'Schedule to post'
+      })
+    }//End of saveSchedule()
     
     connectedCallback() {
       
@@ -72,6 +113,9 @@ export default class AdvertisementSettings extends Base {
         //Add New property
         dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `property/own-properties`, compName: 'own-properties' } }))
       })
+
+      //schedule post
+      this.schedulePost()
 
     }//End of connected callBack()
 

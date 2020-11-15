@@ -7,55 +7,6 @@ export default class PropertyDetails extends Base {
 
   content = `
     <div class="container">
-
-      <div class="images">
-        <div class="main-image-container">
-          <img class="img main-image" src="/assets/img/house.jpg" />
-        </div>
-        <div class="sub-images">
-          <img class="img sub-image" src="/assets/img/background.jpg" />
-          <img class="img sub-image" src="/assets/img/mountain.jpg" />
-          <img class="img sub-image" src="/assets/img/1.png" />
-          <img class="img sub-image" src="/assets/img/house.jpg" />
-        </div>
-      </div>
-
-      <div class="details">
-        <div class="preview-image-container">
-          <img class="preview-image" />
-        </div>
-        <div class="row rwo-title">
-          <div class="title">Boarding place in Nugegoda</div>
-          <div class="price">Rs.17,000/Month</div>
-        </div>
-        <div class="row row-status">
-          <div class="status">Avalible 🟢</div>
-          <div class="favourite">⭐</div>
-          <div class="share">📩</div>
-        </div>
-        <div class="row">
-          <div class="description">
-            \/ matches the character / literally (case sensitive)\w* matches any word character (equal to [a-zA-Z0-9_])* Quantifier — Matches between zero and unlimited times, as many times as possible, giving back as needed
-          </div>
-        </div>
-        <div class="row">
-          <div class="features">
-          </div>
-        </div>
-        <div class="row">
-          <div class="contact-info">
-            <span> <a>Show contacts </a></span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="action">
-            <button class="reserve"> Reserve Now! </button>
-            <button class="feedback"> Feedback </button>
-            <button class="map"> On map 📌</button>
-          </div>
-        </div>
-      </div>
-      
     </div>
 
     <div class="popup"></div>
@@ -66,28 +17,112 @@ export default class PropertyDetails extends Base {
 
     }//end of the constructor
 
+    //load property
+    async loadProperty() {
+      await axios.post(`${this.host}/property/get`, {
+        userId: this.getUserId(),
+        token: this.getToken(),
+        propertyId: window.location.pathname.split('/')[2]
+      })
+        .then(res => {
+          let data = `
+            <div class="images">
+            <div class="main-image-container">
+              <img class="img main-image" src="/assets/img/house.jpg" />
+            </div>
+            <div class="sub-images">
+              <img class="img sub-image" src="/assets/img/background.jpg" />
+              <img class="img sub-image" src="/assets/img/mountain.jpg" />
+              <img class="img sub-image" src="/assets/img/1.png" />
+              <img class="img sub-image" src="/assets/img/house.jpg" />
+            </div>
+          </div>
+    
+          <div class="details">
+            <div class="preview-image-container">
+              <img class="preview-image" />
+            </div>
+            <div class="row rwo-title">
+              <div class="title">${res.data.title}</div>
+              <div class="price">Rs.${res.data.price}/Month</div>
+            </div>
+            <div class="row row-status">
+              <div class="status">`
+              
+              switch (res.data.property_status) {
+                case '0':
+                    data += `🟢 Available`
+                    break;
+                default:
+                    data += `🔴 Reserved`
+                    break;
+            }
+              
+              data +=`</div>
+              <div class="favourite">⭐</div>
+              <div class="share">📩</div>
+            </div>
+            <div class="row">
+              <div class="description">
+                ${res.data.description}
+              </div>
+            </div>
+            <div class="row">
+              <div class="features">
+              </div>
+            </div>
+            <div class="row">
+              <div class="contact-info">
+                <span> <a>Show contacts </a></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="action">
+                <button class="reserve"> Reserve Now! </button>
+                <button class="feedback"> Feedback </button>
+                <button class="map"> On map 📌</button>
+              </div>
+            </div>
+          </div>
+          `
+          this._qs('.container').innerHTML = data
+
+           // load feature List
+          this.loadFeatureList(JSON.parse(res.data.facilities))
+
+          //preview Images
+          this.previewImage()
+          //Set sub image as main Image
+          this.setMainImage()
+
+          //Load the reserve component
+          this.loadReserve()
+
+           //loadComment
+          this.loadComment()
+            
+          //Load map view component
+          this.loadMapView()
+        })
+        
+    }//End of loadProperty()
+
     // load feature List
-    async loadFeatureList() {
+    async loadFeatureList(list) {
       await import("./subcomp/facility.js")
-      .then(
+      .then(() => {
         // API call for get Facilities List
-        await axios.get(`${this.host}/facility`)
-          .then(res => {
-            if (res.status == '200') {
-              res.data.data.forEach(item => this._qs('.features').innerHTML += `
-                <facility-comp 
-                key="${item.feature_id}" 
-                name="${item.feature_name}" 
-                measurable="1" 
-                checked="true" 
-                quantity="${0}"
-                ></facility-comp>
-                `
-              )}
-            else throw "Server Error."
-          })
-          .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
-      )
+          list.forEach(item => this._qs('.features').innerHTML += `
+          <facility-comp 
+          key="${item.featureId}" 
+          name="${item.feature}" 
+          measurable="${item.quantity == 'null' ? 'false' : '1'}" 
+          checked="true" 
+          quantity="${item.quantity}"
+          ></facility-comp>
+          `
+        )
+      })
       .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
     }//End of loadFetureList()
 
@@ -168,22 +203,8 @@ export default class PropertyDetails extends Base {
 
     connectedCallback() {
 
-       // load feature List
-      this.loadFeatureList()
-
-      //preview Images
-      this.previewImage()
-      //Set sub image as main Image
-      this.setMainImage()
-
-      //Load the reserve component
-      this.loadReserve()
-
-       //loadComment
-      this.loadComment()
-        
-      //Load map view component
-      this.loadMapView()
+      //load property
+      this.loadProperty()
 
     }//End of connectedCallback()
     

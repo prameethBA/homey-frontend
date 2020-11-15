@@ -11,7 +11,7 @@ export default class Footer extends Base {
             Copyright | ${new Date().getFullYear()} | homey.lk
         </span>
         <div class="float">
-          <div class="float-icon">^</div>
+          <div class="float-icon"></div>
         </div>
     </footer>
 `

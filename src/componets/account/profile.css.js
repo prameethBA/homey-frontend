@@ -14,6 +14,22 @@ export default CSS =`
     width: 70%;
   }
 
+  .loader {
+    width: 80%;
+    height: 1rem;
+    animation: dp-loader 5s infinite ease-in-out;
+    transition: all 1s ease; 
+    border-radius: 1rem;
+  }
+
+  .form-field {
+  }
+
+  @keyframes loader {
+    from {background-image: linear-gradient(to right, #858585, #7c7c7c, #747474, #6b6b6b, #636363);}
+    to {background-image: linear-gradient(to left, #858585, #7c7c7c, #747474, #6b6b6b, #636363);}
+  }
+
   .first-aside {
     position: relative;
     width: 30%;
@@ -27,6 +43,7 @@ export default CSS =`
     justify-content: center;
     align-items: center;
     position: relative;
+    flex-direction: column;
   }
 
   .profile-picture {
@@ -36,15 +53,71 @@ export default CSS =`
     border-radius: 50%;
     border: solid #ffffff 6px;
     box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+    animation: dp-loader 5s infinite ease;
+  }
+
+  .uploaded-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  @keyframes dp-loader {
+    0%   { background: #bbbbbb;}
+    50%  { background: #767676;}
+    100%   { background: #bbbbbb;}
+  }
+
+  .progress {
+    background: #bbbbbb;
+    width: 80%;
+    height: 0.2rem;
+    border-radius: 1rem;
+    margin: 0.2rem 0 0 0;
+    display: none;
+  }
+
+  .progress-bar {
+    width: 0;
+    height: 100%;
+    position: relative;
+    background: #37da07;
+  }
+
+  .upload {
+    position: absolute;
+    display: flex;
+    bottom: 2rem;
+    font-size: 2rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    justify-content: center;
+    align-items: center;
+    border-radius: 5rem;
+    cursor: pointer;
+    transition: all 0.5s ease;
+  }
+
+   .img-label {
+    text-indent: 0;
+    cursor: pointer;
+    transition: all 0.5s ease;
+   }
+
+  input[type="file"] {
+    display: none;
   }
 
   .name-container {
     text-align: center;
+    width: 100%;
   }
 
   .name {
     font-size: 2rem;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
   }
 
   .last-login-container {
@@ -63,6 +136,13 @@ export default CSS =`
 
   .last-login-title {
     font-weight: bold;
+  }
+
+  .last-login-loader{
+    width: 15rem;
+    display: flex;
+    justify-content: center;
+    transform: scale(0.8);
   }
 
   .form {
@@ -84,6 +164,16 @@ export default CSS =`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+  }
+
+  .error-container {
+    justify-content: center;
+  }
+
+  .error {
+    color: red;
+    font-weight: bold;
   }
 
   button {
@@ -122,9 +212,9 @@ export default CSS =`
       box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
   }
 
-  input {
+  input, select {
     margin: 0.4rem;
-    height: 2rem;
+    height: 1.5rem;
     outline: none;
     border: 1px solid;
     border-radius: 1rem;
@@ -159,6 +249,7 @@ export default CSS =`
   #year, #day, #month {
     text-align: center;
     text-indent: unset;
+    width: 100%;
   }
 
   .show-more a {
@@ -166,6 +257,31 @@ export default CSS =`
     font-size: 0.9rem;
     color: #120cf4;
     cursor: pointer;
+  }
+
+  .popup {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 10;
+  }
+
+  .popup > div {
+    display: flex;
+    background-color: #ffffff;
+    padding: 10% 15%;
+    flex-direction: column;
+    border-radius: 3px;
+  }
+
+  .button-group {
+    display: flex;
   }
 
 `

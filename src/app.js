@@ -81,6 +81,9 @@ export default class App extends Base {
                 // Load profile component
                 router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))
 
+                // Load wallet component
+                router.get('/wallet', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/wallet`, compName: 'wallet-comp' } })))
+
                 // Load avalibale property full details
                 router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))
 
@@ -88,7 +91,19 @@ export default class App extends Base {
                 router.get('/favourite', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/favourite`, compName: 'favourite-comp' } })))
 
                 // Load payment gateway component
-                router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
+                router.get('/payment/received', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/received`, comp: `payments/payment-received`, compName: 'payment-received' } })))
+
+                // Load payment paid component
+                router.get('/payment/paid', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/paid`, comp: `payments/payment-paid`, compName: 'payment-paid' } })))
+
+                // Load payment all component
+                router.get('/payment/all', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/all`, comp: `payments/payment-all`, compName: 'payment-all' } })))
+
+                // Load payment cashout component
+                router.get('/payment/cashout', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/cashout`, comp: `payments/payment-cashout`, compName: 'payment-cashout' } })))
+
+                // Load payment cashout component
+                router.get('/payment/bank-account', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/bank-account`, comp: `payments/payment-bank-account`, compName: 'payment-bank-account' } })))
 
                 // +++DEV+++ Only for develompent 
                 router.get('/dev', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/dev`, comp: `../dev`, compName: 'dev-dev' } })))
@@ -124,14 +139,29 @@ export default class App extends Base {
             // Load profile component
             router.get('/profile', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/profile`, compName: 'profile-comp' } })))
 
+            // Load wallet component
+            router.get('/wallet', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `account/wallet`, compName: 'wallet-comp' } })))
+            
             // Load avalibale property full details
             router.get('/property', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/property-details`, compName: 'property-details' } })))
 
             // Load favourite full details
             router.get('/favourite', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `${window.location.pathname}`, comp: `property/favourite`, compName: 'favourite-comp' } })))
 
-            // Load payment gateway component
-            router.get('/payment-gateway', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment-gateway`, comp: `payments/payment-gateway`, compName: 'payment-gateway' } })))
+            // Load payment recived component
+            router.get('/payment/received', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/received`, comp: `payments/payment-received`, compName: 'payment-received' } })))
+
+            // Load payment paid component
+            router.get('/payment/paid', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/paid`, comp: `payments/payment-paid`, compName: 'payment-paid' } })))
+
+            // Load payment all component
+            router.get('/payment/all', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/all`, comp: `payments/payment-all`, compName: 'payment-all' } })))
+
+            // Load payment cashout component
+            router.get('/payment/cashout', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/cashout`, comp: `payments/payment-cashout`, compName: 'payment-cashout' } })))
+
+            // Load payment cashout component
+            router.get('/payment/bank-account', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/bank-account`, comp: `payments/payment-bank-account`, compName: 'payment-bank-account' } })))
 
             // +++DEV+++ Only for develompent 
             router.get('/dev', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/dev`, comp: `../dev`, compName: 'dev-dev' } })))
