@@ -6,6 +6,17 @@ export default class Profile extends Base {
   css =  CSS
 
 
+  confirmProfileUpdate = `
+    <div>
+        <div class="title">Do you really want to update profile?</div>
+        <div class="button-group">
+            <button class="yes danger-button">Yes</button>
+            <button class="no">No</button>
+        </div>
+    </div>
+  `
+
+
   content = `
     <div class="container">
         <div class="row">
@@ -128,6 +139,8 @@ export default class Profile extends Base {
                 </div>
             </div>
         </div>
+        <div class="popup">
+        </div>
     </div>
 `
     constructor() {
@@ -192,33 +205,48 @@ export default class Profile extends Base {
 
     //update profile
     updateProfile() {
-            this._qs('#update').addEventListener('click', async () => {
+            this._qs('#update').addEventListener('click', () => {
                  // validate profile
                 this.validateProfile()
                 if(this.state.validate) {
+                    this._qs('.popup').style.display =  'flex'
+                    this._qs('.popup').innerHTML =  this.confirmProfileUpdate
+                        this._qs('.yes').addEventListener('click', async () => {
+                            this.setLoader()
 
-                    const data = {
-                        userId: this.getUserId(),
-                        token: this.getToken(),
-                        firstName: this._qs('#firstName').value,
-                        lastName: this._qs('#lastName').value,
-                        email: this._qs('#email').value,
-                        mobile: this._qs('#mobile').value,
-                        address1: this._qs('#address-1').value,
-                        address2: this._qs('#address-2').value,
-                        address3: this._qs('#address-3').value,
-                        city: this._qs('#city').value,
-                        district: this._qs('#district').value,
-                        nic: this._qs('#nic').value,
-                        dob: `${this._qs('#year').value}-${this._qs('#month').value}-${this._qs('#day').value}`,
-                    }
+                            const data = {
+                                userId: this.getUserId(),
+                                token: this.getToken(),
+                                firstName: this._qs('#firstName').value,
+                                lastName: this._qs('#lastName').value,
+                                email: this._qs('#email').value,
+                                mobile: this._qs('#mobile').value,
+                                address1: this._qs('#address-1').value,
+                                address2: this._qs('#address-2').value,
+                                address3: this._qs('#address-3').value,
+                                city: this._qs('#city').value,
+                                district: this._qs('#district').value,
+                                nic: this._qs('#nic').value,
+                                dob: `${this._qs('#year').value}-${this._qs('#month').value}-${this._qs('#day').value}`,
+                            }
+        
+                            await axios.post(`${this.host}/profile/update`, data)
+                                .then(res => {
+                                    if(res.status == 201 )dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message , duration: 5} }))
+                                    else throw res.data
 
-                    await axios.post(`${this.host}/profile/update`, data)
-                        .then(res => {
-                            if(res.status == 201 )dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message , duration: 5} }))
-                            else throw res.data
+                                    this.stopLoader()
+                                    this._qs('.popup').style.display = "none"
+                                })
+                                .catch(err => {
+                                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+                                    this.stopLoader()
+                                    this._qs('.popup').style.display = "none"
+                                })
                         })
-                        .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
+
+                        this._qs('.no').addEventListener('click', () => this._qs('.popup').style.display = "none")
+
                 } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Please input valid data to update profile", duration: 5 } }))
             })
     }//End of updateProfile()
@@ -475,7 +503,7 @@ export default class Profile extends Base {
 
         axios.get('http://api.ipstack.com/check?access_key=6a8331292e236ab2f72127dcc28dd9b7')
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             this._qs('.last-location').innerHTML = res.data.country_name
             this._qs('.last-location').innerHTML += `<img src="${res.data.location.country_flag}" style="width: 2rem;margin: 0 1rem;"/>`
         })
