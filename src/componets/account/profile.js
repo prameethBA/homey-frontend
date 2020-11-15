@@ -155,13 +155,40 @@ export default class Profile extends Base {
                 this._qs('#email').value = res.data.authData.email
                 // this._qs('#mobile').value = res.data.authData.mobile
             })
+            .catch(err => console.log(err))
     }//End of getProfileInfo()
 
     //update profile
     updateProfile() {
-            this._qs('#update').addEventListener('click', () => {
+            this._qs('#update').addEventListener('click', async () => {
                  // validate profile
                 this.validateProfile()
+                if(this.state.validate) {
+
+                    const data = {
+                        userId: this.getUserId(),
+                        token: this.getToken(),
+                        firstName: this._qs('#firstName').value,
+                        lastName: this._qs('#lastName').value,
+                        email: this._qs('#email').value,
+                        mobile: this._qs('#mobile').value,
+                        address1: this._qs('#address-1').value,
+                        address2: this._qs('#address-2').value,
+                        address3: this._qs('#address-3').value,
+                        city: this._qs('#city').value,
+                        district: this._qs('#district').value,
+                        nic: this._qs('#nic').value,
+                        dob: `${this._qs('#year').value}-${this._qs('#month').value}-${this._qs('#day').value}`,
+                    }
+
+                    console.log(data)
+
+                    await axios.post(`${this.host}/profile/update`, data)
+                        .then(res => {
+                            console.log(res.data)
+                        })
+                        .catch(err => console.log(err))
+                } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Please input valid data to update profile", duration: 5 } }))
             })
     }//End of updateProfile()
 
@@ -238,6 +265,7 @@ export default class Profile extends Base {
     // validate profile
     validateProfile() {
         try {
+            this.state.validate = true
             //validate Name
             const firstName = this._qs('#firstName').value
             const lastName = this._qs('#lastName').value
@@ -282,6 +310,7 @@ export default class Profile extends Base {
             this._qs('.error').innerHTML = ''
 
         } catch(err){
+            this.state.validate = false
             this._qs('.error').innerHTML = err.message
         }
     }//End of validateProfile()
@@ -306,7 +335,7 @@ export default class Profile extends Base {
             this._qs('.profile-picture').innerHTML = 
                     `<img 
                     class="uploaded-image" 
-                    src="${res.data.image}" 
+                    src="${res.data.image != '' ? res.data.image : '/assets/img/alt/no-mage.png'}" 
                     id="uploaded-image" 
                     alt="Profile picture"
                     />`
@@ -341,9 +370,11 @@ export default class Profile extends Base {
             }).then(res => {
                 this._qs('.progress').style.display = 'none'
                 this._qs('.progress-bar').style.width = '0'
-                console.log(res.data)
+                if(res.status == 201) {
+                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message , duration: 3} }))
+                } else throw res.data
             })
-            .catch(err => console.log(err))
+            .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
         }
         fileReader.readAsDataURL(file)
     }//End of readImage()
