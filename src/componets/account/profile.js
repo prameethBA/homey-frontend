@@ -10,12 +10,21 @@ export default class Profile extends Base {
     <div>
         <div class="title">Do you really want to update profile?</div>
         <div class="button-group">
-            <button class="yes danger-button">Yes</button>
-            <button class="no">No</button>
+            <button class="yes-profile danger-button">Yes</button>
+            <button class="no-profile">No</button>
         </div>
     </div>
   `
 
+  confirmPasswordUpdate = `
+    <div>
+        <div class="title">Do you really want to update password?</div>
+        <div class="button-group">
+            <button class="yes-password danger-button">Yes</button>
+            <button class="no-password">No</button>
+        </div>
+    </div>
+  `
 
   content = `
     <div class="container">
@@ -217,7 +226,7 @@ export default class Profile extends Base {
                 if(this.state.validate) {
                     this._qs('.popup').style.display =  'flex'
                     this._qs('.popup').innerHTML =  this.confirmProfileUpdate
-                        this._qs('.yes').addEventListener('click', async () => {
+                        this._qs('.yes-profile').addEventListener('click', async () => {
                             this.setLoader()
 
                             const data = {
@@ -251,7 +260,7 @@ export default class Profile extends Base {
                                 })
                         })
 
-                        this._qs('.no').addEventListener('click', () => this._qs('.popup').style.display = "none")
+                        this._qs('.no-profile').addEventListener('click', () => this._qs('.popup').style.display = "none")
 
                 } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Please input valid data to update profile", duration: 5 } }))
             })
@@ -484,22 +493,35 @@ export default class Profile extends Base {
             // validate Password
             this.validatePassword()
             if(this.state.validatePassword) {
+                this._qs('.popup').style.display =  'flex'
+                this._qs('.popup').innerHTML =  this.confirmPasswordUpdate
+                this._qs('.yes-password').addEventListener('click', async () => {
+                    this.setLoader()
+                    const data = {
+                        userId: this.getUserId(),
+                        token: this.getToken(),
+                        email: this._qs('#email').value,
+                        old: this._qs('#currentPassword').value,
+                        new: this._qs('#newPassword').value
+                    }
 
-                console.log("confirmPassword")
-                const data = {
-                    userId: this.getUserId(),
-                    token: this.getToken(),
-                    email: this._qs('#email').value,
-                    old: this._qs('#currentPassword').value,
-                    new: this._qs('#newPassword').value
-                }
+                    await axios.patch(`${this.host}/login/password`, data)
+                        .then(res => {
+                            if(res.status == 201 )dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message , duration: 20} }))
+                            else throw res.data
 
-                await axios.patch(`${this.host}/login/password`, data)
-                    .then(res => {
-                        if(res.status == 201 )dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message , duration: 20} }))
-                        else throw res.data
-                    })
-                    .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
+                            this.stopLoader()
+                            this._qs('.popup').style.display = "none"
+                        })
+                        .catch(err => {
+                            dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+                            this.stopLoader()
+                            this._qs('.popup').style.display = "none"
+                        })
+                })
+
+                this._qs('.no-password').addEventListener('click', () => this._qs('.popup').style.display = "none")
+
             } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Please input valid password to update Password", duration: 5 } }))
         })
     }//End of updatePassword()
