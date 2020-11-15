@@ -147,7 +147,7 @@ export default class Profile extends Base {
     //Get profile info
     async getProfileInfo() {
         this.setLoader()
-        axios.post(`${this.host}/profile/info`, {
+        await axios.post(`${this.host}/profile/info`, {
             userId: this.getUserId(),
             token: this.getToken()
         })
@@ -181,6 +181,14 @@ export default class Profile extends Base {
                 this.stopLoader()
             })
     }//End of getProfileInfo()
+
+    //clear inputs
+    clearInputs() {
+        this._qs('#cancel').addEventListener('click', () => {
+            //Get profile info
+            this.getProfileInfo()
+        })
+    }//End of clearInputs()
 
     //update profile
     updateProfile() {
@@ -447,11 +455,12 @@ export default class Profile extends Base {
                 const data = {
                     userId: this.getUserId(),
                     token: this.getToken(),
+                    email: this._qs('#email').value,
                     old: this._qs('#currentPassword').value,
                     new: this._qs('#newPassword').value
                 }
 
-                await axios.post(`${this.host}/login/update/password`, data)
+                await axios.patch(`${this.host}/login/password`, data)
                     .then(res => {
                         if(res.status == 201 )dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message , duration: 20} }))
                         else throw res.data
@@ -476,6 +485,9 @@ export default class Profile extends Base {
 
         //update profile
         this.updateProfile()
+
+        //clear inputs
+        this.clearInputs()
 
         //update Password
         this.updatePassword()
