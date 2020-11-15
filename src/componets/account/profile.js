@@ -167,10 +167,16 @@ export default class Profile extends Base {
             .then(res => {
                 this._qs('.name').innerHTML = `${res.data.userData.firstName} ${res.data.userData.lastName}`
                 const lastLogin = res.data.authData.lastLogin.split(' ')
+                let lastLoginTime = new Date(res.data.authData.lastLogin)
+                lastLoginTime.setMinutes(lastLoginTime.getMinutes() - 90)
                 this._qs('.last-login-data').innerHTML = `
                     <span>${lastLogin[0]}</span>
                     @ 
-                    <span>${lastLogin[1]}</span>
+                    <span>
+                        ${ lastLoginTime.getHours() < 10 ? '0' + lastLoginTime.getHours()  : lastLoginTime.getHours() }:
+                        ${ lastLoginTime.getMinutes() < 10 ? '0' + lastLoginTime.getMinutes() : lastLoginTime.getMinutes() }:
+                        ${ lastLoginTime.getSeconds() < 10 ? '0' + lastLoginTime.getSeconds() : lastLoginTime.getSeconds() }
+                    </span>
                 `
                 this._qs('#firstName').value = res.data.userData.firstName
                 this._qs('#lastName').value = res.data.userData.lastName
