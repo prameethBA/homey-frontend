@@ -33,7 +33,10 @@ span {
     justify-content: center;
     border-radius: 50%;
     box-shadow: inset 0px -1px 4px 1px rgba(0,0,0,1);
-    transition: all 1s ease-in-out
+    transition: all 1s ease-in-out;
+    background-image: url('/assets/icon/up-arrow.png');
+    background-repeat: no-repeat;	
+    background-size: contain;
 }
 
 @keyframes animation-up {

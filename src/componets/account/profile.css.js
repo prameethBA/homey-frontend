@@ -138,6 +138,13 @@ export default CSS =`
     font-weight: bold;
   }
 
+  .last-login-loader{
+    width: 15rem;
+    display: flex;
+    justify-content: center;
+    transform: scale(0.8);
+  }
+
   .form {
     display: flex;
     flex-wrap: nowrap;

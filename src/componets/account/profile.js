@@ -25,9 +25,8 @@ export default class Profile extends Base {
                 </div>
                 <div class="last-login-container">
                     <span class="last-login-title">Last Login </span>
-                    <div class="row">
-                        <span class="last-login-date">2020-10-20</span>
-                        <span class="last-login-time">@ 15:43:23</span>
+                    <div class="row last-login-data">
+                        <span class="last-login-loader"><div class="loader"></div></span>
                     </div>
                     <span class="last-location">From Sri Lanka</span>
                     <span class="show-more"><a>Show More...</a></span>
@@ -143,19 +142,41 @@ export default class Profile extends Base {
     }//End of constructor
 
     //Get profile info
-    getProfileInfo() {
+    async getProfileInfo() {
+        this.setLoader()
         axios.post(`${this.host}/profile/info`, {
             userId: this.getUserId(),
             token: this.getToken()
         })
             .then(res => {
                 this._qs('.name').innerHTML = `${res.data.userData.firstName} ${res.data.userData.lastName}`
+                const lastLogin = res.data.authData.lastLogin.split(' ')
+                this._qs('.last-login-data').innerHTML = `
+                    <span>${lastLogin[0]}</span>
+                    @ 
+                    <span>${lastLogin[1]}</span>
+                `
                 this._qs('#firstName').value = res.data.userData.firstName
                 this._qs('#lastName').value = res.data.userData.lastName
                 this._qs('#email').value = res.data.authData.email
-                // this._qs('#mobile').value = res.data.authData.mobile
+                this._qs('#mobile').value = res.data.authData.mobile
+                this._qs('#address-1').value = res.data.userData.address1
+                this._qs('#address-2').value = res.data.userData.address2
+                this._qs('#address-3').value = res.data.userData.address3
+                this._qs('#city').value = res.data.userData.city
+                this._qs('#district').value = res.data.userData.district
+                this._qs('#nic').value = res.data.userData.nic
+                const dob = res.data.userData.dob.split('-')
+                this._qs('#year').value = dob[0]
+                this._qs('#month').value = dob[1]
+                this._qs('#day').value = dob[2]
+
+                this.stopLoader()
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                this.stopLoader()
+            })
     }//End of getProfileInfo()
 
     //update profile
@@ -181,13 +202,12 @@ export default class Profile extends Base {
                         dob: `${this._qs('#year').value}-${this._qs('#month').value}-${this._qs('#day').value}`,
                     }
 
-                    console.log(data)
-
                     await axios.post(`${this.host}/profile/update`, data)
                         .then(res => {
-                            console.log(res.data)
+                            if(res.status == 201 )dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message , duration: 5} }))
+                            else throw res.data
                         })
-                        .catch(err => console.log(err))
+                        .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
                 } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Please input valid data to update profile", duration: 5 } }))
             })
     }//End of updateProfile()
