@@ -2,7 +2,6 @@ import Base from '/componets/Base.js'
 import CSS from './preview-advertisement.css.js'
 
 export default class PreviewAdvertisement extends Base {
-
     css = CSS
 
     content = `
@@ -41,25 +40,27 @@ export default class PreviewAdvertisement extends Base {
     constructor() {
         super()
         this.mount()
-
-    }//End of the constructor
+    } //End of the constructor
 
     //connectedCallback
     connectedCallback() {
-
         this._qs('#close-popup').addEventListener('click', () => {
             this._qs('.container').style.display = 'none'
             this._qs('.backdrop').style.backgroundColor = 'transparent'
         })
 
-        this._qs('.approve-button').addEventListener('click', () => dispatchEvent(new CustomEvent('upload-advertisement', {detail : {userId: this.getUserId()}})))
+        this._qs('.approve-button').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('upload-advertisement', {
+                    detail: { userId: this.getUserId() }
+                })
+            )
+        )
         this._qs('.decline-button').addEventListener('click', () => {
             this._qs('.container').style.display = 'none'
             this._qs('.backdrop').style.backgroundColor = 'transparent'
         })
-
-    }//End of connectedCallback()
-    
-}//End of Class
+    } //End of connectedCallback()
+} //End of Class
 
 window.customElements.define('preview-advertisement', PreviewAdvertisement)

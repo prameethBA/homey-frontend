@@ -1,4 +1,4 @@
-export default CSS =`
+export default CSS = `
 .container {
   display: inline-flex;
   box-shadow: -1px -1px 5px 0px rgba(0,21,62,0.8);

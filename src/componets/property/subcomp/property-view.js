@@ -2,7 +2,6 @@ import Base from '../../Base.js'
 import CSS from './property-view.css.js'
 
 export default class PropertyView extends Base {
-
     css = CSS
 
     options = `
@@ -62,13 +61,21 @@ export default class PropertyView extends Base {
                     <slot name="price"></slot>
                 </span>
 
-                ${this.getAttribute('overview') == 'true' ? this.options : `<span></span>`}
+                ${
+                    this.getAttribute('overview') == 'true'
+                        ? this.options
+                        : `<span></span>`
+                }
 
             </div>
             <slot name="description" class="description"></slot>
             <div class='button-group'>
                 <button class="comment">Comment</button>
-                ${this.getAttribute('overview') == 'true' ? this.optionButtons : `<span></span>`}
+                ${
+                    this.getAttribute('overview') == 'true'
+                        ? this.optionButtons
+                        : `<span></span>`
+                }
                 <button class="reserve">Reserve</button>
                 <button class="more">More >></button>
             </div>
@@ -80,98 +87,136 @@ export default class PropertyView extends Base {
     constructor() {
         super()
         this.mount()
-        
+
         this.qs('img').style.display = 'block'
-    }//End of constructor
+    } //End of constructor
 
-
-    //report component 
+    //report component
     async report() {
         this.setLoader()
         await import('./report/report.js')
             .then(() => {
-                this._qs('#comment-box').innerHTML = `<report-comp></report-comp>`
+                this._qs(
+                    '#comment-box'
+                ).innerHTML = `<report-comp></report-comp>`
                 this.stopLoader()
             })
             .catch(err => {
                 this.stopLoader()
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'error',
+                            msg: err.message,
+                            duration:
+                                err.duration == undefined ? 10 : err.duration
+                        }
+                    })
+                )
             })
-    }//End of report()
+    } //End of report()
 
     //loadReport
     loadReport() {
         this._qs('.report').addEventListener('click', () => this.report())
-    }//end of loadReport()
+    } //end of loadReport()
 
-    //reserve component 
+    //reserve component
     async reserve() {
         this.setLoader()
         await import('./reserve/reserve.js')
             .then(() => {
-                this._qs('#comment-box').innerHTML = `<reserve-comp></reserve-comp>`
+                this._qs(
+                    '#comment-box'
+                ).innerHTML = `<reserve-comp></reserve-comp>`
                 this.stopLoader()
             })
             .catch(err => {
                 this.stopLoader()
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'error',
+                            msg: err.message,
+                            duration:
+                                err.duration == undefined ? 10 : err.duration
+                        }
+                    })
+                )
             })
-    }//End of reserve()
+    } //End of reserve()
 
     //loadReserve
     loadReserve() {
         this._qs('.reserve').addEventListener('click', () => this.reserve())
-    }//end of loadReserve()
+    } //end of loadReserve()
 
     //load the full details about the property
     fullDetails() {
         this._qs('.more').addEventListener('click', () => {
-            dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/property/${this.qs('.id').value}`, comp: `property/property-details`, compName: 'property-details' } }))
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/property/${this.qs('.id').value}`,
+                        comp: `property/property-details`,
+                        compName: 'property-details'
+                    }
+                })
+            )
         })
-    }//end of fullDetails()
+    } //end of fullDetails()
 
     connectedCallback() {
-
         const slider = () => {
-            if( this.qsAll('img').length > 1) {
-                this.state.img = 0;
+            if (this.qsAll('img').length > 1) {
+                this.state.img = 0
                 this.state.rootImg = 0
-        
-                const slideNext = ()=> {
-                        this.qsAll('img')[this.state.img].style.display = 'none'
-                        this.qsAll('img').length - 1 > this.state.img ? this.state.img++ : this.state.img = this.state.rootImg
-                        this.qsAll('img')[this.state.img].style.display = 'block'
-                }
-        
-                const slidePrevious = ()=> {
+
+                const slideNext = () => {
                     this.qsAll('img')[this.state.img].style.display = 'none'
-                    this.state.rootImg < this.state.img ? this.state.img-- : this.state.img = this.qsAll('img').length - 1 
+                    this.qsAll('img').length - 1 > this.state.img
+                        ? this.state.img++
+                        : (this.state.img = this.state.rootImg)
                     this.qsAll('img')[this.state.img].style.display = 'block'
                 }
-        
-                this._qs('.slider-previous').addEventListener('click', () => {slidePrevious()})
-                this._qs('.slider-next').addEventListener('click', () => {slideNext()})
-                this._qs('.slider-next').click();
+
+                const slidePrevious = () => {
+                    this.qsAll('img')[this.state.img].style.display = 'none'
+                    this.state.rootImg < this.state.img
+                        ? this.state.img--
+                        : (this.state.img = this.qsAll('img').length - 1)
+                    this.qsAll('img')[this.state.img].style.display = 'block'
+                }
+
+                this._qs('.slider-previous').addEventListener('click', () => {
+                    slidePrevious()
+                })
+                this._qs('.slider-next').addEventListener('click', () => {
+                    slideNext()
+                })
+                this._qs('.slider-next').click()
                 this.state.rootImg = 1
-        
-                let autoSlide = setInterval(() => slideNext(),5000)
+
+                let autoSlide = setInterval(() => slideNext(), 5000)
             }
         }
 
-        slider();
+        slider()
 
         addEventListener('start-slider', () => {
             slider()
-            if(this.qsAll('img').length <= 1) this.qs('img').src = "./assets/img/alt/no-mage.png"
+            if (this.qsAll('img').length <= 1)
+                this.qs('img').src = './assets/img/alt/no-mage.png'
         })
 
-        this._qs('.comment').addEventListener('click', async ()=> {
+        this._qs('.comment').addEventListener('click', async () => {
             import('/componets/universal/comment/comment-comp.js').then(
-                this._qs('#comment-box').innerHTML = `<comment-comp></comment-comp>`
+                (this._qs(
+                    '#comment-box'
+                ).innerHTML = `<comment-comp></comment-comp>`)
             )
         })
 
-        
         //load report component
         this.loadReport()
 
@@ -180,9 +225,7 @@ export default class PropertyView extends Base {
 
         //load the full details about the property
         this.fullDetails()
-        
-    }//end of connected callback
-
-}//End of class
+    } //end of connected callback
+} //End of class
 
 window.customElements.define('property-view', PropertyView)

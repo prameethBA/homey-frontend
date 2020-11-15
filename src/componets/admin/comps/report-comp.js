@@ -2,7 +2,6 @@ import Base from '/componets/Base.js'
 import CSS from './report-comp.css.js'
 
 export default class Report extends Base {
-
     css = CSS
 
     content = `
@@ -30,7 +29,7 @@ export default class Report extends Base {
     <div class="preview-advertisement"></div>
     `
 
-    row  = `
+    row = `
         <tr>
             <td>1</td>
             <td>User Report</td>
@@ -44,13 +43,12 @@ export default class Report extends Base {
     constructor() {
         super()
         this.mount()
-        
-    }//End of constructor
+    } //End of constructor
 
     // load rows
     loadRow() {
         this._qs('tbody').innerHTML += this.row
-    }//End loadRow()
+    } //End loadRow()
 
     // //close the dock
     // close() {
@@ -71,20 +69,17 @@ export default class Report extends Base {
     // }// End of exitWithEscape()
 
     connectedCallback() {
-
         // load rows
-        this.loadRow() 
-        this.loadRow() 
-        this.loadRow() 
-        this.loadRow() 
+        this.loadRow()
+        this.loadRow()
+        this.loadRow()
+        this.loadRow()
 
         // // close the dock
         // this.close()
         // // Exit with escape key
         // this.exitWithEscape()
-
-    }//End of connectedCallback
-
-}//End of Class
+    } //End of connectedCallback
+} //End of Class
 
 window.customElements.define('report-comp', Report)

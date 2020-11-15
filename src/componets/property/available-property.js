@@ -2,7 +2,6 @@ import Base from '../Base.js'
 import CSS from './available-property.css.js'
 
 export default class AvalibaleProperty extends Base {
-
     css = CSS
 
     filter = `
@@ -154,32 +153,36 @@ export default class AvalibaleProperty extends Base {
 
         //Load ad preview cards
         this.loadpropertyView()
-        
-    }//end of constructor
-    
+    } //end of constructor
+
     // load questioner
     async loadQuestioner() {
         this.setLoader()
         await import('./subcomp/questioner-comp.js')
             .then(() => {
-                this._qs('#questioner').innerHTML = `<questioner-comp></questioner-comp>`
+                this._qs(
+                    '#questioner'
+                ).innerHTML = `<questioner-comp></questioner-comp>`
                 this.stopLoader()
             })
             .catch(err => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: { pop: 'error', msg: err }
+                    })
+                )
                 this.setLoader()
             })
+    } //End of loadQuestioner
 
-    }//End of loadQuestioner
-
-    // Load add comps 
+    // Load add comps
     async loadpropertyView() {
         this.setLoader()
         await import('./subcomp/property-view.js')
             .then(() => {
                 this.state.page = 1
                 this.state.limit = 12
-        
+
                 for (let index = 0; index < this.state.limit; index++) {
                     this._qs('#container').innerHTML += `
                             <property-view id="id-${index}" key="${index}">
@@ -198,64 +201,83 @@ export default class AvalibaleProperty extends Base {
                 this.stopLoader()
             })
             .catch(err => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: { pop: 'error', msg: err }
+                    })
+                )
                 this.setLoader()
             })
-
-    }//End of loadpropertyView()
+    } //End of loadpropertyView()
 
     // Toggle filter
     toggleFilter() {
         let visible = true
 
         this._qs('.toggle-filter').addEventListener('click', () => {
-            if(visible) this._qs('.left_nav').style.display = "flex"
-            else this._qs('.left_nav').style.display = "none"
+            if (visible) this._qs('.left_nav').style.display = 'flex'
+            else this._qs('.left_nav').style.display = 'none'
             visible = !visible
         })
-    }//End of toggleFilter()
-    
-   connectedCallback() {
+    } //End of toggleFilter()
 
-    const fetchAdds = async (limit, page, find='find') => {
-        this.setLoader()
-        this.state.ids = []
-        await axios.get(`${this.host}/property/all/${limit}/${page}`)
-            .then(async res => {
-                    res.data.forEach((item, index) =>{
-                    this.stopLoader()
-                    this.state.ids.push(item._id)
-                    // this._qs(`#id-${index}`).id = item._id
-                    this._qs(`.title-${index}`).innerHTML  = item.title
-                    this._qs(`.price-${index}`).innerHTML  = 'Rs.' + item.price.replace(/\B(?=(\d{3})+(?!\d))/, ",")
-                    this._qs(`.description-${index}`).innerHTML  = item.description                
-                    this._qs(`.id-${index}`).value  = item._id                
-                })
-
-                for (let index = res.data.length; index < this.state.limit; index++) {
-                    this._qs(`#id-${index}`).shadowRoot.innerHTML = ''
-                }
-                
-                await axios.post(`${this.host}/images/property`,{'ids':this.state.ids})
-                    .then(res => {
-                        res.data.forEach((id, index) => {
-                            id.images.forEach(image => {
-                                this._qs(`#id-${index}`).innerHTML += `<img slot="thumbnail" class="thumbnail" src="${image.image}" />`
-                            })
-                        })
-                        dispatchEvent(new Event('start-slider'))
+    connectedCallback() {
+        const fetchAdds = async (limit, page, find = 'find') => {
+            this.setLoader()
+            this.state.ids = []
+            await axios
+                .get(`${this.host}/property/all/${limit}/${page}`)
+                .then(async res => {
+                    res.data.forEach((item, index) => {
+                        this.stopLoader()
+                        this.state.ids.push(item._id)
+                        // this._qs(`#id-${index}`).id = item._id
+                        this._qs(`.title-${index}`).innerHTML = item.title
+                        this._qs(`.price-${index}`).innerHTML =
+                            'Rs.' +
+                            item.price.replace(/\B(?=(\d{3})+(?!\d))/, ',')
+                        this._qs(`.description-${index}`).innerHTML =
+                            item.description
+                        this._qs(`.id-${index}`).value = item._id
                     })
+
+                    for (
+                        let index = res.data.length;
+                        index < this.state.limit;
+                        index++
+                    ) {
+                        this._qs(`#id-${index}`).shadowRoot.innerHTML = ''
+                    }
+
+                    await axios
+                        .post(`${this.host}/images/property`, {
+                            ids: this.state.ids
+                        })
+                        .then(res => {
+                            res.data.forEach((id, index) => {
+                                id.images.forEach(image => {
+                                    this._qs(
+                                        `#id-${index}`
+                                    ).innerHTML += `<img slot="thumbnail" class="thumbnail" src="${image.image}" />`
+                                })
+                            })
+                            dispatchEvent(new Event('start-slider'))
+                        })
                 })
-                .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } })))
+                .catch(err =>
+                    dispatchEvent(
+                        new CustomEvent('pop-up', {
+                            detail: { pop: 'error', msg: err }
+                        })
+                    )
+                )
         }
-        
+
         fetchAdds(10, 0)
 
         // Toggle filter
         this.toggleFilter()
-        
-    }//End of connected callback
-
-}//End of Class
+    } //End of connected callback
+} //End of Class
 
 window.customElements.define('available-property', AvalibaleProperty)

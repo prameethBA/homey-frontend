@@ -1,4 +1,4 @@
-export default CSS =`
+export default CSS = `
 * {
     box-sizing: border-box;
     margin: 0;

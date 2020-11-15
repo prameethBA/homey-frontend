@@ -2,9 +2,8 @@ import Base from '../Base.js'
 import CSS from './reset-password-form.css.js'
 
 export default class ResetPassword extends Base {
-
-  css = CSS
-  content = `
+    css = CSS
+    content = `
           <div id="backdrop" title="Click to close this form">
           </div>
 
@@ -22,27 +21,36 @@ export default class ResetPassword extends Base {
           </div>
   `
 
-  constructor() {
-    super()
-    this.mount()
-    
-  }//End of constructor
+    constructor() {
+        super()
+        this.mount()
+    } //End of constructor
 
-  connectedCallback() {
+    connectedCallback() {
+        this._qs('#backdrop').addEventListener('click', () => {
+            dispatchEvent(new Event('exit-form'))
+            this.setPath('/')
+        })
 
-    this._qs('#backdrop').addEventListener('click', () => {
-      dispatchEvent(new Event('exit-form'))
-      this.setPath('/')
-    })
-
-    this._qs('#reset').addEventListener('click', async () => {
-      this._qs('#email').value == '' 
-      ? dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Provid an email." } })) 
-      : dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'info', msg: `Reset email should be sent for <br /><b><i> ${this._qs('#email').value}</i></b>` } }))
-    })
-
-  }//End of callback
-
-}//End of the class
+        this._qs('#reset').addEventListener('click', async () => {
+            this._qs('#email').value == ''
+                ? dispatchEvent(
+                      new CustomEvent('pop-up', {
+                          detail: { pop: 'error', msg: 'Provid an email.' }
+                      })
+                  )
+                : dispatchEvent(
+                      new CustomEvent('pop-up', {
+                          detail: {
+                              pop: 'info',
+                              msg: `Reset email should be sent for <br /><b><i> ${
+                                  this._qs('#email').value
+                              }</i></b>`
+                          }
+                      })
+                  )
+        })
+    } //End of callback
+} //End of the class
 
 window.customElements.define('reset-password-form', ResetPassword)

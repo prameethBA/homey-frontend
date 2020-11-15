@@ -2,7 +2,6 @@ import Base from './../../Base.js'
 import CSS from './properties-comp.css.js'
 
 export default class properties extends Base {
-
     css = CSS
 
     content = `
@@ -30,19 +29,18 @@ export default class properties extends Base {
     `
 
     constructor() {
-            super()
-            this.mount()
+        super()
+        this.mount()
+    } //End of the constructor
 
-        } //End of the constructor
-
-    // Load add comps 
+    // Load add comps
     async loadpropertyView() {
         this.setLoader()
         await import('./../../property/subcomp/property-view.js')
             .then(() => {
                 this.state.page = 1
                 this.state.limit = 12
-        
+
                 for (let index = 0; index < this.state.limit; index++) {
                     this._qs('.content').innerHTML += `
                             <property-view id="id-${index}" key="${index}">
@@ -59,51 +57,68 @@ export default class properties extends Base {
                 this.stopLoader()
             })
             .catch(err => {
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: { pop: 'error', msg: err }
+                    })
+                )
                 this.setLoader()
             })
-
-    }//End of loadpropertyView()
+    } //End of loadpropertyView()
 
     // get summary about pendin approvals
     async getSummary() {
-            this.setLoader()
-            await axios.post(`${this.host}/admin-property-summary/pending-approval`, {
-                    userId: this.getUserId(),
-                    token: this.getToken()
-                })
-                .then(res => {
-                    let index = 1
-                    res.data.forEach(item => {
-                        this._qs('#pending-approval-table-body').innerHTML += `
+        this.setLoader()
+        await axios
+            .post(`${this.host}/admin-property-summary/pending-approval`, {
+                userId: this.getUserId(),
+                token: this.getToken()
+            })
+            .then(res => {
+                let index = 1
+                res.data.forEach(item => {
+                    this._qs('#pending-approval-table-body').innerHTML += `
                         <tr>
                             <td>${index++}</td>
-                            <td><a class="ad-link" data-id="${item._id}">${item.title}</a></td>
-                            <td><a class="user-link" data-id="${item._id}">View user</a></td>
+                            <td><a class="ad-link" data-id="${item._id}">${
+                        item.title
+                    }</a></td>
+                            <td><a class="user-link" data-id="${
+                                item._id
+                            }">View user</a></td>
                             <td>${item.created}</td>
-                            <td><button class="approve-button" data-id="${item._id}">Approve</button></td>
-                            <td><button class="decline-button" data-id="${item._id}">Decline</button></td>
+                            <td><button class="approve-button" data-id="${
+                                item._id
+                            }">Approve</button></td>
+                            <td><button class="decline-button" data-id="${
+                                item._id
+                            }">Decline</button></td>
                         </tr>
                     `
+                })
+                this.adPreview()
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'error',
+                            msg: err.message,
+                            duration:
+                                err.duration == undefined ? 10 : err.duration
+                        }
                     })
-                    this.adPreview()
-                    this.stopLoader()
-                })
-                .catch(err => {
-                    this.stopLoader()
-                    dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
-                })
-        } //End of getSummary()
-
-
+                )
+            })
+    } //End of getSummary()
 
     //connectedCallback
     connectedCallback() {
-        // Load add comps 
+        // Load add comps
         this.loadpropertyView()
-
     } //End of connectedCallback()
-
 } //End of Class
 
 window.customElements.define('properties-comp', properties)
