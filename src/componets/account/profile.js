@@ -97,15 +97,18 @@ export default class Profile extends Base {
                     </div>
                     <div class="form-column">
                         <label for="currentPassword">Current Password</label>
-                        <input type="password" id="currentPassword" value="" />
+                        <input type="password" class="passwrod-form-field" id="currentPassword" value="" />
                     </div>
                     <div class="form-column">
                         <label for="newPassword">New Password</label>
-                        <input type="password" id="newPassword" value="" />
+                        <input type="password" class="passwrod-form-field" id="newPassword" value="" />
                     </div>
                     <div class="form-column">
                         <label for="confirmPassword">Confirm New Password</label>
-                        <input type="password" id="confirmPassword" value="" />
+                        <input type="password" class="passwrod-form-field" id="confirmPassword" value="" />
+                    </div>
+                    <div class="form-row error-container">
+                        <div class="error" id="error-password"></div>
                     </div>
                     <div class="form-column">
                             <button id="changePassword">Change Password</button>
@@ -343,6 +346,13 @@ export default class Profile extends Base {
                 this.validateProfile()
             })
         })
+
+        this._qsAll('.passwrod-form-field').forEach(item => {
+            item.addEventListener('keyup', () => {
+                //validate profile
+                this.validatePassword()
+            })
+        })
     }//End of listenInput()
 
     //getprofilePicture
@@ -404,7 +414,52 @@ export default class Profile extends Base {
         this._qs('#upload-image').addEventListener('input', () => {
             this.readImage(this._qs("#upload-image").files[0], this._qs('.profile-picture'))
         })
-    }
+    }//End of uploadImage()
+
+    //valdate password
+    validatePassword() {
+        try {
+            this.state.validatePassword = true
+            //validate Name
+            const oldPassword = this._qs('#currentPassword').value
+            const newPassword = this._qs('#newPassword').value
+            const confirmPassword = this._qs('#confirmPassword').value
+            if(oldPassword == '' || newPassword == '' || confirmPassword == '') throw {message: "Password cannot be empty"}
+            if(!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$/.test(newPassword))) throw {message: "Enter a Strong password(Minimum 8 characters including minmum 2 Upper cases, 3 lower cases, 1 Special Character (!@#$&*) and 2 numerals (0-9))"}
+            if(newPassword !== confirmPassword) throw {message: "New password does not match"}
+            
+            this._qs('#error-password').innerHTML = ''
+
+        } catch(err){
+            this.state.validatePassword = false
+            this._qs('#error-password').innerHTML = err.message
+        }
+    }//end of validatePassword()
+
+    //update Password
+    updatePassword() {
+        this._qs('#changePassword').addEventListener('click', async () => {
+            // validate Password
+            this.validatePassword()
+            if(this.state.validatePassword) {
+
+                console.log("confirmPassword")
+                const data = {
+                    userId: this.getUserId(),
+                    token: this.getToken(),
+                    old: this._qs('#currentPassword').value,
+                    new: this._qs('#newPassword').value
+                }
+
+                await axios.post(`${this.host}/login/update/password`, data)
+                    .then(res => {
+                        if(res.status == 201 )dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'success', msg: res.data.message , duration: 20} }))
+                        else throw res.data
+                    })
+                    .catch(err => dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } })))
+            } else dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: "Please input valid password to update Password", duration: 5 } }))
+        })
+    }//End of updatePassword()
 
 
     connectedCallback() {
@@ -421,6 +476,9 @@ export default class Profile extends Base {
 
         //update profile
         this.updateProfile()
+
+        //update Password
+        this.updatePassword()
         
         //listen for validate 
         this.listenInput()
