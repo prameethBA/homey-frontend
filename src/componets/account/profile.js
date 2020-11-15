@@ -296,6 +296,24 @@ export default class Profile extends Base {
         })
     }//End of listenInput()
 
+    //getprofilePicture
+    async getprofilePicture() {
+        await axios.post(`${this.host}/images/profile/get`, {
+            userId: this.getUserId(),
+            token: this.getToken()
+        })
+        .then(res => {
+            this._qs('.profile-picture').innerHTML = 
+                    `<img 
+                    class="uploaded-image" 
+                    src="${res.data.image}" 
+                    id="uploaded-image" 
+                    alt="Profile picture"
+                    />`
+        })
+        .catch(err => console.log(err))
+    }//End of getprofilePicture()
+
     //read image
     readImage(file, target) {
         const fileReader = new FileReader()
@@ -308,12 +326,13 @@ export default class Profile extends Base {
                           alt="Profile picture"
                           />`
             let data = {
+                userId: this.getUserId(),
                 image: fileLoadedEvent.target.result
             }
 
             this._qs('.progress').style.display = 'block'
 
-            axios.post(`${this.host}/property/add-new`, data, {
+            axios.post(`${this.host}/images/profile/save`, data, {
                 onUploadProgress: (progressEvent) => {
                     const {loaded, total} = progressEvent;
                     let percent = Math.floor( (loaded * 100) / total )
@@ -322,6 +341,7 @@ export default class Profile extends Base {
             }).then(res => {
                 this._qs('.progress').style.display = 'none'
                 this._qs('.progress-bar').style.width = '0'
+                console.log(res.data)
             })
             .catch(err => console.log(err))
         }
@@ -345,6 +365,9 @@ export default class Profile extends Base {
             this._qs('.last-location').innerHTML += `<img src="${res.data.location.country_flag}" style="width: 2rem;margin: 0 1rem;"/>`
         })
        
+        //getprofilePicture
+        this.getprofilePicture()
+
         //update profile
         this.updateProfile()
         
