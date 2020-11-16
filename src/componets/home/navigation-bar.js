@@ -2,10 +2,9 @@ import Base from '../Base.js'
 import CSS from './navigation-bar.css.js'
 
 export default class Nav extends Base {
+    css = CSS
 
-  css = CSS
-
-  preContent = `
+    preContent = `
   <nav class="topnav">
     <div class="row">
       <span class="logo">
@@ -19,7 +18,7 @@ export default class Nav extends Base {
   </nav>
   `
 
-  loginContent = `
+    loginContent = `
         <nav class="topnav">
           <div class="row">
             <span class="logo">
@@ -71,176 +70,309 @@ export default class Nav extends Base {
           </div>
         </nav>
         `
-        
-  content = `<header></header>`
 
-  constructor() {
-    super()
-    this.mount()
+    content = `<header></header>`
 
-    //pre Content Behaviour
-    this.setNavBar()
-    //Set Navigation
-    if(this.isLogin()) this.setNavigation()
-  }//End of the constructor
+    constructor() {
+        super()
+        this.mount()
 
-  //Set Nav Bar
-  setNavBar() {
-    
-    if(!this.isLogin()) {
-      this._qs('header').innerHTML = this.preContent
-      //load login form
-      this.loadLoginForm()
-    }
-    else {
-      this._qs('header').innerHTML = this.loginContent
-      //set as Active
-      this.setAsActive()
-      //Toggle Nav bar
-      this.toggleNavBar()
-      //Set admin dashboard button
-      if(this.getUserType() == 1) {
-        this._qs('.nav-items').innerHTML += `<a data-path=""><button id="admin-dashboard">Admin Dashboard</button></a>`
-        //load Admin bashboard
-        this.loadAdminDashboard()
-      }//End of setting admin dashboard button 
-    }//End of setting navigation
+        //pre Content Behaviour
+        this.setNavBar()
+        //Set Navigation
+        if (this.isLogin()) this.setNavigation()
+    } //End of the constructor
 
-    // load Home
-    this.loadHome()
-    
-  }// End of setNavBar()
+    //Set Nav Bar
+    setNavBar() {
+        if (!this.isLogin()) {
+            this._qs('header').innerHTML = this.preContent
+            //load login form
+            this.loadLoginForm()
+        } else {
+            this._qs('header').innerHTML = this.loginContent
+            //set as Active
+            this.setAsActive()
+            //Toggle Nav bar
+            this.toggleNavBar()
+            //Set admin dashboard button
+            if (this.getUserType() == 1) {
+                this._qs(
+                    '.nav-items'
+                ).innerHTML += `<a data-path=""><button id="admin-dashboard">Admin Dashboard</button></a>`
+                //load Admin bashboard
+                this.loadAdminDashboard()
+            } //End of setting admin dashboard button
+        } //End of setting navigation
 
-  // Navigation 
-  setNavigation() {
-    // properties
-    this._qs('#property').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/property`, comp: `property/available-property`, compName: 'available-property' } })))
-    // favourite
-    this._qs('#favourite').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/favourite`, comp: `property/favourite`, compName: 'favourite-comp' } })))
-    //Add New property
-    this._qs('#add-new-property').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/add-new-property`, comp: `property/add-new-property`, compName: 'add-new-property' } })))
-    //Own property
-    this._qs('#own-properties').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/own-properties`, comp: `property/own-properties`, compName: 'own-properties' } })))
-    // Payments
-    this._qs('#received').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/received`, comp: `payments/payment-received`, compName: 'payment-received' } })))
-    this._qs('#paid').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/paid`, comp: `payments/payment-paid`, compName: 'payment-paid' } })))
-    this._qs('#all').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/all`, comp: `payments/payment-all`, compName: 'payment-all' } })))
-    this._qs('#cashout').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/cashout`, comp: `payments/payment-cashout`, compName: 'payment-cashout' } })))
-    this._qs('#bank-account').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/payment/bank-account`, comp: `payments/payment-bank-account`, compName: 'payment-bank-account' } })))
-    //Profile
-    this._qs('#profile').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/profile`, comp: `account/profile`, compName: 'profile-comp' } })))
-    //wallet
-    this._qs('#wallet').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/wallet`, comp: `account/wallet`, compName: 'wallet-comp' } })))
-    //Log out
-    this._qs('#log-out').addEventListener('click', () => this.logOutMethod())
-  }//end of setNavigation()
+        // load Home
+        this.loadHome()
+    } // End of setNavBar()
 
-  //load Admin bashboard
-  loadAdminDashboard() {
-    this._qs('#admin-dashboard').addEventListener('click', () => {
-      dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/admin`, comp: `admin/admin-dashboard`, compName: 'admin-dashboard' } }))
-    })
-  }// End of loadAdminDashboard()
+    // Navigation
+    setNavigation() {
+        // properties
+        this._qs('#property').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/property`,
+                        comp: `property/available-property`,
+                        compName: 'available-property'
+                    }
+                })
+            )
+        )
+        // favourite
+        this._qs('#favourite').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/favourite`,
+                        comp: `property/favourite`,
+                        compName: 'favourite-comp'
+                    }
+                })
+            )
+        )
+        //Add New property
+        this._qs('#add-new-property').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/add-new-property`,
+                        comp: `property/add-new-property`,
+                        compName: 'add-new-property'
+                    }
+                })
+            )
+        )
+        //Own property
+        this._qs('#own-properties').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/own-properties`,
+                        comp: `property/own-properties`,
+                        compName: 'own-properties'
+                    }
+                })
+            )
+        )
+        // Payments
+        this._qs('#received').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/payment/received`,
+                        comp: `payments/payment-received`,
+                        compName: 'payment-received'
+                    }
+                })
+            )
+        )
+        this._qs('#paid').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/payment/paid`,
+                        comp: `payments/payment-paid`,
+                        compName: 'payment-paid'
+                    }
+                })
+            )
+        )
+        this._qs('#all').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/payment/all`,
+                        comp: `payments/payment-all`,
+                        compName: 'payment-all'
+                    }
+                })
+            )
+        )
+        this._qs('#cashout').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/payment/cashout`,
+                        comp: `payments/payment-cashout`,
+                        compName: 'payment-cashout'
+                    }
+                })
+            )
+        )
+        this._qs('#bank-account').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/payment/bank-account`,
+                        comp: `payments/payment-bank-account`,
+                        compName: 'payment-bank-account'
+                    }
+                })
+            )
+        )
+        //Profile
+        this._qs('#profile').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/profile`,
+                        comp: `account/profile`,
+                        compName: 'profile-comp'
+                    }
+                })
+            )
+        )
+        //wallet
+        this._qs('#wallet').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/wallet`,
+                        comp: `account/wallet`,
+                        compName: 'wallet-comp'
+                    }
+                })
+            )
+        )
+        //Log out
+        this._qs('#log-out').addEventListener('click', () =>
+            this.logOutMethod()
+        )
+    } //end of setNavigation()
 
-  //load home
-  loadHome() {
-   //Home
-   this._qs('.logo').addEventListener('click', () => {
-     dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `home/main/main`, compName: 'main-comp' } }))
-    })
-  }// End of loadHome()
+    //load Admin bashboard
+    loadAdminDashboard() {
+        this._qs('#admin-dashboard').addEventListener('click', () => {
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/admin`,
+                        comp: `admin/admin-dashboard`,
+                        compName: 'admin-dashboard'
+                    }
+                })
+            )
+        })
+    } // End of loadAdminDashboard()
 
-  //load login form
-  loadLoginForm() {
-    this._qs('#login-button').addEventListener('click', () => {
-      dispatchEvent(new CustomEvent('load-login-form'))
-     })
-   }// End of loadLoginForm()
-  
-  //Toggle Nav bar
-  toggleNavBar() {
-    let visible = true
-    this._qs('.hamburger').addEventListener('click', () => {
-        if(visible) {
-          this._qs('.dropbtn').classList.add('responsive-dropbtn')
-          this._qs('.nav-items').classList.add('responsive-nav-items')
-          this._qs('.dropdown').classList.add('responsive-dropdown')
-          this._qs('.dropdown-content').classList.add('responsive-dropdown-content')
-          this._qs('.topnav').classList.add('responsive-topnav')
-        }
-        else {
-          this._qs('.dropbtn').classList.remove('responsive-dropbtn')
-          this._qs('.nav-items').classList.remove('responsive-nav-items')
-          this._qs('.dropdown').classList.remove('responsive-dropdown')
-          this._qs('.dropdown-content').classList.remove('responsive-dropdown-content')
-          this._qs('.topnav').classList.remove('responsive-topnav')
-        }
+    //load home
+    loadHome() {
+        //Home
+        this._qs('.logo').addEventListener('click', () => {
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/`,
+                        comp: `home/main/main`,
+                        compName: 'main-comp'
+                    }
+                })
+            )
+        })
+    } // End of loadHome()
 
-        visible = !visible
-    })
-  }// toggleNavBar()
+    //load login form
+    loadLoginForm() {
+        this._qs('#login-button').addEventListener('click', () => {
+            dispatchEvent(new CustomEvent('load-login-form'))
+        })
+    } // End of loadLoginForm()
 
-  //set as Active
-  setAsActive() {
-    this._qsAll('a').forEach(item => {
-      if(item.id == window.location.pathname.split('/')[1]) {
-        // console.log(item.dataset.path)
-        item.classList.add('active')
-      }
-      else
-        item.classList.remove('active')
-    })
-  }//End of setAsActive()
+    //Toggle Nav bar
+    toggleNavBar() {
+        let visible = true
+        this._qs('.hamburger').addEventListener('click', () => {
+            if (visible) {
+                this._qs('.dropbtn').classList.add('responsive-dropbtn')
+                this._qs('.nav-items').classList.add('responsive-nav-items')
+                this._qs('.dropdown').classList.add('responsive-dropdown')
+                this._qs('.dropdown-content').classList.add(
+                    'responsive-dropdown-content'
+                )
+                this._qs('.topnav').classList.add('responsive-topnav')
+            } else {
+                this._qs('.dropbtn').classList.remove('responsive-dropbtn')
+                this._qs('.nav-items').classList.remove('responsive-nav-items')
+                this._qs('.dropdown').classList.remove('responsive-dropdown')
+                this._qs('.dropdown-content').classList.remove(
+                    'responsive-dropdown-content'
+                )
+                this._qs('.topnav').classList.remove('responsive-topnav')
+            }
 
-  //Monitor link clicks
-  monitorLinkClicks() {
-    this._qsAll('a').forEach(link => {
-      link.addEventListener('click', () => this.setAsActive())
-    })
-  }//End of monitorLinkClicks()
+            visible = !visible
+        })
+    } // toggleNavBar()
 
-  //Scrolbar behavoiur when scroll
-  scrollNavbar() {
-    addEventListener('scroll', () =>  {
-      if(document.documentElement.scrollTop > 10) {
-        this._qs('nav').classList.add('nav-scroll')
-        this._qs('header').classList.add('header-scroll')
-      } else {	  
-        this._qs('nav').classList.remove('nav-scroll') 
-        this._qs('header').classList.remove('header-scroll') 
-      }
-    })
-  }//End of scrollNavbar()
-
-  //Login
-  loginMethod() {
-    addEventListener('login-success', () => {
-      this.setNavBar()
-      //Set Navigation
-      if(this.isLogin()) this.setNavigation()
-    })
-  }//loginMethod()
-
-  //Log out
-  logOutMethod() {
-    this.logOut()
-    this.setNavBar()
-    dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `home/main/main`, compName: 'main-comp' } }))
-  }//logOutMethod()
-
-  connectedCallback() {
-
-    //Login method
-    this.loginMethod()
+    //set as Active
+    setAsActive() {
+        this._qsAll('a').forEach(item => {
+            if (item.id == window.location.pathname.split('/')[1]) {
+                // console.log(item.dataset.path)
+                item.classList.add('active')
+            } else item.classList.remove('active')
+        })
+    } //End of setAsActive()
 
     //Monitor link clicks
-    this.monitorLinkClicks()
+    monitorLinkClicks() {
+        this._qsAll('a').forEach(link => {
+            link.addEventListener('click', () => this.setAsActive())
+        })
+    } //End of monitorLinkClicks()
 
     //Scrolbar behavoiur when scroll
-    this.scrollNavbar()
+    scrollNavbar() {
+        addEventListener('scroll', () => {
+            if (document.documentElement.scrollTop > 10) {
+                this._qs('nav').classList.add('nav-scroll')
+                this._qs('header').classList.add('header-scroll')
+            } else {
+                this._qs('nav').classList.remove('nav-scroll')
+                this._qs('header').classList.remove('header-scroll')
+            }
+        })
+    } //End of scrollNavbar()
 
-  }// End of connected callback
+    //Login
+    loginMethod() {
+        addEventListener('login-success', () => {
+            this.setNavBar()
+            //Set Navigation
+            if (this.isLogin()) this.setNavigation()
+        })
+    } //loginMethod()
 
-}// End of Class
+    //Log out
+    logOutMethod() {
+        this.logOut()
+        this.setNavBar()
+        dispatchEvent(
+            new CustomEvent('load-comp', {
+                detail: {
+                    path: `/`,
+                    comp: `home/main/main`,
+                    compName: 'main-comp'
+                }
+            })
+        )
+    } //logOutMethod()
+
+    connectedCallback() {
+        //Login method
+        this.loginMethod()
+
+        //Monitor link clicks
+        this.monitorLinkClicks()
+
+        //Scrolbar behavoiur when scroll
+        this.scrollNavbar()
+    } // End of connected callback
+} // End of Class
 
 window.customElements.define('navigation-bar', Nav)

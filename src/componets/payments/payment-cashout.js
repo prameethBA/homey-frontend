@@ -2,10 +2,9 @@ import Base from '../Base.js'
 import CSS from './payment-received.css.js'
 
 export default class PaymentCashOut extends Base {
+    css = CSS
 
-  css =  CSS
-
-  leftNav = `
+    leftNav = `
       <div class="column left-nav">
         <div>Received Payments</div>
         <div>Paying History</div>
@@ -15,7 +14,7 @@ export default class PaymentCashOut extends Base {
       </div>
   `
 
-  tr = `
+    tr = `
       <tr>
           <td>91908091830</td>
           <td>Rs. 27, 000</td>
@@ -39,7 +38,7 @@ export default class PaymentCashOut extends Base {
       </tr>
     `
 
-  content = `
+    content = `
     <div class="container row">
       ${this.leftNav}
       <div class="column content">
@@ -64,15 +63,11 @@ export default class PaymentCashOut extends Base {
     </div>
   `
     constructor() {
-      super()
-      this.mount()
-     
-    }//End of constructor
+        super()
+        this.mount()
+    } //End of constructor
 
-    connectedCallback() {
+    connectedCallback() {} //End of connected callback
+}
 
-    }//End of connected callback
-    
-  }
-
-  window.customElements.define('payment-cashout', PaymentCashOut)
+window.customElements.define('payment-cashout', PaymentCashOut)

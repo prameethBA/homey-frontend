@@ -2,7 +2,6 @@ import Base from './../Base.js'
 import CSS from './property-history.css.js'
 
 export default class PropertyHistory extends Base {
-
     css = CSS
 
     content = `
@@ -86,7 +85,6 @@ export default class PropertyHistory extends Base {
         super()
         this.mount()
     }
-
 }
 
 window.customElements.define('property-history', PropertyHistory)

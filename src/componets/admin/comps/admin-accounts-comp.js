@@ -2,7 +2,6 @@ import Base from '../../Base.js'
 import CSS from './admin-accounts-comp.css.js'
 
 export default class AdminAccounts extends Base {
-
     css = CSS
 
     content = `
@@ -21,10 +20,9 @@ export default class AdminAccounts extends Base {
     <div class="popup"></div>
 `
     constructor() {
-            super()
-            this.mount()
-
-        } //End of the constructor
+        super()
+        this.mount()
+    } //End of the constructor
 
     //Load admin component
     loadAdmin(admin) {
@@ -40,20 +38,24 @@ export default class AdminAccounts extends Base {
         switch (admin.status) {
             case '0':
                 data += `🟠 Unconfirmed`
-                break;
+                break
             case '1':
                 data += `🟢 Confirmed`
-                break;
+                break
             default:
                 data += `🔴 Invalid User`
-                break;
+                break
         }
 
-        data+=            `</span>
+        data += `</span>
                 </div>
                 <div class="sub-row">
-                    <span class="email"><a href="mailto:${admin.email}">${admin.email}<a></span>
-                    <span class="mobile"><a href="callto:${admin.mobile}">${admin.mobile != null ? admin.mobile : 'Mobile number not updated'}</a></span>
+                    <span class="email"><a href="mailto:${admin.email}">${
+            admin.email
+        }<a></span>
+                    <span class="mobile"><a href="callto:${admin.mobile}">${
+            admin.mobile != null ? admin.mobile : 'Mobile number not updated'
+        }</a></span>
                 </div>
                 <div class="sub-row">
                     <button class="change-status">Deactivate</button>
@@ -62,9 +64,9 @@ export default class AdminAccounts extends Base {
             </div>
         `
         this._qs('.admins').innerHTML += data
-    }//End of loadAdmin()
+    } //End of loadAdmin()
 
-    //Add new admin component 
+    //Add new admin component
     async newAdmin() {
         this.setLoader()
         await import('./subcomp/new-admin/add-new-admin.js')
@@ -74,42 +76,48 @@ export default class AdminAccounts extends Base {
             })
             .catch(err => {
                 this.stopLoader()
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'error',
+                            msg: err.message,
+                            duration:
+                                err.duration == undefined ? 10 : err.duration
+                        }
+                    })
+                )
             })
-    }//End of reserve()
+    } //End of reserve()
 
     //loadNewAdminForm
     loadNewAdminForm() {
         this._qs('.create-new').addEventListener('click', () => this.newAdmin())
-    }//end of loadNewAdminForm()
-
+    } //end of loadNewAdminForm()
 
     // getUsers from API
     async getAdmins() {
-        await axios.post(`${this.host}/AdminUsers/all-admins`, {
-            userId: this.getUserId(),
-            token: this.getToken()
-        })
+        await axios
+            .post(`${this.host}/AdminUsers/all-admins`, {
+                userId: this.getUserId(),
+                token: this.getToken()
+            })
             .then(res => {
                 res.data.forEach(admin => {
                     //Load Admin component
                     this.loadAdmin(admin)
                 })
-            }) 
+            })
             .catch(err => console.log(err))
-    }//end of getAdmins()
+    } //end of getAdmins()
 
     // connectedCallback
     connectedCallback() {
-
-         // getUsers from API
+        // getUsers from API
         this.getAdmins()
 
         //loadNewAdminForm
         this.loadNewAdminForm()
-
     } //End of connectedCallback()
-
 } //End of Class
 
 window.customElements.define('admin-accounts-comp', AdminAccounts)

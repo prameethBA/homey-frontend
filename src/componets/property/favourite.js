@@ -2,10 +2,9 @@ import Base from '../Base.js'
 import CSS from './own-properties.css.js'
 
 export default class Favourite extends Base {
+    css = CSS
 
-  css =  CSS
-
-  content = `
+    content = `
         <div id="container">
             <div class="row">
                 <span class="search-container">
@@ -24,21 +23,20 @@ export default class Favourite extends Base {
         </div>
     `
     constructor() {
-      super()
-      this.mount()
+        super()
+        this.mount()
+    } //End of the constructor
 
-    }//End of the constructor
-
-    // Load add comps 
+    // Load add comps
     async loadpropertyView() {
-      this.setLoader()
-      await import('./subcomp/property-view.js')
-          .then(() => {
-              this.state.page = 1
-              this.state.limit = 12
-      
-              for (let index = 0; index < this.state.limit; index++) {
-                  this._qs('.content').innerHTML += `
+        this.setLoader()
+        await import('./subcomp/property-view.js')
+            .then(() => {
+                this.state.page = 1
+                this.state.limit = 12
+
+                for (let index = 0; index < this.state.limit; index++) {
+                    this._qs('.content').innerHTML += `
                           <property-view id="id-${index}" key="${index}" overview='false'>
                               <img slot="thumbnail" class="thumbnail" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
                               <p slot="title" class=" title title-${index}">Boarding place at Colombo-08</p>
@@ -49,23 +47,23 @@ export default class Favourite extends Base {
                               <input class="id id-${index}" type="hidden" slot="id" value=""/>
                           </property-view>
                       `
-              }
-              this.stopLoader()
-          })
-          .catch(err => {
-              dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err } }))
-              this.setLoader()
-          })
-
-    }//End of loadpropertyView()
+                }
+                this.stopLoader()
+            })
+            .catch(err => {
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: { pop: 'error', msg: err }
+                    })
+                )
+                this.setLoader()
+            })
+    } //End of loadpropertyView()
 
     connectedCallback() {
+        // Load add comps
+        this.loadpropertyView()
+    } //End of connectedCallback()
+} //End of the class
 
-      // Load add comps 
-      this.loadpropertyView()
-
-    }//End of connectedCallback()
-    
-  }//End of the class
-
-  window.customElements.define('favourite-comp', Favourite)
+window.customElements.define('favourite-comp', Favourite)

@@ -2,10 +2,9 @@ import Base from '../Base.js'
 import CSS from './payment-bank-account.css.js'
 
 export default class PaymentBankAccount extends Base {
+    css = CSS
 
-  css =  CSS
-
-  leftNav = `
+    leftNav = `
       <div class="column left-nav">
         <div>Received Payments</div>
         <div>Paying History</div>
@@ -15,7 +14,7 @@ export default class PaymentBankAccount extends Base {
       </div>
   `
 
-  bankAccount = `
+    bankAccount = `
     <div class="column account-card">
       <div class="name">EAPD LAKMAL</div>
       <div>Nations trust bank</div>
@@ -31,7 +30,7 @@ export default class PaymentBankAccount extends Base {
     </div>
   `
 
-  content = `
+    content = `
     <div class="container row">
       ${this.leftNav}
       <div class="column content">
@@ -46,12 +45,11 @@ export default class PaymentBankAccount extends Base {
     <div class="popup"></div>
   `
     constructor() {
-      super()
-      this.mount()
-     
-    }//End of constructor
+        super()
+        this.mount()
+    } //End of constructor
 
-    //Add new account component 
+    //Add new account component
     async newAccount() {
         this.setLoader()
         await import('./subcomp/new-account/new-account.js')
@@ -61,21 +59,28 @@ export default class PaymentBankAccount extends Base {
             })
             .catch(err => {
                 this.stopLoader()
-                dispatchEvent(new CustomEvent("pop-up", { detail: { pop: 'error', msg: err.message, duration: err.duration == undefined ? 10 : err.duration } }))
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'error',
+                            msg: err.message,
+                            duration:
+                                err.duration == undefined ? 10 : err.duration
+                        }
+                    })
+                )
             })
-    }//End of newAccount()
+    } //End of newAccount()
 
     //loadNewAccount
     loadNewAccount() {
         this._qs('.add-new').addEventListener('click', () => this.newAccount())
-    }//end of loadNewAccount()
+    } //end of loadNewAccount()
 
     connectedCallback() {
-      //loadNewAccount
-      this.loadNewAccount()
+        //loadNewAccount
+        this.loadNewAccount()
+    } //End of connected callback
+}
 
-    }//End of connected callback
-    
-  }
-
-  window.customElements.define('payment-bank-account', PaymentBankAccount)
+window.customElements.define('payment-bank-account', PaymentBankAccount)

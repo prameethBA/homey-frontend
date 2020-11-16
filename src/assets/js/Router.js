@@ -7,7 +7,6 @@ export default class Router {
     }
 
     get(uri, callback) {
-
         // ensure that the parameters are not empty
         if (!uri || !callback) throw new Error('uri or callback must be given')
 
@@ -37,7 +36,7 @@ export default class Router {
         // }
     }
 
-    getRoute() { }
+    getRoute() {}
 
     init() {
         this.routerFound = false
@@ -51,13 +50,15 @@ export default class Router {
                 let req = { path } // i'll also explain this code below
                 this.routerFound = true
                 return route.callback.call(this, req)
-            } else if(path.match(regEx2)) {
+            } else if (path.match(regEx2)) {
                 let req = { path } // i'll also explain this code below
                 this.routerFound = true
                 return route.callback.call(this, req)
-            } 
-            else this.routerFound =false
+            } else this.routerFound = false
         })
-        if(!this.routerFound) dispatchEvent(new CustomEvent("customError", { detail: { err: '404' } }))
+        if (!this.routerFound)
+            dispatchEvent(
+                new CustomEvent('customError', { detail: { err: '404' } })
+            )
     }
 }

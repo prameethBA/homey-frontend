@@ -2,7 +2,6 @@ import Base from '/componets/Base.js'
 import CSS from './view-user.css.js'
 
 export default class ViewUser extends Base {
-
     css = CSS
 
     content = `
@@ -74,16 +73,15 @@ export default class ViewUser extends Base {
     constructor() {
         super()
         this.mount()
-        
-    }//End of constructor
+    } //End of constructor
 
-    //Toggle collapse  
+    //Toggle collapse
     toggleCollapse(index) {
         let collapse = true
         this._qs(`.collapse-${index}`).addEventListener('click', () => {
             let state = this._qs(`.collapsible-${index}`)
             let expand = this._qs(`.expand-${index}`)
-            if(collapse) {
+            if (collapse) {
                 state.classList.add('collapsed')
                 expand.classList.add('expanded')
             } else {
@@ -92,29 +90,30 @@ export default class ViewUser extends Base {
             }
             collapse = !collapse
         })
-    }//End of toggleCollapse()
+    } //End of toggleCollapse()
 
     //close the dock
     close() {
         this._qs('#close-popup').addEventListener('click', () => {
             this.exitDock()
         })
-    }//End of the close()
+    } //End of the close()
 
     // Exit the dock
     exitDock() {
         this._qs('.backdrop').style.opacity = '0'
         this._qs('.backdrop').style.pointerEvents = 'none'
-    }// End of exitDock()
+    } // End of exitDock()
 
     //Exit with Escape key
     exitWithEscape() {
-        addEventListener('keyup', ({key}) => (key === 'Escape') ? this.exitDock() : null )
-    }// End of exitWithEscape()
+        addEventListener('keyup', ({ key }) =>
+            key === 'Escape' ? this.exitDock() : null
+        )
+    } // End of exitWithEscape()
 
     connectedCallback() {
-
-        //Toggle collapse 
+        //Toggle collapse
         this.toggleCollapse(1)
         this.toggleCollapse(2)
 
@@ -122,9 +121,7 @@ export default class ViewUser extends Base {
         this.close()
         // Exit with escape key
         this.exitWithEscape()
-
-    }//End of connectedCallback
-
-}//End of Class
+    } //End of connectedCallback
+} //End of Class
 
 window.customElements.define('view-user', ViewUser)

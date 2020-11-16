@@ -2,9 +2,8 @@ import Base from './../Base.js'
 import CSS from './Error404.css.js'
 
 export default class Error404 extends Base {
-
     css = CSS
-    
+
     content = `
     <div class="container">
         <div>
@@ -16,12 +15,21 @@ export default class Error404 extends Base {
     constructor() {
         super()
         this.mount()
-    }//End of the constructor
+    } //End of the constructor
 
     connectedCallback() {
-        this._qs('a').addEventListener('click', () => dispatchEvent(new CustomEvent('load-comp', { detail: { path: `/`, comp: `../main`, compName: 'main-comp' } })))
+        this._qs('a').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/`,
+                        comp: `../main`,
+                        compName: 'main-comp'
+                    }
+                })
+            )
+        )
     }
-
-}//End of Class
+} //End of Class
 
 window.customElements.define('err-404', Error404)

@@ -2,11 +2,9 @@ import Base from '../Base.js'
 import CSS from './wallet.css.js'
 
 export default class Wallet extends Base {
+    css = CSS
 
-  css =  CSS
-
-
-  content = `
+    content = `
     <div class="container">
         <div class="cards">
 
@@ -65,11 +63,9 @@ export default class Wallet extends Base {
     </div>
 `
     constructor() {
-      super()
-      this.mount()
+        super()
+        this.mount()
+    } //End of constructor
+} //End of class
 
-    }//End of constructor
-
-  }//End of class
-
-  window.customElements.define('wallet-comp', Wallet)
+window.customElements.define('wallet-comp', Wallet)

@@ -2,10 +2,9 @@ import Base from './../Base.js'
 import CSS from './payment-history.css.js'
 
 export default class PaymentHistory extends Base {
+    css = CSS
 
-  css =  CSS
-
-  content = `
+    content = `
   <div class="payment-history-heading">
     <h1>Payment History</h1>
   </div>
@@ -90,10 +89,9 @@ export default class PaymentHistory extends Base {
  
   `
     constructor() {
-      super()
-      this.mount()
+        super()
+        this.mount()
     }
-    
-  }
+}
 
-  window.customElements.define('payment-history', PaymentHistory)
+window.customElements.define('payment-history', PaymentHistory)

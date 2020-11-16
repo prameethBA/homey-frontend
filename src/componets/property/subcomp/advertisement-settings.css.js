@@ -1,4 +1,4 @@
-export default CSS =`
+export default CSS = `
 #backdrop {
   position: fixed;
   z-index: 2;

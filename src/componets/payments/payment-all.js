@@ -2,10 +2,9 @@ import Base from '../Base.js'
 import CSS from './payment-received.css.js'
 
 export default class PaymentAll extends Base {
+    css = CSS
 
-  css =  CSS
-
-  leftNav = `
+    leftNav = `
       <div class="column left-nav">
         <div>Received Payments</div>
         <div>Paying History</div>
@@ -15,7 +14,7 @@ export default class PaymentAll extends Base {
       </div>
   `
 
-  tr = `
+    tr = `
       <tr>
           <td>91908091830</td>
           <td>Boarding fee for <a>#293b24o82g9vh4o</a></td>
@@ -46,7 +45,7 @@ export default class PaymentAll extends Base {
       </tr>
     `
 
-  content = `
+    content = `
     <div class="container row">
       ${this.leftNav}
       <div class="column content">
@@ -71,15 +70,11 @@ export default class PaymentAll extends Base {
     </div>
   `
     constructor() {
-      super()
-      this.mount()
-     
-    }//End of constructor
+        super()
+        this.mount()
+    } //End of constructor
 
-    connectedCallback() {
+    connectedCallback() {} //End of connected callback
+}
 
-    }//End of connected callback
-    
-  }
-
-  window.customElements.define('payment-all', PaymentAll)
+window.customElements.define('payment-all', PaymentAll)
