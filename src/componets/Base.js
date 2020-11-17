@@ -61,6 +61,31 @@ export default class Base extends HTMLElement {
         sessionStorage.token = ''
     }
 
+    authenticate() {
+        if (!this.isLogin()) {
+            this.logOut()
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        parh: '/',
+                        comp: 'home/main/main',
+                        compName: 'main-comp'
+                    }
+                })
+            )
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: {
+                        pop: 'error',
+                        msg: 'Log in to your account to continue.',
+                        duration: 5
+                    }
+                })
+            )
+            dispatchEvent(new Event('load-login-form'))
+        }
+    }
+
     // Helpers
 
     // Slectors

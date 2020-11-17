@@ -5,9 +5,6 @@ export default class AddNewProperty extends Base {
     css = CSS
 
     content = `
-    <script>
-        console.log("Lakmal");
-    </script>
     <div class="popup"></div>
     <div class="container">
       <div id="add-preview">
@@ -133,211 +130,63 @@ export default class AddNewProperty extends Base {
 
     constructor() {
         super()
-        if (!this.isLogin()) {
-            dispatchEvent(
-                new CustomEvent('load-comp', {
-                    detail: {
-                        parh: '/',
-                        comp: 'home/main/main',
-                        compName: 'main-comp'
-                    }
-                })
-            )
-            dispatchEvent(
-                new CustomEvent('pop-up', {
-                    detail: {
-                        pop: 'error',
-                        msg: 'Log in to your account to continue.',
-                        duration: 5
-                    }
-                })
-            )
-            dispatchEvent(new Event('load-login-form'))
-        }
+        this.authenticate()
         this.mount()
-
-        // //load Map
-        // this.loadMap()
     } //end of constructor
 
-    // //load Map
-    // loadMap() {
-    //     if (document.getElementById('map') == null) {
-    //         let script = document.createElement('script')
-    //         script.id = 'map'
-    //         script.type = 'text/javascript'
-    //         script.src =
-    //             'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8RpefQ5-mHoAPGkt6tf1uZAaKjHghTNI&libraries=places&callback=initMap'
-    //         document.body.appendChild(script)
-    //     }
-    // } //End of loadMap()
-
-    //load map
+    //load google-map component
     async loadMap() {
         await import('/componets/universal/google-map/google-map.js')
         this._qs('#map').innerHTML = `<google-map></google-map>`
-    }
+    } //End of loadMap()
+
+    // API call for get Districts
+    async getDistricts() {
+        try {
+            const res = await axios.get(`${this.host}/district`)
+            res.data.data.forEach(
+                element =>
+                    (this._qs(
+                        '#district'
+                    ).innerHTML += `<option value="${element._id}">${element.district}</option>`)
+            )
+        } catch (err) {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: { pop: 'error', msg: err }
+                })
+            )
+        }
+    } //End of getDistricts()
+
+    // API call for get property types
+    async getPropertytypes() {
+        try {
+            const res = await axios.get(`${this.host}/property-type`)
+            res.data.data.forEach(
+                element =>
+                    (this._qs(
+                        '#propertyType'
+                    ).innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`)
+            )
+        } catch (err) {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: { pop: 'error', msg: err }
+                })
+            )
+        }
+    } //End of getPropertytypes()
 
     async connectedCallback() {
-        this.loadMap()
-        // Innitialize map
-        // const initMap = async () => {
-        //     const mapDiv = this._qs('#map')
-        //     const input = this._qs('#pac-input')
-
-        //     mapDiv.classList.add('map')
-
-        //     const map = new google.maps.Map(mapDiv, {
-        //         center: { lat: 7.8731, lng: 80.7718 },
-        //         zoom: 7.5,
-        //         mapTypeId: google.maps.MapTypeId.HYBRID
-        //     })
-
-        //     // Create the search box and link it to the UI element.
-        //     const searchBox = new google.maps.places.SearchBox(input)
-        //     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
-        //     // Bias the SearchBox results towards current map's viewport.
-        //     map.addListener('bounds_changed', () => {
-        //         searchBox.setBounds(map.getBounds())
-        //     })
-
-        //     input.style.display = 'block'
-        //     let markers = []
-        //     // Listen for the event fired when the user selects a prediction and retrieve
-        //     // more details for that place.
-        //     searchBox.addListener('places_changed', () => {
-        //         const places = searchBox.getPlaces()
-        //         if (places.length == 0) return
-
-        //         // Clear out the old markers.
-        //         markers.forEach(marker => marker.setMap(null))
-
-        //         markers = []
-
-        //         // For each place, get the icon, name and location.
-        //         const bounds = new google.maps.LatLngBounds()
-        //         places.forEach(place => {
-        //             if (!place.geometry) {
-        //                 console.log('Returned place contains no geometry')
-        //                 return
-        //             }
-
-        //             // Create a marker for each place.
-        //             markers.push(
-        //                 new google.maps.Marker({
-        //                     map,
-        //                     title: place.name,
-        //                     position: place.geometry.location
-        //                 })
-        //             )
-
-        //             if (place.geometry.viewport)
-        //                 // Only geocodes have viewport.
-        //                 bounds.union(place.geometry.viewport)
-        //             else bounds.extend(place.geometry.location)
-        //         })
-        //         map.fitBounds(bounds)
-        //     })
-
-        //     //Listen for any clicks on the map.
-        //     let marker = false
-        //     google.maps.event.addListener(map, 'click', async event => {
-        //         // Clear out the old markers.
-        //         markers.forEach(marker => marker.setMap(null))
-        //         //Get the location that the user clicked.
-        //         let clickedLocation = event.latLng
-        //         //If the marker hasn't been added.
-        //         if (marker === false) {
-        //             //Create the marker.
-        //             marker = new google.maps.Marker({
-        //                 position: clickedLocation,
-        //                 map: map,
-        //                 draggable: true //make it draggable
-        //             })
-
-        //             //get nearest Location!
-        //             this.state.getNearestLocation = async () => {
-        //                 this.state.location = {
-        //                     lng: marker.getPosition().lng(),
-        //                     ltd: marker.getPosition().lat()
-        //                 }
-
-        //                 await axios
-        //                     .post(`${this.host}/cities/nearest-city`, {
-        //                         lng: marker.getPosition().lng(),
-        //                         ltd: marker.getPosition().lat()
-        //                     })
-        //                     .then(res => {
-        //                         this._qs('#city-list').innerHTML = ''
-        //                         let index = 0
-        //                         res.data.forEach(element => {
-        //                             this._qs('#district').value =
-        //                                 element.district
-        //                             index == 0
-        //                                 ? (this._qs('#city').value =
-        //                                       element.city)
-        //                                 : null
-        //                             this._qs(
-        //                                 '#city-list'
-        //                             ).innerHTML += `<option value="${element.city}"/>`
-        //                             index++
-        //                         })
-        //                     })
-        //             }
-
-        //             google.maps.event.addListener(marker, 'dragend', event =>
-        //                 this.state.getNearestLocation()
-        //             )
-        //         } //Marker has already been added, so just change its location.
-        //         else marker.setPosition(clickedLocation)
-        //         this.state.getNearestLocation()
-        //     })
-        // } //End of initMap()
-
-        // try {
-        //   google != undefined
-        // } catch(err) {
-        //   initMap()
-        // }
-        // addEventListener('map-loaded', ()=> initMap())
-
         // API call for get Districts
-        await axios
-            .get(`${this.host}/district`)
-            .then(res =>
-                res.data.data.forEach(
-                    element =>
-                        (this._qs(
-                            '#district'
-                        ).innerHTML += `<option value="${element._id}">${element.district}</option>`)
-                )
-            )
-            .catch(err =>
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-            )
+        this.getDistricts()
+
+        //Load Map
+        this.loadMap()
 
         // API call for get property types
-        await axios
-            .get(`${this.host}/property-type`)
-            .then(res =>
-                res.data.data.forEach(
-                    element =>
-                        (this._qs(
-                            '#propertyType'
-                        ).innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`)
-                )
-            )
-            .catch(err =>
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-            )
+        this.getPropertytypes()
 
         const rentalPeriod = this._qs('#rentalPeriod')
 
