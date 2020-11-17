@@ -1,4 +1,4 @@
-export default CSS =`
+export default CSS = `
 .block .container {
     position: relative;
     display: inline-block;

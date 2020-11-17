@@ -1,4 +1,4 @@
-export default CSS =`
+export default CSS = `
 
 .container {
     display: grid;

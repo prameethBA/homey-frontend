@@ -2,7 +2,7 @@ import Base from '../../Base.js'
 import CSS from './comment-comp.css.js'
 
 export default class Comment extends Base {
-css = CSS
+    css = CSS
 
     content = `
     
@@ -116,16 +116,17 @@ css = CSS
 
     `
 
-
     constructor() {
         super()
         this.mount()
-    }//End of constructor
+    } //End of constructor
 
     connectedCallback() {
-      this._qs("#close").addEventListener('click', () => this._qs('.comments-app').style.display = 'none')
-    }//End of connectedCallback
-
-}//End of class
+        this._qs('#close').addEventListener(
+            'click',
+            () => (this._qs('.comments-app').style.display = 'none')
+        )
+    } //End of connectedCallback
+} //End of class
 
 window.customElements.define('comment-comp', Comment)

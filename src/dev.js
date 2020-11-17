@@ -1,7 +1,6 @@
 import Base from '/componets/Base.js'
 
 export default class Dev extends Base {
-
     css = `
        .contanier {
             margin: 5rem 1rem;
@@ -70,18 +69,21 @@ export default class Dev extends Base {
         </div>
 `
     constructor() {
-            super()
-            this.mount()
-            
+        super()
+        this.mount()
+
         this.getTables()
     } //End of constructor
 
     async getTables() {
         this.setLoader()
-        await axios.get(`${this.host}/dev/tables`)
+        await axios
+            .get(`${this.host}/dev/tables`)
             .then(res => {
                 res.data.forEach(element => {
-                    this._qs('.tabels').innerHTML += `<button id="${element.Tables_in_3606050_homey}">${element.Tables_in_3606050_homey}</button>`
+                    this._qs(
+                        '.tabels'
+                    ).innerHTML += `<button id="${element.Tables_in_3606050_homey}">${element.Tables_in_3606050_homey}</button>`
                 })
                 this.addListener()
                 this.stopLoader()
@@ -100,25 +102,26 @@ export default class Dev extends Base {
 
     async getData(table) {
         this.setLoader()
-        await axios.get(`${this.host}/dev/data/${table}`)
+        await axios
+            .get(`${this.host}/dev/data/${table}`)
             .then(res => {
                 let table = ''
                 res.data.forEach(element => {
-                    const head = Object.keys(element).map((key) => [key])
+                    const head = Object.keys(element).map(key => [key])
                     this._qs('.header').innerHTML = ''
                     head.forEach(head => {
-                        this._qs('.header').innerHTML += `<th>${head[0]}</th>` 
+                        this._qs('.header').innerHTML += `<th>${head[0]}</th>`
                     })
-                    const data = Object.keys(element).map((key) => [element[key]])
-                    table +=  `<tr>`
+                    const data = Object.keys(element).map(key => [element[key]])
+                    table += `<tr>`
                     data.forEach(row => {
-                        table +=  `<td>`
+                        table += `<td>`
                         row.forEach(cell => {
-                            table +=  cell
+                            table += cell
                         })
-                        table +=  `</td>`
+                        table += `</td>`
                     })
-                    table +=  `</tr>`
+                    table += `</tr>`
                 })
                 this._qs('.tabel-data').innerHTML = table
                 this.stopLoader()
@@ -129,11 +132,7 @@ export default class Dev extends Base {
             })
     }
 
-    connectedCallback() {
-
-    } //End of connectedCallback
-
+    connectedCallback() {} //End of connectedCallback
 } //End of Class
-
 
 window.customElements.define('dev-dev', Dev)

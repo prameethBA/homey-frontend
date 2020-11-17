@@ -1,5 +1,4 @@
-
- const loginButton = `
+const loginButton = `
   #login-button, #admin-dashboard {	
     height: 2.5rem;	
     width: 10rem;	

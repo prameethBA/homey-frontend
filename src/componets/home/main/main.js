@@ -4,7 +4,6 @@ import CSS from './main.css.js'
 import '../user-comp.js'
 
 export default class Main extends Base {
-
     css = CSS
 
     content = `
@@ -168,7 +167,9 @@ export default class Main extends Base {
     }
 
     scrollDown() {
-        this._qs('.down-wrap').addEventListener('click', () => this.scrollHalf())
+        this._qs('.down-wrap').addEventListener('click', () =>
+            this.scrollHalf()
+        )
     }
 
     // Load signuo or login form
@@ -176,20 +177,17 @@ export default class Main extends Base {
         this._qs(`.${elem}`).addEventListener('click', () => {
             dispatchEvent(new Event(`load-${elem}-form`))
         })
-        if(this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
-    }//End of loadForm()
+        if (this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
+    } //End of loadForm()
 
     connectedCallback() {
-
         //scroll down page when click scroll down arrow
         this.scrollDown()
 
         // Load signup or login form
         this.loadForm('login')
         this.loadForm('signup')
-
-    }//End of connectedCallback()
-
-}//End of Class
+    } //End of connectedCallback()
+} //End of Class
 
 window.customElements.define('main-comp', Main)

@@ -18,42 +18,51 @@ export default class Base extends HTMLElement {
     }
     setPath(path) {
         window.history.pushState({}, '', path)
-        if (!(path == '' || path == null || path.length <= 2)) dispatchEvent(new CustomEvent('pathChanged', { detail: { 'path': path.substr(1) } }))
+        if (!(path == '' || path == null || path.length <= 2))
+            dispatchEvent(
+                new CustomEvent('pathChanged', {
+                    detail: { path: path.substr(1) }
+                })
+            )
     }
 
-    //Authentication 
+    //Authentication
 
     isLogin() {
-        if(sessionStorage.login == 'true' || localStorage.login == 'true') return true 
+        if (sessionStorage.login == 'true' || localStorage.login == 'true')
+            return true
         else return false
     }
 
     getToken() {
-        if(sessionStorage.login == 'true') return sessionStorage.token
-        if(localStorage.login == 'true') return localStorage.token
+        if (sessionStorage.login == 'true') return sessionStorage.token
+        if (localStorage.login == 'true') return localStorage.token
         return false
     }
 
     getUserId() {
-        if(sessionStorage.login == 'true') return sessionStorage.userId
-        if(localStorage.login == 'true') return localStorage.userId
+        if (sessionStorage.login == 'true') return sessionStorage.userId
+        if (localStorage.login == 'true') return localStorage.userId
         return false
     }
 
     getUserType() {
-        if(sessionStorage.login == 'true') return sessionStorage.userType
-        if(localStorage.login == 'true') return localStorage.userType
+        if (sessionStorage.login == 'true') return sessionStorage.userType
+        if (localStorage.login == 'true') return localStorage.userType
         return false
     }
 
     logOut() {
-        localStorage.login = 'false'; localStorage.userId = ''; localStorage.token = ''
-        sessionStorage.login = 'false'; sessionStorage.userId = ''; sessionStorage.token = ''
+        localStorage.login = 'false'
+        localStorage.userId = ''
+        localStorage.token = ''
+        sessionStorage.login = 'false'
+        sessionStorage.userId = ''
+        sessionStorage.token = ''
     }
 
-
     // Helpers
-    
+
     // Slectors
     _qs(selector) {
         return this.shadowRoot.querySelector(selector)
@@ -73,12 +82,11 @@ export default class Base extends HTMLElement {
 
     // sleep
     sleep = ms => {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
 
     // Loader
     setLoader = () => dispatchEvent(new Event('pre-load'))
 
     stopLoader = () => dispatchEvent(new Event('stop-pre-load'))
-
 }

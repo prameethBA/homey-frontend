@@ -26,7 +26,7 @@ const search = `
     }
 `
 
-const filter  = `
+const filter = `
 
     input[type=text]{
         width: 4em;
@@ -131,7 +131,6 @@ const filter  = `
         box-shadow: 0 0 0 2px #ff4000;
     }
 `
-
 
 export default CSS = `
     ${filter}

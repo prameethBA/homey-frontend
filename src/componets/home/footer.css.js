@@ -1,4 +1,4 @@
-export default CSS =`
+export default CSS = `
 footer{
   margin: 0;
   color: #eeeeee;
