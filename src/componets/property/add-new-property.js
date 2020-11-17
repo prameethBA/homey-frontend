@@ -5,6 +5,9 @@ export default class AddNewProperty extends Base {
     css = CSS
 
     content = `
+    <script>
+        console.log("Lakmal");
+    </script>
     <div class="popup"></div>
     <div class="container">
       <div id="add-preview">
@@ -65,12 +68,6 @@ export default class AddNewProperty extends Base {
               </div>
 
               <div class="row">
-              <input
-                  id="pac-input"
-                  class="controls"
-                  type="text"
-                  placeholder="Search Box"
-                />
                 <div id="map"></div>
               </div>
 
@@ -158,122 +155,144 @@ export default class AddNewProperty extends Base {
             dispatchEvent(new Event('load-login-form'))
         }
         this.mount()
+
+        // //load Map
+        // this.loadMap()
     } //end of constructor
 
+    // //load Map
+    // loadMap() {
+    //     if (document.getElementById('map') == null) {
+    //         let script = document.createElement('script')
+    //         script.id = 'map'
+    //         script.type = 'text/javascript'
+    //         script.src =
+    //             'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8RpefQ5-mHoAPGkt6tf1uZAaKjHghTNI&libraries=places&callback=initMap'
+    //         document.body.appendChild(script)
+    //     }
+    // } //End of loadMap()
+
+    //load map
+    async loadMap() {
+        await import('/componets/universal/google-map/google-map.js')
+        this._qs('#map').innerHTML = `<google-map></google-map>`
+    }
+
     async connectedCallback() {
+        this.loadMap()
         // Innitialize map
-        const initMap = async () => {
-            const mapDiv = this._qs('#map')
-            const input = this._qs('#pac-input')
+        // const initMap = async () => {
+        //     const mapDiv = this._qs('#map')
+        //     const input = this._qs('#pac-input')
 
-            mapDiv.classList.add('map')
+        //     mapDiv.classList.add('map')
 
-            const map = new google.maps.Map(mapDiv, {
-                center: { lat: 7.8731, lng: 80.7718 },
-                zoom: 7.5,
-                mapTypeId: google.maps.MapTypeId.HYBRID
-            })
+        //     const map = new google.maps.Map(mapDiv, {
+        //         center: { lat: 7.8731, lng: 80.7718 },
+        //         zoom: 7.5,
+        //         mapTypeId: google.maps.MapTypeId.HYBRID
+        //     })
 
-            // Create the search box and link it to the UI element.
-            const searchBox = new google.maps.places.SearchBox(input)
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
-            // Bias the SearchBox results towards current map's viewport.
-            map.addListener('bounds_changed', () => {
-                searchBox.setBounds(map.getBounds())
-            })
+        //     // Create the search box and link it to the UI element.
+        //     const searchBox = new google.maps.places.SearchBox(input)
+        //     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
+        //     // Bias the SearchBox results towards current map's viewport.
+        //     map.addListener('bounds_changed', () => {
+        //         searchBox.setBounds(map.getBounds())
+        //     })
 
-            input.style.display = 'block'
-            let markers = []
-            // Listen for the event fired when the user selects a prediction and retrieve
-            // more details for that place.
-            searchBox.addListener('places_changed', () => {
-                const places = searchBox.getPlaces()
-                if (places.length == 0) return
+        //     input.style.display = 'block'
+        //     let markers = []
+        //     // Listen for the event fired when the user selects a prediction and retrieve
+        //     // more details for that place.
+        //     searchBox.addListener('places_changed', () => {
+        //         const places = searchBox.getPlaces()
+        //         if (places.length == 0) return
 
-                // Clear out the old markers.
-                markers.forEach(marker => marker.setMap(null))
+        //         // Clear out the old markers.
+        //         markers.forEach(marker => marker.setMap(null))
 
-                markers = []
+        //         markers = []
 
-                // For each place, get the icon, name and location.
-                const bounds = new google.maps.LatLngBounds()
-                places.forEach(place => {
-                    if (!place.geometry) {
-                        console.log('Returned place contains no geometry')
-                        return
-                    }
+        //         // For each place, get the icon, name and location.
+        //         const bounds = new google.maps.LatLngBounds()
+        //         places.forEach(place => {
+        //             if (!place.geometry) {
+        //                 console.log('Returned place contains no geometry')
+        //                 return
+        //             }
 
-                    // Create a marker for each place.
-                    markers.push(
-                        new google.maps.Marker({
-                            map,
-                            title: place.name,
-                            position: place.geometry.location
-                        })
-                    )
+        //             // Create a marker for each place.
+        //             markers.push(
+        //                 new google.maps.Marker({
+        //                     map,
+        //                     title: place.name,
+        //                     position: place.geometry.location
+        //                 })
+        //             )
 
-                    if (place.geometry.viewport)
-                        // Only geocodes have viewport.
-                        bounds.union(place.geometry.viewport)
-                    else bounds.extend(place.geometry.location)
-                })
-                map.fitBounds(bounds)
-            })
+        //             if (place.geometry.viewport)
+        //                 // Only geocodes have viewport.
+        //                 bounds.union(place.geometry.viewport)
+        //             else bounds.extend(place.geometry.location)
+        //         })
+        //         map.fitBounds(bounds)
+        //     })
 
-            //Listen for any clicks on the map.
-            let marker = false
-            google.maps.event.addListener(map, 'click', async event => {
-                // Clear out the old markers.
-                markers.forEach(marker => marker.setMap(null))
-                //Get the location that the user clicked.
-                let clickedLocation = event.latLng
-                //If the marker hasn't been added.
-                if (marker === false) {
-                    //Create the marker.
-                    marker = new google.maps.Marker({
-                        position: clickedLocation,
-                        map: map,
-                        draggable: true //make it draggable
-                    })
+        //     //Listen for any clicks on the map.
+        //     let marker = false
+        //     google.maps.event.addListener(map, 'click', async event => {
+        //         // Clear out the old markers.
+        //         markers.forEach(marker => marker.setMap(null))
+        //         //Get the location that the user clicked.
+        //         let clickedLocation = event.latLng
+        //         //If the marker hasn't been added.
+        //         if (marker === false) {
+        //             //Create the marker.
+        //             marker = new google.maps.Marker({
+        //                 position: clickedLocation,
+        //                 map: map,
+        //                 draggable: true //make it draggable
+        //             })
 
-                    //get nearest Location!
-                    this.state.getNearestLocation = async () => {
-                        this.state.location = {
-                            lng: marker.getPosition().lng(),
-                            ltd: marker.getPosition().lat()
-                        }
+        //             //get nearest Location!
+        //             this.state.getNearestLocation = async () => {
+        //                 this.state.location = {
+        //                     lng: marker.getPosition().lng(),
+        //                     ltd: marker.getPosition().lat()
+        //                 }
 
-                        await axios
-                            .post(`${this.host}/cities/nearest-city`, {
-                                lng: marker.getPosition().lng(),
-                                ltd: marker.getPosition().lat()
-                            })
-                            .then(res => {
-                                this._qs('#city-list').innerHTML = ''
-                                let index = 0
-                                res.data.forEach(element => {
-                                    this._qs('#district').value =
-                                        element.district
-                                    index == 0
-                                        ? (this._qs('#city').value =
-                                              element.city)
-                                        : null
-                                    this._qs(
-                                        '#city-list'
-                                    ).innerHTML += `<option value="${element.city}"/>`
-                                    index++
-                                })
-                            })
-                    }
+        //                 await axios
+        //                     .post(`${this.host}/cities/nearest-city`, {
+        //                         lng: marker.getPosition().lng(),
+        //                         ltd: marker.getPosition().lat()
+        //                     })
+        //                     .then(res => {
+        //                         this._qs('#city-list').innerHTML = ''
+        //                         let index = 0
+        //                         res.data.forEach(element => {
+        //                             this._qs('#district').value =
+        //                                 element.district
+        //                             index == 0
+        //                                 ? (this._qs('#city').value =
+        //                                       element.city)
+        //                                 : null
+        //                             this._qs(
+        //                                 '#city-list'
+        //                             ).innerHTML += `<option value="${element.city}"/>`
+        //                             index++
+        //                         })
+        //                     })
+        //             }
 
-                    google.maps.event.addListener(marker, 'dragend', event =>
-                        this.state.getNearestLocation()
-                    )
-                } //Marker has already been added, so just change its location.
-                else marker.setPosition(clickedLocation)
-                this.state.getNearestLocation()
-            })
-        } //End of initMap()
+        //             google.maps.event.addListener(marker, 'dragend', event =>
+        //                 this.state.getNearestLocation()
+        //             )
+        //         } //Marker has already been added, so just change its location.
+        //         else marker.setPosition(clickedLocation)
+        //         this.state.getNearestLocation()
+        //     })
+        // } //End of initMap()
 
         // try {
         //   google != undefined
