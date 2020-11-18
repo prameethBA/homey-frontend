@@ -333,26 +333,29 @@ export default class AddNewProperty extends Base {
             //Validate form
             if (!this.validateForm()) throw new Error()
 
-            const title = this._qs('#title').value
-            const rentalPeriod = this._qs('#rentalPeriod').value
-            const price = this._qs('#price').value
-            const keyMoneyPeriod = this._qs('#keyMoneyPeriod').value
-            const keyMoney = this._qs('#keyMoney').value
-            const minimumPeriod = this._qs('#minimumPeriod').value
-            const availableFrom = this._qs('#availableFrom').value
-            const districtId = this._qs('#district').value
-            const district = this._qs('#district').options[
-                this._qs('#district').selectedIndex
-            ].text
-            const city = this._qs('#city').value
-            const propertyTypeId = this._qs('#propertyType').value
-            const propertyType = this._qs('#propertyType').options[
-                this._qs('#propertyType').selectedIndex
-            ].text
-            const description = this._qs('#description').value
-            const address = this._qs('#address').value
-            let facilities = this.getSelectedFacilities() //getSelectedFacilities
-            let images = []
+            data = {
+                title: this._qs('#title').value,
+                rentalPeriod: this._qs('#rentalPeriod').value,
+                price: this._qs('#price').value,
+                keyMoneyPeriod: this._qs('#keyMoneyPeriod').value,
+                keyMoney: this._qs('#keyMoney').value,
+                minimumPeriod: this._qs('#minimumPeriod').value,
+                availableFrom: this._qs('#availableFrom').value,
+                districtId: this._qs('#district').value,
+                district: this._qs('#district').options[
+                    this._qs('#district').selectedIndex
+                ].text,
+                city: this._qs('#city').value,
+                propertyTypeId: this._qs('#propertyType').value,
+                propertyType: this._qs('#propertyType').options[
+                    this._qs('#propertyType').selectedIndex
+                ].text,
+                description: this._qs('#description').value,
+                address: this._qs('#address').value,
+                facilities: this.getSelectedFacilities(), //getSelectedFacilities
+                images: this.getImages() //get images
+            }
+            return data
         } catch (err) {
             return false
         }
@@ -379,11 +382,10 @@ export default class AddNewProperty extends Base {
     } //End of getSelectedFacilities()
 
     //readImages
-    readImages() {
-        const readImages = (file, target, index) => {
-            const fileReader = new FileReader()
-            fileReader.onload = fileLoadedEvent =>
-                (target.innerHTML += `
+    readImages(file, target, index) {
+        const fileReader = new FileReader()
+        fileReader.onload = fileLoadedEvent =>
+            (target.innerHTML += `
                       <img 
                         class="uploaded-image" 
                         src="${fileLoadedEvent.target.result}" 
@@ -391,9 +393,11 @@ export default class AddNewProperty extends Base {
                         alt="image-${index}"
                         onclick="this.outerHTML = ''"
                         />`)
-            fileReader.readAsDataURL(file)
-        } //End of readImages
+        fileReader.readAsDataURL(file)
+    } //End of readImages()
 
+    //preViewImages
+    preViewImages() {
         this._qs('#uploadImages').addEventListener('input', () => {
             if (this._qs('#previewImages').children.length < 5) {
                 for (
@@ -404,7 +408,7 @@ export default class AddNewProperty extends Base {
                         : 5);
                     index++
                 ) {
-                    readImages(
+                    this.readImages(
                         this._qs('#uploadImages').files[index],
                         this._qs('#previewImages'),
                         index
@@ -421,7 +425,28 @@ export default class AddNewProperty extends Base {
                     })
                 )
         })
-    } //End of readImages()
+    } //End of preViewImages()
+
+    //get images
+    getImages() {
+        let images = []
+        this._qs('#previewImages').childNodes.forEach(item => {
+            if (item !== undefined) images.push(item.src)
+        })
+        return images
+    } //End of getImages()
+
+    //collect Data
+    collectData() {
+        this._qs('#add-property-button').addEventListener('click', () => {
+            //getValues
+            const data = this.getValues()
+
+            if (data != false) {
+                console.log(data)
+            }
+        })
+    } //collectData()
 
     connectedCallback() {
         //Load faiclities
@@ -439,8 +464,11 @@ export default class AddNewProperty extends Base {
         // API call for get property types
         this.getPropertytypes()
 
-        //getValues
-        this.getValues()
+        //preViewImages
+        this.preViewImages()
+
+        //collect Data
+        this.collectData()
 
         //     const rentalPeriod = this._qs('#rentalPeriod')
 
