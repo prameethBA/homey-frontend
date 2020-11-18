@@ -21,11 +21,7 @@ export default class AddNewProperty extends Base {
                 <div class="col">
                   <label for="rentalPeriod">Rent per</label>
                   <select id="rentalPeriod">
-                    <option value='1'>Select a rental period</option>
-                    <option value='1'>Day</option>
-                    <option value='2'>Week</option>
-                    <option value='3'>Month</option>
-                    <option value='4'>Year</option>
+                    <option value='0' selected disabled>Select a rental period</option>
                   </select>
                 </div>
 
@@ -168,6 +164,25 @@ export default class AddNewProperty extends Base {
             )
         }
     } //End of getDistricts()
+
+    // API call for get RentalPeriod
+    async getRentalPeriod() {
+        try {
+            const res = await axios.get(`${this.host}/rental-period`)
+            res.data.forEach(
+                element =>
+                    (this._qs(
+                        '#rentalPeriod'
+                    ).innerHTML += `<option value="${element._id}" data-name="${element.rental_period}">${element.rental_period_name}</option>`)
+            )
+        } catch (err) {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: { pop: 'error', msg: err }
+                })
+            )
+        }
+    } //End of getRentalPeriod()
 
     // API call for get property types
     async getPropertytypes() {
@@ -323,6 +338,8 @@ export default class AddNewProperty extends Base {
                     detail: { pop: 'error', msg: err.message }
                 })
             )
+            window.scrollTo(0, 0)
+
             return false
         }
     } //End of validate form
@@ -449,6 +466,9 @@ export default class AddNewProperty extends Base {
     } //collectData()
 
     connectedCallback() {
+        // API call for get RentalPeriod
+        this.getRentalPeriod()
+
         //Load faiclities
         this.loadFacilities()
 
