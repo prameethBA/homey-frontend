@@ -31,7 +31,7 @@ export default class AddNewProperty extends Base {
 
                 <div class="col">
                   <label for="price">Price</label>
-                  <input type="text" id="price" title="Price" placeholder="17,000">
+                  <input type="number" id="price" title="Price" placeholder="17,000">
                 </div>
               </div>
                 
@@ -48,7 +48,7 @@ export default class AddNewProperty extends Base {
                 </div>
                 <div class="col">
                     <label for="minimumPeriod" id="minimum-period-label">Minimum Period</label>
-                    <input type="text" name="" id="minimumPeriod">
+                    <input type="number" name="" id="minimumPeriod">
                 </div>
               </div>
 
@@ -223,7 +223,112 @@ export default class AddNewProperty extends Base {
         }
     } //End of getNearestCity()
 
+    //Laod faiclities
+    async loadFacilities() {
+        // API call for get Facilities List
+        try {
+            await import('./subcomp/facility.js')
+            const res = await axios.get(`${this.host}/facility`)
+
+            if (res.status == '200') {
+                res.data.data.forEach(element => {
+                    if (element.measurable == 1) {
+                        this._qs('#facilities-measurable').innerHTML += `
+                        <facility-comp 
+                          key="${element._id}" 
+                          name="${element.feature_name}"
+                          measurable="${element.measurable}
+                          ">
+                        </facility-comp>
+                    `
+                    } else {
+                        this._qs('#facilities').innerHTML += `
+                        <facility-comp 
+                          key="${element._id}" 
+                          name="${element.feature_name}"
+                          measurable="${element.measurable}
+                          ">
+                        </facility-comp>
+                    `
+                    }
+                })
+            } else throw res.data
+        } catch (err) {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: { pop: 'error', msg: err }
+                })
+            )
+        }
+    } //End of loadFacilities()
+
+    //Validate form
+    validateForm() {
+        try {
+            if (this._qs('#title') == '')
+                throw {
+                    message: '<b>Title<b> cannot be empty.',
+                    duration: 5
+                }
+
+            if (this._qs('#rentalPeriod').value == 0)
+                throw {
+                    message: '<b>Select a rental period<b>',
+                    duration: 5
+                }
+
+            if (this._qs('#price').value == '')
+                throw {
+                    message: '<b>Price<b> cannot be empty.',
+                    duration: 5
+                }
+
+            switch (this._qs('#keyMoneyPeriod').value) {
+                case 'enter-value':
+                    break
+                case 'enter-period':
+                    this._qs('#keyMoney').value =
+                        this._qs('#keyMoney').value * this._qs('#price').value
+                    break
+                case '0':
+                    throw {
+                        message: '<b>Select a rental period<b>',
+                        duration: 5
+                    }
+                default:
+            }
+
+            if (
+                this._qs('#district').value == 'Select a district' ||
+                this._qs('#district') == '0'
+            )
+                throw { message: 'Select a district', duration: 5 }
+
+            if (this._qs(city).value == '')
+                throw { message: 'Select a city', duration: 5 }
+
+            if (!this._qs(description).value.match(/\w+[\s\.]\w+/))
+                throw {
+                    message:
+                        'Add a description about the property. (double spaces and fullstops are not allowed)',
+                    duration: 5
+                }
+
+            return true
+        } catch (err) {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: { pop: 'error', msg: err }
+                })
+            )
+            return false
+        }
+    } //End of validate form
+
     async connectedCallback() {
+        //Load faiclities
+        this.loadFacilities()
+
         // API call for get Districts
         this.getDistricts()
 
@@ -332,54 +437,6 @@ export default class AddNewProperty extends Base {
             this.toggleMapVisible()
         })
 
-        await import('./subcomp/facility.js')
-            .then(
-                // API call for get Facilities List
-                await axios
-                    .get(`${this.host}/facility`)
-                    .then(res => {
-                        if (res.status == '200') {
-                            res.data.data.forEach(element => {
-                                if (element.measurable == 1) {
-                                    this._qs(
-                                        '#facilities-measurable'
-                                    ).innerHTML += `
-                    <facility-comp 
-                      key="${element._id}" 
-                      name="${element.feature_name}"
-                      measurable="${element.measurable}
-                      ">
-                    </facility-comp>
-                `
-                                } else {
-                                    this._qs('#facilities').innerHTML += `
-                    <facility-comp 
-                      key="${element._id}" 
-                      name="${element.feature_name}"
-                      measurable="${element.measurable}
-                      ">
-                    </facility-comp>
-                `
-                                }
-                            })
-                        } else throw 'Server Error.'
-                    })
-                    .catch(err =>
-                        dispatchEvent(
-                            new CustomEvent('pop-up', {
-                                detail: { pop: 'error', msg: err }
-                            })
-                        )
-                    )
-            )
-            .catch(err =>
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-            )
-
         const readImages = (file, target, index) => {
             const fileReader = new FileReader()
             fileReader.onload = fileLoadedEvent =>
@@ -424,6 +481,8 @@ export default class AddNewProperty extends Base {
 
         this._qs('#add-property-button').addEventListener('click', async () => {
             try {
+                //Validate form
+                if (!this.validateForm()) console.log('valid')
                 const title = this._qs('#title').value
                 const rentalPeriod = this._qs('#rentalPeriod').value
                 const price = this._qs('#price').value
@@ -465,84 +524,6 @@ export default class AddNewProperty extends Base {
                 this._qs('#previewImages').childNodes.forEach(item =>
                     images.push(item.src)
                 )
-
-                // validate the details
-                if (title == '')
-                    throw {
-                        message: '<b>Title<b> cannot be empty.',
-                        duration: 5
-                    }
-
-                let rentalPer
-                switch (rentalPeriod) {
-                    case '1':
-                        rentalPer = 'Daily'
-                        break
-                    case '2':
-                        rentalPer = 'Weekly'
-                        break
-                    case '3':
-                        rentalPer = 'Monthly'
-                        break
-                    case '4':
-                        rentalPer = 'Yearly'
-                        break
-                    default:
-                        throw {
-                            message: '<b>Select a rental period<b>',
-                            duration: 5
-                        }
-                }
-
-                if (price == '')
-                    throw {
-                        message: '<b>Price<b> cannot be empty.',
-                        duration: 5
-                    }
-                if (!price.match(/^[0-9]+$/))
-                    throw {
-                        message:
-                            '<b>Price<b> cannot be contain letters or any other characters except numbers.',
-                        duration: 5
-                    }
-
-                switch (keyMoneyPeriod) {
-                    case 'enter-value':
-                        break
-                    case 'enter-period':
-                        keyMoney = keyMoney * price
-                        break
-                    case '0':
-                        throw {
-                            message: '<b>Select a rental period<b>',
-                            duration: 5
-                        }
-                    default:
-                }
-
-                switch (minimumPeriod) {
-                    case '':
-                        break
-                    default:
-                        if (!minimumPeriod.match(/^[0-9]+$/))
-                            throw {
-                                message:
-                                    '<b>Minimum period<b> cannot be contain letters or any other characters except numbers.',
-                                duration: 5
-                            }
-                        break
-                }
-
-                if (district == 'Select a district' || district == '0')
-                    throw { message: 'Select a district', duration: 5 }
-                if (city == '') throw { message: 'Select a city', duration: 5 }
-
-                if (!description.match(/\w+[\s\.]\w+/))
-                    throw {
-                        message:
-                            'Add a description about the property. (double spaces and fullstops are not allowed)',
-                        duration: 5
-                    }
 
                 await import(
                     '/componets/universal/preview-advertisement.js'
