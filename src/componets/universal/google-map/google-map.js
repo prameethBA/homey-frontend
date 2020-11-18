@@ -117,8 +117,8 @@ export default class GoogleMap extends Base {
 
     //set Location
     setLocation(location) {
-        this.location = location
-        console.log(this.location)
+        this.setAttribute('data-location', this.encode(location))
+        dispatchEvent(new Event('google-map-location-changed'))
     } //End of setLocation()
 
     //connectedCallback
@@ -127,14 +127,13 @@ export default class GoogleMap extends Base {
         let loadMap = setInterval(() => {
             try {
                 if (!this.state.mapLoaded)
-                    this.initMap({ location: { lat: 7.8731, lng: 80.7718 } })
+                    this.initMap({ location: this.getParams('data-location') })
                 else clearInterval(loadMap)
                 this.state.mapLoaded = true
             } catch (err) {
                 console.log('google')
             }
         }, 1000)
-        // this.initMap()
     } //End of connectedCallback()
 } //End of Class
 

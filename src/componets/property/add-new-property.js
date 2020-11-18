@@ -137,7 +137,14 @@ export default class AddNewProperty extends Base {
     //load google-map component
     async loadMap() {
         await import('/componets/universal/google-map/google-map.js')
-        this._qs('#map').innerHTML = `<google-map></google-map>`
+        let location = { lat: 7.8731, lng: 80.7718 }
+        this._qs('#map').innerHTML = `<google-map data-location="${this.encode(
+            location
+        )}"></google-map>`
+
+        addEventListener('google-map-location-changed', () =>
+            console.log(this.decode(this._qs('google-map').dataset.location))
+        )
     } //End of loadMap()
 
     // API call for get Districts

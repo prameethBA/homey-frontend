@@ -114,4 +114,24 @@ export default class Base extends HTMLElement {
     setLoader = () => dispatchEvent(new Event('pre-load'))
 
     stopLoader = () => dispatchEvent(new Event('stop-pre-load'))
+
+    encode(data) {
+        try {
+            return encodeURIComponent(JSON.stringify(data))
+        } catch (err) {
+            return err
+        }
+    }
+
+    decode(data) {
+        try {
+            return JSON.parse(decodeURIComponent(data))
+        } catch (err) {
+            return err
+        }
+    }
+
+    getParams(param) {
+        return this.decode(this.getAttribute(param))
+    }
 }
