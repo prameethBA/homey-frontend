@@ -84,6 +84,7 @@ export default CSS = `
   }
 
   #map {
+    display: none;
     width: 100%;
     margin: 0.5rem auto;
     border-radius: 4px;

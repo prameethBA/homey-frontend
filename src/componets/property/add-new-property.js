@@ -143,7 +143,10 @@ export default class AddNewProperty extends Base {
         )}"></google-map>`
 
         addEventListener('google-map-location-changed', () =>
-            console.log(this.decode(this._qs('google-map').dataset.location))
+            //get nearest city
+            this.getNearestCity(
+                this.decode(this._qs('google-map').dataset.location)
+            )
         )
     } //End of loadMap()
 
@@ -185,6 +188,41 @@ export default class AddNewProperty extends Base {
         }
     } //End of getPropertytypes()
 
+    //toggleMapVisible
+    toggleMapVisible() {
+        const map = this._qs('#map')
+        map.style.display == 'none' || map.style.display == ''
+            ? (map.style.display = 'block')
+            : (map.style.display = 'none')
+    } //End of toggleMapVisible
+
+    //get nearest city
+    async getNearestCity(location) {
+        try {
+            const res = await axios.post(
+                `${this.host}/cities/nearest-city`,
+                location
+            )
+
+            this._qs('#city-list').innerHTML = ''
+            let index = 0
+            res.data.forEach(item => {
+                this._qs(
+                    '#city-list'
+                ).innerHTML += `<option value="${item.city}" />`
+                if (index == 0) this._qs('#city').value = item.city
+                index++
+            })
+            this._qs('#district').value = res.data[0].district
+        } catch (err) {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: { pop: 'error', msg: err }
+                })
+            )
+        }
+    } //End of getNearestCity()
+
     async connectedCallback() {
         // API call for get Districts
         this.getDistricts()
@@ -195,104 +233,103 @@ export default class AddNewProperty extends Base {
         // API call for get property types
         this.getPropertytypes()
 
-        const rentalPeriod = this._qs('#rentalPeriod')
+        //     const rentalPeriod = this._qs('#rentalPeriod')
 
-        rentalPeriod.addEventListener('change', () => {
-            this._qs('#keyMoneyPeriod').innerHTML = `
-          <option value = "enter-value" > Enter a value</option >
-          <option value="enter-period">Enter  ${
-              rentalPeriod.options[rentalPeriod.selectedIndex].text
-          }</option>
-          <option value="1" selected>1 ${
-              rentalPeriod.options[rentalPeriod.selectedIndex].text
-          }</option>
-          <option value="2">2 ${
-              rentalPeriod.options[rentalPeriod.selectedIndex].text
-          }</option>
-          <option value="3">3 ${
-              rentalPeriod.options[rentalPeriod.selectedIndex].text
-          }</option>
-          <option value="6">6 ${
-              rentalPeriod.options[rentalPeriod.selectedIndex].text
-          }</option>
-          <option value="12">12 ${
-              rentalPeriod.options[rentalPeriod.selectedIndex].text
-          }</option>
-    `
-        })
+        //     rentalPeriod.addEventListener('change', () => {
+        //         this._qs('#keyMoneyPeriod').innerHTML = `
+        //       <option value = "enter-value" > Enter a value</option >
+        //       <option value="enter-period">Enter  ${
+        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
+        //       }</option>
+        //       <option value="1" selected>1 ${
+        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
+        //       }</option>
+        //       <option value="2">2 ${
+        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
+        //       }</option>
+        //       <option value="3">3 ${
+        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
+        //       }</option>
+        //       <option value="6">6 ${
+        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
+        //       }</option>
+        //       <option value="12">12 ${
+        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
+        //       }</option>
+        // `
+        //     })
 
         // Method for calculate Key Money
-        const calculateKeyMoney = () => {
-            const rentalPeriod = this._qs('#rentalPeriod')
-            const keyMoneyPeriod = this._qs('#keyMoneyPeriod')
-            const keyMoney = this._qs('#keyMoney')
-            const price = this._qs('#price')
+        // const calculateKeyMoney = () => {
+        //     const rentalPeriod = this._qs('#rentalPeriod')
+        //     const keyMoneyPeriod = this._qs('#keyMoneyPeriod')
+        //     const keyMoney = this._qs('#keyMoney')
+        //     const price = this._qs('#price')
 
-            this._qs('#minimum-period-label').innerHTML = ` Minimum period(${
-                rentalPeriod.options[rentalPeriod.selectedIndex].text
-            }s)`
+        //     this._qs('#minimum-period-label').innerHTML = ` Minimum period(${
+        //         rentalPeriod.options[rentalPeriod.selectedIndex].text
+        //     }s)`
 
-            if (keyMoneyPeriod.value == 'enter-value') {
-                this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
-                keyMoney.value = ''
-            } else if (keyMoneyPeriod.value == 'enter-period') {
-                this._qs('#key-money-label').innerHTML = `${
-                    rentalPeriod.options[rentalPeriod.selectedIndex].text
-                }s`
-                keyMoney.value = ''
-            } else {
-                this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
-                keyMoneyPeriod.value != 0
-                    ? (keyMoney.value = price.value * keyMoneyPeriod.value)
-                    : (keyMoney.value = 'No key money')
-            }
-        } //End of calculateKeyMoney
+        //     if (keyMoneyPeriod.value == 'enter-value') {
+        //         this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
+        //         keyMoney.value = ''
+        //     } else if (keyMoneyPeriod.value == 'enter-period') {
+        //         this._qs('#key-money-label').innerHTML = `${
+        //             rentalPeriod.options[rentalPeriod.selectedIndex].text
+        //         }s`
+        //         keyMoney.value = ''
+        //     } else {
+        //         this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
+        //         keyMoneyPeriod.value != 0
+        //             ? (keyMoney.value = price.value * keyMoneyPeriod.value)
+        //             : (keyMoney.value = 'No key money')
+        //     }
+        // } //End of calculateKeyMoney
 
         // Add evenrlistners to excute calculateMoney Method
-        const events = ['focus', 'keyup', 'change']
-        const elements = ['#rentalPeriod', '#keyMoneyPeriod', '#price']
+        // const events = ['focus', 'keyup', 'change']
+        // const elements = ['#rentalPeriod', '#keyMoneyPeriod', '#price']
 
-        events.forEach(eve =>
-            elements.forEach(elm => {
-                this._qs(elm).addEventListener(eve, () => calculateKeyMoney())
-            })
-        )
+        // events.forEach(eve =>
+        //     elements.forEach(elm => {
+        //         this._qs(elm).addEventListener(eve, () => calculateKeyMoney())
+        //     })
+        // )
 
         // Add eventlistner to load citeis
-        this._qs('#district').addEventListener('change', async () => {
-            // Prevent laggin when do rapid changing
-            addEventListener('change', async () => {
-                await this.sleep(100)
-                this._qs('#district').removeEventListener('change')
-            })
-            await this.sleep(101)
-            // API call for get Districts
-            await axios
-                .get(`${this.host}/cities`)
-                .then(res => {
-                    this._qs('#city-list').innerHTML = ''
-                    if (res.status == '200')
-                        res.data.forEach(
-                            element =>
-                                (this._qs(
-                                    '#city-list'
-                                ).innerHTML += `<option value="${element.city}"/>`)
-                        )
-                    else throw 'Server Error.'
-                })
-                .catch(err =>
-                    dispatchEvent(
-                        new CustomEvent('pop-up', {
-                            detail: { pop: 'error', msg: err }
-                        })
-                    )
-                )
-        })
+        // this._qs('#district').addEventListener('change', async () => {
+        //     // Prevent laggin when do rapid changing
+        //     addEventListener('change', async () => {
+        //         await this.sleep(100)
+        //         this._qs('#district').removeEventListener('change')
+        //     })
+        //     await this.sleep(101)
+        //     // API call for get Districts
+        //     await axios
+        //         .get(`${this.host}/cities`)
+        //         .then(res => {
+        //             this._qs('#city-list').innerHTML = ''
+        //             if (res.status == '200')
+        //                 res.data.forEach(
+        //                     element =>
+        //                         (this._qs(
+        //                             '#city-list'
+        //                         ).innerHTML += `<option value="${element.city}"/>`)
+        //                 )
+        //             else throw 'Server Error.'
+        //         })
+        //         .catch(err =>
+        //             dispatchEvent(
+        //                 new CustomEvent('pop-up', {
+        //                     detail: { pop: 'error', msg: err }
+        //                 })
+        //             )
+        //         )
+        // })
 
         this._qs('#pickLocation').addEventListener('click', () => {
-            initMap()
-            // this._qs('#pickLocation').style.display = 'none'
-            // this._qs('#pickLocation').removeEventListener('click', {} )
+            //toggleMapVisible
+            this.toggleMapVisible()
         })
 
         await import('./subcomp/facility.js')
