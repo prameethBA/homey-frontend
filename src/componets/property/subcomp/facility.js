@@ -25,7 +25,7 @@ export default class Facility extends Base {
         if (this.getAttribute('measurable') == 1)
             this._qs(
                 '.container'
-            ).innerHTML += `<span> x</span><input class ="quantity ${
+            ).innerHTML += `<span> x</span><input type="number" class ="quantity ${
                 this.getAttribute('checked') == 'true' ? 'disabled' : 'abled'
             }" type="text" value="${
                 this.getAttribute('quantity') == null

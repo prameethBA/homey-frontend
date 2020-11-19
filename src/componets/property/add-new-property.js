@@ -282,7 +282,7 @@ export default class AddNewProperty extends Base {
     //Validate form
     validateForm() {
         try {
-            if (this._qs('#title') == '')
+            if (this._qs('#title').value == '')
                 throw {
                     message: '<b>Title<b> cannot be empty.',
                     duration: 5
@@ -321,10 +321,10 @@ export default class AddNewProperty extends Base {
             )
                 throw { message: 'Select a district', duration: 5 }
 
-            if (this._qs(city).value == '')
+            if (this._qs('#city').value == '')
                 throw { message: 'Select a city', duration: 5 }
 
-            if (!this._qs(description).value.match(/\w+[\s\.]\w+/))
+            if (!this._qs('#description').value.match(/\w+[\s\.]\w+/))
                 throw {
                     message:
                         'Add a description about the property. (double spaces and fullstops are not allowed)',
@@ -350,7 +350,7 @@ export default class AddNewProperty extends Base {
             //Validate form
             if (!this.validateForm()) throw new Error()
 
-            data = {
+            return {
                 title: this._qs('#title').value,
                 rentalPeriod: this._qs('#rentalPeriod').value,
                 price: this._qs('#price').value,
@@ -372,7 +372,6 @@ export default class AddNewProperty extends Base {
                 facilities: this.getSelectedFacilities(), //getSelectedFacilities
                 images: this.getImages() //get images
             }
-            return data
         } catch (err) {
             return false
         }
@@ -450,7 +449,9 @@ export default class AddNewProperty extends Base {
         this._qs('#previewImages').childNodes.forEach(item => {
             if (item !== undefined) images.push(item.src)
         })
-        return images
+        return images.filter(img => {
+            if (img !== undefined) return img
+        })
     } //End of getImages()
 
     //collect Data
@@ -465,9 +466,77 @@ export default class AddNewProperty extends Base {
         })
     } //collectData()
 
+    // Method for calculate Key Money
+    calculateKeyMoney() {
+        const rentalPeriod = this._qs('#rentalPeriod')
+        const keyMoneyPeriod = this._qs('#keyMoneyPeriod').value
+        const keyMoneyLabel = this._qs('#key-money-label')
+        const price = this._qs('#price').value
+        let keyMoney = this._qs('#keyMoney')
+
+        if (keyMoneyPeriod == 'enter-value') {
+            keyMoneyLabel.innerHTML = `Key Money(Rs.)`
+            keyMoney.value = 0
+        } else if (keyMoneyPeriod == 'enter-period') {
+            keyMoneyLabel.innerHTML = `${
+                rentalPeriod.options[rentalPeriod.selectedIndex].dataset.name
+            }s`
+            keyMoney.value = 0
+        } else {
+            keyMoneyLabel.innerHTML = `Key Money(Rs.)`
+            keyMoneyPeriod != 0
+                ? (keyMoney.value = price * keyMoneyPeriod)
+                : (keyMoney.value = 0)
+        }
+    } //End of calculateKeyMoney()
+
+    //changeMinimumPeriodLabel
+    changeMinimumPeriodLabel(period) {
+        this._qs(
+            '#minimum-period-label'
+        ).innerHTML = ` Minimum period(${period})`
+    } //End of changeMinimumPeriodLabel()
+
+    //changeRentalPeriod()
+    changeRentalPeriod() {
+        const rentalPeriod = this._qs('#rentalPeriod')
+
+        rentalPeriod.addEventListener('change', () => {
+            //changeMinimumPeriodLabel
+            const period =
+                rentalPeriod.options[rentalPeriod.value].dataset.name + 's'
+            this.changeMinimumPeriodLabel(period)
+
+            this._qs('#keyMoneyPeriod').innerHTML = `
+              <option value = "enter-value" > Enter a value</option >
+              <option value="enter-period">Enter No. of ${period}</option>
+              <option value="1" selected>1 ${period}</option>
+              <option value="2">2 ${period}</option>
+              <option value="3">3 ${period}</option>
+              <option value="6">6 ${period}</option>
+              <option value="12">12 ${period}</option>
+        `
+        })
+
+        // Add eventlistners to excute calculateMoney Method
+        const events = ['focus', 'keyup', 'change']
+        const elements = ['#rentalPeriod', '#keyMoneyPeriod', '#price']
+
+        events.forEach(eve =>
+            elements.forEach(elm => {
+                this._qs(elm).addEventListener(eve, () =>
+                    this.calculateKeyMoney()
+                )
+            })
+        )
+    } //End of changeRentalPeriod()
+
     connectedCallback() {
         // API call for get RentalPeriod
         this.getRentalPeriod()
+
+        //changeRentalPeriod()
+        this.changeRentalPeriod()
 
         //Load faiclities
         this.loadFacilities()
