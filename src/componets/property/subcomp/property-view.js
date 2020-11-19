@@ -119,6 +119,15 @@ export default class PropertyView extends Base {
             this.state.privated == '0'
                 ? (this._qs('#private').checked = true)
                 : (this._qs('#private').checked = false)
+
+            //checkBoxEventListener
+            this.checkBoxEventListener('onlinePayment', 'online-payment', {
+                onlinePayment:
+                    this._qs(`#onlinePayment`).checked == false ? 1 : 0
+            })
+            this.checkBoxEventListener('private', 'visibility', {
+                visibility: this._qs(`#private`).checked == true ? 1 : 0
+            })
         }
 
         //get images
@@ -130,7 +139,11 @@ export default class PropertyView extends Base {
         try {
             const res = await axios.post(
                 `${this.host}/images/property/${this.getAttribute('id')}`,
-                { userId: this.getUserId(), token: this.getToken() }
+                {
+                    userId: this.getUserId(),
+                    token: this.getToken(),
+                    propertyId: this.state._id
+                }
             )
 
             if (res.data.length == 0)
@@ -261,6 +274,37 @@ export default class PropertyView extends Base {
             )
         })
     } //end of fullDetails()
+
+    //toggle checkbox
+    toggleCheckBox(id) {
+        this._qs(`#${id}`).checked
+            ? (this._qs(`#${id}`).checked = false)
+            : (this._qs(`#${id}`).checked = true)
+    } //End of toggleCheckBox()
+
+    //checkBoxEventListener
+    checkBoxEventListener(id, method, data) {
+        this._qs(`#${id}`).addEventListener('change', async () => {
+            try {
+                this.toggleCheckBox(id)
+                const res = await axios.patch(
+                    `${this.host}/property/${method}`,
+                    {
+                        userId: this.getUserId(),
+                        token: this.getToken(),
+                        propertyId: this.state._id,
+                        ...data
+                    }
+                )
+                console.log(res)
+                if (res.status == 200 && res.data.status == '204') {
+                    this.toggleCheckBox(id)
+                } else throw res.data
+            } catch (err) {
+                console.log(err)
+            }
+        })
+    } //End of checkBoxEventListener()
 
     connectedCallback() {
         //SetValues
