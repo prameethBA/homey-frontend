@@ -38,34 +38,27 @@ export default class OwnProperties extends Base {
     // Load add comps
     async loadpropertyView() {
         this.setLoader()
-        await import('./subcomp/property-view.js')
-            .then(() => {
-                this.state.page = 1
-                this.state.limit = 12
+        try {
+            import('./subcomp/property-view.js')
+            const res = await axios.post(`${this.host}/property/get/own`, {
+                userId: this.getUserId(),
+                token: this.getToken()
+            })
 
-                for (let index = 0; index < this.state.limit; index++) {
-                    this._qs('.content').innerHTML += `
-                          <property-view id="id-${index}" key="${index}" overview='true'>
-                              <img slot="thumbnail" class="thumbnail" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
-                              <p slot="title" class=" title title-${index}">Boarding place at Colombo-08</p>
-                              <p slot="price" class=" price price-${index}">Rs. 17, 000</p>
-                              <p slot="description" class=" description description-${index}">
-                                  A boarding house is a house (frequently a family home) in which lodgers rent one or more rooms for one or more nights, and sometimes for extended periods of weeks, months, and years. The common parts of the house are maintained, and some services, such as laundry and cleaning, may be supplied.
-                              </p>
-                              <input class="id id-${index}" type="hidden" slot="id" value=""/>
-                          </property-view>
-                      `
-                }
-                this.stopLoader()
+            res.data.forEach(item => {
+                this._qs('.content').innerHTML += `
+                    <property-view 
+                        id="${item.property_id}"
+                        data-data="${this.encode(item)}"
+                        overview='true'
+                    >
+                    </property-view>
+                `
             })
-            .catch(err => {
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-                this.setLoader()
-            })
+        } catch (err) {
+            console.log(err)
+        }
+        this.stopLoader()
     } //End of loadpropertyView()
 
     connectedCallback() {
