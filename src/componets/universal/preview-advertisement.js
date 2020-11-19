@@ -63,4 +63,7 @@ export default class PreviewAdvertisement extends Base {
     } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define('preview-advertisement', PreviewAdvertisement)
+const elementName = 'preview-advertisement'
+customElements.get(elementName) == undefined
+    ? window.customElements.define(elementName, PreviewAdvertisement)
+    : null

@@ -252,6 +252,7 @@ export default class AddNewProperty extends Base {
                     if (element.measurable == 1) {
                         this._qs('#facilities-measurable').innerHTML += `
                         <facility-comp 
+                          class="feature-list" 
                           key="${element._id}" 
                           name="${element.feature_name}"
                           measurable="${element.measurable}
@@ -261,6 +262,7 @@ export default class AddNewProperty extends Base {
                     } else {
                         this._qs('#facilities').innerHTML += `
                         <facility-comp 
+                          class="feature-list" 
                           key="${element._id}" 
                           name="${element.feature_name}"
                           measurable="${element.measurable}
@@ -379,22 +381,22 @@ export default class AddNewProperty extends Base {
 
     //getSelectedFacilities
     getSelectedFacilities() {
-        let facilities = []
-        this._qsAll('facility-comp').forEach(item => {
+        let data = []
+        this._qsAll('.feature-list').forEach(item => {
             const feature = item.shadowRoot.querySelector('input')
             if (feature.checked) {
                 const quantity =
                     item.shadowRoot.querySelector('.quantity') == null
                         ? 'null'
                         : item.shadowRoot.querySelector('.quantity').value
-                facilities.push({
+                data.push({
                     featureId: feature.id,
                     feature: item.shadowRoot.querySelector('.name').innerText,
                     quantity: quantity
                 })
             }
         })
-        return facilities
+        return data
     } //End of getSelectedFacilities()
 
     //readImages
@@ -456,12 +458,87 @@ export default class AddNewProperty extends Base {
 
     //collect Data
     collectData() {
-        this._qs('#add-property-button').addEventListener('click', () => {
+        this._qs('#add-property-button').addEventListener('click', async () => {
             //getValues
             const data = this.getValues()
 
             if (data != false) {
-                console.log(data)
+                const res = await import(
+                    '/componets/universal/preview-advertisement.js'
+                )
+
+                let innerData = `<preview-advertisement>`
+
+                data.images.forEach(item => {
+                    innerData += `<img slot='image' src="${item}" />`
+                })
+
+                innerData += ` 
+                    <p slot='title'>
+                        ${data.title}
+                        <button class="load-more">Load more >></button>
+                    </p>
+                    <span slot="price" class="row-1 price">Rental: Rs. ${
+                        data.price
+                    }/Month</span>
+                    <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${
+                        data.keyMoney
+                    }</span>
+                    <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${
+                        data.minimumPeriod !== ''
+                            ? data.minimumPeriod
+                            : 'Not applicable'
+                    }</span>
+                    <span slot="available-from" class="row-1 available-from">Available From: ${
+                        data.availableFrom
+                    }</span>
+                    <p slot='description'>
+                        ${data.description}
+                        <button class="load-more">Load more >></button>
+                    </p>
+                    <div slot="facilities" class="facilities">
+                `
+
+                data.facilities.forEach(item => {
+                    innerData += `<facility-comp key="${
+                        item.featureId
+                    }" name="${item.feature}" ${
+                        item.quantity != 'null'
+                            ? 'measurable="1"'
+                            : 'measurable="0"'
+                    } checked="true" quantity="${
+                        item.quantity
+                    }"></facility-comp>`
+                })
+
+                innerData += `
+                    </div>
+                        <map-view slot="location" class="location" location="${this.encode(
+                            data.location
+                        )}"></map-view>
+                        <div slot="location-details" class="row-2 location-details">
+                            <!--<span class="location-details-span district">${
+                                data.district
+                            }</span>-->
+                            <span class="location-details-span city">${
+                                data.city
+                            }</span>
+                            <span class="location-details-span address">Address : 
+                                ${
+                                    /^ *$||^$/.test(data.address)
+                                        ? data.city + ', ' + data.district
+                                        : data.address
+                                }
+                            </span>
+                        </div>
+                    </preview-advertisement>
+                    <div id="progress">
+                    <div id="progress-bar"><div id="progress-bar-progress"></div></div>
+                    <div id="progress-progress">20%</div>
+                </div>
+            `
+                window.scrollTo(0, 0)
+                this._qs('#add-preview').innerHTML = innerData
             }
         })
     } //collectData()
@@ -531,6 +608,37 @@ export default class AddNewProperty extends Base {
         )
     } //End of changeRentalPeriod()
 
+    // Add eventlistner to load citeis
+    loadCities() {
+        try {
+            this._qs('#district').addEventListener('change', async () => {
+                // Prevent laggin when do rapid changing
+                addEventListener('change', async () => {
+                    await this.sleep(100)
+                    this._qs('#district').removeEventListener('change')
+                })
+                await this.sleep(101)
+                // API call for get Districts
+                const res = await axios.get(
+                    `${this.host}/cities/districtId/${
+                        this._qs('#district').value
+                    }`
+                )
+                this._qs('#city-list').innerHTML = ''
+                if (res.status == '200')
+                    res.data.forEach(
+                        element =>
+                            (this._qs(
+                                '#city-list'
+                            ).innerHTML += `<option value="${element.city}"/>`)
+                    )
+                else throw 'Server Error.'
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of loadCities()
+
     connectedCallback() {
         // API call for get RentalPeriod
         this.getRentalPeriod()
@@ -550,6 +658,9 @@ export default class AddNewProperty extends Base {
         //Load Map
         this.loadMap()
 
+        //load Cities
+        this.loadCities()
+
         // API call for get property types
         this.getPropertytypes()
 
@@ -558,265 +669,6 @@ export default class AddNewProperty extends Base {
 
         //collect Data
         this.collectData()
-
-        //     const rentalPeriod = this._qs('#rentalPeriod')
-
-        //     rentalPeriod.addEventListener('change', () => {
-        //         this._qs('#keyMoneyPeriod').innerHTML = `
-        //       <option value = "enter-value" > Enter a value</option >
-        //       <option value="enter-period">Enter  ${
-        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
-        //       }</option>
-        //       <option value="1" selected>1 ${
-        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
-        //       }</option>
-        //       <option value="2">2 ${
-        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
-        //       }</option>
-        //       <option value="3">3 ${
-        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
-        //       }</option>
-        //       <option value="6">6 ${
-        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
-        //       }</option>
-        //       <option value="12">12 ${
-        //           rentalPeriod.options[rentalPeriod.selectedIndex].text
-        //       }</option>
-        // `
-        //     })
-
-        // Method for calculate Key Money
-        // const calculateKeyMoney = () => {
-        //     const rentalPeriod = this._qs('#rentalPeriod')
-        //     const keyMoneyPeriod = this._qs('#keyMoneyPeriod')
-        //     const keyMoney = this._qs('#keyMoney')
-        //     const price = this._qs('#price')
-
-        //     this._qs('#minimum-period-label').innerHTML = ` Minimum period(${
-        //         rentalPeriod.options[rentalPeriod.selectedIndex].text
-        //     }s)`
-
-        //     if (keyMoneyPeriod.value == 'enter-value') {
-        //         this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
-        //         keyMoney.value = ''
-        //     } else if (keyMoneyPeriod.value == 'enter-period') {
-        //         this._qs('#key-money-label').innerHTML = `${
-        //             rentalPeriod.options[rentalPeriod.selectedIndex].text
-        //         }s`
-        //         keyMoney.value = ''
-        //     } else {
-        //         this._qs('#key-money-label').innerHTML = `Key Money(Rs.)`
-        //         keyMoneyPeriod.value != 0
-        //             ? (keyMoney.value = price.value * keyMoneyPeriod.value)
-        //             : (keyMoney.value = 'No key money')
-        //     }
-        // } //End of calculateKeyMoney
-
-        // Add evenrlistners to excute calculateMoney Method
-        // const events = ['focus', 'keyup', 'change']
-        // const elements = ['#rentalPeriod', '#keyMoneyPeriod', '#price']
-
-        // events.forEach(eve =>
-        //     elements.forEach(elm => {
-        //         this._qs(elm).addEventListener(eve, () => calculateKeyMoney())
-        //     })
-        // )
-
-        // Add eventlistner to load citeis
-        // this._qs('#district').addEventListener('change', async () => {
-        //     // Prevent laggin when do rapid changing
-        //     addEventListener('change', async () => {
-        //         await this.sleep(100)
-        //         this._qs('#district').removeEventListener('change')
-        //     })
-        //     await this.sleep(101)
-        //     // API call for get Districts
-        //     await axios
-        //         .get(`${this.host}/cities`)
-        //         .then(res => {
-        //             this._qs('#city-list').innerHTML = ''
-        //             if (res.status == '200')
-        //                 res.data.forEach(
-        //                     element =>
-        //                         (this._qs(
-        //                             '#city-list'
-        //                         ).innerHTML += `<option value="${element.city}"/>`)
-        //                 )
-        //             else throw 'Server Error.'
-        //         })
-        //         .catch(err =>
-        //             dispatchEvent(
-        //                 new CustomEvent('pop-up', {
-        //                     detail: { pop: 'error', msg: err }
-        //                 })
-        //             )
-        //         )
-        // })
-
-        // this._qs('#add-property-button').addEventListener('click', async () => {
-        //     try {
-        //         const title = this._qs('#title').value
-        //         const rentalPeriod = this._qs('#rentalPeriod').value
-        //         const price = this._qs('#price').value
-        //         const keyMoneyPeriod = this._qs('#keyMoneyPeriod').value
-        //         let keyMoney = this._qs('#keyMoney').value
-        //         const minimumPeriod = this._qs('#minimumPeriod').value
-        //         const availableFrom = this._qs('#availableFrom').value
-        //         const district = this._qs('#district').options[
-        //             this._qs('#district').selectedIndex
-        //         ].text
-        //         const city = this._qs('#city').value
-        //         const propertyType = this._qs('#propertyType').options[
-        //             this._qs('#propertyType').selectedIndex
-        //         ].text
-        //         const description = this._qs('#description').value
-        //         const address = this._qs('#address').value
-        //         let facilities = []
-        //         let images = []
-
-        //         window.scrollTo(0, 0)
-
-        //         this._qsAll('facility-comp').forEach(item => {
-        //             const feature = item.shadowRoot.querySelector('input')
-        //             if (feature.checked) {
-        //                 const quantity =
-        //                     item.shadowRoot.querySelector('.quantity') == null
-        //                         ? 'null'
-        //                         : item.shadowRoot.querySelector('.quantity')
-        //                               .value
-        //                 facilities.push({
-        //                     featureId: feature.id,
-        //                     feature: item.shadowRoot.querySelector('.name')
-        //                         .innerText,
-        //                     quantity: quantity
-        //                 })
-        //             }
-        //         })
-
-        //         this._qs('#previewImages').childNodes.forEach(item =>
-        //             images.push(item.src)
-        //         )
-
-        //         await import(
-        //             '/componets/universal/preview-advertisement.js'
-        //         ).then(() => {
-        //             let data = `<preview-advertisement>`
-
-        //             images.forEach(item => {
-        //                 if (item !== undefined)
-        //                     data += `<img slot='image' src="${item}" />`
-        //             })
-
-        //             data += ` <p slot='title'>
-        //                   ${title}
-        //                   <button class="load-more">Load more >></button>
-        //               </p>
-        //               <span slot="price" class="row-1 price">Rental: Rs. ${price}/Month</span>
-        //               <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${keyMoney}</span>
-        //               <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${minimumPeriod}</span>
-        //               <span slot="available-from" class="row-1 available-from">Available From: ${availableFrom}</span>
-        //               <p slot='description'>
-        //                   ${description}
-        //                   <button class="load-more">Load more >></button>
-        //               </p>
-        //               <div slot="facilities" class="facilities">`
-
-        //             facilities.forEach(item => {
-        //                 data += `<facility-comp key="${item.featureId}" name="${
-        //                     item.feature
-        //                 }" ${
-        //                     item.quantity != 'null'
-        //                         ? 'measurable="1"'
-        //                         : 'measurable="0"'
-        //                 } checked="true" quantity="${
-        //                     item.quantity
-        //                 }"></facility-comp>`
-        //             })
-
-        //             data += `</div>
-        //                           <map-view slot="location" class="location" location="${encodeURIComponent(
-        //                               location
-        //                           )}"></map-view>
-        //                           <div slot="location-details" class="row-2 location-details">
-        //                               <!--<span class="location-details-span district">${district}</span>-->
-        //                               <span class="location-details-span city">${city}</span>
-        //                               <span class="location-details-span address">Address : ${address}</span>
-        //                           </div>
-        //                           <!-- <div slot="user-details" class="row-2 user-details">
-        //                               <span class="user"><a>userId</a></span>
-        //                               <span class="created">created</span>
-        //                           </div> -->
-        //                       </preview-advertisement>
-        //                       <div id="progress">
-        //                         <div id="progress-bar"><div id="progress-bar-progress"></div></div>
-        //                         <div id="progress-progress">20%</div>
-        //                       </div>
-        //                     `
-
-        //             this._qs('#add-preview').innerHTML = data
-        //         })
-        //         //   this._qs("#add-preview").innerHTML = `
-        //         //       <div>Title 👉 <b> ${title}</b></div>
-        //         //     <div>Rental Period 👉 <b> ${rentalPer}</b></div>
-        //         //     <div>Price : <b>Rs. ${parseFloat(price).toLocaleString('en')}</b></div>
-        //         //     <div>Key Money 👉 <b>Rs. ${keyMoney}</b></div>
-        //         //     <div>Minimum Period 👉 <b> ${minimumPeriod} ${rentalPer.slice(-3) == 'ily' ? rentalPer.slice(0, -3) + 'ys' : rentalPer.slice(0, -2) + 's'}</b></div>
-        //         //     <div>Available From 👉 <b> ${availableFrom}</b></div>
-        //         //     <div>District 👉 <b> ${district}</b></div>
-        //         //     <div>City 👉 <b> ${city}</b></div>
-        //         //     <div>Property Type 👉 <b> ${propertyType}</b></div>
-        //         //     <div>Description 👉 <b> ${description}</b></div>
-        //         //     <div id="preview-facilities">Features : </div>
-        //         //     <div id="preview-images"></div>
-        //         //     <div id="progress">
-        //         //       <div id="progress-bar"><div id="progress-bar-progress"></div></div>
-        //         //       <div id="progress-progress">0%</div>
-        //         //     </div>
-        //         //     <div class="preview-buttons">
-        //         //       <button calss="save" id="save">Add this Advertisement</button>
-        //         //       <button calss="edit" id="edit">Edit</button>
-        //         //     </div>
-
-        //         // `
-
-        //         // let previewFacilities = this._qs("#preview-facilities")
-        //         // facilities.forEach(item => previewFacilities.innerHTML += `<span>${item.feature} ${item.quantity != 'null' ? ' -' + item.quantity : ''}</span>`)
-
-        //         // let previewImages = this._qs("#preview-images")
-        //         // previewImages.innerHTML = ''
-        //         let newImages = []
-
-        //         images.forEach(item => {
-        //             if (item !== undefined) {
-        //                 // previewImages.innerHTML += `<img src="${item}" />`
-        //                 newImages.push(item)
-        //             }
-        //         })
-
-        //         // Save add at the database
-        //         const getAdData = () => {
-        //             const data = {
-        //                 userId: this.getUserId(),
-        //                 token: this.getToken(),
-        //                 title: title,
-        //                 rentalperiod: rentalPeriod,
-        //                 price: price,
-        //                 keyMoney: keyMoney,
-        //                 minimumPeriod: minimumPeriod,
-        //                 availableFrom: availableFrom,
-        //                 district: district,
-        //                 city: city,
-        //                 location: (this.state.location = !null
-        //                     ? this.state.location
-        //                     : {}),
-        //                 propertyType: propertyType,
-        //                 description: description,
-        //                 address: address,
-        //                 facilities: facilities,
-        //                 images: newImages
-        //             }
-        //             return data
-        //         }
 
         //         // this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
 
