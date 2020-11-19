@@ -456,89 +456,96 @@ export default class AddNewProperty extends Base {
         })
     } //End of getImages()
 
+    //preview the add
+    async previewAdvertisement(data) {
+        const res = await import(
+            '/componets/universal/preview-advertisement.js'
+        )
+
+        let innerData = `<preview-advertisement>`
+
+        data.images.forEach(item => {
+            innerData += `<img slot='image' src="${item}" />`
+        })
+
+        innerData += ` 
+            <p slot='title'>
+                ${data.title}
+                <button class="load-more">Load more >></button>
+            </p>
+            <span slot="price" class="row-1 price">Rental: Rs. ${
+                data.price
+            }/Month</span>
+            <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${
+                data.keyMoney
+            }</span>
+            <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${
+                data.minimumPeriod !== ''
+                    ? data.minimumPeriod
+                    : 'Not applicable'
+            }</span>
+            <span slot="available-from" class="row-1 available-from">Available From: ${
+                data.availableFrom
+            }</span>
+            <p slot='description'>
+                ${data.description}
+                <button class="load-more">Load more >></button>
+            </p>
+            <div slot="facilities" class="facilities">
+        `
+
+        data.facilities.forEach(item => {
+            innerData += `<facility-comp key="${item.featureId}" name="${
+                item.feature
+            }" ${
+                item.quantity != 'null' ? 'measurable="1"' : 'measurable="0"'
+            } checked="true" quantity="${item.quantity}"></facility-comp>`
+        })
+
+        innerData += `
+            </div>
+                <map-view slot="location" class="location" location="${this.encode(
+                    data.location
+                )}"></map-view>
+                <div slot="location-details" class="row-2 location-details">
+                    <!--<span class="location-details-span district">${
+                        data.district
+                    }</span>-->
+                    <span class="location-details-span city">${data.city}</span>
+                    <span class="location-details-span address">Address : 
+                        ${
+                            /^ *$||^$/.test(data.address)
+                                ? data.city + ', ' + data.district
+                                : data.address
+                        }
+                    </span>
+                </div>
+                <div slot="approval" class="row approval">
+                    <div class="button approve-button">Post the advertisement</div>
+                    <div class="button decline-button">edit</div>
+                </div>
+            </preview-advertisement>
+            <div id="progress">
+            <div id="progress-bar"><div id="progress-bar-progress"></div></div>
+            <div id="progress-progress">20%</div>
+        </div>
+    `
+        window.scrollTo(0, 0)
+        this._qs('#add-preview').innerHTML = innerData
+
+        //post the Advertisement
+        this.postAdvertisement(data)
+    } //End of previewAdvertisement()
+
     //collect Data
     collectData() {
-        this._qs('#add-property-button').addEventListener('click', async () => {
+        this._qs('#add-property-button').addEventListener('click', () => {
             //getValues
             const data = this.getValues()
 
             if (data != false) {
-                const res = await import(
-                    '/componets/universal/preview-advertisement.js'
-                )
-
-                let innerData = `<preview-advertisement>`
-
-                data.images.forEach(item => {
-                    innerData += `<img slot='image' src="${item}" />`
-                })
-
-                innerData += ` 
-                    <p slot='title'>
-                        ${data.title}
-                        <button class="load-more">Load more >></button>
-                    </p>
-                    <span slot="price" class="row-1 price">Rental: Rs. ${
-                        data.price
-                    }/Month</span>
-                    <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${
-                        data.keyMoney
-                    }</span>
-                    <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${
-                        data.minimumPeriod !== ''
-                            ? data.minimumPeriod
-                            : 'Not applicable'
-                    }</span>
-                    <span slot="available-from" class="row-1 available-from">Available From: ${
-                        data.availableFrom
-                    }</span>
-                    <p slot='description'>
-                        ${data.description}
-                        <button class="load-more">Load more >></button>
-                    </p>
-                    <div slot="facilities" class="facilities">
-                `
-
-                data.facilities.forEach(item => {
-                    innerData += `<facility-comp key="${
-                        item.featureId
-                    }" name="${item.feature}" ${
-                        item.quantity != 'null'
-                            ? 'measurable="1"'
-                            : 'measurable="0"'
-                    } checked="true" quantity="${
-                        item.quantity
-                    }"></facility-comp>`
-                })
-
-                innerData += `
-                    </div>
-                        <map-view slot="location" class="location" location="${this.encode(
-                            data.location
-                        )}"></map-view>
-                        <div slot="location-details" class="row-2 location-details">
-                            <!--<span class="location-details-span district">${
-                                data.district
-                            }</span>-->
-                            <span class="location-details-span city">${
-                                data.city
-                            }</span>
-                            <span class="location-details-span address">Address : 
-                                ${
-                                    /^ *$||^$/.test(data.address)
-                                        ? data.city + ', ' + data.district
-                                        : data.address
-                                }
-                            </span>
-                        </div>
-                    </preview-advertisement>
-                    <div id="progress">
-                    <div id="progress-bar"><div id="progress-bar-progress"></div></div>
-                    <div id="progress-progress">20%</div>
-                </div>
-            `
-                window.scrollTo(0, 0)
-                this._qs('#add-preview').innerHTML = innerData
+                //preview the add
+                this.previewAdvertisement(data)
             }
         })
     } //collectData()
@@ -639,6 +646,64 @@ export default class AddNewProperty extends Base {
         }
     } //End of loadCities()
 
+    //post the Advertisement
+    postAdvertisement(data) {
+        addEventListener('post-advertisement', async () => {
+            try {
+                this._qs('#progress').style.display = 'flex'
+                // Api call to add Advertisement to the databsse
+                let res = await axios.post(
+                    `${this.host}/property/add-new`,
+                    {
+                        ...data,
+                        userId: this.getUserId(),
+                        token: this.getToken()
+                    },
+                    {
+                        onUploadProgress: progressEvent => {
+                            const { loaded, total } = progressEvent
+                            let percent = Math.floor((loaded * 100) / total)
+                            this._qs('#progress-bar-progress').style.width =
+                                percent + '%'
+                            this._qs('#progress-progress').innerText = `${
+                                Math.round((loaded / 1024 / 1024) * 100) / 100
+                            }MB of ${
+                                Math.round((total / 1024 / 1024) * 100) / 100
+                            }MB | ${percent}%`
+                            if (percent >= 100) {
+                                this._qs('#progress').innerHTML = ''
+                                this._qs('#add-preview').innerHTML = ''
+                            }
+                        }
+                    }
+                )
+                // Popup for enable add fetures
+                if (res.status == 201) {
+                    dispatchEvent(
+                        new CustomEvent('pop-up', {
+                            detail: { pop: 'success', msg: res.data.message }
+                        })
+                    )
+                    res = await import('./subcomp/advertisement-settings.js')
+                    this._qs(
+                        '.popup'
+                    ).innerHTML = `<advertisement-settings data-key="${res}"></advertisement-settings>`
+                } else throw res.data
+            } catch (err) {
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'error',
+                            msg: err.message,
+                            duration:
+                                err.duration == undefined ? 10 : err.duration
+                        }
+                    })
+                )
+            } //End of the catch for try
+        })
+    } //End of the postAdvertisement()
+
     connectedCallback() {
         // API call for get RentalPeriod
         this.getRentalPeriod()
@@ -669,82 +734,6 @@ export default class AddNewProperty extends Base {
 
         //collect Data
         this.collectData()
-
-        //         // this._qs('#edit').addEventListener('click', () => this._qs("#add-preview").style.display = 'none')
-
-        //         addEventListener('upload-advertisement', async event => {
-        //             if (event.detail.userId != this.getUserId())
-        //                 throw { message: 'Faild to upload to the server' }
-        //             this._qs('#progress').style.display = 'flex'
-        //             // Api call to add Advertisement to the databsse
-        //             await axios
-        //                 .post(`${this.host}/property/add-new`, getAdData(), {
-        //                     onUploadProgress: progressEvent => {
-        //                         const { loaded, total } = progressEvent
-        //                         let percent = Math.floor((loaded * 100) / total)
-        //                         this._qs('#progress-bar-progress').style.width =
-        //                             percent + '%'
-        //                         this._qs('#progress-progress').innerText = `${
-        //                             Math.round((loaded / 1024 / 1024) * 100) /
-        //                             100
-        //                         }MB of ${
-        //                             Math.round((total / 1024 / 1024) * 100) /
-        //                             100
-        //                         }MB | ${percent}%`
-        //                         if (percent >= 100) {
-        //                             this._qs('#progress').innerHTML = ''
-        //                             this._qs('#add-preview').innerHTML = ''
-        //                         }
-        //                     }
-        //                 })
-        //                 .then(async res => {
-        //                     // Popup for enable add fetures
-        //                     if (res.status == 201) {
-        //                         dispatchEvent(
-        //                             new CustomEvent('pop-up', {
-        //                                 detail: {
-        //                                     pop: 'success',
-        //                                     msg: res.data.message
-        //                                 }
-        //                             })
-        //                         )
-        //                         await import(
-        //                             './subcomp/advertisement-settings.js'
-        //                         ).then(
-        //                             (this._qs(
-        //                                 '.popup'
-        //                             ).innerHTML = `<advertisement-settings data="${res.data}" key="${res.data}"></advertisement-settings>`)
-        //                         )
-        //                     } else throw res.data
-        //                 })
-        //                 .catch(err =>
-        //                     dispatchEvent(
-        //                         new CustomEvent('pop-up', {
-        //                             detail: {
-        //                                 pop: 'error',
-        //                                 msg: err.message,
-        //                                 duration:
-        //                                     err.duration == undefined
-        //                                         ? 10
-        //                                         : err.duration
-        //                             }
-        //                         })
-        //                     )
-        //                 )
-        //         })
-        //     } catch (err) {
-        //         dispatchEvent(
-        //             new CustomEvent('pop-up', {
-        //                 detail: {
-        //                     pop: 'error',
-        //                     msg: err.message,
-        //                     duration:
-        //                         err.duration == undefined ? 10 : err.duration
-        //                 }
-        //             })
-        //         )
-        //     } //End of the catch for try
-        // })
     } //End of connectedCallback
 } //End of Class
 

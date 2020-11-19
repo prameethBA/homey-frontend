@@ -40,7 +40,7 @@ export default CSS = `
 
   #progress-progress {
     position: absolute;
-    top: 2rem;
+    top: 5rem;
     bottom: 0;
     color: #ffffff;
     left: 0;

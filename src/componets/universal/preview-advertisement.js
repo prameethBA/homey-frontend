@@ -50,11 +50,7 @@ export default class PreviewAdvertisement extends Base {
         })
 
         this._qs('.approve-button').addEventListener('click', () =>
-            dispatchEvent(
-                new CustomEvent('upload-advertisement', {
-                    detail: { userId: this.getUserId() }
-                })
-            )
+            dispatchEvent(new CustomEvent('post-advertisement'))
         )
         this._qs('.decline-button').addEventListener('click', () => {
             this._qs('.container').style.display = 'none'
