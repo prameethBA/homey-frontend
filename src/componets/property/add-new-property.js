@@ -508,10 +508,12 @@ export default class AddNewProperty extends Base {
                     data.location
                 )}"></map-view>
                 <div slot="location-details" class="row-2 location-details">
-                    <!--<span class="location-details-span district">${
-                        data.district
-                    }</span>-->
-                    <span class="location-details-span city">${data.city}</span>
+                    <span class="location-details-span district">
+                        District : ${data.district}
+                    </span>
+                    <span class="location-details-span city">
+                        City : ${data.city}
+                    </span>
                     <span class="location-details-span address">Address : 
                         ${
                             /^ *$||^$/.test(data.address)
@@ -527,7 +529,7 @@ export default class AddNewProperty extends Base {
             </preview-advertisement>
             <div id="progress">
             <div id="progress-bar"><div id="progress-bar-progress"></div></div>
-            <div id="progress-progress">20%</div>
+            <div id="progress-progress">0%</div>
         </div>
     `
         window.scrollTo(0, 0)

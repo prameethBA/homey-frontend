@@ -257,12 +257,15 @@ export default CSS = `
     display: flex;
     flex-wrap: wrap;
     margin: 2rem;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .row-2 span {
-      font-weight: unset;
-      color: #4212ff;
+    color: #4212ff;
+    margin: 0.5rem;
+    font-weight: bold;
   }
 
   .row-2 span > a {

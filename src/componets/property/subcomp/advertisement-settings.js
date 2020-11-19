@@ -32,28 +32,35 @@ export default class AdvertisementSettings extends Base {
   <section class="feature_container">
       <div>
           <div class="toggle_opt">
-              <label for="">Boost Advertisement(Paid)</label>
+              <label for="boost">Boost Advertisement(Paid)</label>
               <label class="switch">
                   <input type="checkbox" id="boost" />
                   <span class="slider round"></span>
                 </label>
           </div>
           <div class="toggle_opt">
-              <label for="">Save Private</label>
+              <label for="private">Save Private</label>
               <label class="switch">
                   <input type="checkbox" id="private" >
                   <span class="slider round"></span>
               </label>
           </div>
           <div class="toggle_opt">
-              <label for="" id="schedule-label">Schedule to post</label>
+              <label for="schedule" id="schedule-label">Schedule to post</label>
               <label class="switch">
                   <input type="checkbox" id="schedule" >
                   <span class="slider round"></span>
                 </label>
           </div>
           <div class="toggle_opt">
-              <label for="">Send me a copy as email</label>
+              <label for="share">Tenants can share the property</label>
+              <label class="switch">
+                  <input type="checkbox" id="share" >
+                  <span class="slider round"></span>
+                </label>
+          </div>
+          <div class="toggle_opt">
+              <label for="sendCopy">Send me a copy as email</label>
               <label class="switch">
                   <input type="checkbox" id="sendCopy" >
                   <span class="slider round"></span>
@@ -107,6 +114,66 @@ export default class AdvertisementSettings extends Base {
         })
     } //End of saveSchedule()
 
+    //Apply ad settings
+    async applySettings() {
+        try {
+            const boost = this._qs('#boost').checked
+            const privated = this._qs('#private').checked
+            const schedule = this._qs('#schedule').checked
+            const share = this._qs('#share').checked
+            const sendCopy = this._qs('#sendCopy').checked
+
+            const data = {
+                boost: boost,
+                privated: privated,
+                schedule: schedule,
+                scheduleDate: this._qs('#schedule-date').value,
+                scheduleTime: this._qs('#schedule-time').value,
+                sharing: share,
+                sendCopy: sendCopy
+            }
+
+            const res = await axios.patch(`${this.host}/property/settings`, {
+                ...data,
+                userId: this.getUserId(),
+                token: this.getToken(),
+                propertyId: this.getAttribute('data-key')
+            })
+
+            if (res.status == 201) {
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'success',
+                            msg: res.data.message,
+                            duration: 5
+                        }
+                    })
+                )
+                //redirect to own properties property
+                dispatchEvent(
+                    new CustomEvent('load-comp', {
+                        detail: {
+                            path: `/`,
+                            comp: `property/own-properties`,
+                            compName: 'own-properties'
+                        }
+                    })
+                )
+            } else throw res.data
+        } catch (err) {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: {
+                        pop: 'error',
+                        msg: err.message,
+                        duration: err.duration == undefined ? 10 : err.duration
+                    }
+                })
+            )
+        }
+    } //End of applySettings()
+
     connectedCallback() {
         // backdrop
         this._qs('#backdrop').addEventListener('click', () => {
@@ -115,16 +182,8 @@ export default class AdvertisementSettings extends Base {
         })
 
         this._qs('#apply').addEventListener('click', () => {
-            //Add New property
-            dispatchEvent(
-                new CustomEvent('load-comp', {
-                    detail: {
-                        path: `/`,
-                        comp: `property/own-properties`,
-                        compName: 'own-properties'
-                    }
-                })
-            )
+            //Apply ad settings
+            this.applySettings()
         })
 
         //schedule post
