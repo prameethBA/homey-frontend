@@ -652,7 +652,7 @@ export default class AddNewProperty extends Base {
             try {
                 this._qs('#progress').style.display = 'flex'
                 // Api call to add Advertisement to the databsse
-                let res = await axios.post(
+                const res = await axios.post(
                     `${this.host}/property/add-new`,
                     {
                         ...data,
@@ -684,10 +684,10 @@ export default class AddNewProperty extends Base {
                             detail: { pop: 'success', msg: res.data.message }
                         })
                     )
-                    res = await import('./subcomp/advertisement-settings.js')
+                    await import('./subcomp/advertisement-settings.js')
                     this._qs(
                         '.popup'
-                    ).innerHTML = `<advertisement-settings data-key="${res}"></advertisement-settings>`
+                    ).innerHTML = `<advertisement-settings data-key="${res.data.propertyId}"></advertisement-settings>`
                 } else throw res.data
             } catch (err) {
                 dispatchEvent(
