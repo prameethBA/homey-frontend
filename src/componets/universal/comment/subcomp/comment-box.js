@@ -22,7 +22,7 @@ export default class CommentBox extends Base {
             <div class="comment-footer">
             <div class="comment-info">
                 <span class="comment-author">
-                <span class="comment-author">Prameeth Maduwantha</span>
+                <span class="comment-author" id="comment-author">Prameeth Maduwantha</span>
                 </span>
                 <span class="comment-date">Feb 2, 2013 11:32:04 PM</span>
             </div>
@@ -41,12 +41,15 @@ export default class CommentBox extends Base {
     } //End of constructor
 
     //getprofilePicture
-    async getprofilePicture() {
+    async getprofilePicture(userID) {
         try {
-            const res = await axios.post(`${this.host}/images/profile/get`, {
-                userId: this.getUserId(),
-                token: this.getToken()
-            })
+            const res = await axios.post(
+                `${this.host}/images/profile/get/${userID}`,
+                {
+                    userId: this.getUserId(),
+                    token: this.getToken()
+                }
+            )
             this._qs('#profile-picture').innerHTML = `<img 
               src="${
                   res.data.image != ''
@@ -71,6 +74,18 @@ export default class CommentBox extends Base {
             )
             this._qs('.comment-text').innerHTML = res.data.feedback
             this._qs('.comment-date').innerHTML = res.data.created
+            this._qs('#comment-author').innerHTML =
+                res.data.userId == '0'
+                    ? 'Anonymous'
+                    : `${res.data.firstName} ${res.data.lastName}`
+
+            if (res.data.userId == '0')
+                this._qs('#profile-picture').innerHTML = `
+                    <img 
+                        src='/assets/img/alt/no-mage.png' 
+                        alt="Profile picture"
+                    />`
+            else this.getprofilePicture(userId) //getprofilePicture
         }
     } //End of viewComment()
 

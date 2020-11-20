@@ -64,7 +64,7 @@ export default class PropertyView extends Base {
                 </span>
 
                 ${
-                    this.getAttribute('overview') == 'true'
+                    this.getParam('overview') == 'true'
                         ? this.options
                         : `<span></span>`
                 }
@@ -74,7 +74,7 @@ export default class PropertyView extends Base {
             <div class='button-group'>
                 <button class="comment">Comment</button>
                 ${
-                    this.getAttribute('overview') == 'true'
+                    this.getParam('overview') == 'true'
                         ? this.optionButtons
                         : `<span></span>`
                 }
@@ -299,7 +299,6 @@ export default class PropertyView extends Base {
                         ...data
                     }
                 )
-                console.log(res)
                 if (res.status == 200 && res.data.status == '204') {
                     this.toggleCheckBox(id)
                 } else throw res.data
@@ -313,8 +312,8 @@ export default class PropertyView extends Base {
         //SetValues
         this.setValues()
 
-        console.log(this.encode(this.state.title))
-        console.log(this.state._id)
+        // console.log(this.state.title)
+        // console.log(this.state._id)
 
         this._qs('.comment').addEventListener('click', async () => {
             import('/componets/universal/comment/comment-comp.js').then(

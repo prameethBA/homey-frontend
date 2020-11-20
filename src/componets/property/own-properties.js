@@ -46,6 +46,7 @@ export default class OwnProperties extends Base {
                 token: this.getToken()
             })
 
+            this._qs('.content').innerHTML = ''
             res.data.forEach(item => {
                 this._qs('.content').innerHTML += `
                     <property-view 

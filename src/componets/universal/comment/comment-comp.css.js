@@ -133,6 +133,9 @@ export default CSS = `
     position: absolute;
     top: 0;
     width: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .comment-form .comment-avatar img,
