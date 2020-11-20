@@ -61,6 +61,13 @@ export default class Base extends HTMLElement {
         sessionStorage.token = ''
     }
 
+    authData() {
+        return {
+            userId: this.getUserId(),
+            token: this.getToken()
+        }
+    }
+
     authenticate() {
         if (!this.isLogin()) {
             this.logOut()

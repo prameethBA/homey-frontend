@@ -4,34 +4,36 @@ import CSS from './comment-comp.css.js'
 export default class Comment extends Base {
     css = CSS
 
+    loader = `<img src="/assets/img/alt/load-post.gif">`
+
     content = `
     
     <div class="comments-app">
         <div id="close">+</div>
-        <h1>Comments</h1>
+        <h1>${this.getParams('data-data')}</h1>
         
         <!-- From -->
         <div class="comment-form">
           <!-- Comment Avatar -->
-          <div class="comment-avatar">
-            <img src="http://lorempixel.com/200/200/people">
+          <div class="comment-avatar" id="profile-picture">
+            ${this.loader}
           </div>
       
-          <form class="form" name="form">
+          <div class="form" name="form">
             <div class="form-row">
-              <textarea class="input" placeholder="Add comment..." required></textarea>
+              <textarea class="input" placeholder="Add comment..." required id="feedback"></textarea>
             </div>
             <div class="form-row">
-              <input class="input" placeholder="Email" type="email">
+              <!--<input class="input" placeholder="Email" type="email">-->
             </div>
             <div class="form-row text-right">
               <input id="comment-anonymous" type="checkbox">
               <label for="comment-anonymous">Anonymous</label>
             </div>
             <div class="form-row">
-              <input type="submit" value="Add Comment">
+              <input type="submit" value="Add Comment" id="submit">
             </div>
-          </form>
+          </div>
         </div>
       
         <!-- Comments List -->
@@ -121,11 +123,57 @@ export default class Comment extends Base {
         this.mount()
     } //End of constructor
 
+    //getprofilePicture
+    async getprofilePicture() {
+        try {
+            const res = await axios.post(`${this.host}/images/profile/get`, {
+                userId: this.getUserId(),
+                token: this.getToken()
+            })
+            this._qs('#profile-picture').innerHTML = `<img 
+              src="${
+                  res.data.image != ''
+                      ? res.data.image
+                      : '/assets/img/alt/no-mage.png'
+              }" 
+              alt="Profile picture"
+              />`
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of getprofilePicture()
+
+    //add new comment
+    addNewComment() {
+        this._qs('#submit').addEventListener('click', async () => {
+            try {
+                const feedback = this._qs('#feedback').value
+                const anonymous = this._qs('#comment-anonymous').checked ? 1 : 0
+
+                const res = await axios.post(`${this.host}/feedback/add`, {
+                    ...this.authData(),
+                    feedback: feedback,
+                    anonymous: anonymous
+                })
+
+                console.log(res.data)
+            } catch (err) {
+                console.log(err)
+            }
+        })
+    } //End of addNewComment()
+
     connectedCallback() {
         this._qs('#close').addEventListener(
             'click',
             () => (this._qs('.comments-app').style.display = 'none')
         )
+
+        //getprofilePicture
+        this.getprofilePicture()
+
+        //add new comment
+        this.addNewComment()
     } //End of connectedCallback
 } //End of class
 

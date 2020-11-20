@@ -26,7 +26,7 @@ export default CSS = `
     right: 0;
     overflow: auto;
     bottom: 0;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(255,255,255,1);
     z-index: 1;
   }
 
@@ -35,7 +35,6 @@ export default CSS = `
   }
   
   .comments-app h1{
-    color: #ffffff;
     margin-bottom: 1.5em;
     text-align: center;
     text-shadow: 0 0 2px rgba(152, 152, 152, 1);
@@ -50,10 +49,10 @@ export default CSS = `
   .comment-form .form .form-row:last-child{ margin-bottom: 0; }
   
   .comment-form .form .input{
-    background-color: #fcfcfc;
+    background-color: #ffffff;
     border: none;
     border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .15);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
     color: #555f77;
     font-family: inherit;
     font-size: 14px;
@@ -74,7 +73,7 @@ export default CSS = `
   }
   
   .comment-form .form label{
-    color: #eeeeee;
+    color: #888888;
     font-family: inherit;
     font-size: 14px;
   }
@@ -125,15 +124,15 @@ export default CSS = `
   
   .comment-form .comment-avatar,
   .comment .comment-avatar{
-    border: 2px solid #fff;
+    border: none;
     border-radius: 50%;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
-    height: 80px;
+    box-shadow: 1px 1px 7px 1px rgba(0, 0, 0, 0.7);
+    height: 5rem;
     left: 0;
     overflow: hidden;
     position: absolute;
     top: 0;
-    width: 80px;
+    width: 5rem;
   }
   
   .comment-form .comment-avatar img,
@@ -222,7 +221,7 @@ export default CSS = `
   }
 
   #close {
-    color: #ffffff;
+    color: #767676;
     display: inline-block;
     font-size: 4rem;
     transform: rotate(45deg);
@@ -233,7 +232,7 @@ export default CSS = `
   }
 
   #close:hover {
-    color: #dddddd;
+    color: #111111;
   }
   
 `

@@ -205,9 +205,12 @@ export default class PropertyView extends Base {
         this.setLoader()
         await import('./report/report.js')
             .then(() => {
-                this._qs(
-                    '#comment-box'
-                ).innerHTML = `<report-comp></report-comp>`
+                this._qs('#comment-box').innerHTML = `
+                    <report-comp 
+                        data-data="${this.encode(this.state.title)}" 
+                        id="${this.state._id}"
+                    >
+                    </report-comp>`
                 this.stopLoader()
             })
             .catch(err => {
@@ -312,9 +315,11 @@ export default class PropertyView extends Base {
 
         this._qs('.comment').addEventListener('click', async () => {
             import('/componets/universal/comment/comment-comp.js').then(
-                (this._qs(
-                    '#comment-box'
-                ).innerHTML = `<comment-comp></comment-comp>`)
+                (this._qs('#comment-box').innerHTML = `<comment-comp 
+                data-data="${this.encode(this.state.title)}" 
+                id="${this.state._id}"
+            >
+            </comment-comp>`)
             )
         })
 

@@ -12,12 +12,13 @@ export default class OwnProperties extends Base {
                     <label for="search">🔍</label>
                     </span>
                     <div class="button-group">
-                        <button class="blocked danger-button">Blocked Properties</button>
-                        <button class="pending primary-button">Pending Approvals</button>
-                        <button class="rejected danger-button">Rejected Properties</button>
-                        <button class="private primary-button">Private</button>
-                        <button class="public primary-button">Public</button>
-                        <button class="boosted danger-button">Boosted Properties</button>
+                        <button class="button-link all danger-button">All</button>
+                        <button class="button-link boosted primary-button">Boosted Properties</button>
+                        <button class="button-link pending primary-button">Pending Approvals</button>
+                        <button class="button-link private primary-button">Private</button>
+                        <button class="button-link public primary-button">Public</button>
+                        <button class="button-link rejected primary-button">Rejected Properties</button>
+                        <button class="button-link blocked primary-button">Blocked Properties</button>
                     </div>
             </div>
             <div class="row">
@@ -61,9 +62,25 @@ export default class OwnProperties extends Base {
         this.stopLoader()
     } //End of loadpropertyView()
 
+    //listenForButtons
+    listenForButtons() {
+        this._qsAll('.button-link').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.remove('primary-button')
+                this._qsAll('.button-link').forEach(btn => {
+                    btn.classList.remove('danger-button')
+                })
+                item.classList.add('danger-button')
+            })
+        })
+    } //End of listenForButtons()
+
     connectedCallback() {
         // Load add comps
         this.loadpropertyView()
+
+        //listenForButtons
+        this.listenForButtons()
     } //End of connectedCallback()
 } //End of the class
 

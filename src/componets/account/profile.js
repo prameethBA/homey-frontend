@@ -525,6 +525,7 @@ export default class Profile extends Base {
                           />`
             let data = {
                 userId: this.getUserId(),
+                token: this.getToken(),
                 image: fileLoadedEvent.target.result
             }
 
