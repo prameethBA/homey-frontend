@@ -40,7 +40,7 @@ export default CSS = `
 
   #progress-progress {
     position: absolute;
-    top: 2rem;
+    top: 5rem;
     bottom: 0;
     color: #ffffff;
     left: 0;
@@ -83,9 +83,9 @@ export default CSS = `
     border: solid 1px;
   }
 
-  .map {
+  #map {
+    display: none;
     width: 100%;
-    height: 30rem;
     margin: 0.5rem auto;
     border-radius: 4px;
     box-shadow: 1px 1px 8px 1px rgba(0,0,0,0.75);
@@ -93,19 +93,6 @@ export default CSS = `
 
   .gmnoprint {
     display: none;
-  }
-
-  #pac-input {
-    display: none;
-    z-index: 0;
-    position: absolute;
-    margin: 1rem;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(0, 0, 0);
-    width: 75%;
-    left: 20px;
-    top: 0px;
-    color: #000000;
   }
 
   .form {
@@ -272,12 +259,15 @@ export default CSS = `
     display: flex;
     flex-wrap: wrap;
     margin: 2rem;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .row-2 span {
-      font-weight: unset;
-      color: #4212ff;
+    color: #4212ff;
+    margin: 0.5rem;
+    font-weight: bold;
   }
 
   .row-2 span > a {

@@ -62,13 +62,15 @@ export default class Profile extends Base {
                             <input class="form-field" type="text" id="lastName" value="" />
                         </div>
                     </div>
-                    <div class="form-column">
-                        <label for="email">Email</label>
-                        <input class="form-field" type="email" id="email" value="" />
-                    </div>
-                    <div class="form-column">
-                        <label for="mobile">Mobile No: </label>
-                        <input class="form-field" type="number" id="mobile" value="" />
+                    <div class="form-row">
+                        <div class="form-column">
+                            <label for="email">Email</label>
+                            <input class="form-field" type="email" id="email" value="" />
+                        </div>
+                        <div class="form-column">
+                            <label for="mobile">Mobile No: </label>
+                            <input class="form-field" type="number" id="mobile" value="" />
+                        </div>
                     </div>
                     <div class="form-column">
                         <label for="address-1">Address Line 1</label>
@@ -523,6 +525,7 @@ export default class Profile extends Base {
                           />`
             let data = {
                 userId: this.getUserId(),
+                token: this.getToken(),
                 image: fileLoadedEvent.target.result
             }
 

@@ -8,7 +8,7 @@ export default class PropertyView extends Base {
     <div class="online-payment toggle-menu">
         <span>Accept Online payments</span>
         <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" id="onlinePayment"/>
             <span class="toggle round"></span>
         </label>
     </div>
@@ -16,7 +16,7 @@ export default class PropertyView extends Base {
     <div class="boost-property toggle-menu">
         <span>Boost</span>
         <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" id="boost"/>
             <span class="toggle round"></span>
         </label>
     </div>
@@ -24,7 +24,7 @@ export default class PropertyView extends Base {
     <div class="visibility toggle-menu">
         <span>Private</span>
         <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" id="private"/>
             <span class="toggle round"></span>
         </label>
         <span>Public</span>
@@ -46,33 +46,35 @@ export default class PropertyView extends Base {
                     </div>
                 </div>
                 <div>
-                    <slot name="thumbnail" class="thumbnail"></slot>
+                    <div name="thumbnail" class="thumbnail">
+                        <img class="img" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
+                    </div>
                 </div>
            </div>
            <div class="details">
-                <slot name="title" class="title"></slot>
+                <p class="title">Title</p>
                 <span class="detail-bar">
                     <div class="quick-links">
                         <div class="favourite" title="Add to favoutite">⭐</div>
                         <div class="share" title="Share">✉</div>
-                        <div class="status" title="Avalable">🟢</div>
+                        <div class="status">🟢</div>
                         <div class="report" title="Report">⚠</div>
                     </div>
-                    <slot name="price"></slot>
+                    <p class="price">Rental</p>
                 </span>
 
                 ${
-                    this.getAttribute('overview') == 'true'
+                    this.getParam('overview') == 'true'
                         ? this.options
                         : `<span></span>`
                 }
 
             </div>
-            <slot name="description" class="description"></slot>
+            <p class="description">${'item.description'}</p>
             <div class='button-group'>
                 <button class="comment">Comment</button>
                 ${
-                    this.getAttribute('overview') == 'true'
+                    this.getParam('overview') == 'true'
                         ? this.optionButtons
                         : `<span></span>`
                 }
@@ -88,17 +90,127 @@ export default class PropertyView extends Base {
         super()
         this.mount()
 
-        this.qs('img').style.display = 'block'
+        this.state = this.decode(this.getAttribute('data-data'))
+        // this.qs('img').style.display = 'block'
     } //End of constructor
+
+    //SetValues
+    setValues() {
+        this._qs('.title').innerHTML = this.state.title
+        this._qs('.price').innerHTML = 'Rs. ' + this.state.price
+        this._qs('.description').innerHTML = this.state.description
+
+        switch (this.state.property_status) {
+            case '0':
+                this._qs('.status').innerHTML =
+                    '<span title="Pending Approval">⭕'
+                break
+        }
+
+        if (this.getAttribute('overview') == 'true') {
+            this.state.boost == '1'
+                ? (this._qs('#boost').checked = true)
+                : (this._qs('#boost').checked = false)
+
+            this.state.accept_online_payment == '1'
+                ? (this._qs('#onlinePayment').checked = true)
+                : (this._qs('#onlinePayment').checked = false)
+
+            this.state.privated == '0'
+                ? (this._qs('#private').checked = true)
+                : (this._qs('#private').checked = false)
+
+            //checkBoxEventListener
+            this.checkBoxEventListener('onlinePayment', 'online-payment', {
+                onlinePayment:
+                    this._qs(`#onlinePayment`).checked == false ? 1 : 0
+            })
+            this.checkBoxEventListener('private', 'visibility', {
+                visibility: this._qs(`#private`).checked == true ? 1 : 0
+            })
+        }
+
+        //get images
+        this.getImages()
+    } //End of setValues()
+
+    //get images
+    async getImages() {
+        try {
+            const res = await axios.post(
+                `${this.host}/images/property/${this.getAttribute('id')}`,
+                {
+                    userId: this.getUserId(),
+                    token: this.getToken(),
+                    propertyId: this.state._id
+                }
+            )
+
+            if (res.data.length == 0)
+                this._qs(
+                    '.thumbnail'
+                ).innerHTML = `<img class="img" src="/assets/img/alt/no-mage.png" style="display: block !important;" />`
+            else {
+                this._qs('.thumbnail').innerHTML = ''
+                await res.data.forEach(image => {
+                    this._qs(
+                        '.thumbnail'
+                    ).innerHTML += `<img class="img" src="${image.image}" />`
+                })
+            }
+
+            //image slider
+            this.slider()
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of getImages()
+
+    //image slider
+    slider() {
+        if (this._qsAll('.img').length > 1) {
+            this.state.img = 0
+
+            const slideNext = () => {
+                this._qsAll('.img')[this.state.img].style.display = 'none'
+                this._qsAll('.img').length - 1 > this.state.img
+                    ? this.state.img++
+                    : (this.state.img = 0)
+                this._qsAll('.img')[this.state.img].style.display = 'block'
+            }
+
+            const slidePrevious = () => {
+                this._qsAll('.img')[this.state.img].style.display = 'none'
+                0 < this.state.img
+                    ? this.state.img--
+                    : (this.state.img = this._qsAll('.img').length - 1)
+                this._qsAll('.img')[this.state.img].style.display = 'block'
+            }
+
+            this._qs('.slider-previous').addEventListener('click', () => {
+                slidePrevious()
+            })
+            this._qs('.slider-next').addEventListener('click', () => {
+                slideNext()
+            })
+
+            this._qs('.slider-next').click()
+
+            let autoSlide = setInterval(() => slideNext(), 5000)
+        }
+    } //End of slider()
 
     //report component
     async report() {
         this.setLoader()
         await import('./report/report.js')
             .then(() => {
-                this._qs(
-                    '#comment-box'
-                ).innerHTML = `<report-comp></report-comp>`
+                this._qs('#comment-box').innerHTML = `
+                    <report-comp 
+                        data-data="${this.encode(this.state.title)}" 
+                        id="${this.state._id}"
+                    >
+                    </report-comp>`
                 this.stopLoader()
             })
             .catch(err => {
@@ -166,54 +278,50 @@ export default class PropertyView extends Base {
         })
     } //end of fullDetails()
 
-    connectedCallback() {
-        const slider = () => {
-            if (this.qsAll('img').length > 1) {
-                this.state.img = 0
-                this.state.rootImg = 0
+    //toggle checkbox
+    toggleCheckBox(id) {
+        this._qs(`#${id}`).checked
+            ? (this._qs(`#${id}`).checked = false)
+            : (this._qs(`#${id}`).checked = true)
+    } //End of toggleCheckBox()
 
-                const slideNext = () => {
-                    this.qsAll('img')[this.state.img].style.display = 'none'
-                    this.qsAll('img').length - 1 > this.state.img
-                        ? this.state.img++
-                        : (this.state.img = this.state.rootImg)
-                    this.qsAll('img')[this.state.img].style.display = 'block'
-                }
-
-                const slidePrevious = () => {
-                    this.qsAll('img')[this.state.img].style.display = 'none'
-                    this.state.rootImg < this.state.img
-                        ? this.state.img--
-                        : (this.state.img = this.qsAll('img').length - 1)
-                    this.qsAll('img')[this.state.img].style.display = 'block'
-                }
-
-                this._qs('.slider-previous').addEventListener('click', () => {
-                    slidePrevious()
-                })
-                this._qs('.slider-next').addEventListener('click', () => {
-                    slideNext()
-                })
-                this._qs('.slider-next').click()
-                this.state.rootImg = 1
-
-                let autoSlide = setInterval(() => slideNext(), 5000)
+    //checkBoxEventListener
+    checkBoxEventListener(id, method, data) {
+        this._qs(`#${id}`).addEventListener('change', async () => {
+            try {
+                this.toggleCheckBox(id)
+                const res = await axios.patch(
+                    `${this.host}/property/${method}`,
+                    {
+                        userId: this.getUserId(),
+                        token: this.getToken(),
+                        propertyId: this.state._id,
+                        ...data
+                    }
+                )
+                if (res.status == 200 && res.data.status == '204') {
+                    this.toggleCheckBox(id)
+                } else throw res.data
+            } catch (err) {
+                console.log(err)
             }
-        }
-
-        slider()
-
-        addEventListener('start-slider', () => {
-            slider()
-            if (this.qsAll('img').length <= 1)
-                this.qs('img').src = './assets/img/alt/no-mage.png'
         })
+    } //End of checkBoxEventListener()
+
+    connectedCallback() {
+        //SetValues
+        this.setValues()
+
+        // console.log(this.state.title)
+        // console.log(this.state._id)
 
         this._qs('.comment').addEventListener('click', async () => {
             import('/componets/universal/comment/comment-comp.js').then(
-                (this._qs(
-                    '#comment-box'
-                ).innerHTML = `<comment-comp></comment-comp>`)
+                (this._qs('#comment-box').innerHTML = `<comment-comp 
+                data-data="${this.encode(this.state.title)}" 
+                id="${this.state._id}"
+            >
+            </comment-comp>`)
             )
         })
 
