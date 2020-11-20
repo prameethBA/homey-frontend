@@ -82,7 +82,6 @@ export default class Comment extends Base {
                     anonymous: anonymous
                 })
 
-                console.log(this.getParam('id'))
                 if (res.status == 201) {
                     dispatchEvent(
                         new CustomEvent('pop-up', {

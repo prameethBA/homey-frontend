@@ -22,9 +22,11 @@ export default class CommentBox extends Base {
             <div class="comment-footer">
             <div class="comment-info">
                 <span class="comment-author">
-                <span class="comment-author" id="comment-author">Prameeth Maduwantha</span>
+                <span class="comment-author" id="comment-author">Me</span>
                 </span>
-                <span class="comment-date">Feb 2, 2013 11:32:04 PM</span>
+                <span class="comment-date">
+                    Just now
+                </span>
             </div>
     
             <div class="comment-actions">
