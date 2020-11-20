@@ -37,7 +37,9 @@ export default class Comment extends Base {
         </div>
       
         <!-- Comments List -->
-        <div class="comments">          
+        <div id="comments-new" class="comments">          
+        </div>
+        <div id="comments" class="comments">          
         </div>
       </div>
 
@@ -55,7 +57,9 @@ export default class Comment extends Base {
                 userId: this.getUserId(),
                 token: this.getToken()
             })
-            this._qs('#profile-picture').innerHTML = `<img 
+            this._qs(
+                '#profile-picture'
+            ).innerHTML = `<img id="profile-picture-image"
               src="${
                   res.data.image != ''
                       ? res.data.image
@@ -74,7 +78,7 @@ export default class Comment extends Base {
             try {
                 const feedback = this._qs('#feedback').value
                 const anonymous = this._qs('#comment-anonymous').checked ? 1 : 0
-
+                if (feedback == '') throw 'Empty comment'
                 const res = await axios.post(`${this.host}/feedback/add`, {
                     ...this.authData(),
                     propertyId: this.getParam('id'),
@@ -95,10 +99,11 @@ export default class Comment extends Base {
 
                     await import('./subcomp/comment-box.js')
                     this._qs(
-                        '.comments'
+                        '#comments-new'
                     ).innerHTML += `<comment-box data-data="${this.encode({
                         feedback: feedback,
-                        propertyId: this.getParam('id')
+                        propertyId: this.getParam('id'),
+                        image: this._qs('#profile-picture-image').src
                     })}"></comment-box>`
 
                     this._qs('#feedback').value = ''
@@ -120,7 +125,7 @@ export default class Comment extends Base {
             await import('./subcomp/comment-box.js')
             res.data.forEach(item => {
                 this._qs(
-                    '.comments'
+                    '#comments'
                 ).innerHTML += `<comment-box id=${item.id} view="true"></comment-box>`
             })
         } catch (err) {

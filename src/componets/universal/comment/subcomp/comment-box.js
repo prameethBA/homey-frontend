@@ -45,6 +45,12 @@ export default class CommentBox extends Base {
     //getprofilePicture
     async getprofilePicture(userID) {
         try {
+            // if (this.getParam('data-picture') != null) {
+            //     this._qs('#profile-picture').innerHTML = `<img
+            //             src="${this.getParam('data-picture')}"
+            //             alt="Profile picture"
+            //         />`
+            // } else {
             const res = await axios.post(
                 `${this.host}/images/profile/get/${userID}`,
                 {
@@ -53,13 +59,14 @@ export default class CommentBox extends Base {
                 }
             )
             this._qs('#profile-picture').innerHTML = `<img 
-              src="${
-                  res.data.image != ''
-                      ? res.data.image
-                      : '/assets/img/alt/no-mage.png'
-              }" 
-              alt="Profile picture"
-              />`
+                  src="${
+                      res.data.image != ''
+                          ? res.data.image
+                          : '/assets/img/alt/no-mage.png'
+                  }" 
+                  alt="Profile picture"
+                  />`
+            // }
         } catch (err) {
             console.log(err)
         }
@@ -87,7 +94,7 @@ export default class CommentBox extends Base {
                         src='/assets/img/alt/no-mage.png' 
                         alt="Profile picture"
                     />`
-            else this.getprofilePicture(userId) //getprofilePicture
+            else this.getprofilePicture(res.data.userId) //getprofilePicture
         }
     } //End of viewComment()
 
