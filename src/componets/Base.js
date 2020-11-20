@@ -141,4 +141,8 @@ export default class Base extends HTMLElement {
     getParams(param) {
         return this.decode(this.getAttribute(param))
     }
+
+    getParam(param) {
+        return this.getAttribute(param)
+    }
 }

@@ -37,82 +37,7 @@ export default class Comment extends Base {
         </div>
       
         <!-- Comments List -->
-        <div class="comments">
-          <!-- Comment -->
-          <div class="comment">
-            <!-- Comment Avatar -->
-            <div class="comment-avatar">
-              <img >
-            </div>
-      
-            <!-- Comment Box -->
-            <div class="comment-box">
-              <div class="comment-text"></div>
-              <div class="comment-footer">
-                <div class="comment-info">
-                  <span class="comment-author">
-                    <em >Anonymous</em>
-                    <span class="comment-author"></span>
-                  </span>
-                  <span class="comment-date"></span>
-                </div>
-      
-                <div class="comment-actions">
-                  <a href="#">Reply</a>
-                </div>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Comment - Dummy -->
-          <div class="comment">
-            <!-- Comment Avatar -->
-            <div class="comment-avatar">
-              <img src="http://gravatar.com/avatar/412c0b0ec99008245d902e6ed0b264ee?s=80">
-            </div>
-      
-            <!-- Comment Box -->
-            <div class="comment-box">
-              <div class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt voluptatum.</div>
-              <div class="comment-footer">
-                <div class="comment-info">
-                  <span class="comment-author">
-                    <span class="comment-author">Prameeth Maduwantha</span>
-                  </span>
-                  <span class="comment-date">Feb 2, 2013 11:32:04 PM</span>
-                </div>
-      
-                <div class="comment-actions">
-                  <a href="#">Reply</a>
-                </div>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Comment - Dummy -->
-          <div class="comment">
-            <!-- Comment Avatar -->
-            <div class="comment-avatar">
-              <img src="http://lorempixel.com/200/200/people">
-            </div>
-      
-            <!-- Comment Box -->
-            <div class="comment-box">
-              <div class="comment-text">Eligendi voluptatum ducimus architecto tempore, quaerat explicabo veniam fuga corporis totam reprehenderit quasi sapiente modi tempora at perspiciatis mollitia, dolores voluptate. Cumque, corrupti?</div>
-              <div class="comment-footer">
-                <div class="comment-info">
-                  <span class="comment-author">
-                    <span class="comment-author">Osanda Rathnayake</span>
-                  </span>
-                  <span class="comment-date">Jan 31, 1986 11:32:04 PM</span>
-                </div>
-      
-                <div class="comment-actions">
-                  <a href="#">Reply</a>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="comments">          
         </div>
       </div>
 
@@ -152,22 +77,66 @@ export default class Comment extends Base {
 
                 const res = await axios.post(`${this.host}/feedback/add`, {
                     ...this.authData(),
+                    propertyId: this.getParam('id'),
                     feedback: feedback,
                     anonymous: anonymous
                 })
 
-                console.log(res.data)
+                console.log(this.getParam('id'))
+                if (res.status == 201) {
+                    dispatchEvent(
+                        new CustomEvent('pop-up', {
+                            detail: {
+                                pop: 'success',
+                                msg: res.data.message,
+                                duration: 5
+                            }
+                        })
+                    )
+
+                    await import('./subcomp/comment-box.js')
+                    this._qs(
+                        '.comments'
+                    ).innerHTML += `<comment-box data-data="${this.encode({
+                        feedback: feedback,
+                        propertyId: this.getParam('id')
+                    })}"></comment-box>`
+
+                    this._qs('#feedback').value = ''
+                } else throw res.data
             } catch (err) {
                 console.log(err)
             }
         })
     } //End of addNewComment()
 
+    //get comments
+    async getComments() {
+        try {
+            const res = await axios.post(`${this.host}/feedback/get/all`, {
+                ...this.authData(),
+                propertyId: this.getParam('id')
+            })
+
+            await import('./subcomp/comment-box.js')
+            res.data.forEach(item => {
+                this._qs(
+                    '.comments'
+                ).innerHTML += `<comment-box id=${item.id} view="true"></comment-box>`
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of getComments()
+
     connectedCallback() {
         this._qs('#close').addEventListener(
             'click',
             () => (this._qs('.comments-app').style.display = 'none')
         )
+
+        //get comments
+        this.getComments()
 
         //getprofilePicture
         this.getprofilePicture()
