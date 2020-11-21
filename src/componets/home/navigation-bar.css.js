@@ -32,10 +32,26 @@ const scroll = `
   }
 `
 
+const profile = `
+  .profile {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  
+  .profile img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 2rem;
+    margin-right: 1rem;
+  }
+`
+
 export default CSS = `
 
   ${loginButton}
   ${scroll}
+  ${profile}
 
   header {
     position: fixed;
@@ -56,10 +72,11 @@ export default CSS = `
 
   /* Add a black background color to the top navigation */
   .topnav {
-    background-color: transparent;
+    background-color: #001f3f;
     overflow: hidden;
     display: flex;
     flex-direction: row;
+    color: #ffffff;
   }
 
   .separator {
@@ -117,7 +134,7 @@ export default CSS = `
   /* Style the dropdown button to fit inside the topnav */
   .dropdown .dropbtn {
     outline: none;
-    color: #000000;
+    color: #ffffff;
     background-color: inherit;
     font-family: inherit;
     margin: 0;

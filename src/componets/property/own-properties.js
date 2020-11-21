@@ -12,12 +12,13 @@ export default class OwnProperties extends Base {
                     <label for="search">🔍</label>
                     </span>
                     <div class="button-group">
-                        <button class="blocked danger-button">Blocked Properties</button>
-                        <button class="pending primary-button">Pending Approvals</button>
-                        <button class="rejected danger-button">Rejected Properties</button>
-                        <button class="private primary-button">Private</button>
-                        <button class="public primary-button">Public</button>
-                        <button class="boosted danger-button">Boosted Properties</button>
+                        <button class="button-link all danger-button">All</button>
+                        <button class="button-link boosted primary-button">Boosted Properties</button>
+                        <button class="button-link pending primary-button">Pending Approvals</button>
+                        <button class="button-link private primary-button">Private</button>
+                        <button class="button-link public primary-button">Public</button>
+                        <button class="button-link rejected primary-button">Rejected Properties</button>
+                        <button class="button-link blocked primary-button">Blocked Properties</button>
                     </div>
             </div>
             <div class="row">
@@ -38,39 +39,49 @@ export default class OwnProperties extends Base {
     // Load add comps
     async loadpropertyView() {
         this.setLoader()
-        await import('./subcomp/property-view.js')
-            .then(() => {
-                this.state.page = 1
-                this.state.limit = 12
+        try {
+            import('./subcomp/property-view.js')
+            const res = await axios.post(`${this.host}/property/get/own`, {
+                userId: this.getUserId(),
+                token: this.getToken()
+            })
 
-                for (let index = 0; index < this.state.limit; index++) {
-                    this._qs('.content').innerHTML += `
-                          <property-view id="id-${index}" key="${index}" overview='true'>
-                              <img slot="thumbnail" class="thumbnail" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
-                              <p slot="title" class=" title title-${index}">Boarding place at Colombo-08</p>
-                              <p slot="price" class=" price price-${index}">Rs. 17, 000</p>
-                              <p slot="description" class=" description description-${index}">
-                                  A boarding house is a house (frequently a family home) in which lodgers rent one or more rooms for one or more nights, and sometimes for extended periods of weeks, months, and years. The common parts of the house are maintained, and some services, such as laundry and cleaning, may be supplied.
-                              </p>
-                              <input class="id id-${index}" type="hidden" slot="id" value=""/>
-                          </property-view>
-                      `
-                }
-                this.stopLoader()
+            this._qs('.content').innerHTML = ''
+            res.data.forEach(item => {
+                this._qs('.content').innerHTML += `
+                    <property-view 
+                        id="${item.property_id}"
+                        data-data="${this.encode(item)}"
+                        overview='true'
+                    >
+                    </property-view>
+                `
             })
-            .catch(err => {
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-                this.setLoader()
-            })
+        } catch (err) {
+            console.log(err)
+        }
+        this.stopLoader()
     } //End of loadpropertyView()
+
+    //listenForButtons
+    listenForButtons() {
+        this._qsAll('.button-link').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.remove('primary-button')
+                this._qsAll('.button-link').forEach(btn => {
+                    btn.classList.remove('danger-button')
+                })
+                item.classList.add('danger-button')
+            })
+        })
+    } //End of listenForButtons()
 
     connectedCallback() {
         // Load add comps
         this.loadpropertyView()
+
+        //listenForButtons
+        this.listenForButtons()
     } //End of connectedCallback()
 } //End of the class
 

@@ -55,6 +55,24 @@ export default class LoginForm extends Base {
         this.mount()
     } //End of constructor
 
+    //getprofilePicture
+    async getprofilePicture() {
+        await axios
+            .post(`${this.host}/images/profile/get`, {
+                userId: this.getUserId(),
+                token: this.getToken()
+            })
+            .then(res => {
+                localStorage.profilePicture =
+                    res.data.image != ''
+                        ? res.data.image
+                        : '/assets/img/alt/no-mage.png'
+
+                dispatchEvent(new Event('profile-picture-loaded'))
+            })
+            .catch(err => console.log(err))
+    } //End of getprofilePicture()
+
     connectedCallback() {
         try {
             // backdrop
@@ -136,23 +154,36 @@ export default class LoginForm extends Base {
                         password: password
                     })
                     .then(res => {
+                        console.log(res.data)
                         if (res.data.login === 'true' && res.status == 201) {
                             // set the login information to loacal or session storage of the browser
                             if (this._qs('#remember').checked == true) {
                                 localStorage.login = 'true'
-                                localStorage.userType = res.data.userType
-                                localStorage.userId = res.data.userId
+                                localStorage.userType =
+                                    res.data.userData.userType
+                                localStorage.userId = res.data.userData.userId
                                 localStorage.token = res.data.token
+                                localStorage.name =
+                                    res.data.userData.firstName +
+                                    ' ' +
+                                    res.data.userData.lastName
                             } else {
                                 sessionStorage.login = 'true'
-                                sessionStorage.userType = res.data.userType
-                                sessionStorage.userId = res.data.userId
+                                sessionStorage.userType =
+                                    res.data.userData.userType
+                                sessionStorage.userId = res.data.userData.userId
                                 sessionStorage.token = res.data.token
+                                sessionStorage.name =
+                                    res.data.userData.firstName +
+                                    ' ' +
+                                    res.data.userData.lastName
                             }
 
                             dispatchEvent(new Event('login-success'))
                             this.setPath('/')
                             dispatchEvent(new Event('exit-form'))
+                            //getprofilePicture
+                            this.getprofilePicture()
                         } else {
                             localStorage.login = 'false'
                             localStorage.userId = ''

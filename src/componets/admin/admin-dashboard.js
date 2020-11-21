@@ -5,35 +5,35 @@ export default class AdminDashboard extends Base {
     css = CSS
 
     content = `
-    <div id="backdrop" title="click to close side bar"></div>
-    <div id="hamburger-icon" class="hamburger-collapse"></div>
-    <div id="breadcrumb" class="breadcrumb">
+    <header class="container" role="banner">
+    <h1 class="logo">
+    <a>Admin <span>Homey</span></a>
+    </h1>
+    <div class="nav-wrap">
+    <nav class="main-nav" role="navigation">
+    <ul class="unstyled list-hover-slide">
+    <li><a id="dashBoard">Dashboard</a></li>
+    <li><a id="pending">Pendings</a></li>
+    <li><a id="properties">Properties</a></li>
+    <li><a id="users">Users</a></li>
+    <li><a id="payments">Payments</a></li>
+    <li><a id="admin-accounts">Admin Accounts</a></li>
+    <li><a id="home">Home</a></li>
+    </ul>
+    </nav>
+    <ul class="links list-inline unstyled list-hover-slide">
+    <li><a>Comments</a></li>
+    <li><a id="report">Reports</a></li>
+    <li><a>Settings</a></li>
+    <li><a>Logout</a></li>
+    </ul>
     </div>
-        <header class="container" role="banner">
-            <h1 class="logo">
-            <a>Admin <span>Homey</span></a>
-            </h1>
-            <div class="nav-wrap">
-            <nav class="main-nav" role="navigation">
-                <ul class="unstyled list-hover-slide">
-                <li><a id="dashBoard">Dashboard</a></li>
-                <li><a id="pending">Pendings</a></li>
-                <li><a id="properties">Properties</a></li>
-                <li><a id="users">Users</a></li>
-                <li><a id="payments">Payments</a></li>
-                <li><a id="admin-accounts">Admin Accounts</a></li>
-                <li><a id="home">Home</a></li>
-                </ul>
-            </nav>
-            <ul class="links list-inline unstyled list-hover-slide">
-                <li><a>Comments</a></li>
-                <li><a id="report">Reports</a></li>
-                <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
-            </ul>
-            </div>
-        </header>
-    <div id="mainContainer">
+    </header>
+    <div id="content">
+        <div id="breadcrumb" class="breadcrumb">
+        </div>
+        <div id="mainContainer">
+        </div>
     </div>
 `
     constructor() {
@@ -52,11 +52,11 @@ export default class AdminDashboard extends Base {
             )
             return
         }
-        // Remove nav-bar
-        const navbar = document
-            .querySelector('app-comp')
-            .shadowRoot.querySelector('navigation-bar')
-        navbar != null ? navbar.parentNode.removeChild(navbar) : null
+        // // Remove nav-bar
+        // const navbar = document
+        //     .querySelector('app-comp')
+        //     .shadowRoot.querySelector('navigation-bar')
+        // navbar != null ? navbar.parentNode.removeChild(navbar) : null
     } //End of the constructor
 
     //Listners for view hide sidbar
@@ -78,8 +78,6 @@ export default class AdminDashboard extends Base {
             .then(() => {
                 this.setPath(`/admin/${comp.substr(0, comp.length - 5)}`) //remove '-comp' string piece to set path
                 this._qs('#mainContainer').innerHTML = `<${comp}></${comp}>`
-                this._qs('.container').style.left = '-100%'
-                this._qs('#backdrop').style.display = 'none'
 
                 //Set breadcrumbs
                 this.setBreadCrumbs(window.location.pathname.split('/'))
@@ -121,7 +119,7 @@ export default class AdminDashboard extends Base {
     //connectedCallback
     connectedCallback() {
         // Display hide sidebar
-        this.sideBar()
+        // this.sideBar()
 
         const navLinks = [
             { link: '#dashBoard', comp: 'dashboard-comp' },

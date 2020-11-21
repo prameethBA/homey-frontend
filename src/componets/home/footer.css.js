@@ -37,6 +37,7 @@ span {
     background-image: url('/assets/icon/up-arrow.png');
     background-repeat: no-repeat;	
     background-size: contain;
+    z-index: 10000;
 }
 
 @keyframes animation-up {

@@ -1,38 +1,8 @@
 export default CSS = `
-    #backdrop {
-        display: none;
-        position: fixed;
-        background-color: rgba(0,0,0,0.7);
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        cursor: pointer;
-        transition: 1s ease-in-out;
-        z-index: 9;
-    }
 
-    #hamburger-icon {
-        cursor: pointer;
-        margin: 1rem;
-        width: 2.5rem;
-        height: 2rem;
-        transition: 0.1s ease-in-out;
-        background-repeat: no-repeat;
-        border-radius: 1px;
-        background-size: contain;
-        position: absolute;
-        left: 1rem;
-        border: solid 5px #ffffff;
-        background-color: #ffffff;
-      }
-      
-      .hamburger-collapse {
-        background : url('/assets/icon/hamburger-icon.png');
-      }
-      .hamburger-expand {
-        background : url('/assets/icon/close-icon.png');
-      }
+    #content {
+        margin: 4rem 2rem 0 18rem;
+    }
 
     *, :before, :after {
         box-sizing: border-box;
@@ -54,18 +24,16 @@ export default CSS = `
     .container {
         position: fixed;
         overflow: auto;
-        left: -100%;
-        top: 0;
+        left: 0;
+        top: 4rem;
         bottom: 0;
         width: 17.5em;
-        background: #35302d;
+        background: #001f3f;
         transition: 0.2s ease-in-out;
-        z-index: 10;
     }
 
     #breadcrumb {
-        margin: 4rem 3rem;
-        position: absolute;
+        margin-bottom: 1rem;
     }
 
     #mainContainer {
@@ -153,7 +121,7 @@ export default CSS = `
         width: 100%;
         height: 100%;
         border-right: solid 5px #df4500;
-        background: #3c3735;
+        background: #001f8f;
         transition: 0.35s ease left;
     }
     .list-hover-slide a.is-current:before, .list-hover-slide a:hover:before {

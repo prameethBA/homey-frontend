@@ -1,12 +1,11 @@
 import Base from '../../../Base.js'
-import CSS from './map-view.css.js'
+import CSS from './google-map.css.js'
 
-export default class MapView extends Base {
+export default class GoogleMap extends Base {
     css = CSS
 
     content = `
     <div class="container">
-      <button id='loadMap'>Load Map</button>
         <div id="map"></map>
     </div>
     
@@ -14,7 +13,22 @@ export default class MapView extends Base {
     constructor() {
         super()
         this.mount()
+
+        //load Map
+        this.loadMap()
     } //End of the constructor
+
+    //load Map
+    loadMap() {
+        if (document.getElementById('map') == null) {
+            let script = document.createElement('script')
+            script.id = 'map'
+            script.type = 'text/javascript'
+            script.src =
+                'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8RpefQ5-mHoAPGkt6tf1uZAaKjHghTNI&libraries=places&callback=initMap'
+            document.body.appendChild(script)
+        }
+    } //End of loadMap()
 
     // Innitialize map
     async initMap() {
@@ -38,19 +52,13 @@ export default class MapView extends Base {
 
     //connectedCallback
     connectedCallback() {
-        try {
-            google != undefined
-        } catch (err) {
-            this.initMap()
-        }
-
-        addEventListener('map-loaded', () => this.initMap())
-
-        this._qs('#loadMap').addEventListener('click', () => {
-            this.initMap()
-            this._qs('#map').style.display = 'block'
-        })
+        // try {
+        //     google != undefined
+        // } catch (err) {
+        //     this.initMap()
+        // }
+        this.initMap()
     } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define('map-view', MapView)
+window.customElements.define('google-map', GoogleMap)

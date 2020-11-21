@@ -203,24 +203,24 @@ export default class Dashboard extends Base {
     } //End of loadChart
 
     //close the dock
-    close() {
-        this._qs('#close-popup').addEventListener('click', () => {
-            this.exitDock()
-        })
-    } //End of the close()
+    // close() {
+    //     this._qs('#close-popup').addEventListener('click', () => {
+    //         this.exitDock()
+    //     })
+    // } //End of the close()
 
-    // Exit the dock
-    exitDock() {
-        this._qs('.backdrop').style.opacity = '0'
-        this._qs('.backdrop').style.pointerEvents = 'none'
-    } // End of exitDock()
+    // // Exit the dock
+    // exitDock() {
+    //     this._qs('.backdrop').style.opacity = '0'
+    //     this._qs('.backdrop').style.pointerEvents = 'none'
+    // } // End of exitDock()
 
-    //Exit with Escape key
-    exitWithEscape() {
-        addEventListener('keyup', ({ key }) =>
-            key === 'Escape' ? this.exitDock() : null
-        )
-    } // End of exitWithEscape()
+    // //Exit with Escape key
+    // exitWithEscape() {
+    //     addEventListener('keyup', ({ key }) =>
+    //         key === 'Escape' ? this.exitDock() : null
+    //     )
+    // } // End of exitWithEscape()
 
     connectedCallback() {
         // // close the dock

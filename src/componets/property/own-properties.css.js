@@ -61,7 +61,6 @@ export default CSS = `
 
     button {
         height: 2rem;
-        border-radius: 2px;
         outline: none;
         border: none;
         font-size: 0.8rem;
@@ -69,6 +68,7 @@ export default CSS = `
         cursor: pointer;
         transition: all 1s;
         width: 45%;
+        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
       }
     
       .danger-button {
@@ -83,19 +83,20 @@ export default CSS = `
           background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
       }
     
-      .primary-button:hover {
+      button:hover, .primary-button:hover {
           box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
       }
     
       .button-group > button {
           width: 10rem;
-          margin: 0.5rem auto;
+          border-left: 2px solid;
       }
     
       .button-group {
         display: flex;
-        justify-content: space-around;
         flex-wrap: wrap;
+        justify-content: center;
+        margin: 1rem 0;
       }
     
       .button-group-user {
@@ -105,7 +106,6 @@ export default CSS = `
       }
     
       .button-group-user > button {
-        margin: 0.4rem auto;
        }
 
 `

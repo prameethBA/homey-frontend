@@ -51,13 +51,13 @@ export default CSS = `
         left: 1%;
     }
 
-    ::slotted(img) {
+    .img {
         display: none;
         width: 100%;
         height: 12.5rem;
     }
 
-    ::slotted(.title) {
+    .title {
         font-weight: bold;
         max-height: 4.1rem;
         overflow: hidden;
@@ -95,7 +95,7 @@ export default CSS = `
         cursor: pointer;
     }
 
-    ::slotted(.price) {
+    .price {
         right: 1rem;
         font-weight: bold;
     }
@@ -168,7 +168,7 @@ export default CSS = `
         border-radius: 50%;
     }
 
-    ::slotted(.description) {
+    .description {
         overflow: hidden;
         word-break: break-word;
         line-height: 0.9rem;

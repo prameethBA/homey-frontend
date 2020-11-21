@@ -61,6 +61,38 @@ export default class Base extends HTMLElement {
         sessionStorage.token = ''
     }
 
+    authData() {
+        return {
+            userId: this.getUserId(),
+            token: this.getToken()
+        }
+    }
+
+    authenticate() {
+        if (!this.isLogin()) {
+            this.logOut()
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        parh: '/',
+                        comp: 'home/main/main',
+                        compName: 'main-comp'
+                    }
+                })
+            )
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: {
+                        pop: 'error',
+                        msg: 'Log in to your account to continue.',
+                        duration: 5
+                    }
+                })
+            )
+            dispatchEvent(new Event('load-login-form'))
+        }
+    }
+
     // Helpers
 
     // Slectors
@@ -89,4 +121,28 @@ export default class Base extends HTMLElement {
     setLoader = () => dispatchEvent(new Event('pre-load'))
 
     stopLoader = () => dispatchEvent(new Event('stop-pre-load'))
+
+    encode(data) {
+        try {
+            return encodeURIComponent(JSON.stringify(data))
+        } catch (err) {
+            return err
+        }
+    }
+
+    decode(data) {
+        try {
+            return JSON.parse(decodeURIComponent(data))
+        } catch (err) {
+            return err
+        }
+    }
+
+    getParams(param) {
+        return this.decode(this.getAttribute(param))
+    }
+
+    getParam(param) {
+        return this.getAttribute(param)
+    }
 }
