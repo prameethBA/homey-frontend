@@ -57,6 +57,25 @@ export default class Profile extends Base {
         </div>
   `
 
+    dangerZone = `
+        <div class="collapse collapse-2">
+            <div class="row">
+                <span>
+                    <div class="form-column">
+                        <span class="danger-title">Danger Zone</span>
+                    </div>
+                </span>
+                <span class="expand expand-2"> + </span>
+            </div>
+        </div>
+        <div class="collapsible collapsible-2">
+            <div class="form-row">
+                <button class="danger-button" id="remove">Delete Account</button>
+                <button class="danger-button" id="deactivate">Deactivate Account</button>
+            </div>
+        </div>
+  `
+
     content = `
     <div class="container">
         <div class="row">
@@ -163,13 +182,8 @@ export default class Profile extends Base {
                     <div class="form-column">
                         <hr/>
                     </div>
-                    <div class="form-column">
-                        <span class="danger-title">Danger Zone</span>
-                    </div>
-                    <div class="form-row">
-                        <button class="danger-button" id="remove">Delete Account</button>
-                        <button class="danger-button" id="deactivate">Deactivate Account</button>
-                    </div>
+                    
+                    ${this.dangerZone}
 
                 </div>
             </div>
@@ -762,6 +776,7 @@ export default class Profile extends Base {
 
         //Toggle collapse
         this.toggleCollapse(1)
+        this.toggleCollapse(2)
     } //End of connectedCallback()
 } //End of class
 
