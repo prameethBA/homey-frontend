@@ -57,10 +57,18 @@ export default class PropertyView extends Base {
                 <p class="title">Title</p>
                 <span class="detail-bar">
                     <div class="quick-links">
-                        <div class="favourite" title="Add to favoutite">⭐</div>
+                        ${
+                            this.getParam('overview') == 'true'
+                                ? `<span></span>`
+                                : `<div class="favourite" title="Add to favoutite">⭐</div>`
+                        }
                         <div class="share" title="Share">✉</div>
                         <div class="status">🟢</div>
-                        <div class="report" title="Report">⚠</div>
+                        ${
+                            this.getParam('overview') == 'true'
+                                ? `<span></span>`
+                                : `<div class="report" title="Report">⚠</div>`
+                        }
                     </div>
                     <p class="price">Rental</p>
                 </span>
@@ -232,7 +240,9 @@ export default class PropertyView extends Base {
 
     //loadReport
     loadReport() {
-        this._qs('.report').addEventListener('click', () => this.report())
+        this._qs('.report') != null
+            ? this._qs('.report').addEventListener('click', () => this.report())
+            : null
     } //end of loadReport()
 
     //reserve component
@@ -275,7 +285,7 @@ export default class PropertyView extends Base {
             dispatchEvent(
                 new CustomEvent('load-comp', {
                     detail: {
-                        path: `/property/${this.qs('.id').value}`,
+                        path: `/property/own/${this.getParam('id')}`,
                         comp: `property/property-details`,
                         compName: 'property-details'
                     }
