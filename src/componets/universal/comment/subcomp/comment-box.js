@@ -40,17 +40,12 @@ export default class CommentBox extends Base {
     constructor() {
         super()
         this.mount()
+        this.state = this.getParams('data-data')
     } //End of constructor
 
     //getprofilePicture
     async getprofilePicture(userID) {
         try {
-            // if (this.getParam('data-picture') != null) {
-            //     this._qs('#profile-picture').innerHTML = `<img
-            //             src="${this.getParam('data-picture')}"
-            //             alt="Profile picture"
-            //         />`
-            // } else {
             const res = await axios.post(
                 `${this.host}/images/profile/get/${userID}`,
                 {
@@ -66,7 +61,6 @@ export default class CommentBox extends Base {
                   }" 
                   alt="Profile picture"
                   />`
-            // }
         } catch (err) {
             console.log(err)
         }
@@ -95,6 +89,12 @@ export default class CommentBox extends Base {
                         alt="Profile picture"
                     />`
             else this.getprofilePicture(res.data.userId) //getprofilePicture
+        } else {
+            this._qs('#profile-picture').innerHTML = `<img
+                        src="${this.state.image}"
+                        alt="Profile picture"
+                    />`
+            this._qs('.comment-text').innerHTML = this.state.feedback
         }
     } //End of viewComment()
 

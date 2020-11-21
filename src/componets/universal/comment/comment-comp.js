@@ -98,13 +98,13 @@ export default class Comment extends Base {
                     )
 
                     await import('./subcomp/comment-box.js')
-                    this._qs(
-                        '#comments-new'
-                    ).innerHTML += `<comment-box data-data="${this.encode({
-                        feedback: feedback,
-                        propertyId: this.getParam('id'),
-                        image: this._qs('#profile-picture-image').src
-                    })}"></comment-box>`
+                    const values = this._qs('#comments-new').innerHTML
+                    this._qs('#comments-new').innerHTML =
+                        `<comment-box data-data="${this.encode({
+                            feedback: feedback,
+                            propertyId: this.getParam('id'),
+                            image: this._qs('#profile-picture-image').src
+                        })}"></comment-box>` + values
 
                     this._qs('#feedback').value = ''
                 } else throw res.data
