@@ -177,7 +177,7 @@ export default CSS = `
   #facilities {
     flex-wrap: wrap;
     grid-gap: 0.1rem;
-    grid-template-columns: repeat(auto-fill, 10rem);
+    grid-template-columns: repeat(auto-fill, 15rem);
   }
 
   facility-comp {

@@ -37,16 +37,12 @@ export default CSS = `
       }
     
     .content {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        flex-wrap: wrap;
+      display: inline-flex;
     }
 
     property-view {
-        display: flex;
-        width: 20rem;
-        margin: 1rem auto;
+      width: 20rem;
+      margin: 1rem;
     }
     
     .pagination {

@@ -188,7 +188,7 @@ export default CSS = `
     background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
     transition: all 1s;
     margin: 1rem auto;
-    width: 40%;
+    width: 47.5%;
   }
 
   button:hover {
@@ -236,6 +236,7 @@ export default CSS = `
     font-weight: bold;
     text-indent: 0.5rem;
     margin: 1rem 0;
+    cursor: pointer;
   }
 
   .danger-title {
@@ -282,6 +283,43 @@ export default CSS = `
 
   .button-group {
     display: flex;
+  }
+
+  .collapsible {
+    display: none;
+    width: 100%;
+    height: 0;
+    transition: all 1s ease-in-out;
+  }
+
+  .collapsed {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .collapsible-row {
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .collapse {
+    width: 100%;
+  }
+
+  .collapse > .row {
+    justify-content: space-between;
+  }
+
+  .expand {
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+  }
+
+  .expanded {
+    transform: rotate(45deg);
   }
 
 `

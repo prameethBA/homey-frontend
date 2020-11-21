@@ -61,11 +61,14 @@ export default class Nav extends Base {
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <a data-path="account" id="profile">Profile</a>
                 <a data-path="account" id="wallet">Wallet</a>
-                <a data-path="account" id="log-out">Logout</a>
+                </div>
               </div>
-            </div>
+            <a data-path="account" id="log-out">Logout</a>
+            <a class="profile" id="profile">
+                <img id="profile-picture" src="/assets/img/alt/load-post.gif" alt="Profile">
+                <span id="profile-name">Dimuthu Lakmal</span>
+            </a>
             <a data-path="" class="hamburger">&#9776;</a>
           </div>
         </nav>
@@ -81,6 +84,10 @@ export default class Nav extends Base {
         this.setNavBar()
         //Set Navigation
         if (this.isLogin()) this.setNavigation()
+
+        addEventListener('profile-picture-loaded', () => {
+            this._qs('#profile-picture').src = localStorage.profilePicture
+        })
     } //End of the constructor
 
     //Set Nav Bar
@@ -103,6 +110,14 @@ export default class Nav extends Base {
                 //load Admin bashboard
                 this.loadAdminDashboard()
             } //End of setting admin dashboard button
+
+            sessionStorage.profilePicture == undefined ||
+            sessionStorage.profilePicture == null ||
+            sessionStorage.profilePicture == ''
+                ? (this._qs('#profile-picture').src =
+                      localStorage.profilePicture)
+                : (this._qs('#profile-picture').src =
+                      '/assets/img/alt/no-mage.png')
         } //End of setting navigation
 
         // load Home

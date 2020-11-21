@@ -4,7 +4,6 @@ export default CSS = `
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 6rem 5rem;
 }
 
 .card-container {
@@ -20,7 +19,7 @@ export default CSS = `
     height: 10rem;
     width: 15rem;
     justify-content: space-around;
-    margin: 1rem auto;
+    margin: 1rem;
 }
 
 .card > div {

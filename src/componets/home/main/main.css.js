@@ -22,6 +22,10 @@ export default CSS = `
         flex-wrap: wrap;
     }
 
+    user-comp {
+        transform: scale(0.8);
+    }
+
     .down-wrap {
         margin: -4rem auto 2rem auto;
         cursor: pointer;
