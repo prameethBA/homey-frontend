@@ -1,6 +1,7 @@
 export default CSS = `
   .container {
     margin-top: 5rem;
+    background-color: #ffffff;
   }
 
   #add-preview {
