@@ -24,6 +24,39 @@ export default class Profile extends Base {
     </div>
   `
 
+    changePassword = `
+        <div class="collapse collapse-1">
+            <div class="row">
+                <span>
+                    <div class="form-column">
+                        <span class="password-title">Change password</span>
+                    </div> 
+                </span>
+                <span class="expand expand-1"> + </span>
+            </div>
+        </div>
+        <div class="collapsible collapsible-1">
+            <div class="form-column">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" class="passwrod-form-field" id="currentPassword" value="" />
+            </div>
+            <div class="form-column">
+                <label for="newPassword">New Password</label>
+                <input type="password" class="passwrod-form-field" id="newPassword" value="" />
+            </div>
+            <div class="form-column">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" class="passwrod-form-field" id="confirmPassword" value="" />
+            </div>
+            <div class="form-row error-container">
+                <div class="error" id="error-password"></div>
+            </div>
+            <div class="form-column">
+                    <button id="changePassword">Change Password</button>
+            </div>
+        </div>
+  `
+
     content = `
     <div class="container">
         <div class="row">
@@ -72,28 +105,40 @@ export default class Profile extends Base {
                             <input class="form-field" type="number" id="mobile" value="" />
                         </div>
                     </div>
-                    <div class="form-column">
-                        <label for="address-1">Address Line 1</label>
-                        <input class="form-field" type="text" id="address-1" value="" />
-                        <label for="address-2">Address Line 2</label>
-                        <input class="form-field" type="text" id="address-2" value="" />
-                        <label for="address-3">Address Line 3</label>
-                        <input class="form-field" type="text" id="address-3" value="" />
-                        <div class="form-row">
-                            <div class="form-column">
-                                <label for="city">City</label>
-                                <input class="form-field" type="text" id="city" value="" />
-                            </div>
-                            <div class="form-column">
-                                <label for="district">District</label>
-                                <input class="form-field" type="text" id="district" value="" />
-                            </div>
+
+                    <div class="form-row">
+                        <div class="form-column">
+                            <label for="address-1">Address Line 1</label>
+                            <input class="form-field" type="text" id="address-1" value="" />
+                        </div>
+                        <div class="form-column">
+                            <label for="address-2">Address Line 2</label>
+                            <input class="form-field" type="text" id="address-2" value="" />
                         </div>
                     </div>
-                    <div class="form-column">
-                        <label for="nic">NIC</label>
-                        <input class="form-field" type="text" id="nic" value="" />
+
+                    <div class="form-row">
+                        <div class="form-column">
+                            <label for="address-3">Address Line 3</label>
+                            <input class="form-field" type="text" id="address-3" value="" />
+                        </div>
+                        <div class="form-column">
+                            <label for="city">City</label>
+                            <input class="form-field" type="text" id="city" value="" />
+                        </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-column">
+                            <label for="district">District</label>
+                            <input class="form-field" type="text" id="district" value="" />
+                        </div>
+                        <div class="form-column">
+                            <label for="nic">NIC</label>
+                            <input class="form-field" type="text" id="nic" value="" />
+                        </div>
+                    </div>
+
                     <div class="form-column">
                         <label >Date of birth</label>
                         <div class="form-row">
@@ -112,27 +157,8 @@ export default class Profile extends Base {
                     <div class="form-column">
                         <hr/>
                     </div>
-                    <div class="form-column">
-                        <span class="password-title">Change password</span>
-                    </div>
-                    <div class="form-column">
-                        <label for="currentPassword">Current Password</label>
-                        <input type="password" class="passwrod-form-field" id="currentPassword" value="" />
-                    </div>
-                    <div class="form-column">
-                        <label for="newPassword">New Password</label>
-                        <input type="password" class="passwrod-form-field" id="newPassword" value="" />
-                    </div>
-                    <div class="form-column">
-                        <label for="confirmPassword">Confirm New Password</label>
-                        <input type="password" class="passwrod-form-field" id="confirmPassword" value="" />
-                    </div>
-                    <div class="form-row error-container">
-                        <div class="error" id="error-password"></div>
-                    </div>
-                    <div class="form-column">
-                            <button id="changePassword">Change Password</button>
-                    </div>
+                    
+                    ${this.changePassword}
 
                     <div class="form-column">
                         <hr/>
@@ -686,6 +712,23 @@ export default class Profile extends Base {
         })
     } //End of updatePassword()
 
+    //Toggle collapse
+    toggleCollapse(index) {
+        let collapse = true
+        this._qs(`.collapse-${index}`).addEventListener('click', () => {
+            let state = this._qs(`.collapsible-${index}`)
+            let expand = this._qs(`.expand-${index}`)
+            if (collapse) {
+                state.classList.add('collapsed')
+                expand.classList.add('expanded')
+            } else {
+                state.classList.remove('collapsed')
+                expand.classList.remove('expanded')
+            }
+            collapse = !collapse
+        })
+    } //End of toggleCollapse()
+
     connectedCallback() {
         axios
             .get(
@@ -716,6 +759,9 @@ export default class Profile extends Base {
 
         //uploadImage
         this.uploadImage()
+
+        //Toggle collapse
+        this.toggleCollapse(1)
     } //End of connectedCallback()
 } //End of class
 
