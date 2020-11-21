@@ -21,13 +21,14 @@ export default CSS = `
       width: 20px;
       background-color: transparent;
       border-radius: 50%;
-      border: solid 1px #ffffff;
+      border: solid 2px #bf2110;
       transition: all 1s;
       transform: translateX(-2rem);
   }
 
   .container .checkbox:checked ~ .checkmark {
       background-color: #32be8f;
+      border: solid 2px #327c0f;
   }
 
   .checkmark:after {

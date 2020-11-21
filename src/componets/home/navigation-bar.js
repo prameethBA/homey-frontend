@@ -67,7 +67,7 @@ export default class Nav extends Base {
             <a data-path="account" id="log-out">Logout</a>
             <a class="profile" id="profile">
                 <img id="profile-picture" src="/assets/img/alt/load-post.gif" alt="Profile">
-                <span id="profile-name">Dimuthu Lakmal</span>
+                <span id="profile-name"></span>
             </a>
             <a data-path="" class="hamburger">&#9776;</a>
           </div>
@@ -111,13 +111,23 @@ export default class Nav extends Base {
                 this.loadAdminDashboard()
             } //End of setting admin dashboard button
 
-            sessionStorage.profilePicture == undefined ||
-            sessionStorage.profilePicture == null ||
-            sessionStorage.profilePicture == ''
+            !(
+                localStorage.profilePicture == undefined ||
+                localStorage.profilePicture == null ||
+                localStorage.profilePicture == ''
+            )
                 ? (this._qs('#profile-picture').src =
                       localStorage.profilePicture)
                 : (this._qs('#profile-picture').src =
                       '/assets/img/alt/no-mage.png')
+
+            !(
+                sessionStorage.name == undefined ||
+                sessionStorage.name == null ||
+                sessionStorage.name == ''
+            )
+                ? (this._qs('#profile-name').innerHTML = sessionStorage.name)
+                : (this._qs('#profile-name').innerHTML = '')
         } //End of setting navigation
 
         // load Home
