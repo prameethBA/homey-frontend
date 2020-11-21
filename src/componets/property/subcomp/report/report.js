@@ -6,10 +6,35 @@ export default class Report extends Base {
 
     content = `
     <div class="backdrop">
-        <div class="container">
+        <div class="report-container">
             <span id="close-popup" title="close(Esc)">+</span>
-            <div class="row">
-                    <span class="menu-title">Report the property</span>
+            <div class="container">
+                <div class="row">
+                    <h1>Report</h1>
+                    <p style="text-align:center;color: #ffffff;">${this.getParam(
+                        'data-title'
+                    )}</p>
+                </div>
+                <div class="row">
+                    <h4 style="text-align:center">We'll make you happy as soon as possible!</h4>
+                </div>
+                <div class="row input-container">
+                    <div class="col-xs-12">
+                        <div class="styled-input wide">
+                            <input type="text" required />
+                            <label>Reason for reporting</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="styled-input wide">
+                            <textarea required></textarea>
+                            <label>Message</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <button class="btn-lrg submit-btn">Submit</button>
             </div>
         </div>
     </div>

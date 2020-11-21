@@ -31,9 +31,11 @@ export default class PropertyView extends Base {
     </div>
     `
 
-    optionButtons = `
+    removeButton = `
         <button class="remove">Remove</button>
-        <button class="block">block</button>
+    `
+    reserveButton = `
+        <button class="reserve">Reserve</button>
     `
 
     content = `
@@ -75,10 +77,9 @@ export default class PropertyView extends Base {
                 <button class="comment">Comment</button>
                 ${
                     this.getParam('overview') == 'true'
-                        ? this.optionButtons
-                        : `<span></span>`
+                        ? this.removeButton
+                        : this.reserveButton
                 }
-                <button class="reserve">Reserve</button>
                 <button class="more">More >></button>
             </div>
         </div>
@@ -205,9 +206,10 @@ export default class PropertyView extends Base {
         this.setLoader()
         await import('./report/report.js')
             .then(() => {
+                console.log(this.state)
                 this._qs('#comment-box').innerHTML = `
                     <report-comp 
-                        data-data="${this.encode(this.state.title)}" 
+                        data-title="${this.state.title}" 
                         id="${this.state._id}"
                     >
                     </report-comp>`
@@ -260,7 +262,11 @@ export default class PropertyView extends Base {
 
     //loadReserve
     loadReserve() {
-        this._qs('.reserve').addEventListener('click', () => this.reserve())
+        this._qs('.reserve') != null
+            ? this._qs('.reserve').addEventListener('click', () =>
+                  this.reserve()
+              )
+            : null
     } //end of loadReserve()
 
     //load the full details about the property
