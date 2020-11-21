@@ -32,10 +32,26 @@ const scroll = `
   }
 `
 
+const profile = `
+  .profile {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  
+  .profile img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 2rem;
+    margin-right: 1rem;
+  }
+`
+
 export default CSS = `
 
   ${loginButton}
   ${scroll}
+  ${profile}
 
   header {
     position: fixed;
