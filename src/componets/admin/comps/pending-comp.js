@@ -169,9 +169,11 @@ export default class Pendings extends Base {
                 token: this.getToken()
             })
             .then(res => {
-                if (res.data.length < 1 || res.data.length == undefined)
-                    throw res
+                // console.log(res.data)
+                // if (res.data.length < 1 || res.data.length == undefined)
+                //     throw res
                 let index = 1
+                this._qs('#pending-approval-table-body').innerHTML = ''
                 res.data.forEach(item => {
                     this._qs('#pending-approval-table-body').innerHTML += `
                         <tr>
@@ -197,19 +199,14 @@ export default class Pendings extends Base {
             })
             .catch(err => {
                 this.stopLoader()
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: {
-                            pop: 'error',
-                            msg: err.message,
-                            duration:
-                                err.duration == undefined ? 10 : err.duration
-                        }
-                    })
-                )
+                console.log(err)
             })
         //load view user component
         this.loadViewUser()
+        //make Approve
+        this.makeApprove()
+        //make Reject
+        this.makeReject()
     } //End of getSummary()
 
     //View user account summary
@@ -244,6 +241,82 @@ export default class Pendings extends Base {
             item.addEventListener('click', () => this.viewUser(item.dataset.id))
         })
     } //end of loadViewUser()
+
+    //Approve
+    async approve(id) {
+        this.setLoader()
+        try {
+            const res = await axios.post(
+                `${this.host}/admin-property-summary/approve`,
+                {
+                    ...this.authData(),
+                    propertyId: id
+                }
+            )
+
+            if (res.data.status == '204') {
+                // get summary about pendin approvals
+                this.getSummary()
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'success',
+                            msg: res.data.message,
+                            duration: 5
+                        }
+                    })
+                )
+            } else throw res.data
+        } catch (err) {
+            console.log(err)
+        }
+        this.stopLoader()
+    } //End of approv()
+
+    //make Approve
+    makeApprove() {
+        this._qsAll('.approve-button').forEach(item => {
+            item.addEventListener('click', () => this.approve(item.dataset.id))
+        })
+    } //end of makeApprove()
+
+    //reject
+    async reject(id) {
+        this.setLoader()
+        try {
+            const res = await axios.post(
+                `${this.host}/admin-property-summary/reject`,
+                {
+                    ...this.authData(),
+                    propertyId: id
+                }
+            )
+
+            if (res.data.status == '204') {
+                // get summary about pendin approvals
+                this.getSummary()
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'info',
+                            msg: res.data.message,
+                            duration: 5
+                        }
+                    })
+                )
+            } else throw res.data
+        } catch (err) {
+            console.log(err)
+        }
+        this.stopLoader()
+    } //End of reject()
+
+    //make Reject
+    makeReject() {
+        this._qsAll('.decline-button').forEach(item => {
+            item.addEventListener('click', () => this.reject(item.dataset.id))
+        })
+    } //end of makeReject()
 
     //connectedCallback
     connectedCallback() {
