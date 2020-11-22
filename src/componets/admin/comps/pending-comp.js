@@ -28,6 +28,7 @@ export default class Pendings extends Base {
         </div>
     </div>
     <div class="preview-advertisement"></div>
+    <div class="popup"></div>
 `
     constructor() {
         super()
@@ -43,8 +44,7 @@ export default class Pendings extends Base {
                     .post(
                         `${this.host}/admin-property-preview/pending-approval`,
                         {
-                            userId: this.getUserId(),
-                            token: this.getToken(),
+                            ...this.authData(),
                             id: item.dataset.id
                         }
                     )
@@ -171,7 +171,6 @@ export default class Pendings extends Base {
             .then(res => {
                 if (res.data.length < 1 || res.data.length == undefined)
                     throw res
-                console.log(res.data.length)
                 let index = 1
                 res.data.forEach(item => {
                     this._qs('#pending-approval-table-body').innerHTML += `
@@ -181,7 +180,7 @@ export default class Pendings extends Base {
                         item.title
                     }</a></td>
                             <td><a class="user-link" data-id="${
-                                item._id
+                                item.user_id
                             }">View user</a></td>
                             <td>${item.created}</td>
                             <td><button class="approve-button" data-id="${
@@ -209,7 +208,42 @@ export default class Pendings extends Base {
                     })
                 )
             })
+        //load view user component
+        this.loadViewUser()
     } //End of getSummary()
+
+    //View user account summary
+    async viewUser(id) {
+        this.setLoader()
+        await import('./subcomp/view-user/view-user.js')
+            .then(() => {
+                this._qs('.popup').innerHTML = `
+                <view-user
+                    id="${id}"
+                ></view-user>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'error',
+                            msg: err.message,
+                            duration:
+                                err.duration == undefined ? 10 : err.duration
+                        }
+                    })
+                )
+            })
+    } //End of viewUser()
+
+    //load view user component
+    loadViewUser() {
+        this._qsAll('.user-link').forEach(item => {
+            item.addEventListener('click', () => this.viewUser(item.dataset.id))
+        })
+    } //end of loadViewUser()
 
     //connectedCallback
     connectedCallback() {
