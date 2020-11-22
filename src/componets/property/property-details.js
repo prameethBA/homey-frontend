@@ -18,9 +18,8 @@ export default class PropertyDetails extends Base {
     //load property
     async loadProperty() {
         await axios
-            .post(`${this.host}/property/get`, {
-                userId: this.getUserId(),
-                token: this.getToken(),
+            .post(`${this.host}/property/get/property`, {
+                ...this.authData(),
                 propertyId: window.location.pathname.split('/')[2]
             })
             .then(res => {
