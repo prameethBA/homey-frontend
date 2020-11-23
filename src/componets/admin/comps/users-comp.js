@@ -110,10 +110,10 @@ export default class users extends Base {
 
     // getUsers from API
     async getUsers() {
+        this.setLoader()
         await axios
             .post(`${this.host}/AdminUsers/all-users`, {
-                userId: this.getUserId(),
-                token: this.getToken()
+                ...this.authData()
             })
             .then(res => {
                 res.data.forEach(user => {
@@ -125,6 +125,7 @@ export default class users extends Base {
                 })
             })
             .catch(err => console.log(err))
+        this.stopLoader()
     } //end of getUsers()
 
     // connectedCallback

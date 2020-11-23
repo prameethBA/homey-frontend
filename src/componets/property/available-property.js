@@ -196,6 +196,7 @@ export default class AvalibaleProperty extends Base {
     // Load add comps
     async loadpropertyView() {
         this.setLoader()
+        this.wait('#container')
         try {
             import('./subcomp/property-view.js')
             const page = 1
@@ -221,6 +222,7 @@ export default class AvalibaleProperty extends Base {
             }
         } catch (err) {
             console.log(err)
+            this.unwait('#container')
         }
         this.stopLoader()
     } //End of loadpropertyView()

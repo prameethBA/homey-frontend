@@ -4,6 +4,12 @@ import CSS from './properties-comp.css.js'
 export default class properties extends Base {
     css = CSS
 
+    notFound = `
+        <div class="notFound">
+            <h1> No Properties Found!</h1>
+        </div>
+    `
+
     content = `
         <div id="container">
             <div class="row">
@@ -66,53 +72,37 @@ export default class properties extends Base {
             })
     } //End of loadpropertyView()
 
-    // get summary about pendin approvals
-    async getSummary() {
+    // Load add comps
+    async loadpropertyView() {
         this.setLoader()
-        await axios
-            .post(`${this.host}/admin-property-summary/pending-approval`, {
-                userId: this.getUserId(),
-                token: this.getToken()
-            })
-            .then(res => {
-                let index = 1
+        try {
+            import('./../../property/subcomp/property-view.js')
+            const page = 1
+            const limit = 12
+
+            const res = await axios.get(
+                `${this.host}/property/all/${limit}/${page}`
+            )
+
+            if (res.data.length < 1) {
+                this._qs('#container').innerHTML = this.notFound
+            } else {
                 res.data.forEach(item => {
-                    this._qs('#pending-approval-table-body').innerHTML += `
-                        <tr>
-                            <td>${index++}</td>
-                            <td><a class="ad-link" data-id="${item._id}">${
-                        item.title
-                    }</a></td>
-                            <td><a class="user-link" data-id="${
-                                item._id
-                            }">View user</a></td>
-                            <td>${item.created}</td>
-                            <td><button class="approve-button" data-id="${
-                                item._id
-                            }">Approve</button></td>
-                            <td><button class="decline-button" data-id="${
-                                item._id
-                            }">Decline</button></td>
-                        </tr>
+                    this._qs('#container').innerHTML += `
+                    <property-view 
+                    id="${item._id}"
+                    data-data="${this.encode(item)}"
+                    >
+                    </property-view>
                     `
                 })
-                this.adPreview()
-                this.stopLoader()
-            })
-            .catch(err => {
-                this.stopLoader()
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: {
-                            pop: 'error',
-                            msg: err.message,
-                            duration:
-                                err.duration == undefined ? 10 : err.duration
-                        }
-                    })
-                )
-            })
-    } //End of getSummary()
+                this._qs('#pagination').innerHTML = this.pagination
+            }
+        } catch (err) {
+            console.log(err)
+        }
+        this.stopLoader()
+    } //End of loadpropertyView()
 
     //connectedCallback
     connectedCallback() {

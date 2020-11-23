@@ -4,6 +4,12 @@ import CSS from './own-properties.css.js'
 export default class OwnProperties extends Base {
     css = CSS
 
+    notFound = `
+        <div class="notFound">
+            <h1> No Properties Found!</h1>
+        </div>
+    `
+
     content = `
         <div id="container">
             <div class="row">
@@ -39,26 +45,31 @@ export default class OwnProperties extends Base {
     // Load add comps
     async loadpropertyView() {
         this.setLoader()
+        this.wait('.content')
         try {
             import('./subcomp/property-view.js')
             const res = await axios.post(`${this.host}/property/get/own`, {
                 ...this.authData()
             })
 
-            console.log(res)
-            this._qs('.content').innerHTML = ''
-            res.data.forEach(item => {
-                this._qs('.content').innerHTML += `
+            if (res.data.length < 1) {
+                this._qs('#container').innerHTML = this.notFound
+            } else {
+                this._qs('.content').innerHTML = ''
+                res.data.forEach(item => {
+                    this._qs('.content').innerHTML += `
                     <property-view 
-                        id="${item.property_id}"
-                        data-data="${this.encode(item)}"
-                        overview='true'
+                    id="${item.property_id}"
+                    data-data="${this.encode(item)}"
+                    overview='true'
                     >
                     </property-view>
-                `
-            })
+                    `
+                })
+            }
         } catch (err) {
             console.log(err)
+            this.unwait('.content')
         }
         this.stopLoader()
     } //End of loadpropertyView()
