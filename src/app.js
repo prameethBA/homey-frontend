@@ -109,11 +109,11 @@ export default class App extends Base {
             )
 
             // Load avalibale property component
-            router.get('/available-property', () =>
+            router.get('/properties', () =>
                 dispatchEvent(
                     new CustomEvent('load-comp', {
                         detail: {
-                            path: `/available-property`,
+                            path: `/properties`,
                             comp: `property/available-property`,
                             compName: 'available-property'
                         }
@@ -311,11 +311,11 @@ export default class App extends Base {
         router.get('/confirm', () => dispatchEvent(new Event('confirm-form')))
 
         // Load avalibale property component
-        router.get('/available-property', () =>
+        router.get('/properties', () =>
             dispatchEvent(
                 new CustomEvent('load-comp', {
                     detail: {
-                        path: `/available-property`,
+                        path: `/properties`,
                         comp: `property/available-property`,
                         compName: 'available-property'
                     }

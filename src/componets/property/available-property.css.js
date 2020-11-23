@@ -1,6 +1,6 @@
 const search = `
     .search {
-        margin: 5rem 0rem 0rem 0rem;
+        margin: 4rem 0rem 0rem 0rem;
         display: flex;
         justify-content: space-around;
         align-items: center;

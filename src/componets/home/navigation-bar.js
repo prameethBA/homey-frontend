@@ -141,7 +141,7 @@ export default class Nav extends Base {
             dispatchEvent(
                 new CustomEvent('load-comp', {
                     detail: {
-                        path: `/property`,
+                        path: `/properties`,
                         comp: `property/available-property`,
                         compName: 'available-property'
                     }
