@@ -57,6 +57,9 @@ export default CSS = `
 
   .quantity {
     text-align: center;
+    outline: none;
+    border-radius: 0.2rem;
+    border: solid 2px #327c0f;
   }
 
   input[type="number"]::-webkit-outer-spin-button,

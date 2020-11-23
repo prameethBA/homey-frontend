@@ -22,10 +22,8 @@ export default class AdminDashboard extends Base {
     </ul>
     </nav>
     <ul class="links list-inline unstyled list-hover-slide">
-    <li><a>Comments</a></li>
     <li><a id="report">Reports</a></li>
     <li><a>Settings</a></li>
-    <li><a>Logout</a></li>
     </ul>
     </div>
     </header>

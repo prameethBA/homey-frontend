@@ -64,11 +64,12 @@ export default class Nav extends Base {
                 <a data-path="account" id="wallet">Wallet</a>
                 </div>
               </div>
-            <a data-path="account" id="log-out">Logout</a>
-            <a class="profile" id="profile">
+              <a data-path="" id="admin-button-container"></a>
+              <a class="profile" id="profile">
                 <img id="profile-picture" src="/assets/img/alt/load-post.gif" alt="Profile">
                 <span id="profile-name"></span>
-            </a>
+              </a>
+              <a data-path="account" id="log-out">Logout</a>
             <a data-path="" class="hamburger">&#9776;</a>
           </div>
         </nav>
@@ -105,8 +106,8 @@ export default class Nav extends Base {
             //Set admin dashboard button
             if (this.getUserType() == 1) {
                 this._qs(
-                    '.nav-items'
-                ).innerHTML += `<a data-path=""><button id="admin-dashboard">Admin Dashboard</button></a>`
+                    '#admin-button-container'
+                ).innerHTML = `<button id="admin-dashboard">Admin Dashboard</button>`
                 //load Admin bashboard
                 this.loadAdminDashboard()
             } //End of setting admin dashboard button
