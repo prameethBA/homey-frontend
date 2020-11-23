@@ -31,7 +31,7 @@ export default CSS = `
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: left;
-        background-color: #4CAF50;
+        background-color: #239710;
         color: white;
     }    
 
@@ -50,6 +50,7 @@ export default CSS = `
         color: #03077F;
         text-transform: capitalize;
         font-style: italic;
+        font-weight: bold;
     }
 
     .ad-link:hover {

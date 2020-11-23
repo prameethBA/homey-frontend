@@ -177,7 +177,7 @@ export default class PropertyView extends Base {
 
     //image slider
     slider() {
-        if (this._qsAll('.img').length > 1) {
+        if (this._qsAll('.img').length >= 1) {
             this.state.img = 0
 
             const slideNext = () => {
@@ -285,7 +285,7 @@ export default class PropertyView extends Base {
             dispatchEvent(
                 new CustomEvent('load-comp', {
                     detail: {
-                        path: `/property/own/${this.getParam('id')}`,
+                        path: `/property/${this.getParam('id')}`,
                         comp: `property/property-details`,
                         compName: 'property-details'
                     }
@@ -324,6 +324,35 @@ export default class PropertyView extends Base {
         })
     } //End of checkBoxEventListener()
 
+    //Remove property
+    async removeProperty() {
+        this.setLoader()
+        try {
+            const res = await axios.post(`${this.host}/property/remove`, {
+                ...this.authData(),
+                propertyId: this.getParam('id')
+            })
+            if (res.data.status == '204') {
+                this.parentNode.removeChild(this)
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: { pop: 'info', msg: res.data.message }
+                    })
+                )
+            } else throw res.data
+        } catch (err) {
+            console.log(err)
+        }
+        this.stopLoader()
+    } //End of removeProperty()
+
+    //listen for remove
+    listenRemove() {
+        this._qs('.remove').addEventListener('click', () => {
+            this.removeProperty()
+        })
+    } //End of listenRemove()
+
     connectedCallback() {
         //SetValues
         this.setValues()
@@ -349,6 +378,11 @@ export default class PropertyView extends Base {
 
         //load the full details about the property
         this.fullDetails()
+
+        if (this.getParam('overview') == 'true') {
+            //listen for remove
+            this.listenRemove()
+        }
     } //end of connected callback
 } //End of class
 

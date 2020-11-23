@@ -1,16 +1,17 @@
 export default CSS = `
 
-    #count-down {
-        position: absolute;
-        top: 5rem;
-        left: 0;
-        right: 0;
-        margin: auto;
+    .main-content {
+        margin-top: 4rem;
+    }
+
+    #main-title {
+        color: #ffffff;
+        font-size: 5rem;
         text-align: center;
-        font-size: 11rem;
-        color: red;
-        background-color: rgba(0, 0, 0, 0.3);
-        pointer-events: none;
+    }
+
+    .wrap {
+        transition: all 2s ease;
     }
 
     .user-comp {
@@ -62,6 +63,7 @@ export default CSS = `
 
     .parallax-1 {
         background-image: url('./assets/img/house.jpg');
+        height: 42rem;
     }
 
     .parallax-2 {

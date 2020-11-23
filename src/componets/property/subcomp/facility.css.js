@@ -2,7 +2,7 @@ export default CSS = `
 
 .container {
     display: grid;
-    grid-template-columns: auto 15% 10%;
+    grid-template-columns: 56% 5% 10%;
     margin: 0.5rem;
 }
 

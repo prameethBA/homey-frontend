@@ -14,15 +14,15 @@ export default class ViewUser extends Base {
 
             <div class="profile">
                 <div class="sub-row">
-                    <img class="display-picture" src="/assets/img/house.jpg" />
+                    <img class="display-picture" src="/assets/img/alt/load-post.gif" />
                 </div>
                 <div class="sub-row">
-                    <span class="name">Prameeth Madhuwantha</span>
-                    <span class="status">🟠 Unconfirmed</span>
+                    <span class="name">Full Name</span>
+                    <span class="status">⚪ Status</span>
                 </div>
                 <div class="sub-row">
-                    <span class="email"><a href="mailto:prameethba@gmail.com">prameethba@gmail.com<a></span>
-                    <span class="mobile"><a href="callto:0769802214">076 980 2214</a></span>
+                    <span class="email">Email</span>
+                    <span class="mobile">Mobile</span>
                 </div>
 
                 <div class="sub-row">
@@ -33,11 +33,11 @@ export default class ViewUser extends Base {
                         </div>
                         <hr />
                     </div>
-                    <div class="collapsible collapsible-1">
+                    <div class="collapsible collapsible-1" id="own-properties">
                         <div class="row collapsible-row">
-                            <span class="column">property Id </span>
-                            <span class="column">Title </span>
-                            <span class="column">Approved Date </span>
+                                <span class="column">property Id </span>
+                                <span class="column">Title </span>
+                                <span class="column">Borrowed Date </span>
                         </div>
                     </div>
                 </div>
@@ -112,6 +112,81 @@ export default class ViewUser extends Base {
         )
     } // End of exitWithEscape()
 
+    //getUserDetails
+    async getUserDetails() {
+        const res = await axios.post(`${this.host}/admin-users/get`, {
+            ...this.authData(),
+            profile: this.getParam('id')
+        })
+
+        return res.data
+    } //getuserdetails
+
+    //getprofilePicture
+    async getprofilePicture(userID) {
+        try {
+            const res = await axios.post(
+                `${this.host}/images/profile/get/${userID}`,
+                {
+                    userId: this.getUserId(),
+                    token: this.getToken()
+                }
+            )
+            this._qs('.display-picture').src =
+                res.data.image != ''
+                    ? res.data.image
+                    : '/assets/img/alt/no-mage.png'
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of getprofilePicture()
+
+    //inject user details to dom
+    async viewUserDetails() {
+        //getUserDetails
+        const data = await this.getUserDetails()
+
+        //getprofilePicture
+        this.getprofilePicture(this.getParam('id'))
+
+        this._qs(
+            '.name'
+        ).innerHTML = `${data.userData.firstName} ${data.userData.lastName}`
+
+        this._qs(
+            '.email'
+        ).innerHTML = `<a href="mailto:${data.userData.email}">${data.userData.email}<a>`
+        this._qs(
+            '.mobile'
+        ).innerHTML = `<a href="callto:${data.userData.mobile}">${data.userData.mobile}</a>`
+
+        switch (data.userData.status) {
+            case '0':
+                this._qs('.status').innerHTML = '🔴 Unconfirmed'
+                break
+            case '1':
+                this._qs('.status').innerHTML = '🟢 Confirmed'
+                break
+            default:
+                this._qs('.status').innerHTML = '⭕ invalid'
+                break
+        }
+
+        let index = 1
+        data.ownPropertyData.forEach(item => {
+            console.log(item)
+            this._qs('#own-properties').innerHTML += `
+                <div class="row collapsible-row">
+                    <span class="column"><a id="${
+                        item._id
+                    }">${index++}</a></span>
+                    <span class="column">${item.title}</span>
+                    <span class="column">${item.created}</span>
+                </div>
+            `
+        })
+    } //End of viewUserDetails()
+
     connectedCallback() {
         //Toggle collapse
         this.toggleCollapse(1)
@@ -121,6 +196,9 @@ export default class ViewUser extends Base {
         this.close()
         // Exit with escape key
         this.exitWithEscape()
+
+        //inject user details to dom
+        this.viewUserDetails()
     } //End of connectedCallback
 } //End of Class
 

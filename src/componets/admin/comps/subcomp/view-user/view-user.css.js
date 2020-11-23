@@ -74,6 +74,7 @@ export default CSS = `
       width: 100%;
       height: 0;
       transition: all 1s ease-in-out;
+      flex-direction: column;
     }
 
     .collapsed {
