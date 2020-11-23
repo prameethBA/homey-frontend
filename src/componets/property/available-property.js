@@ -138,7 +138,7 @@ export default class AvalibaleProperty extends Base {
         <div id="container">
         </div>
         <div class="pagination">
-            <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
         </div>
         <div id="questioner">
         </div>
