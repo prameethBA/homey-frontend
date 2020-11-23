@@ -15,6 +15,9 @@ export default class AdminAccounts extends Base {
         </div>
         <div class="row admins">
         </div>
+        <div class="pagination">
+            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
+        </div>
     </div>
 
     <div class="popup"></div>
@@ -27,9 +30,9 @@ export default class AdminAccounts extends Base {
     //Load admin component
     loadAdmin(admin) {
         let data = `
-            <div class="profile">
+            <div class="profile" id="${admin.id}">
                 <div class="sub-row">
-                    <img class="display-picture view-profile" src="/assets/img/alt/no-mage.png" />
+                    <img class="display-picture view-profile" src="/assets/img/alt/load-post.gif" id="img-${admin.id}"/>
                 </div>
                 <div class="sub-row">
                     <span class="name view-profile">${admin.firstName} ${admin.lastName}</span>
@@ -64,6 +67,9 @@ export default class AdminAccounts extends Base {
             </div>
         `
         this._qs('.admins').innerHTML += data
+
+        //getprofilePicture
+        this.getprofilePicture(admin.id)
     } //End of loadAdmin()
 
     //Add new admin component
@@ -98,8 +104,7 @@ export default class AdminAccounts extends Base {
     async getAdmins() {
         await axios
             .post(`${this.host}/AdminUsers/all-admins`, {
-                userId: this.getUserId(),
-                token: this.getToken()
+                ...this.authData()
             })
             .then(res => {
                 res.data.forEach(admin => {
@@ -109,6 +114,24 @@ export default class AdminAccounts extends Base {
             })
             .catch(err => console.log(err))
     } //end of getAdmins()
+
+    //getprofilePicture
+    async getprofilePicture(userID) {
+        try {
+            const res = await axios.post(
+                `${this.host}/images/profile/get/${userID}`,
+                {
+                    ...this.authData()
+                }
+            )
+            this._qs(`#img-${userID}`).src =
+                res.data.image != ''
+                    ? res.data.image
+                    : '/assets/img/alt/no-mage.png'
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of getprofilePicture()
 
     // connectedCallback
     connectedCallback() {
