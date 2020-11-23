@@ -132,9 +132,18 @@ const filter = `
     }
 `
 
+const notFound = `
+    .notFound {display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 58vh;}
+`
+
 export default CSS = `
     ${filter}
     ${search}
+    ${notFound}
     #container {
     display: grid;
     justify-content: center;

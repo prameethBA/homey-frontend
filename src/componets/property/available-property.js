@@ -4,6 +4,12 @@ import CSS from './available-property.css.js'
 export default class AvalibaleProperty extends Base {
     css = CSS
 
+    notFound = `
+        <div class="notFound">
+            <h1> No Properties Found!</h1>
+        </div>
+    `
+
     filter = `
     <div class="left_nav row">
 		<div class="nav_container column">
@@ -137,10 +143,19 @@ export default class AvalibaleProperty extends Base {
         ${this.filter}
         <div id="container">
         </div>
-        <div class="pagination">
-            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
+        <div id="pagination">
+            
         </div>
         <div id="questioner">
+        </div>
+    `
+
+    pagination = `
+        <div class='pagination'>
+            <div class='previous'>First</div>{' '}
+            <div class='pagination-active'>1</div> <div>2</div>{' '}
+            <div class='current'>3</div> <div>4</div> <div>5</div>
+            <div class='last'>Last</div>
         </div>
     `
 
@@ -190,15 +205,20 @@ export default class AvalibaleProperty extends Base {
                 `${this.host}/property/all/${limit}/${page}`
             )
 
-            res.data.forEach(item => {
-                this._qs('#container').innerHTML += `
-                <property-view 
+            if (res.data.length < 1) {
+                this._qs('#container').innerHTML = this.notFound
+            } else {
+                res.data.forEach(item => {
+                    this._qs('#container').innerHTML += `
+                    <property-view 
                     id="${item._id}"
                     data-data="${this.encode(item)}"
-                >
-                </property-view>
-                `
-            })
+                    >
+                    </property-view>
+                    `
+                })
+                this._qs('#pagination').innerHTML = this.pagination
+            }
         } catch (err) {
             console.log(err)
         }
@@ -298,15 +318,20 @@ export default class AvalibaleProperty extends Base {
             search.value = ''
             this._qs('#container').innerHTML = ''
 
-            res.data.forEach(item => {
-                this._qs('#container').innerHTML += `
-                <property-view 
+            if (res.data.length < 1) {
+                this._qs('#container').innerHTML = this.notFound
+            } else {
+                res.data.forEach(item => {
+                    this._qs('#container').innerHTML += `
+                    <property-view 
                     id="${item._id}"
                     data-data="${this.encode(item)}"
-                >
-                </property-view>
-                `
-            })
+                    >
+                    </property-view>
+                    `
+                })
+                this._qs('#pagination').innerHTML = this.pagination
+            }
         } catch (err) {
             console.log(err)
         }
