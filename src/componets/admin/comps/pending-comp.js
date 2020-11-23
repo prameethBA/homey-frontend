@@ -39,7 +39,7 @@ export default class Pendings extends Base {
     adPreview() {
         this._qsAll('.ad-link').forEach(item => {
             item.addEventListener('click', async () => {
-                this.setLoader()
+                this.wait(item)
                 await axios
                     .post(
                         `${this.host}/admin-property-preview/pending-approval`,
@@ -139,7 +139,6 @@ export default class Pendings extends Base {
                                 ).innerHTML = data
                             }
                         )
-                        this.stopLoader()
                     })
                     .catch(err => {
                         this.stopLoader()
@@ -156,6 +155,7 @@ export default class Pendings extends Base {
                             })
                         )
                     })
+                this.unwit(item)
             })
         })
     } //End of adPreview()
@@ -276,7 +276,11 @@ export default class Pendings extends Base {
     //make Approve
     makeApprove() {
         this._qsAll('.approve-button').forEach(item => {
-            item.addEventListener('click', () => this.approve(item.dataset.id))
+            item.addEventListener('click', async () => {
+                this.wait(item)
+                await this.approve(item.dataset.id)
+                this.unwait(item)
+            })
         })
     } //end of makeApprove()
 

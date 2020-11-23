@@ -51,10 +51,11 @@ export default CSS = `
         text-transform: capitalize;
         font-style: italic;
         font-weight: bold;
+        position: relative;
     }
 
     .ad-link:hover {
-        #0077cc;
+        color: #23178e;
     }
 
     button {
@@ -68,6 +69,7 @@ export default CSS = `
         cursor: pointer;
         background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
         transition: all 1s;
+        position: relative;
     }
 
     .row {

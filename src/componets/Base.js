@@ -130,12 +130,22 @@ export default class Base extends HTMLElement {
     stopLoader = () => dispatchEvent(new Event('stop-pre-load'))
 
     wait = selector => {
-        this.state.wait = this._qs(selector).innerHTML
-        this._qs(selector).innerHTML += this.loader
+        try {
+            this.state.wait = this._qs(selector).innerHTML
+            this._qs(selector).innerHTML += this.loader
+        } catch (err) {
+            this.state.wait = selector.innerHTML
+            selector.innerHTML += this.loader
+        }
     }
 
-    unwait = selector => (this._qs(selector).innerHTML = this.state.wait)
-
+    unwait = selector => {
+        try {
+            this._qs(selector).innerHTML = this.state.wait
+        } catch (err) {
+            selector.innerHTML = this.state.wait
+        }
+    }
     encode(data) {
         try {
             return encodeURIComponent(JSON.stringify(data))
