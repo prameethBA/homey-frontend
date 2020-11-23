@@ -54,7 +54,7 @@ export default class Nav extends Base {
               </div>
             </div>
 
-            <a data-path=""> Forum </a>
+            <a data-path="" id="forum"> Forum </a>
 
             <div class="dropdown">
               <button class="dropbtn" class="nav-link" id="account">Account & Settings
@@ -249,6 +249,18 @@ export default class Nav extends Base {
                         path: `/profile`,
                         comp: `account/profile`,
                         compName: 'profile-comp'
+                    }
+                })
+            )
+        )
+        //forum
+        this._qs('#forum').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/forum`,
+                        comp: `forum/forum`,
+                        compName: 'forum-comp'
                     }
                 })
             )

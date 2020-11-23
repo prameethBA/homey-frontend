@@ -199,6 +199,19 @@ export default class App extends Base {
                 )
             )
 
+            // Load forum
+            router.get('/forum', () =>
+                dispatchEvent(
+                    new CustomEvent('load-comp', {
+                        detail: {
+                            path: `${window.location.pathname}`,
+                            comp: `forum/forum`,
+                            compName: 'forum-comp'
+                        }
+                    })
+                )
+            )
+
             // Load payment gateway component
             router.get('/payment/received', () =>
                 dispatchEvent(
@@ -396,6 +409,19 @@ export default class App extends Base {
                         path: `${window.location.pathname}`,
                         comp: `property/favourite`,
                         compName: 'favourite-comp'
+                    }
+                })
+            )
+        )
+
+        // Load forum
+        router.get('/forum', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `${window.location.pathname}`,
+                        comp: `forum/forum`,
+                        compName: 'forum-comp'
                     }
                 })
             )

@@ -244,7 +244,6 @@ export default class Pendings extends Base {
 
     //Approve
     async approve(id) {
-        this.setLoader()
         try {
             const res = await axios.post(
                 `${this.host}/admin-property-summary/approve`,
@@ -270,7 +269,6 @@ export default class Pendings extends Base {
         } catch (err) {
             console.log(err)
         }
-        this.stopLoader()
     } //End of approv()
 
     //make Approve
@@ -286,7 +284,6 @@ export default class Pendings extends Base {
 
     //reject
     async reject(id) {
-        this.setLoader()
         try {
             const res = await axios.post(
                 `${this.host}/admin-property-summary/reject`,
@@ -312,13 +309,16 @@ export default class Pendings extends Base {
         } catch (err) {
             console.log(err)
         }
-        this.stopLoader()
     } //End of reject()
 
     //make Reject
     makeReject() {
         this._qsAll('.decline-button').forEach(item => {
-            item.addEventListener('click', () => this.reject(item.dataset.id))
+            item.addEventListener('click', async () => {
+                this.wait(item)
+                await this.reject(item.dataset.id)
+                this.unwait(item)
+            })
         })
     } //end of makeReject()
 

@@ -38,6 +38,7 @@ export default CSS = `
     
     .content {
       display: inline-flex;
+      flex-wrap: wrap;
     }
 
     property-view {
