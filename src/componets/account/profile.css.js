@@ -189,6 +189,7 @@ export default CSS = `
     transition: all 1s;
     margin: 1rem auto;
     width: 47.5%;
+    position: relative;
   }
 
   button:hover {

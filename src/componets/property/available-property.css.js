@@ -109,6 +109,7 @@ const filter = `
         cursor: pointer;
         transition: all 1s;
         margin: 0.2rem;
+        flex: 1;
     }
 
     select:hover, button:hover{
@@ -116,11 +117,6 @@ const filter = `
         color: black;
     }
     
-    select{
-    width: 10em;
-    height: 2em;
-    border-radius: 5px;
-    }
     input:checked{
         color: #ff4000;
     }

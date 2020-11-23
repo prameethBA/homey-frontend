@@ -133,7 +133,7 @@ export default class AvalibaleProperty extends Base {
                 <option selected disabled>Select a Property type</option>
                 <option >All</option>
             </select>
-            <button class="search-button"> Search now! </button>
+            <button class="search-button"> Search now!</button>
             <span class="toggle-filter">🔃</span>
         </div>
     `
@@ -303,8 +303,9 @@ export default class AvalibaleProperty extends Base {
 
     // search add comps
     async searchProperty() {
-        this.setLoader()
+        // this.setLoader()
         try {
+            this.wait('.search-button')
             import('./subcomp/property-view.js')
             const page = 1
             const limit = 12
@@ -335,7 +336,8 @@ export default class AvalibaleProperty extends Base {
         } catch (err) {
             console.log(err)
         }
-        this.stopLoader()
+        // this.stopLoader()
+        this.unwait('.search-button')
     } //End of searchProperty
 
     //loadSearch
