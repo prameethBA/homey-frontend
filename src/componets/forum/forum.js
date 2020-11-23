@@ -15,14 +15,14 @@ export default class Forum extends Base {
     </div>
     <div class="container">
         <div class="tags">
-            <h2 class="tags-txt">Tags</h2>
+            <h2 class="tags-txt">Populer <br/>Topics</h2>
             <ul>
-                <li><a href="#">Gardening</a></li>
-                <li><a href="#">Vegetables</a></li>
-                <li><a href="#">Fruits</a></li>
-                <li><a href="#">Harvesting</a></li>
-                <li><a href="#">Fertilizer</a></li>
-                <li><a href="#">Tools</a></li>
+                <li><a href="#">Annexes</a></li>
+                <li><a href="#">Houses</a></li>
+                <li><a href="#">Bordings</a></li>
+                <li><a href="#">Payments</a></li>
+                <li><a href="#">Site rules</a></li>
+                <li><a href="#">Reporting</a></li>
             </ul>
         </div>
         <div class="posts">
