@@ -2,11 +2,12 @@ export default CSS = `
 .heading {
   flex: 1;
   padding: 0.1rem;
+  margin-top: 3rem;
 }
 
 .heading h1 {
   margin-bottom: 0.2em;
-  font-family: Comic Sans MS;
+  font-family: monospace;
   font-size: 50px;
   text-align: center;
 }
@@ -15,10 +16,9 @@ export default CSS = `
   border: none;
   border-color: #239710;
   background-color: #ff9900;
-  padding: 10px 30px;
   text-align: center;
   text-decoration: none;
-  margin: 1.5em;
+  margin: 0 1.5rem;
   display: inline-block;
   font-size: 16px;
   cursor: pointer;
@@ -29,35 +29,21 @@ export default CSS = `
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24);
 }
 
-.new-post-button {
-  float: right;
-  background-color: #239710;
-  border-color: transparent;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  justify-content: center;
-  padding-bottom: calc(0.5em - 1px);
-  padding-left: 3em;
-  padding-right: 3em;
-  padding-top: calc(0.5em - 1px);
-  border-radius: 0.5em;
-  margin: 1.5em;
-}
-
-.new-post-button div:hover {
-  background-color: #021b16;
-  color: white;
+.buttons {
+  display: flex;
+  justify-content: space-between;
 }
 
 .tags {
-  padding: 5px;
-  background-color: #39b54a;
-  border: 2px solid #06070669;
-  border-radius: 30px;
-  place-items: center;
-  justify-content: center;
-  flex: 15%;
+    padding: 5px;
+    background-color: #39b54a;
+    border: 2px solid #06070669;
+    border-radius: 30px;
+    place-items: center;
+    justify-content: center;
+    flex: 30%;
+    margin: 1rem;
+    height: 100%;
 }
 
 .tags ul {
@@ -67,6 +53,8 @@ export default CSS = `
   margin: auto;
   padding: 0;
   width: 70%;
+  display: flex;
+  flex-direction: column;
 }
 
 .tags li a {
@@ -89,7 +77,6 @@ export default CSS = `
   font-family: 'Raleway', sans-serif;
   font-size: 38px;
   font-weight: 800;
-  line-height: 72px;
   margin: 0px 0 26px;
   text-align: center;
   text-transform: uppercase;
@@ -102,7 +89,12 @@ export default CSS = `
 }
 
 .textarea {
-  border: none;
+    display: inline-flex;
+    width: 100%;
+    height: 1.5rem;
+    border: none;
+    border-radius: 0.2rem;
+    text-indent: 0.2rem;
 }
 
 .container {
@@ -123,18 +115,11 @@ export default CSS = `
 
 .post-row {}
 
-@media (max-width: 800px) {
-  .container {
-      flex-direction: column;
-  }
-  
-  button{
+button{
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
-  
-      display: inline-block;
       width: 10em;
       height: 3em;
       border-radius: 25px;
