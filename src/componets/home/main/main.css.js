@@ -245,7 +245,7 @@ export default CSS = `
     }
 
     .api-1 {
-        background-image: url(./assets/img/apt-img-2.jpg);
+        background-image: url(./assets/img/payhere.png);
         min-height: 20vw;
         width: 20vw;
         background-position: center;
@@ -254,7 +254,7 @@ export default CSS = `
         margin: 2rem 1rem;
     }
     .api-2 {
-        background-image: url(./assets/img/apt-img-1.jpg);
+        background-image: url(./assets/img/google-maps-api.png);
         min-height: 20vw;
         width: 20vw;
         background-position: center;
@@ -263,7 +263,7 @@ export default CSS = `
         margin: 2rem 1rem;
     }
     .api-3 {
-        background-image: url(./assets/img/apt-img-3.jpg);
+        background-image: url(./assets/img/google-charts-api.png);
         min-height: 20vw;
         width: 20vw;
         background-position: center;
