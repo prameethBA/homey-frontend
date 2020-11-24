@@ -24,7 +24,7 @@ export default class Pendings extends Base {
             </table>
         </div>
         <div class="pagination">
-            <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
         </div>
     </div>
     <div class="preview-advertisement"></div>
@@ -39,7 +39,7 @@ export default class Pendings extends Base {
     adPreview() {
         this._qsAll('.ad-link').forEach(item => {
             item.addEventListener('click', async () => {
-                this.setLoader()
+                this.wait(item)
                 await axios
                     .post(
                         `${this.host}/admin-property-preview/pending-approval`,
@@ -139,7 +139,6 @@ export default class Pendings extends Base {
                                 ).innerHTML = data
                             }
                         )
-                        this.stopLoader()
                     })
                     .catch(err => {
                         this.stopLoader()
@@ -156,6 +155,7 @@ export default class Pendings extends Base {
                             })
                         )
                     })
+                this.unwit(item)
             })
         })
     } //End of adPreview()
@@ -244,7 +244,6 @@ export default class Pendings extends Base {
 
     //Approve
     async approve(id) {
-        this.setLoader()
         try {
             const res = await axios.post(
                 `${this.host}/admin-property-summary/approve`,
@@ -270,19 +269,21 @@ export default class Pendings extends Base {
         } catch (err) {
             console.log(err)
         }
-        this.stopLoader()
     } //End of approv()
 
     //make Approve
     makeApprove() {
         this._qsAll('.approve-button').forEach(item => {
-            item.addEventListener('click', () => this.approve(item.dataset.id))
+            item.addEventListener('click', async () => {
+                this.wait(item)
+                await this.approve(item.dataset.id)
+                this.unwait(item)
+            })
         })
     } //end of makeApprove()
 
     //reject
     async reject(id) {
-        this.setLoader()
         try {
             const res = await axios.post(
                 `${this.host}/admin-property-summary/reject`,
@@ -308,13 +309,16 @@ export default class Pendings extends Base {
         } catch (err) {
             console.log(err)
         }
-        this.stopLoader()
     } //End of reject()
 
     //make Reject
     makeReject() {
         this._qsAll('.decline-button').forEach(item => {
-            item.addEventListener('click', () => this.reject(item.dataset.id))
+            item.addEventListener('click', async () => {
+                this.wait(item)
+                await this.reject(item.dataset.id)
+                this.unwait(item)
+            })
         })
     } //end of makeReject()
 

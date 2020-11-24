@@ -21,6 +21,9 @@ export default class users extends Base {
         </div>
         <div class="row users">
         </div>
+        <div class="pagination">
+            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
+        </div>
     </div>
 
     <div class="popup"></div>
@@ -107,10 +110,10 @@ export default class users extends Base {
 
     // getUsers from API
     async getUsers() {
+        this.setLoader()
         await axios
             .post(`${this.host}/AdminUsers/all-users`, {
-                userId: this.getUserId(),
-                token: this.getToken()
+                ...this.authData()
             })
             .then(res => {
                 res.data.forEach(user => {
@@ -122,6 +125,7 @@ export default class users extends Base {
                 })
             })
             .catch(err => console.log(err))
+        this.stopLoader()
     } //end of getUsers()
 
     // connectedCallback

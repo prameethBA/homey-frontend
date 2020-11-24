@@ -63,7 +63,7 @@ export default class PropertyView extends Base {
                                 : `<div class="favourite" title="Add to favoutite">⭐</div>`
                         }
                         <div class="share" title="Share">✉</div>
-                        <div class="status">🟢</div>
+                        <div class="status">⚪</div>
                         ${
                             this.getParam('overview') == 'true'
                                 ? `<span></span>`
@@ -112,7 +112,15 @@ export default class PropertyView extends Base {
         switch (this.state.property_status) {
             case '0':
                 this._qs('.status').innerHTML =
-                    '<span title="Pending Approval">⭕'
+                    '<span title="Pending Approval">⭕</span>'
+                break
+            case '1':
+                this._qs('.status').innerHTML =
+                    '<span title="Available">🟢</span>'
+                break
+            case '2':
+                this._qs('.status').innerHTML =
+                    '<span title="Rejected">🔴</span>'
                 break
         }
 
@@ -326,7 +334,6 @@ export default class PropertyView extends Base {
 
     //Remove property
     async removeProperty() {
-        this.setLoader()
         try {
             const res = await axios.post(`${this.host}/property/remove`, {
                 ...this.authData(),
@@ -343,13 +350,13 @@ export default class PropertyView extends Base {
         } catch (err) {
             console.log(err)
         }
-        this.stopLoader()
     } //End of removeProperty()
 
     //listen for remove
     listenRemove() {
-        this._qs('.remove').addEventListener('click', () => {
-            this.removeProperty()
+        this._qs('.remove').addEventListener('click', async () => {
+            this.wait('.container')
+            await this.removeProperty()
         })
     } //End of listenRemove()
 

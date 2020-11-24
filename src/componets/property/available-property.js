@@ -4,6 +4,12 @@ import CSS from './available-property.css.js'
 export default class AvalibaleProperty extends Base {
     css = CSS
 
+    notFound = `
+        <div class="notFound">
+            <h1> No Properties Found!</h1>
+        </div>
+    `
+
     filter = `
     <div class="left_nav row">
 		<div class="nav_container column">
@@ -127,7 +133,7 @@ export default class AvalibaleProperty extends Base {
                 <option selected disabled>Select a Property type</option>
                 <option >All</option>
             </select>
-            <button class="search-button"> Search now! </button>
+            <button class="search-button"> Search now!</button>
             <span class="toggle-filter">🔃</span>
         </div>
     `
@@ -137,10 +143,19 @@ export default class AvalibaleProperty extends Base {
         ${this.filter}
         <div id="container">
         </div>
-        <div class="pagination">
-            <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+        <div id="pagination">
+            
         </div>
         <div id="questioner">
+        </div>
+    `
+
+    pagination = `
+        <div class='pagination'>
+            <div class='previous'>First</div>{' '}
+            <div class='pagination-active'>1</div> <div>2</div>{' '}
+            <div class='current'>3</div> <div>4</div> <div>5</div>
+            <div class='last'>Last</div>
         </div>
     `
 
@@ -149,7 +164,10 @@ export default class AvalibaleProperty extends Base {
         this.mount()
 
         // load Questioner
-        this.loadQuestioner()
+        if (sessionStorage.questioner != 1) {
+            this.loadQuestioner()
+            sessionStorage.questioner = 1
+        }
 
         //Load ad preview cards
         this.loadpropertyView()
@@ -178,36 +196,35 @@ export default class AvalibaleProperty extends Base {
     // Load add comps
     async loadpropertyView() {
         this.setLoader()
-        await import('./subcomp/property-view.js')
-            .then(() => {
-                this.state.page = 1
-                this.state.limit = 12
+        this.wait('#container')
+        try {
+            import('./subcomp/property-view.js')
+            const page = 1
+            const limit = 12
 
-                for (let index = 0; index < this.state.limit; index++) {
+            const res = await axios.get(
+                `${this.host}/property/all/${limit}/${page}`
+            )
+
+            if (res.data.length < 1) {
+                this._qs('#container').innerHTML = this.notFound
+            } else {
+                res.data.forEach(item => {
                     this._qs('#container').innerHTML += `
-                            <property-view id="id-${index}" key="${index}">
-                                <img slot="thumbnail" class="thumbnail" src="./assets/img/alt/load-post.gif"/>
-                                <p slot="title" class=" title title-${index}">
-                                    Boarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at Colombo
-                                </p>
-                                <p slot="price" class=" price price-${index}">Price</p>
-                                <p slot="description" class=" description description-${index}">
-                                Boarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at ColomboBoarding place at Colombo
-                                </p>
-                                <input class="id id-${index}" type="hidden" slot="id" value=""/>
-                            </property-view>
-                        `
-                }
-                this.stopLoader()
-            })
-            .catch(err => {
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-                this.setLoader()
-            })
+                    <property-view 
+                    id="${item._id}"
+                    data-data="${this.encode(item)}"
+                    >
+                    </property-view>
+                    `
+                })
+                this._qs('#pagination').innerHTML = this.pagination
+            }
+        } catch (err) {
+            console.log(err)
+            this.unwait('#container')
+        }
+        this.stopLoader()
     } //End of loadpropertyView()
 
     // Toggle filter
@@ -221,59 +238,131 @@ export default class AvalibaleProperty extends Base {
         })
     } //End of toggleFilter()
 
-    connectedCallback() {
-        const fetchAdds = async (limit, page, find = 'find') => {
-            this.setLoader()
-            this.state.ids = []
-            await axios
-                .get(`${this.host}/property/all/${limit}/${page}`)
-                .then(async res => {
-                    res.data.forEach((item, index) => {
-                        this.stopLoader()
-                        this.state.ids.push(item._id)
-                        // this._qs(`#id-${index}`).id = item._id
-                        this._qs(`.title-${index}`).innerHTML = item.title
-                        this._qs(`.price-${index}`).innerHTML =
-                            'Rs.' +
-                            item.price.replace(/\B(?=(\d{3})+(?!\d))/, ',')
-                        this._qs(`.description-${index}`).innerHTML =
-                            item.description
-                        this._qs(`.id-${index}`).value = item._id
-                    })
-
-                    for (
-                        let index = res.data.length;
-                        index < this.state.limit;
-                        index++
-                    ) {
-                        this._qs(`#id-${index}`).shadowRoot.innerHTML = ''
-                    }
-
-                    await axios
-                        .post(`${this.host}/images/property`, {
-                            ids: this.state.ids
-                        })
-                        .then(res => {
-                            res.data.forEach((id, index) => {
-                                id.images.forEach(image => {
-                                    this._qs(
-                                        `#id-${index}`
-                                    ).innerHTML += `<img slot="thumbnail" class="thumbnail" src="${image.image}" />`
-                                })
-                            })
-                            dispatchEvent(new Event('start-slider'))
-                        })
-                })
-                .catch(err =>
-                    dispatchEvent(
-                        new CustomEvent('pop-up', {
-                            detail: { pop: 'error', msg: err }
-                        })
-                    )
-                )
+    // API call for get Districts
+    async getDistricts() {
+        try {
+            const res = await axios.get(`${this.host}/district`)
+            res.data.data.forEach(
+                element =>
+                    (this._qs(
+                        '.district'
+                    ).innerHTML += `<option value="${element._id}">${element.district}</option>`)
+            )
+        } catch (err) {
+            console.log(err)
         }
+    } //End of getDistricts()
 
-        fetchAdds(10, 0)
+    // Add eventlistner to load citeis
+    loadCities() {
+        try {
+            this._qs('.district').addEventListener('change', async () => {
+                // Prevent laggin when do rapid changing
+                addEventListener('change', async () => {
+                    await this.sleep(100)
+                    this._qs('.district').removeEventListener('change')
+                })
+                await this.sleep(101)
+                // API call for get Districts
+                const res = await axios.get(
+                    `${this.host}/cities/districtId/${
+                        this._qs('.district').value
+                    }`
+                )
+                this._qs('.city').innerHTML = ''
+                if (res.status == '200')
+                    res.data.forEach(
+                        element =>
+                            (this._qs(
+                                '.city'
+                            ).innerHTML += `<option value="${element._id}"/>${element.city}</option>`)
+                    )
+                else throw 'Server Error.'
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of loadCities()
+
+    // API call for get property types
+    async getPropertytypes() {
+        try {
+            const res = await axios.get(`${this.host}/property-type`)
+            res.data.data.forEach(
+                element =>
+                    (this._qs(
+                        '.property-type'
+                    ).innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`)
+            )
+        } catch (err) {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: { pop: 'error', msg: err }
+                })
+            )
+        }
+    } //End of getPropertytypes()
+
+    // search add comps
+    async searchProperty() {
+        // this.setLoader()
+        try {
+            this.wait('.search-button')
+            import('./subcomp/property-view.js')
+            const page = 1
+            const limit = 12
+
+            let search = this._qs('.search-box')
+
+            const res = await axios.get(
+                `${this.host}/property/search/${search.value}`
+            )
+
+            search.value = ''
+            this._qs('#container').innerHTML = ''
+
+            if (res.data.length < 1) {
+                this._qs('#container').innerHTML = this.notFound
+            } else {
+                res.data.forEach(item => {
+                    this._qs('#container').innerHTML += `
+                    <property-view 
+                    id="${item._id}"
+                    data-data="${this.encode(item)}"
+                    >
+                    </property-view>
+                    `
+                })
+                this._qs('#pagination').innerHTML = this.pagination
+            }
+        } catch (err) {
+            console.log(err)
+        }
+        // this.stopLoader()
+        this.unwait('.search-button')
+    } //End of searchProperty
+
+    //loadSearch
+    loadSearch() {
+        this._qs('.search-button').addEventListener('click', () => {
+            this.searchProperty()
+        })
+    } //End of loadSearch()
+
+    connectedCallback() {
+        // Load add comps
+        // this.loadpropertyView()
+
+        // API call for get Districts
+        this.getDistricts()
+        // Add eventlistner to load citeis
+        this.loadCities()
+
+        // API call for get property types
+        this.getPropertytypes()
+
+        //loadSearch
+        this.loadSearch()
 
         // Toggle filter
         this.toggleFilter()

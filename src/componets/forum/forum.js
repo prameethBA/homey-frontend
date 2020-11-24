@@ -1,156 +1,21 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+import Base from '../Base.js'
+import CSS from './forum.css.js'
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-            body {
-            background-color: #31d04199;
-        }
-        
-        .heading {
-            flex: 1;
-            padding: 0.1rem;
-        }
-        
-        .heading h1 {
-            margin-bottom: 0.2em;
-            font-family: Comic Sans MS;
-            font-size: 50px;
-            text-align: center;
-        }
-        
-        .tab-button {
-            border: none;
-            border-color: #239710;
-            background-color: #ff9900;
-            padding: 10px 30px;
-            text-align: center;
-            text-decoration: none;
-            margin: 1.5em;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        
-        .tab-button:hover {
-            border-color: rgb(149, 192, 169);
-            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24);
-        }
-        
-        .new-post-button {
-            float: right;
-            background-color: #239710;
-            border-color: transparent;
-            color: #fff;
-            font-size: 1rem;
-            cursor: pointer;
-            justify-content: center;
-            padding-bottom: calc(0.5em - 1px);
-            padding-left: 3em;
-            padding-right: 3em;
-            padding-top: calc(0.5em - 1px);
-            border-radius: 0.5em;
-            margin: 1.5em;
-        }
-        
-        .new-post-button div:hover {
-            background-color: #021b16;
-            color: white;
-        }
-        
-        .tags {
-            padding: 5px;
-            background-color: #39b54a;
-            border: 2px solid #06070669;
-            border-radius: 30px;
-            place-items: center;
-            justify-content: center;
-            flex: 15%;
-        }
-        
-        .tags ul {
-            list-style-type: none;
-            justify-content: center;
-            align-items: center;
-            margin: auto;
-            padding: 0;
-            width: 70%;
-        }
-        
-        .tags li a {
-            border-radius: 50px;
-            background-color: #b3dbd3;
-            display: block;
-            color: #000;
-            padding: 9px 36px;
-            margin-bottom: 2em;
-            text-decoration: none;
-        }
-        
-        .tags li a:hover {
-            background-color: #138D75;
-            color: white;
-        }
-        
-        .tags-txt {
-            color: #020202;
-            font-family: 'Raleway', sans-serif;
-            font-size: 35px;
-            font-weight: 800;
-            line-height: 48px;
-            margin: 0px 0 26px;
-            text-align: center;
-            text-transform: uppercase;
-        }
-        
-        .user-image {
-            width: 4rem;
-            margin-top: 1.5em;
-            padding: 0;
-        }
-        
-        .textarea {
-            border: none;
-        }
-        
-        .container {
-            display: flex;
-            align-self: center;
-            justify-content: center;
-            margin-right: 1.5em;
-            margin-top: 1em;
-        }
-        
-        .post-container {}
-        
-        .posts {
-            flex: 85%;
-            padding-right: 2px;
-            margin-left: 3em;
-        }
-        
-        .post-row {}
-        
-        @media (max-width: 800px) {
-            .container {
-                flex-direction: column;
-            }
-    </style>
+export default class Forum extends Base {
+    css = CSS
 
-
-</head>
-
-<body>
+    content = `
     <div class="heading">
         <h1>HOMEY.LK Forum</h1>
     </div>
     <div class="buttons">
-        <button class="tab-button">Home</button>
-        <button class="tab-button">My Posts</button>
-        <button class="new-post-button">Create Post</button>
+        <div>   
+            <button class="tab-button">Forum Home</button>
+            <button class="tab-button">My Posts</button>
+        </div>
+        <div>   
+            <button class="tab-button">Create Post + </button>
+        </div>
     </div>
     <div class="container">
         <div class="tags">
@@ -180,7 +45,7 @@
                     <i class="fa fa-thumbs-up" style="font-size:25px; color:#138D75; margin-right:10px;"></i>10
                     <i class="fa fa-thumbs-down" style="font-size:25px; color:#black; margin-left:10px; margin-right:10px;"></i>1
                     <i class="fa fa-comment-o" style="font-size:25px; color:#black; margin-left:25px; margin-right:15px;"></i>3
-                    <textarea rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
+                    <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
                 </div>
                 <hr>
             </div>
@@ -199,7 +64,7 @@
                     <i class="fa fa-thumbs-up" style="font-size:25px; color:#138D75; margin-right:10px;"></i>10
                     <i class="fa fa-thumbs-down" style="font-size:25px; color:#black; margin-left:10px; margin-right:10px;"></i>1
                     <i class="fa fa-comment-o" style="font-size:25px; color:#black; margin-left:25px; margin-right:15px;"></i>3
-                    <textarea rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
+                    <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
                 </div>
                 <hr>
             </div>
@@ -218,10 +83,15 @@
                     <i class="fa fa-thumbs-up" style="font-size:25px; color:#138D75; margin-right:10px;"></i>10
                     <i class="fa fa-thumbs-down" style="font-size:25px; color:#black; margin-left:10px; margin-right:10px;"></i>1
                     <i class="fa fa-comment-o" style="font-size:25px; color:#black; margin-left:25px; margin-right:15px;"></i>3
-                    <textarea rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
+                    <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
                 </div>
                 <hr>
             </div>
-</body>
+`
+    constructor() {
+        super()
+        this.mount()
+    } //End of constructor
+} //End of class
 
-</html>
+window.customElements.define('forum-comp', Forum)

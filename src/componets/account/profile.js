@@ -289,7 +289,7 @@ export default class Profile extends Base {
                 this._qs('.popup').style.display = 'flex'
                 this._qs('.popup').innerHTML = this.confirmProfileUpdate
                 this._qs('.yes-profile').addEventListener('click', async () => {
-                    this.setLoader()
+                    this.wait('.yes-profile')
 
                     const data = {
                         userId: this.getUserId(),
@@ -324,7 +324,6 @@ export default class Profile extends Base {
                                 )
                             else throw res.data
 
-                            this.stopLoader()
                             this._qs('.popup').style.display = 'none'
                         })
                         .catch(err => {
@@ -340,9 +339,9 @@ export default class Profile extends Base {
                                     }
                                 })
                             )
-                            this.stopLoader()
                             this._qs('.popup').style.display = 'none'
                         })
+                    this.unwait('.yes-profile')
                 })
 
                 this._qs('.no-profile').addEventListener(

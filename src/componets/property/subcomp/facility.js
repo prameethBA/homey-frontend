@@ -22,7 +22,7 @@ export default class Facility extends Base {
     constructor() {
         super()
         this.mount()
-        if (this.getAttribute('measurable') == 1)
+        if (this.getAttribute('measurable') == 1) {
             this._qs(
                 '.container'
             ).innerHTML += `<span> x</span><input type="number" class ="quantity ${
@@ -32,6 +32,16 @@ export default class Facility extends Base {
                     ? 0
                     : this.getAttribute('quantity')
             }"/>`
+            this._qs('.checkbox').addEventListener('change', () => {
+                if (this._qs('.checkbox').cheked == true)
+                    this._qs('.quantity').value = 0
+                else {
+                    this._qs('.quantity').value = 1
+                    this._qs('.quantity').focus()
+                    this._qs('.quantity').select()
+                }
+            })
+        }
     }
 
     connectedCallback() {} //End of connectedCallback

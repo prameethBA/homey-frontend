@@ -1,6 +1,6 @@
 const search = `
     .search {
-        margin: 5rem 0rem 0rem 0rem;
+        margin: 4rem 0rem 0rem 0rem;
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -109,6 +109,7 @@ const filter = `
         cursor: pointer;
         transition: all 1s;
         margin: 0.2rem;
+        flex: 1;
     }
 
     select:hover, button:hover{
@@ -116,11 +117,6 @@ const filter = `
         color: black;
     }
     
-    select{
-    width: 10em;
-    height: 2em;
-    border-radius: 5px;
-    }
     input:checked{
         color: #ff4000;
     }
@@ -132,9 +128,18 @@ const filter = `
     }
 `
 
+const notFound = `
+    .notFound {display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 58vh;}
+`
+
 export default CSS = `
     ${filter}
     ${search}
+    ${notFound}
     #container {
     display: grid;
     justify-content: center;
@@ -152,13 +157,47 @@ export default CSS = `
     }
 
     .pagination {
-        margin: 0.1rem auto 2rem auto;
-        display: table;
+        margin: 5rem auto 1rem auto;
+        font-family: monospace;
+        font-size: 1.2rem;
+        background-color: #001f3f;
+        border-radius: 3rem;
+        display: flex;
+        width: 50%;
+        align-content: space-around;
+        align-items: center;
+        flex-direction: row;
+        height: 2rem;
     }
-
-    .pagination a {
-        color: blue;
+    
+    .pagination > div {
+        color: #ffffff;
         cursor: pointer;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-left: 1px solid #ffffff;
+    }
+    
+    .pagination > div:hover {
+        background-color: darkorange;
+    }
+    
+    .pagination > div:last-child {
+        border-top-right-radius: 2rem;
+        border-bottom-right-radius: 2rem;
+    }
+    
+    .pagination > div:first-child {
+        border-top-left-radius: 2rem;
+        border-bottom-left-radius: 2rem;
+    }
+    
+    .pagination-active{
+        background-color: darkorange;
+        font-weight: bold;
     }
 
     @media screen and (max-width: 1200px) {
