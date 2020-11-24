@@ -41,7 +41,8 @@ export default CSS = `
     margin: auto;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 2;
   }
 
   #progress-bar {
