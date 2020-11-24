@@ -134,9 +134,6 @@ export default class AddNewProperty extends Base {
         super()
         this.authenticate()
         this.mount()
-
-        //validate Mobile
-        this.validateMobile()
     } //end of constructor
 
     //validate Mobile
@@ -481,82 +478,12 @@ export default class AddNewProperty extends Base {
 
     //preview the add
     async previewAdvertisement(data) {
-        const res = await import(
-            '/componets/universal/preview-advertisement.js'
-        )
+        await import('/componets/universal/preview-advertisement.js')
 
-        let innerData = `<preview-advertisement>`
-
-        data.images.forEach(item => {
-            innerData += `<img slot='image' src="${item}" />`
-        })
-
-        innerData += ` 
-            <p slot='title'>
-                ${data.title}
-                <button class="load-more">Load more >></button>
-            </p>
-            <span slot="price" class="row-1 price">Rental: Rs. ${
-                data.price
-            }/Month</span>
-            <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${
-                data.keyMoney
-            }</span>
-            <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${
-                data.minimumPeriod !== ''
-                    ? data.minimumPeriod
-                    : 'Not applicable'
-            }</span>
-            <span slot="available-from" class="row-1 available-from">Available From: ${
-                data.availableFrom
-            }</span>
-            <p slot='description'>
-                ${data.description}
-                <button class="load-more">Load more >></button>
-            </p>
-            <div slot="facilities" class="facilities">
-        `
-
-        data.facilities.forEach(item => {
-            innerData += `<facility-comp key="${item.featureId}" name="${
-                item.feature
-            }" ${
-                item.quantity != 'null' ? 'measurable="1"' : 'measurable="0"'
-            } checked="true" quantity="${item.quantity}"></facility-comp>`
-        })
-
-        innerData += `
-            </div>
-                <map-view slot="location" class="location" location="${this.encode(
-                    data.location
-                )}"></map-view>
-                <div slot="location-details" class="row-2 location-details">
-                    <span class="location-details-span district">
-                        District : ${data.district}
-                    </span>
-                    <span class="location-details-span city">
-                        City : ${data.city}
-                    </span>
-                    <span class="location-details-span address">Address : 
-                        ${
-                            /^ *$||^$/.test(data.address)
-                                ? data.city + ', ' + data.district
-                                : data.address
-                        }
-                    </span>
-                </div>
-                <div slot="approval" class="row approval">
-                    <div class="button approve-button">Post the advertisement</div>
-                    <div class="button decline-button">edit</div>
-                </div>
+        this._qs('#add-preview').innerHTML = `
+            <preview-advertisement data-data="${this.encode(data)}">
             </preview-advertisement>
-            <div id="progress">
-            <div id="progress-bar"><div id="progress-bar-progress"></div></div>
-            <div id="progress-progress">0%</div>
-        </div>
-    `
-        window.scrollTo(0, 0)
-        this._qs('#add-preview').innerHTML = innerData
+            `
 
         //post the Advertisement
         this.postAdvertisement(data)
@@ -565,6 +492,7 @@ export default class AddNewProperty extends Base {
     //collect Data
     collectData() {
         this._qs('#add-property-button').addEventListener('click', () => {
+            this.wait('#add-property-button')
             //getValues
             const data = this.getValues()
 
@@ -572,6 +500,7 @@ export default class AddNewProperty extends Base {
                 //preview the add
                 this.previewAdvertisement(data)
             }
+            this.unwait('#add-property-button')
         })
     } //collectData()
 
@@ -729,7 +658,10 @@ export default class AddNewProperty extends Base {
         })
     } //End of the postAdvertisement()
 
-    connectedCallback() {
+    async connectedCallback() {
+        //validate Mobile
+        await this.validateMobile()
+
         // API call for get RentalPeriod
         this.getRentalPeriod()
 
