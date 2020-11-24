@@ -4,6 +4,12 @@ import CSS from './add-new-property.css.js'
 export default class AddNewProperty extends Base {
     css = CSS
 
+    alertMobile = `
+        <div class="alert">
+            Update <a href="profile"> Mobile number </a> to continue.
+        </div>
+    `
+
     content = `
     <div class="popup"></div>
     <div class="container">
@@ -128,7 +134,24 @@ export default class AddNewProperty extends Base {
         super()
         this.authenticate()
         this.mount()
+
+        //validate Mobile
+        this.validateMobile()
     } //end of constructor
+
+    //validate Mobile
+    async validateMobile() {
+        this.wait('.container')
+        const res = await axios.post(`${this.host}/profile/validate/mobile`, {
+            ...this.authData()
+        })
+        if (res.data.action == 'false') {
+            // this.unwait('.container')
+            this._qs('#add-preview').innerHTML = this.alertMobile
+        } else {
+            this.unwait('.container')
+        }
+    } //End of validateMobile()
 
     //load google-map component
     async loadMap() {

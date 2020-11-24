@@ -209,6 +209,7 @@ export default class AvalibaleProperty extends Base {
             if (res.data.length < 1) {
                 this._qs('#container').innerHTML = this.notFound
             } else {
+                this._qs('#container').innerHTML = ''
                 res.data.forEach(item => {
                     this._qs('#container').innerHTML += `
                     <property-view 
