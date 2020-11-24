@@ -40,7 +40,7 @@ class TxtRotate {
         } else if (this.isDeleting && this.txt === '') {
             this.isDeleting = false
             this.loopNum++
-            delta = 50
+                delta = 50
         }
 
         setTimeout(() => {
@@ -85,7 +85,7 @@ export default class Main extends Base {
                     id='main-title-text'
                     class='txt-rotate'
                     data-period='1000'
-                    data-rotate='[ "Welcome to Homey.lk", "New way to find a Home", "It is Easy", "It is Quick", "It is safe" ]'></span>
+                    data-rotate='[ "Welcome to Homey.lk", "New way to find a Home" ]'></span>
             </h1>
         </div>
     `
@@ -210,9 +210,9 @@ export default class Main extends Base {
                 <div class='api-row'>
                     <span class='slider slider-previous'>‹</span>
                     <div class='api-content'>
-                        <div class='api'></div>
-                        <div class='api'></div>
-                        <div class='api'></div>
+                        <div class='api-1'></div>
+                        <div class='api-2'></div>
+                        <div class='api-3'></div>
                     </div>
                     <span class='slider slider-next'>›</span>
                 </div>
@@ -224,6 +224,10 @@ export default class Main extends Base {
                         <a name='about-us'></a>
                         <div class='about-us-title'>About Us</div>
                         <div class='about-us-paragraph'>
+                            Our primary goal is to uplift the Housing rental system in Sri Lanka and restore it to a glorious state by facilitating
+                            and helping the property owners and tenants through technology and transforming the existing environment into a much more
+                            efficient, modern way.we can bridge the gap between house owners and tenants by building an interactive community.
+                            <br>
                             Homey.lk is for finding Boarding places, Annexes and
                             other properties and We try to provide exact
                             matches, or matches which are similar to the
@@ -248,8 +252,8 @@ export default class Main extends Base {
                                     placeholder='sample@domain.com'
                                 />
                                 <button class='subscribe-button'>
-                                    {' '}
-                                    Subscribe{' '}
+                                    
+                                    Subscribe
                                 </button>
                             </div>
                         </div>
@@ -304,22 +308,22 @@ export default class Main extends Base {
 
     // Load signuo or login form
     loadForm(elem) {
-        this._qs(`.${elem}`).addEventListener('click', () => {
-            dispatchEvent(new Event(`load-${elem}-form`))
-        })
-        if (this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
-    } //End of loadForm()
+            this._qs(`.${elem}`).addEventListener('click', () => {
+                dispatchEvent(new Event(`load-${elem}-form`))
+            })
+            if (this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
+        } //End of loadForm()
 
     connectedCallback() {
-        //typingEffect
-        this.typingEffect()
-        //scroll down page when click scroll down arrow
-        this.scrollDown()
+            //typingEffect
+            this.typingEffect()
+                //scroll down page when click scroll down arrow
+            this.scrollDown()
 
-        // Load signup or login form
-        this.loadForm('login')
-        this.loadForm('signup')
-    } //End of connectedCallback()
+            // Load signup or login form
+            this.loadForm('login')
+            this.loadForm('signup')
+        } //End of connectedCallback()
 } //End of Class
 
 window.customElements.define('main-comp', Main)
