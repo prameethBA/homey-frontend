@@ -18,11 +18,10 @@ export default class AdminDashboard extends Base {
     <li><a id="users">Users</a></li>
     <li><a id="payments">Payments</a></li>
     <li><a id="admin-accounts">Admin Accounts</a></li>
-    <li><a id="home">Home</a></li>
+    <li><a id="report">Reports</a></li>
     </ul>
     </nav>
     <ul class="links list-inline unstyled list-hover-slide">
-    <li><a id="report">Reports</a></li>
     <li><a>Settings</a></li>
     </ul>
     </div>
@@ -58,17 +57,17 @@ export default class AdminDashboard extends Base {
     } //End of the constructor
 
     //Listners for view hide sidbar
-    sideBar() {
-        this._qs('#hamburger-icon').addEventListener('click', () => {
-            this._qs('.container').style.left = '0'
-            this._qs('#backdrop').style.display = 'block'
+    // sideBar() {
+    //     this._qs('#hamburger-icon').addEventListener('click', () => {
+    //         this._qs('.container').style.left = '0'
+    //         this._qs('#backdrop').style.display = 'block'
 
-            this._qs('#backdrop').addEventListener('click', () => {
-                this._qs('.container').style.left = '-100%'
-                this._qs('#backdrop').style.display = 'none'
-            })
-        })
-    } //End of sideBar()
+    //         this._qs('#backdrop').addEventListener('click', () => {
+    //             this._qs('.container').style.left = '-100%'
+    //             this._qs('#backdrop').style.display = 'none'
+    //         })
+    //     })
+    // } //End of sideBar()
 
     // load comp
     async loadContent(comp) {
@@ -99,6 +98,7 @@ export default class AdminDashboard extends Base {
         const uri = window.location.pathname.split('/')
         if (uri[2] == undefined || uri[2] == 'dashboard')
             this.loadContent('dashboard-comp')
+        this._qs('#dashBoard').style.backgroundColor = '#df4500'
         this._qs(`#${uri[2]}`) != null ? this._qs(`#${uri[2]}`).click() : null
         //Set breadcrumbs
         this.setBreadCrumbs(uri)
@@ -126,13 +126,16 @@ export default class AdminDashboard extends Base {
             { link: '#users', comp: 'users-comp' },
             { link: '#payments', comp: 'payments-comp' },
             { link: '#admin-accounts', comp: 'admin-accounts-comp' },
-            { link: '#home', comp: 'home-comp' },
             { link: '#report', comp: 'report-comp' }
         ]
 
         navLinks.forEach(item => {
             this._qs(item.link).addEventListener('click', () => {
                 this.loadContent(item.comp)
+                navLinks.forEach(
+                    elm => (this._qs(elm.link).style.backgroundColor = 'unset')
+                )
+                this._qs(item.link).style.backgroundColor = '#df4500'
             })
         })
 

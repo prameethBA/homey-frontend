@@ -1,13 +1,19 @@
 import Base from '../Base.js'
-import CSS from './own-properties.css.js'
+import CSS from './favourite.css.js'
 
 export default class Favourite extends Base {
     css = CSS
 
+    notFound = `
+        <div class="notFound">
+            <h1> No Properties Found!</h1>
+        </div>
+    `
     content = `
         <div id="container">
             <div class="row">
                 <span class="search-container">
+                    <span class="title">Favourite Properties</span>
                     <input id="search" type="text" class="search" placeholder="Search here" />
                     <label for="search">🔍</label>
                     </span>
@@ -17,11 +23,20 @@ export default class Favourite extends Base {
             </div>
         </div>
         <div class="pagination">
-            <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
         </div>
         <div id="questioner">
         </div>
     `
+
+    pagination = `
+        <div class='pagination'>
+            <div class='previous'>First</div>
+            <div class='pagination-active'>1</div> <div>2</div>
+            <div class='current'>3</div> <div>4</div> <div>5</div>
+            <div class='last'>Last</div>
+        </div>
+        `
     constructor() {
         super()
         this.mount()
@@ -30,39 +45,56 @@ export default class Favourite extends Base {
     // Load add comps
     async loadpropertyView() {
         this.setLoader()
-        await import('./subcomp/property-view.js')
-            .then(() => {
-                this.state.page = 1
-                this.state.limit = 12
-
-                for (let index = 0; index < this.state.limit; index++) {
-                    this._qs('.content').innerHTML += `
-                          <property-view id="id-${index}" key="${index}" overview='false'>
-                              <img slot="thumbnail" class="thumbnail" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
-                              <p slot="title" class=" title title-${index}">Boarding place at Colombo-08</p>
-                              <p slot="price" class=" price price-${index}">Rs. 17, 000</p>
-                              <p slot="description" class=" description description-${index}">
-                                  A boarding house is a house (frequently a family home) in which lodgers rent one or more rooms for one or more nights, and sometimes for extended periods of weeks, months, and years. The common parts of the house are maintained, and some services, such as laundry and cleaning, may be supplied.
-                              </p>
-                              <input class="id id-${index}" type="hidden" slot="id" value=""/>
-                          </property-view>
-                      `
+        this.wait('.content')
+        try {
+            import('./subcomp/property-view.js')
+            const res = await axios.post(
+                `${this.host}/property/favourite/getAll`,
+                {
+                    ...this.authData()
                 }
-                this.stopLoader()
-            })
-            .catch(err => {
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-                this.setLoader()
-            })
+            )
+
+            if (res.data.length < 1) {
+                this._qs('#container').innerHTML = this.notFound
+            } else {
+                this._qs('.content').innerHTML = ''
+                res.data.forEach(item => {
+                    this._qs('.content').innerHTML += `
+                    <property-view 
+                    id="${item.property_id}"
+                    data-data="${this.encode(item)}"
+                    >
+                    </property-view>
+                    `
+                })
+            }
+        } catch (err) {
+            console.log(err)
+            this.unwait('.content')
+        }
+        this.stopLoader()
     } //End of loadpropertyView()
+
+    //listenForButtons
+    listenForButtons() {
+        this._qsAll('.button-link').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.remove('primary-button')
+                this._qsAll('.button-link').forEach(btn => {
+                    btn.classList.remove('danger-button')
+                })
+                item.classList.add('danger-button')
+            })
+        })
+    } //End of listenForButtons()
 
     connectedCallback() {
         // Load add comps
         this.loadpropertyView()
+
+        //listenForButtons
+        this.listenForButtons()
     } //End of connectedCallback()
 } //End of the class
 

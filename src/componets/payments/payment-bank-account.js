@@ -7,11 +7,11 @@ export default class PaymentBankAccount extends Base {
     leftNav = `
     <div class="column left-nav-container">
       <div class="column left-nav">
-        <div class="active"><a href="/payment/received">Received Payments</a></div>
+        <div><a href="/payment/received">Received Payments</a></div>
         <div><a href="/payment/paid">Paying History</a></div>
         <div><a href="/payment/all">All payments</a></div>
         <div><a href="/payment/cashout">Cash out</a></div>
-        <div><a href="/payment/bank-account">Bank Account Details</a></div>
+        <div class="active"><a href="/payment/bank-account">Bank Account Details</a></div>
       </div>
     </div>
 `
