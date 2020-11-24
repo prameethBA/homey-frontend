@@ -63,7 +63,7 @@ export default class PropertyView extends Base {
                                 : `<div class="favourite" title="Add to favoutite">⭐</div>`
                         }
                         <div class="share" title="Share">✉</div>
-                        <div class="status">🟢</div>
+                        <div class="status">⚪</div>
                         ${
                             this.getParam('overview') == 'true'
                                 ? `<span></span>`
@@ -112,7 +112,15 @@ export default class PropertyView extends Base {
         switch (this.state.property_status) {
             case '0':
                 this._qs('.status').innerHTML =
-                    '<span title="Pending Approval">⭕'
+                    '<span title="Pending Approval">⭕</span>'
+                break
+            case '1':
+                this._qs('.status').innerHTML =
+                    '<span title="Available">🟢</span>'
+                break
+            case '2':
+                this._qs('.status').innerHTML =
+                    '<span title="Rejected">🔴</span>'
                 break
         }
 
@@ -177,7 +185,7 @@ export default class PropertyView extends Base {
 
     //image slider
     slider() {
-        if (this._qsAll('.img').length > 1) {
+        if (this._qsAll('.img').length >= 1) {
             this.state.img = 0
 
             const slideNext = () => {
@@ -285,7 +293,7 @@ export default class PropertyView extends Base {
             dispatchEvent(
                 new CustomEvent('load-comp', {
                     detail: {
-                        path: `/property/own/${this.getParam('id')}`,
+                        path: `/property/${this.getParam('id')}`,
                         comp: `property/property-details`,
                         compName: 'property-details'
                     }
@@ -324,6 +332,34 @@ export default class PropertyView extends Base {
         })
     } //End of checkBoxEventListener()
 
+    //Remove property
+    async removeProperty() {
+        try {
+            const res = await axios.post(`${this.host}/property/remove`, {
+                ...this.authData(),
+                propertyId: this.getParam('id')
+            })
+            if (res.data.status == '204') {
+                this.parentNode.removeChild(this)
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: { pop: 'info', msg: res.data.message }
+                    })
+                )
+            } else throw res.data
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of removeProperty()
+
+    //listen for remove
+    listenRemove() {
+        this._qs('.remove').addEventListener('click', async () => {
+            this.wait('.container')
+            await this.removeProperty()
+        })
+    } //End of listenRemove()
+
     connectedCallback() {
         //SetValues
         this.setValues()
@@ -349,6 +385,11 @@ export default class PropertyView extends Base {
 
         //load the full details about the property
         this.fullDetails()
+
+        if (this.getParam('overview') == 'true') {
+            //listen for remove
+            this.listenRemove()
+        }
     } //end of connected callback
 } //End of class
 

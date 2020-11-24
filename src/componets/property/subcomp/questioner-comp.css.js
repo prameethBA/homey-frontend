@@ -89,7 +89,9 @@ export default CSS = `
     }
 
     .button:hover {
+        cursor: pointer;
         color: #000000;
+        box-shadow: 0 0 20px -5px;
     }
 
 `

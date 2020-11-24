@@ -54,7 +54,7 @@ export default class Nav extends Base {
               </div>
             </div>
 
-            <a data-path=""> Forum </a>
+            <a data-path="" id="forum"> Forum </a>
 
             <div class="dropdown">
               <button class="dropbtn" class="nav-link" id="account">Account & Settings
@@ -64,11 +64,12 @@ export default class Nav extends Base {
                 <a data-path="account" id="wallet">Wallet</a>
                 </div>
               </div>
-            <a data-path="account" id="log-out">Logout</a>
-            <a class="profile" id="profile">
+              <a data-path="" id="admin-button-container"></a>
+              <a class="profile" id="profile">
                 <img id="profile-picture" src="/assets/img/alt/load-post.gif" alt="Profile">
-                <span id="profile-name">Dimuthu Lakmal</span>
-            </a>
+                <span id="profile-name"></span>
+              </a>
+              <a data-path="account" id="log-out">Logout</a>
             <a data-path="" class="hamburger">&#9776;</a>
           </div>
         </nav>
@@ -105,19 +106,29 @@ export default class Nav extends Base {
             //Set admin dashboard button
             if (this.getUserType() == 1) {
                 this._qs(
-                    '.nav-items'
-                ).innerHTML += `<a data-path=""><button id="admin-dashboard">Admin Dashboard</button></a>`
+                    '#admin-button-container'
+                ).innerHTML = `<button id="admin-dashboard">Admin Dashboard</button>`
                 //load Admin bashboard
                 this.loadAdminDashboard()
             } //End of setting admin dashboard button
 
-            sessionStorage.profilePicture == undefined ||
-            sessionStorage.profilePicture == null ||
-            sessionStorage.profilePicture == ''
+            !(
+                localStorage.profilePicture == undefined ||
+                localStorage.profilePicture == null ||
+                localStorage.profilePicture == ''
+            )
                 ? (this._qs('#profile-picture').src =
                       localStorage.profilePicture)
                 : (this._qs('#profile-picture').src =
                       '/assets/img/alt/no-mage.png')
+
+            !(
+                sessionStorage.name == undefined ||
+                sessionStorage.name == null ||
+                sessionStorage.name == ''
+            )
+                ? (this._qs('#profile-name').innerHTML = sessionStorage.name)
+                : (this._qs('#profile-name').innerHTML = '')
         } //End of setting navigation
 
         // load Home
@@ -131,7 +142,7 @@ export default class Nav extends Base {
             dispatchEvent(
                 new CustomEvent('load-comp', {
                     detail: {
-                        path: `/property`,
+                        path: `/properties`,
                         comp: `property/available-property`,
                         compName: 'available-property'
                     }
@@ -238,6 +249,18 @@ export default class Nav extends Base {
                         path: `/profile`,
                         comp: `account/profile`,
                         compName: 'profile-comp'
+                    }
+                })
+            )
+        )
+        //forum
+        this._qs('#forum').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/forum`,
+                        comp: `forum/forum`,
+                        compName: 'forum-comp'
                     }
                 })
             )

@@ -24,10 +24,11 @@ export default class Pendings extends Base {
             </table>
         </div>
         <div class="pagination">
-            <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
         </div>
     </div>
     <div class="preview-advertisement"></div>
+    <div class="popup"></div>
 `
     constructor() {
         super()
@@ -38,13 +39,12 @@ export default class Pendings extends Base {
     adPreview() {
         this._qsAll('.ad-link').forEach(item => {
             item.addEventListener('click', async () => {
-                this.setLoader()
+                this.wait(item)
                 await axios
                     .post(
                         `${this.host}/admin-property-preview/pending-approval`,
                         {
-                            userId: this.getUserId(),
-                            token: this.getToken(),
+                            ...this.authData(),
                             id: item.dataset.id
                         }
                     )
@@ -139,7 +139,6 @@ export default class Pendings extends Base {
                                 ).innerHTML = data
                             }
                         )
-                        this.stopLoader()
                     })
                     .catch(err => {
                         this.stopLoader()
@@ -156,6 +155,7 @@ export default class Pendings extends Base {
                             })
                         )
                     })
+                this.unwit(item)
             })
         })
     } //End of adPreview()
@@ -169,10 +169,11 @@ export default class Pendings extends Base {
                 token: this.getToken()
             })
             .then(res => {
-                if (res.data.length < 1 || res.data.length == undefined)
-                    throw res
-                console.log(res.data.length)
+                // console.log(res.data)
+                // if (res.data.length < 1 || res.data.length == undefined)
+                //     throw res
                 let index = 1
+                this._qs('#pending-approval-table-body').innerHTML = ''
                 res.data.forEach(item => {
                     this._qs('#pending-approval-table-body').innerHTML += `
                         <tr>
@@ -181,7 +182,7 @@ export default class Pendings extends Base {
                         item.title
                     }</a></td>
                             <td><a class="user-link" data-id="${
-                                item._id
+                                item.user_id
                             }">View user</a></td>
                             <td>${item.created}</td>
                             <td><button class="approve-button" data-id="${
@@ -198,6 +199,29 @@ export default class Pendings extends Base {
             })
             .catch(err => {
                 this.stopLoader()
+                console.log(err)
+            })
+        //load view user component
+        this.loadViewUser()
+        //make Approve
+        this.makeApprove()
+        //make Reject
+        this.makeReject()
+    } //End of getSummary()
+
+    //View user account summary
+    async viewUser(id) {
+        this.setLoader()
+        await import('./subcomp/view-user/view-user.js')
+            .then(() => {
+                this._qs('.popup').innerHTML = `
+                <view-user
+                    id="${id}"
+                ></view-user>`
+                this.stopLoader()
+            })
+            .catch(err => {
+                this.stopLoader()
                 dispatchEvent(
                     new CustomEvent('pop-up', {
                         detail: {
@@ -209,7 +233,94 @@ export default class Pendings extends Base {
                     })
                 )
             })
-    } //End of getSummary()
+    } //End of viewUser()
+
+    //load view user component
+    loadViewUser() {
+        this._qsAll('.user-link').forEach(item => {
+            item.addEventListener('click', () => this.viewUser(item.dataset.id))
+        })
+    } //end of loadViewUser()
+
+    //Approve
+    async approve(id) {
+        try {
+            const res = await axios.post(
+                `${this.host}/admin-property-summary/approve`,
+                {
+                    ...this.authData(),
+                    propertyId: id
+                }
+            )
+
+            if (res.data.status == '204') {
+                // get summary about pendin approvals
+                this.getSummary()
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'success',
+                            msg: res.data.message,
+                            duration: 5
+                        }
+                    })
+                )
+            } else throw res.data
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of approv()
+
+    //make Approve
+    makeApprove() {
+        this._qsAll('.approve-button').forEach(item => {
+            item.addEventListener('click', async () => {
+                this.wait(item)
+                await this.approve(item.dataset.id)
+                this.unwait(item)
+            })
+        })
+    } //end of makeApprove()
+
+    //reject
+    async reject(id) {
+        try {
+            const res = await axios.post(
+                `${this.host}/admin-property-summary/reject`,
+                {
+                    ...this.authData(),
+                    propertyId: id
+                }
+            )
+
+            if (res.data.status == '204') {
+                // get summary about pendin approvals
+                this.getSummary()
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'info',
+                            msg: res.data.message,
+                            duration: 5
+                        }
+                    })
+                )
+            } else throw res.data
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of reject()
+
+    //make Reject
+    makeReject() {
+        this._qsAll('.decline-button').forEach(item => {
+            item.addEventListener('click', async () => {
+                this.wait(item)
+                await this.reject(item.dataset.id)
+                this.unwait(item)
+            })
+        })
+    } //end of makeReject()
 
     //connectedCallback
     connectedCallback() {

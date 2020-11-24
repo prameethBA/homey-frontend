@@ -55,6 +55,7 @@ export default CSS = `
 
     .details {
       margin: 2rem;
+      width: 60%;
     }
 
     .details .row {

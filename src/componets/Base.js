@@ -1,3 +1,5 @@
+import CSS from './Base.css.js'
+
 export default class Base extends HTMLElement {
     template = document.createElement('template')
 
@@ -5,8 +7,13 @@ export default class Base extends HTMLElement {
 
     host = 'https://api.homey.lk'
 
+    loader = `<div class="lds-dual-ring"></div>`
+
     styled() {
-        return `<style>${this.css}</style>`
+        return `<style>
+            ${CSS}
+            ${this.css}
+        </style>`
     }
     render() {
         this.template.innerHTML = this.styled() + this.content
@@ -122,6 +129,23 @@ export default class Base extends HTMLElement {
 
     stopLoader = () => dispatchEvent(new Event('stop-pre-load'))
 
+    wait = selector => {
+        try {
+            this.state.wait = this._qs(selector).innerHTML
+            this._qs(selector).innerHTML += this.loader
+        } catch (err) {
+            this.state.wait = selector.innerHTML
+            selector.innerHTML += this.loader
+        }
+    }
+
+    unwait = selector => {
+        try {
+            this._qs(selector).innerHTML = this.state.wait
+        } catch (err) {
+            selector.innerHTML = this.state.wait
+        }
+    }
     encode(data) {
         try {
             return encodeURIComponent(JSON.stringify(data))
