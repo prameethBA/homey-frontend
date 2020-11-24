@@ -127,5 +127,6 @@ export default CSS = `
     .list-hover-slide a.is-current:before, .list-hover-slide a:hover:before {
         left: 0;
     }
+
     
 `
