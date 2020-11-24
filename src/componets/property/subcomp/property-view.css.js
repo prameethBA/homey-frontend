@@ -97,6 +97,7 @@ export default CSS = `
 
     .quick-links > div {
         cursor: pointer;
+        position: relative;
     }
 
     .price {
