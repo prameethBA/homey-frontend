@@ -14,16 +14,29 @@ export default CSS = `
         flex-direction: row;
     }
 
+    .left-nav-container {
+        width: 30%;
+        text-align: center;
+    }
+
+    .left-nav > div > a {
+        text-decoration: none;
+        color: unset;
+    }
+
     .left-nav {
         margin: 1rem;
         background-color: #ffffff;
         border-radius: 2px;
         box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.75);
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
     }
 
     .left-nav > div {
         padding: 1rem;
-        cursor: pointer;
         transition: all 0.5s ease;
     }
 
