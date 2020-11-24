@@ -1,45 +1,51 @@
 export default CSS = `
 
-    .backdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.95);
-        pointer-events: none;
-        scroll-behavior: auto;
-        transition: all 1s ease; 
-    }
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.7);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    bottom: 0;
+    transition: all 0.5s ease-in-out;
+}
 
-    .container {
-        max-width: 100%;
-        min-width: 40%;
-        width: 40%;
-        background-color: #ffffff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: auto;
-        padding: 1rem;
-        border-radius: 2px;
-        box-shadow: 1px 1px 5px 2px rgba(0,0,0,0.75);
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        transition: all 0.5s ease;
-    }
+.backdrop::-webkit-scrollbar {
+    width: 1rem;
+}
 
-    #close-popup {
-        color: #444444;
-        font-size: 3rem;
-        transform: rotate(45deg);
-        cursor: pointer;
-        position: absolute;
-        right: 0;
-        top: -1rem;
-    }
+.container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 2px;
+    max-width: 90%;
+    transition: all 0.5s ease-in-out;
+    background-color: #ffffff;
+    padding: 2rem;
+    position: absolute;
+    top: 1rem;
+    margin: 1rem;
+}
+
+#close-popup {
+    color: #878787;
+    font-size: 3rem;
+    transform: rotate(45deg);
+    cursor: pointer;
+    position: absolute;
+    right: 1rem;
+    margin-top: -2rem;
+    transition: all 1s ease;
+}
+
+#close-popup:hover {
+    color: #000000;
+}
 
     .advertisement {
         margin-top: 1rem;
@@ -52,22 +58,27 @@ export default CSS = `
         align-content: flex-start;
     }
 
-    ::slotted(img) {
+    img {
         width: 10rem;
         border: 5px solid;
         border-radius: 2px;
+        cursor: zoom-in;
+        margin: 0.1rem;
+        width: 10rem;
+        border: 3px solid #767676;
+        border-radius: 3px;
         cursor: zoom-in;
         margin: 0.1rem;
     }
 
     .title {
         text-transform: capitalize;
-        text-align: justify;
+        text-align: center;
         padding: 2rem 2rem 1rem 2rem;
         font-weight: bold;
-        /*overflow: hidden;*/
-        /*line-height: 1em;*/
-        /*height: 2.1em;*/
+        overflow: hidden;
+        line-height: 1rem;
+        max-height: 2.1rem;
     }
     
 
@@ -92,10 +103,22 @@ export default CSS = `
     .row {
         display: flex;
         flex-wrap: wrap;
-        margin: 0 2rem;
+        flex-direction: row;
+        font-weight: bold;
+        color: darkblue;
+        justify-content: space-around;
     }
 
-    ::slotted(span) {
+    .row > div {
+        margin: 0.2rem 1rem;
+    }
+
+    .row > div > a {
+        font-weight: bolder;
+        color: red;
+    }
+
+    span {
         font-weight: bold;
         margin: 1rem;
         color: rebeccapurple;
@@ -104,17 +127,17 @@ export default CSS = `
     .description {
         text-transform: capitalize;
         text-align: justify;
-        padding: 2rem 2rem 1rem 2rem;
-        /*overflow: hidden;*/
-        /*line-height: 1em;*/
-        /*height: 2.1em;*/
+        overflow: hidden;
+        line-height: 1rem;
+        max-height: 3.1rem;
+        margin: 0.5rem auto;
     }
 
-    ::slotted(.facilities) {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin: 0 4rem;
+    .facilities {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 17rem);
+        align-items: center;
+        justify-content: center;
     }
 
     .approval {

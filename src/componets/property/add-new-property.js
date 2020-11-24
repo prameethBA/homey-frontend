@@ -128,6 +128,10 @@ export default class AddNewProperty extends Base {
               </div>
           </div>
     </div>
+    <div id="progress">
+            <div id="progress-bar"><div id="progress-bar-progress"></div></div>
+            <div id="progress-progress">0%</div>
+    </div>
 `
 
     constructor() {
@@ -147,6 +151,7 @@ export default class AddNewProperty extends Base {
             this._qs('#add-preview').innerHTML = this.alertMobile
         } else {
             this.unwait('.container')
+            this.state.mobile = res.data.mobile
         }
     } //End of validateMobile()
 
@@ -498,7 +503,10 @@ export default class AddNewProperty extends Base {
 
             if (data != false) {
                 //preview the add
-                this.previewAdvertisement(data)
+                this.previewAdvertisement({
+                    ...data,
+                    mobile: this.state.mobile
+                })
             }
             this.unwait('#add-property-button')
         })
@@ -610,8 +618,7 @@ export default class AddNewProperty extends Base {
                     `${this.host}/property/add-new`,
                     {
                         ...data,
-                        userId: this.getUserId(),
-                        token: this.getToken()
+                        ...this.authData()
                     },
                     {
                         onUploadProgress: progressEvent => {
@@ -625,7 +632,7 @@ export default class AddNewProperty extends Base {
                                 Math.round((total / 1024 / 1024) * 100) / 100
                             }MB | ${percent}%`
                             if (percent >= 100) {
-                                this._qs('#progress').innerHTML = ''
+                                this._qs('#progress').style.display = 'none'
                                 this._qs('#add-preview').innerHTML = ''
                             }
                         }
@@ -661,6 +668,7 @@ export default class AddNewProperty extends Base {
     async connectedCallback() {
         //validate Mobile
         await this.validateMobile()
+        window.scrollTo(0, 0)
 
         // API call for get RentalPeriod
         this.getRentalPeriod()

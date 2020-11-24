@@ -83,8 +83,8 @@ export default CSS = `
     }
 
     .collapsible-row {
-      justify-content: space-around;
       width: 100%;
+      justify-content: space-between;
     }
 
     .collapse {

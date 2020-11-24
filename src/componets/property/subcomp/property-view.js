@@ -47,10 +47,8 @@ export default class PropertyView extends Base {
                         <img class="slider slider-next" src="/assets/icon/slide-next.svg">
                     </div>
                 </div>
-                <div>
-                    <div name="thumbnail" class="thumbnail">
-                        <img class="img" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
-                    </div>
+                <div name="thumbnail" class="thumbnail">
+                    <img class="img" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
                 </div>
            </div>
            <div class="details">
