@@ -1,12 +1,34 @@
 export default CSS = `
   .container {
-    margin-top: 5rem;
+    margin-top: 4rem;
     background-color: #ffffff;
   }
 
   #add-preview {
     position: sticky;
     z-index: 1;
+  }
+
+  .alert {
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+    background-color: red;
+    color: #ffffff;
+    padding: 1rem 0;
+  }
+
+  .alert a {
+    padding: 0 0.5rem;
+    color: #cccccc;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.5s ease;
+  }
+
+  .alert a:hover {
+    color: #eeeeee;
   }
 
   #progress {
