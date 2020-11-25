@@ -23,16 +23,17 @@ export default class PropertyDetails extends Base {
                 propertyId: window.location.pathname.split('/')[2]
             })
             .then(res => {
+                this.state.id = res.data._id
                 let data = `
             <div class="images">
             <div class="main-image-container">
-              <img class="img main-image" src="/assets/img/house.jpg" />
+              <img class="img main-image" src="/assets/img/alt/load-post.gif" />
             </div>
             <div class="sub-images">
-              <img class="img sub-image" src="/assets/img/background.jpg" />
-              <img class="img sub-image" src="/assets/img/mountain.jpg" />
-              <img class="img sub-image" src="/assets/img/1.png" />
-              <img class="img sub-image" src="/assets/img/house.jpg" />
+              <img class="img sub-image" src="/assets/img/alt/load-post.gif" />
+              <img class="img sub-image" src="/assets/img/alt/load-post.gif" />
+              <img class="img sub-image" src="/assets/img/alt/load-post.gif" />
+              <img class="img sub-image" src="/assets/img/alt/load-post.gif" />
             </div>
           </div>
     
@@ -49,10 +50,16 @@ export default class PropertyDetails extends Base {
 
                 switch (res.data.property_status) {
                     case '0':
+                        data += `⭕ Pending Approval`
+                        break
+                    case '1':
                         data += `🟢 Available`
                         break
+                    case '2':
+                        data += `🔴 Rejected`
+                        break
                     default:
-                        data += `🔴 Reserved`
+                        data += `🟠 Reserved`
                         break
                 }
 
@@ -87,11 +94,6 @@ export default class PropertyDetails extends Base {
 
                 // load feature List
                 this.loadFeatureList(JSON.parse(res.data.facilities))
-
-                //preview Images
-                this.previewImage()
-                //Set sub image as main Image
-                this.setMainImage()
 
                 //Load the reserve component
                 this.loadReserve()
@@ -155,6 +157,37 @@ export default class PropertyDetails extends Base {
         this._qs('.map').addEventListener('click', () => this.mapView())
     }
 
+    //get images
+    async getImages() {
+        try {
+            const res = await axios.post(
+                `${this.host}/images/property/${this.state.id}`,
+                {
+                    ...this.authData(),
+                    propertyId: this.state.id
+                }
+            )
+
+            if (res.data.length == 0) {
+                this._qs('.main-image').src = '/assets/img/alt/no-mage.png'
+                this._qs('.sub-images').style.display = 'none'
+            } else {
+                let index = 0
+                this._qs('.sub-images').innerHTML = ''
+                await res.data.forEach(image => {
+                    if (index == 0) this._qs('.main-image').src = image.image
+                    else
+                        this._qs(
+                            '.sub-images'
+                        ).innerHTML += `<img class="img sub-image" src="${image.image}" />`
+                    index++
+                })
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of getImages()
+
     //preview image
     previewImage() {
         this._qs('.main-image').addEventListener('mousemove', () => {
@@ -211,7 +244,10 @@ export default class PropertyDetails extends Base {
         this.setLoader()
         await import('./../universal/comment/comment-comp.js')
             .then(() => {
-                this._qs('.popup').innerHTML = `<comment-comp></comment-comp>`
+                this._qs('.popup').innerHTML = `<comment-comp
+                    data-data="${this.encode(this._qs('.title').innerHTML)}" 
+                    id="${this.state.id}"
+                ></comment-comp>`
                 this.stopLoader()
             })
             .catch(err => {
@@ -234,9 +270,16 @@ export default class PropertyDetails extends Base {
         this._qs('.feedback').addEventListener('click', () => this.comment())
     } //End of loadComment()
 
-    connectedCallback() {
+    async connectedCallback() {
         //load property
-        this.loadProperty()
+        await this.loadProperty()
+        //get images
+        await this.getImages()
+
+        //preview Images
+        this.previewImage()
+        //Set sub image as main Image
+        this.setMainImage()
     } //End of connectedCallback()
 } //End of the class
 

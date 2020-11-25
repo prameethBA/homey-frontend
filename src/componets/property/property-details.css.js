@@ -46,11 +46,13 @@ export default CSS = `
       width: 20%;
       border: 0.1rem solid #ffffff;
       border-radius: 2px;
+      height: 4rem;
     }
 
     .price {
       font-size: 1.2rem;
-      font-weight: bold;
+      color: red;
+      font-weight: 800;
     }
 
     .details {
