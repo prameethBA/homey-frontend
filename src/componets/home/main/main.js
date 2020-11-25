@@ -40,7 +40,7 @@ class TxtRotate {
         } else if (this.isDeleting && this.txt === '') {
             this.isDeleting = false
             this.loopNum++
-            delta = 50
+                delta = 50
         }
 
         setTimeout(() => {
@@ -149,16 +149,10 @@ export default class Main extends Base {
                 <div class='features-row'>
                     <div class='features-description-reverse'>
                         <div class='feature-title'>
-                            Security and reliability
+                            Find exacty what you want!
                         </div>
                         <div class='feature-body'>
-                            Transfer files between cloud drives, FTP and WebDav.
-                            For instance, you can easily move all files from one
-                            Google Drive to another or use “copy and paste” to
-                            copy certain files from Dropbox to Google Drive. And
-                            as cloud transfer runs on Multicloud, transfer
-                            process continues even when your computer is powered
-                            off.
+                            We try to provide best matches for your search keywords and other filters .
                         </div>
                         <div class='feature-more'>
                             <a> Learn More >> </a>
@@ -167,40 +161,18 @@ export default class Main extends Base {
                     <div class='features-image features-image-2'></div>
                 </div>
                 <div class='features-row'>
-                    <div class='features-image'></div>
+                    <div class='features-image features-image-3'></div>
                     <div class='features-description'>
-                        <div class='feature-title'>Cloud Transfer</div>
+                        <div class='feature-title'>
+                            Find an apartment while renting your own!
+                        </div>
                         <div class='feature-body'>
-                            Transfer files between cloud drives, FTP and WebDav.
-                            For instance, you can easily move all files from one
-                            Google Drive to another or use “copy and paste” to
-                            copy certain files from Dropbox to Google Drive. And
-                            as cloud transfer runs on Multicloud, transfer
-                            process continues even when your computer is powered
-                            off.
+                            You can rent your own house and move on to a new place for new experiances.
                         </div>
                         <div class='feature-more'>
                             <a> Learn More >> </a>
                         </div>
                     </div>
-                </div>
-                <div class='features-row'>
-                    <div class='features-description-reverse'>
-                        <div class='feature-title'>Cloud Transfer</div>
-                        <div class='feature-body'>
-                            Transfer files between cloud drives, FTP and WebDav.
-                            For instance, you can easily move all files from one
-                            Google Drive to another or use “copy and paste” to
-                            copy certain files from Dropbox to Google Drive. And
-                            as cloud transfer runs on Multicloud, transfer
-                            process continues even when your computer is powered
-                            off.
-                        </div>
-                        <div class='feature-more'>
-                            <a> Learn More >> </a>
-                        </div>
-                    </div>
-                    <div class='features-image'></div>
                 </div>
             </div>
 
@@ -308,22 +280,22 @@ export default class Main extends Base {
 
     // Load signuo or login form
     loadForm(elem) {
-        this._qs(`.${elem}`).addEventListener('click', () => {
-            dispatchEvent(new Event(`load-${elem}-form`))
-        })
-        if (this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
-    } //End of loadForm()
+            this._qs(`.${elem}`).addEventListener('click', () => {
+                dispatchEvent(new Event(`load-${elem}-form`))
+            })
+            if (this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
+        } //End of loadForm()
 
     connectedCallback() {
-        //typingEffect
-        this.typingEffect()
-        //scroll down page when click scroll down arrow
-        this.scrollDown()
+            //typingEffect
+            this.typingEffect()
+                //scroll down page when click scroll down arrow
+            this.scrollDown()
 
-        // Load signup or login form
-        this.loadForm('login')
-        this.loadForm('signup')
-    } //End of connectedCallback()
+            // Load signup or login form
+            this.loadForm('login')
+            this.loadForm('signup')
+        } //End of connectedCallback()
 } //End of Class
 
 window.customElements.define('main-comp', Main)
