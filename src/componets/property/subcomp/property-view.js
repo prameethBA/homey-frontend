@@ -224,11 +224,11 @@ export default class PropertyView extends Base {
             .then(() => {
                 console.log(this.state)
                 this._qs('#comment-box').innerHTML = `
-                    <report-comp 
+                    <report-form 
                         data-title="${this.state.title}" 
                         id="${this.state._id}"
                     >
-                    </report-comp>`
+                    </report-form>`
                 this.stopLoader()
             })
             .catch(err => {
