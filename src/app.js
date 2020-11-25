@@ -35,6 +35,8 @@ export default class App extends Base {
             // this.setPath('/' + form)
             this.setLoader()
 
+            window.scrollTo(0, 0)
+
             await import('/componets/home/' + form + '-form.js')
                 .then(() => {
                     this._qs('#login-form').innerHTML =
