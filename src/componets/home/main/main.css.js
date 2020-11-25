@@ -30,7 +30,7 @@ export default CSS = `
     }
 
     .down-wrap {
-        margin: 4rem auto 2rem auto;
+        margin: -4rem auto 2rem auto;
         cursor: pointer;
         animation: animation-down 2s infinite ease;
     }
