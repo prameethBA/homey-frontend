@@ -29,8 +29,12 @@ export default class PreviewAdvertisement extends Base {
             <div class="location-details row"></div>
             <div class="user-details row"></div>
             <div class="row approval">
-                <div class="button approve-button">Post the advertisement</div>
-                <div class="button decline-button">edit</div>
+            ${
+                this.getParam('overview') != 'true'
+                    ? `<div class="button approve-button">Post the advertisement</div>
+                <div class="button decline-button">edit</div>`
+                    : ``
+            }
             </div>
         </div>
     </div>
@@ -64,16 +68,66 @@ export default class PreviewAdvertisement extends Base {
         )
     } // End of exitWithEscape()
 
+    //get images
+    async getImages() {
+        try {
+            const res = await axios.post(
+                `${this.host}/images/property/${this.state._id}`,
+                {
+                    userId: this.getUserId(),
+                    token: this.getToken(),
+                    propertyId: this.state._id
+                }
+            )
+
+            if (res.data.length == 0)
+                this._qs(
+                    '.images'
+                ).innerHTML = `<img class="img" src="/assets/img/alt/no-mage.png" style="display: block !important;" />`
+            else {
+                this._qs('.images').innerHTML = ''
+                await res.data.forEach(image => {
+                    this._qs(
+                        '.images'
+                    ).innerHTML += `<img class="img" src="${image.image}" />`
+                })
+            }
+
+            //image slider
+            this.slider()
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of getImages()
+
     //inject Data
     async inejectData() {
-        this.state.images.forEach(item => {
-            this._qs('.images').innerHTML += `
-                <img src="${item}" class="image" alt="Preview uploaded image">
-            `
-        })
+        if (this.getParam('overview') != 'true') {
+            this.state.images.forEach(item => {
+                this._qs('.images').innerHTML += `
+                    <img src="${item}" class="image" alt="Preview uploaded image">
+                `
+            })
+            this._qs('.title').innerHTML =
+                this.state.propertyType + ' | ' + this.state.title
 
-        this._qs('.title').innerHTML =
-            this.state.propertyType + ' | ' + this.state.title
+            this._qs('.location').innerHTML = `
+                <div>District : ${this.state.district}</div>
+                <div>City : ${this.state.city}</div>
+            `
+
+            this._qs('.location-details').innerHTML = `
+                <div>Address : ${
+                    this.state.address == ''
+                        ? this.state.city + ', ' + this.state.district
+                        : this.state.address
+                }</div>
+                <div>Conatct number : ${this.state.mobile}</div>
+            `
+        } else {
+            this._qs('.title').innerHTML = this.state.title
+        }
+
         this._qs('.price').innerHTML =
             'Rental : <a> Rs.' + this.state.price + '</a>'
         this._qs('.key-money').innerHTML =
@@ -82,6 +136,9 @@ export default class PreviewAdvertisement extends Base {
             'Avalible from: <a>' + this.state.availableFrom + '</a>'
 
         this._qs('.description').innerHTML = this.state.description
+
+        if (typeof this.state.facilities == 'string')
+            this.state.facilities = JSON.parse(this.state.facilities)
 
         this.state.facilities.forEach(item => {
             this._qs('.facilities').innerHTML += `
@@ -97,20 +154,6 @@ export default class PreviewAdvertisement extends Base {
                     quantity="${item.quantity}"
                 ></facility-comp>`
         })
-
-        this._qs('.location').innerHTML = `
-                <div>District : ${this.state.district}</div>
-                <div>City : ${this.state.city}</div>
-            `
-
-        this._qs('.location-details').innerHTML = `
-                <div>Address : ${
-                    this.state.address == ''
-                        ? this.state.city + ', ' + this.state.district
-                        : this.state.address
-                }</div>
-                <div>Conatct number : ${this.state.mobile}</div>
-            `
 
         const res = await axios.get(`${this.host}/rental-period`)
 
@@ -138,14 +181,18 @@ export default class PreviewAdvertisement extends Base {
 
         //inject Data
         this.inejectData()
-
-        this._qs('.approve-button').addEventListener('click', () =>
-            dispatchEvent(new CustomEvent('post-advertisement'))
-        )
-        this._qs('.decline-button').addEventListener('click', () => {
-            // Exit the dock
-            this.exitDock()
-        })
+        if (this.getParam('overview') != 'true') {
+            this._qs('.approve-button').addEventListener('click', () =>
+                dispatchEvent(new CustomEvent('post-advertisement'))
+            )
+            this._qs('.decline-button').addEventListener('click', () => {
+                // Exit the dock
+                this.exitDock()
+            })
+        } else {
+            //get images
+            this.getImages()
+        }
     } //End of connectedCallback()
 } //End of Class
 

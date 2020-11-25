@@ -40,122 +40,20 @@ export default class Pendings extends Base {
         this._qsAll('.ad-link').forEach(item => {
             item.addEventListener('click', async () => {
                 this.wait(item)
-                await axios
-                    .post(
-                        `${this.host}/admin-property-preview/pending-approval`,
-                        {
-                            ...this.authData(),
-                            id: item.dataset.id
-                        }
-                    )
-                    .then(async res => {
-                        await import('./subcomp/preview-advertisement.js').then(
-                            () => {
-                                import(
-                                    '/componets/property/subcomp/facility.js'
-                                ).catch(err =>
-                                    dispatchEvent(
-                                        new CustomEvent('pop-up', {
-                                            detail: {
-                                                pop: 'error',
-                                                msg: err.message,
-                                                duration:
-                                                    err.duration == undefined
-                                                        ? 10
-                                                        : err.duration
-                                            }
-                                        })
-                                    )
-                                )
-                                import(
-                                    '/componets/admin/comps/subcomp/map-view.js'
-                                ).catch(err =>
-                                    dispatchEvent(
-                                        new CustomEvent('pop-up', {
-                                            detail: {
-                                                pop: 'error',
-                                                msg: err.message,
-                                                duration:
-                                                    err.duration == undefined
-                                                        ? 10
-                                                        : err.duration
-                                            }
-                                        })
-                                    )
-                                )
-                                let data = `
-                                <preview-advertisement>
-                                    <img slot='image' src="/assets/img/house.jpg" />
-                                    <img slot='image' src="/assets/img/house.jpg" />
-                                    <img slot='image' src="/assets/img/house.jpg" />
-                                    <img slot='image' src="/assets/img/house.jpg" />
-                                    <img slot='image' src="/assets/img/house.jpg" />
-                                    <p slot='title'>
-                                        ${res.data.title}
-                                        <button class="load-more">Load more >></button>
-                                    </p>
-                                    <span slot="price" class="row-1 price">Rental : Rs. ${res.data.price}/Month</span>
-                                    <span slot="key-money" class="row-1 key-money">Key Money : Rs. ${res.data.key_money}</span>
-                                    <span slot="minimum-period" class="row-1 minimum-period">Minimum Period: ${res.data.minimum_period} Months</span>
-                                    <span slot="available-from" class="row-1 available-from">Available From: ${res.data.available_from}</span>
-                                    <p slot='description'>
-                                        ${res.data.description}
-                                        <button class="load-more">Load more >></button>
-                                    </p>
-                                    <div slot="facilities" class="facilities">`
-
-                                // console.log(res.data.facilities)
-
-                                // res.data.facilities.forEach(item => {
-                                //         data += `<facility-comp key="${item.featureId}" name="${item.feature}" measurable="1" checked="true" quantity="${item.quantity}"></facility-comp>`
-                                // })
-
-                                data += `</div>
-                                                <map-view slot="location" class="location" location="${encodeURIComponent(
-                                                    res.data.location
-                                                )}"></map-view>
-                                                <div slot="location-details" class="row location-details">
-                                                    <!--<span class="location-details-span district">${
-                                                        res.data.district_id
-                                                    }</span>-->
-                                                    <span class="location-details-span city">${
-                                                        res.data.city_id
-                                                    }</span>
-                                                    <span class="location-details-span address">Address : 141, Mediyawa, Eppawala.</span>
-                                                </div>
-                                                <div slot="user-details" class="row user-details">
-                                                    <span class="user"><a>${
-                                                        res.data.user_id
-                                                    }</a></span>
-                                                    <span class="created">${
-                                                        res.data.created
-                                                    }</span>
-                                                </div>
-                                            </preview-advertisement>
-                                
-                                        `
-                                this._qs(
-                                    '.preview-advertisement'
-                                ).innerHTML = data
-                            }
-                        )
-                    })
-                    .catch(err => {
-                        this.stopLoader()
-                        dispatchEvent(
-                            new CustomEvent('pop-up', {
-                                detail: {
-                                    pop: 'error',
-                                    msg: err.message,
-                                    duration:
-                                        err.duration == undefined
-                                            ? 10
-                                            : err.duration
-                                }
-                            })
-                        )
-                    })
-                this.unwit(item)
+                const res = await axios.post(
+                    `${this.host}/admin-property-preview/pending-approval`,
+                    {
+                        ...this.authData(),
+                        id: item.dataset.id
+                    }
+                )
+                await import('./../../universal/preview-advertisement.js')
+                this._qs(
+                    '.preview-advertisement'
+                ).innerHTML = `<preview-advertisement overview="true" data-data="${this.encode(
+                    res.data
+                )}"></preview-advertisement>`
+                this.unwait(item)
             })
         })
     } //End of adPreview()
