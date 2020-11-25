@@ -89,10 +89,47 @@ export default class Report extends Base {
         }
     } //End of validate()
 
+    //report
+    async report() {
+        this.wait('.submit-btn')
+        try {
+            const res = await axios.post(`${this.host}/feedback/report/save`, {
+                ...this.authData(),
+                propertyId: this.getParam('id'),
+                reason: this._qs('#reason').value,
+                message: this._qs('#message').value
+            })
+
+            if (res.data.action == 'true') {
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'success',
+                            msg: res.data.message
+                        }
+                    })
+                )
+            } else {
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: {
+                            pop: 'error',
+                            msg: 'Failed to lodge the complaint'
+                        }
+                    })
+                )
+            }
+            this._qs('.backdrop').innerHTML = ''
+        } catch (err) {
+            console.log(err)
+            this.unwait('.submit-btn')
+        }
+    } //End of report
+
     //listenButton
     listenButton() {
         this._qs('.submit-btn').addEventListener('click', () => {
-            if (this.validate()) console.log('done')
+            if (this.validate()) this.report() //report
         })
     } //End of listenButton()
 
@@ -106,4 +143,4 @@ export default class Report extends Base {
     } //End of connectedCallback
 } //End of Class
 
-window.customElements.define('report-comp', Report)
+window.customElements.define('report-form', Report)

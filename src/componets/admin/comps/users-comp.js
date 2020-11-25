@@ -39,10 +39,10 @@ export default class users extends Base {
         let data = `
             <div class="profile">
                 <div class="sub-row">
-                    <img class="display-picture view-profile" src="/assets/img/alt/no-mage.png" />
+                    <img data-id="${user.userId}" id="img-${user.userId}" class="display-picture view-profile" src="/assets/img/alt/load-post.gif" />
                 </div>
                 <div class="sub-row">
-                    <span class="name view-profile">${user.firstName} ${user.lastName}</span>
+                    <span class="name view-profile" data-id="${user.userId}">${user.firstName} ${user.lastName}</span>
                     <span class="status">`
 
         switch (user.status) {
@@ -76,14 +76,19 @@ export default class users extends Base {
             </div>
         `
         this._qs('.users').innerHTML += data
+
+        //getprofilePicture
+        this.getprofilePicture(user.userId)
     } //End of loadUser()
 
     //View user account summary
-    async viewUser() {
+    async viewUser(id) {
         this.setLoader()
         await import('./subcomp/view-user/view-user.js')
             .then(() => {
-                this._qs('.popup').innerHTML = `<view-user></view-user>`
+                this._qs(
+                    '.popup'
+                ).innerHTML = `<view-user id="${id}"></view-user>`
                 this.stopLoader()
             })
             .catch(err => {
@@ -101,10 +106,29 @@ export default class users extends Base {
             })
     } //End of viewUser()
 
+    //getprofilePicture
+    async getprofilePicture(userId) {
+        try {
+            const res = await axios.post(
+                `${this.host}/images/profile/get/${userId}`,
+                {
+                    userId: this.getUserId(),
+                    token: this.getToken()
+                }
+            )
+            this._qs(`#img-${userId}`).src =
+                res.data.image != ''
+                    ? res.data.image
+                    : '/assets/img/alt/no-mage.png'
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of getprofilePicture()
+
     //load view user component
     loadViewUser() {
         this._qsAll('.view-profile').forEach(item => {
-            item.addEventListener('click', () => this.viewUser())
+            item.addEventListener('click', () => this.viewUser(item.dataset.id))
         })
     } //end of loadViewUser()
 
