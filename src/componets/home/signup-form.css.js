@@ -12,16 +12,19 @@ export default CSS = `
     }
 
     .form {
-        position: relative;
+       position: absolute;
         z-index: 100;
         width: 30%;
-        margin: 1rem auto;
         background-color: rgba(0,0,0,0.9);
         color: #eeeeee;
         padding: 0.5rem 3rem;
         padding-bottom: 3rem;
         border-radius: 1px;
-        transition: all 0.5s ease;        
+        transition: all 0.5s ease;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);   
+        margin-top: 2rem;    
     }
 
     h2 {
