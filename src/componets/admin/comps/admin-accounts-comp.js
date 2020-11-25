@@ -62,7 +62,9 @@ export default class AdminAccount extends Base {
                 </div>
                 <div class="sub-row button-group-user">
                     <button class="primary-button">Deactivate</button>
-                    <button class="danger-button">Delete</button>
+                    <button class="danger-button">Delete Account</button>
+                    <button class="danger-button">Transfer Account</button>
+                    <button class="danger-button">Give up admin</button>
                 </div>
             </div>
         `
