@@ -244,32 +244,23 @@ export default CSS = `
         color: #0000ef;
     }
 
-    .api-1 {
-        background-image: url(./assets/img/payhere.png);
+    .api {
         min-height: 20vw;
         width: 20vw;
         background-position: center;
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: contain;
         margin: 2rem 1rem;
+    }
+
+    .api-1 {
+        background-image: url(./assets/img/payhere.png);
     }
     .api-2 {
         background-image: url(./assets/img/google-maps-api.png);
-        min-height: 20vw;
-        width: 20vw;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        margin: 2rem 1rem;
     }
     .api-3 {
         background-image: url(./assets/img/google-charts-api.png);
-        min-height: 20vw;
-        width: 20vw;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        margin: 2rem 1rem;
     }
 
     .api-content {

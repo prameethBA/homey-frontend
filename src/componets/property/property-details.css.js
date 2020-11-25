@@ -46,11 +46,13 @@ export default CSS = `
       width: 20%;
       border: 0.1rem solid #ffffff;
       border-radius: 2px;
+      height: 4rem;
     }
 
     .price {
       font-size: 1.2rem;
-      font-weight: bold;
+      color: red;
+      font-weight: 800;
     }
 
     .details {
@@ -97,7 +99,8 @@ export default CSS = `
     
     .contact-info {
       display: flex;
-      justify-content: flex-end;
+      align-items: flex-end;
+      flex-direction: column;
     }
 
     .contace-info a {
@@ -110,7 +113,6 @@ export default CSS = `
     .action {
       display: flex;
       justify-content: space-around;
-      margin-top: 5rem;
     }
 
     button {
@@ -138,6 +140,37 @@ export default CSS = `
 
   .feedback {
     background-image: linear-gradient(to right top, #aa7c0e, #ad7308, #af6906, #b15f08, #b3540d);
+  }
+
+  .contacts {
+    display: none;
+    flex-direction: column;
+    text-align: end;
+    margin: 1rem 0 0 0;
+  }
+
+  .contacts > span {
+    font-weight: bold;
+    margin: 1rem 0 0 0;
+  }
+
+  .show-contacts {
+    color: darkblue;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .show-contacts::after {
+    content: "»";
+    transform: rotate(90deg);
+    position: absolute;
+    transform-origin: center center;
+    font-size: 1.2rem;
+    transition: all 1s ease;
+  }
+
+  .collapse::after {
+    transform: rotate(-90deg) !important;
   }
 
   `

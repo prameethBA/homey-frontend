@@ -11,7 +11,6 @@ export default CSS = `
         display: flex;
         justify-content: center;
         flex-direction: column;
-        margin: 5rem auto 5rem auto;
     }
 
     .row {
@@ -53,6 +52,7 @@ export default CSS = `
     property-view {
         display: flex;
         width: 20rem;
+        margin-top: 2rem;
     }
     
     .pagination {

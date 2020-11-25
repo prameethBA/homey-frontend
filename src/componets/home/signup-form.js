@@ -6,8 +6,9 @@ export default class SignUpForm extends Base {
 
     content = `
 
-    <div id="backdrop" title="Click to close this form">
-    </div>
+    <div id="backdrop" title="Click to close this form"></div>
+
+    <div id="back" title="Click to close this form">
     <div class="form">
         <h2>Sign up</h2>
 
@@ -67,6 +68,7 @@ export default class SignUpForm extends Base {
             </div>
 
         </div>
+    </div>
     </div>
     
 `

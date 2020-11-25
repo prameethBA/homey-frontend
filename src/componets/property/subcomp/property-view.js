@@ -47,10 +47,8 @@ export default class PropertyView extends Base {
                         <img class="slider slider-next" src="/assets/icon/slide-next.svg">
                     </div>
                 </div>
-                <div>
-                    <div name="thumbnail" class="thumbnail">
-                        <img class="img" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
-                    </div>
+                <div name="thumbnail" class="thumbnail">
+                    <img class="img" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
                 </div>
            </div>
            <div class="details">
@@ -60,7 +58,7 @@ export default class PropertyView extends Base {
                         ${
                             this.getParam('overview') == 'true'
                                 ? `<span></span>`
-                                : `<div class="favourite" title="Add to favoutite">⭐</div>`
+                                : `<div class="favourite" data-data="add" title="Add to favoutite">⭐</div>`
                         }
                         <div class="share" title="Share">✉</div>
                         <div class="status">⚪</div>
@@ -100,6 +98,8 @@ export default class PropertyView extends Base {
         this.mount()
 
         this.state = this.decode(this.getAttribute('data-data'))
+        //getFavourite
+        if (this.getAttribute('overview') != 'true') this.getFavourite()
         // this.qs('img').style.display = 'block'
     } //End of constructor
 
@@ -224,11 +224,11 @@ export default class PropertyView extends Base {
             .then(() => {
                 console.log(this.state)
                 this._qs('#comment-box').innerHTML = `
-                    <report-comp 
+                    <report-form 
                         data-title="${this.state.title}" 
                         id="${this.state._id}"
                     >
-                    </report-comp>`
+                    </report-form>`
                 this.stopLoader()
             })
             .catch(err => {
@@ -360,6 +360,73 @@ export default class PropertyView extends Base {
         })
     } //End of listenRemove()
 
+    //addFavourite
+    async addFavourite(action) {
+        try {
+            const res = await axios.post(
+                `${this.host}/property/favourite/${action}`,
+                {
+                    ...this.authData(),
+                    propertyId: this.getParam('id')
+                }
+            )
+            if (res.data.status == '204') {
+                if (action == 'add')
+                    dispatchEvent(
+                        new CustomEvent('pop-up', {
+                            detail: { pop: 'info', msg: res.data.message }
+                        })
+                    )
+                else
+                    dispatchEvent(
+                        new CustomEvent('pop-up', {
+                            detail: { pop: 'error', msg: res.data.message }
+                        })
+                    )
+            } else throw res.data
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of addFavourite()
+
+    //listen for addFavourite
+    listenAddFavourite() {
+        this._qs('.favourite').addEventListener('click', async () => {
+            this.wait('.favourite')
+            if (this._qs('.favourite').dataset.data == 'add') {
+                await this.addFavourite('add')
+                this._qs('.favourite').innerHTML = '🔺'
+                this._qs('.favourite').title = 'Remove from favourite'
+                this._qs('.favourite').dataset.data = 'remove'
+            } else {
+                await this.addFavourite('remove')
+                this._qs('.favourite').innerHTML = '⭐'
+                this._qs('.favourite').title = 'Add to favourite'
+                this._qs('.favourite').dataset.data = 'add'
+            }
+        })
+    } //End of listenaddFavourite()
+
+    //getFavourite
+    async getFavourite() {
+        try {
+            const res = await axios.post(
+                `${this.host}/property/favourite/get`,
+                {
+                    ...this.authData(),
+                    propertyId: this.getParam('id')
+                }
+            )
+            if (res.data.action == '1') {
+                this._qs('.favourite').innerHTML = '🔺'
+                this._qs('.favourite').title = 'Remove from favourite'
+                this._qs('.favourite').dataset.data = 'remove'
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    } //End of getFavourite()
+
     connectedCallback() {
         //SetValues
         this.setValues()
@@ -389,6 +456,9 @@ export default class PropertyView extends Base {
         if (this.getParam('overview') == 'true') {
             //listen for remove
             this.listenRemove()
+        } else {
+            //listen for addFavourite
+            this.listenAddFavourite()
         }
     } //end of connected callback
 } //End of class

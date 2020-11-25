@@ -13,6 +13,7 @@ export default class Report extends Base {
                         <th>No.</th>
                         <th>Report type</th>
                         <th>Reporter</th>
+                        <th>Property</th>
                         <th>Reporting</th>
                         <th>Review</th>
                         <th>Time Stamp</th>
@@ -22,22 +23,11 @@ export default class Report extends Base {
                 </tbody>
             </table>
             </div>
-            <div class="pagination">
-                <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
-            </div>
+        </div>
+        <div class="pagination">
+            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
         </div>
     <div class="preview-advertisement"></div>
-    `
-
-    row = `
-        <tr>
-            <td>1</td>
-            <td>User Report</td>
-            <td>#userId</td>
-            <td>#userId</td>
-            <td>2020 Nov 10, 10:44:16</td>
-            <td><button class="primary-button">Review</button></td>
-        </tr>
     `
 
     constructor() {
@@ -46,8 +36,32 @@ export default class Report extends Base {
     } //End of constructor
 
     // load rows
-    loadRow() {
-        this._qs('tbody').innerHTML += this.row
+    async loadRow() {
+        this.setLoader()
+        try {
+            const res = await axios.post(`${this.host}/feedback/report/all`, {
+                ...this.authData()
+            })
+
+            res.data.forEach(item => {
+                this._qs('#report-comp-table-body').innerHTML += `
+                    <tr>
+                        <td>${item._id}</td>
+                        <td>${item.reason}</td>
+                        <td><a href="#${item.user_id}">User</a></td>
+                        <td><a href="#${item.property_id}">Property</a></td>
+                        <td>${item.message}</td>
+                        <td>
+                            <button class='primary-button'>Review</button>
+                        </td>
+                        <td>${item.created}</td>
+                    </tr>
+                `
+            })
+        } catch (err) {
+            console.log(err)
+        }
+        this.stopLoader()
     } //End loadRow()
 
     // //close the dock
@@ -70,9 +84,6 @@ export default class Report extends Base {
 
     connectedCallback() {
         // load rows
-        this.loadRow()
-        this.loadRow()
-        this.loadRow()
         this.loadRow()
 
         // // close the dock

@@ -1,7 +1,7 @@
-import Base from '../../Base.js'
-import CSS from './admin-accounts-comp.css.js'
+import Base from './../../Base.js'
+import CSS from './users-comp.css.js'
 
-export default class AdminAccounts extends Base {
+export default class AdminAccount extends Base {
     css = CSS
 
     content = `
@@ -10,10 +10,9 @@ export default class AdminAccounts extends Base {
             <span class="search-container">
                 <input id="search" type="text" class="search" placeholder="Search here" />
                 <label for="search">🔍</label>
-                <button class="create-new" title="Create New Account">Create New Admin</button>
-            </span>
+                </span>
         </div>
-        <div class="row admins">
+        <div class="row users">
         </div>
         <div class="pagination">
             <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
@@ -21,24 +20,25 @@ export default class AdminAccounts extends Base {
     </div>
 
     <div class="popup"></div>
-`
+    `
+
     constructor() {
         super()
         this.mount()
     } //End of the constructor
 
-    //Load admin component
-    loadAdmin(admin) {
+    //Load user component
+    loadUser(user) {
         let data = `
-            <div class="profile" id="${admin.id}">
+            <div class="profile">
                 <div class="sub-row">
-                    <img class="display-picture view-profile" src="/assets/img/alt/load-post.gif" id="img-${admin.id}"/>
+                    <img data-id="${user.userId}" id="img-${user.userId}" class="display-picture view-profile" src="/assets/img/alt/load-post.gif" />
                 </div>
                 <div class="sub-row">
-                    <span class="name view-profile">${admin.firstName} ${admin.lastName}</span>
+                    <span class="name view-profile" data-id="${user.userId}">${user.firstName} ${user.lastName}</span>
                     <span class="status">`
 
-        switch (admin.status) {
+        switch (user.status) {
             case '0':
                 data += `🟠 Unconfirmed`
                 break
@@ -53,31 +53,35 @@ export default class AdminAccounts extends Base {
         data += `</span>
                 </div>
                 <div class="sub-row">
-                    <span class="email"><a href="mailto:${admin.email}">${
-            admin.email
+                    <span class="email"><a href="mailto:${user.email}">${
+            user.email
         }<a></span>
-                    <span class="mobile"><a href="callto:${admin.mobile}">${
-            admin.mobile != null ? admin.mobile : 'Mobile number not updated'
+                    <span class="mobile"><a href="callto:${user.mobile}">${
+            user.mobile != null ? user.mobile : 'Mobile number not updated'
         }</a></span>
                 </div>
-                <div class="sub-row">
-                    <button class="change-status">Deactivate</button>
-                    <button class="remove">Remove Account</button>
+                <div class="sub-row button-group-user">
+                    <button class="primary-button">Deactivate</button>
+                    <button class="danger-button">Delete Account</button>
+                    <button class="danger-button">Transfer Account</button>
+                    <button class="danger-button">Give up admin</button>
                 </div>
             </div>
         `
-        this._qs('.admins').innerHTML += data
+        this._qs('.users').innerHTML += data
 
         //getprofilePicture
-        this.getprofilePicture(admin.id)
-    } //End of loadAdmin()
+        this.getprofilePicture(user.userId)
+    } //End of loadUser()
 
-    //Add new admin component
-    async newAdmin() {
+    //View user account summary
+    async viewUser(id) {
         this.setLoader()
-        await import('./subcomp/new-admin/add-new-admin.js')
+        await import('./subcomp/view-user/view-user.js')
             .then(() => {
-                this._qs('.popup').innerHTML = `<add-new-admin></add-new-admin>`
+                this._qs(
+                    '.popup'
+                ).innerHTML = `<view-user id="${id}"></view-user>`
                 this.stopLoader()
             })
             .catch(err => {
@@ -93,38 +97,19 @@ export default class AdminAccounts extends Base {
                     })
                 )
             })
-    } //End of reserve()
-
-    //loadNewAdminForm
-    loadNewAdminForm() {
-        this._qs('.create-new').addEventListener('click', () => this.newAdmin())
-    } //end of loadNewAdminForm()
-
-    // getUsers from API
-    async getAdmins() {
-        await axios
-            .post(`${this.host}/AdminUsers/all-admins`, {
-                ...this.authData()
-            })
-            .then(res => {
-                res.data.forEach(admin => {
-                    //Load Admin component
-                    this.loadAdmin(admin)
-                })
-            })
-            .catch(err => console.log(err))
-    } //end of getAdmins()
+    } //End of viewUser()
 
     //getprofilePicture
-    async getprofilePicture(userID) {
+    async getprofilePicture(userId) {
         try {
             const res = await axios.post(
-                `${this.host}/images/profile/get/${userID}`,
+                `${this.host}/images/profile/get/${userId}`,
                 {
-                    ...this.authData()
+                    userId: this.getUserId(),
+                    token: this.getToken()
                 }
             )
-            this._qs(`#img-${userID}`).src =
+            this._qs(`#img-${userId}`).src =
                 res.data.image != ''
                     ? res.data.image
                     : '/assets/img/alt/no-mage.png'
@@ -133,14 +118,38 @@ export default class AdminAccounts extends Base {
         }
     } //End of getprofilePicture()
 
+    //load view user component
+    loadViewUser() {
+        this._qsAll('.view-profile').forEach(item => {
+            item.addEventListener('click', () => this.viewUser(item.dataset.id))
+        })
+    } //end of loadViewUser()
+
+    // getUsers from API
+    async getUsers() {
+        this.setLoader()
+        await axios
+            .post(`${this.host}/AdminUsers/all-admins`, {
+                ...this.authData()
+            })
+            .then(res => {
+                res.data.forEach(user => {
+                    //Load user component
+                    this.loadUser(user)
+
+                    //loadViewUser
+                    this.loadViewUser()
+                })
+            })
+            .catch(err => console.log(err))
+        this.stopLoader()
+    } //end of getUsers()
+
     // connectedCallback
     connectedCallback() {
         // getUsers from API
-        this.getAdmins()
-
-        //loadNewAdminForm
-        this.loadNewAdminForm()
+        this.getUsers()
     } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define('admin-accounts-comp', AdminAccounts)
+window.customElements.define('admin-accounts-comp', AdminAccount)

@@ -5,12 +5,14 @@ export default class PaymentAll extends Base {
     css = CSS
 
     leftNav = `
-      <div class="column left-nav">
-        <div>Received Payments</div>
-        <div>Paying History</div>
-        <div class="active">All payments</div>
-        <div>Cash out</div>
-        <div>Bank Account Details</div>
+      <div class="column left-nav-container">
+        <div class="column left-nav">
+          <div><a href="/payment/received">Received Payments</a></div>
+          <div><a href="/payment/paid">Paying History</a></div>
+          <div class="active"><a href="/payment/all">All payments</a></div>
+          <div><a href="/payment/cashout">Cash out</a></div>
+          <div><a href="/payment/bank-account">Bank Account Details</a></div>
+        </div>
       </div>
   `
 

@@ -51,6 +51,10 @@ export default CSS = `
         left: 1%;
     }
 
+    .thumbnail {
+        width: 100%;
+    }
+
     .img {
         display: none;
         width: 100%;
@@ -93,6 +97,7 @@ export default CSS = `
 
     .quick-links > div {
         cursor: pointer;
+        position: relative;
     }
 
     .price {

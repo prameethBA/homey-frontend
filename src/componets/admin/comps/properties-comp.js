@@ -42,39 +42,6 @@ export default class properties extends Base {
     // Load add comps
     async loadpropertyView() {
         this.setLoader()
-        await import('./../../property/subcomp/property-view.js')
-            .then(() => {
-                this.state.page = 1
-                this.state.limit = 12
-
-                for (let index = 0; index < this.state.limit; index++) {
-                    this._qs('.content').innerHTML += `
-                            <property-view id="id-${index}" key="${index}">
-                                <img slot="thumbnail" class="thumbnail" src="/assets/img/alt/load-post.gif" style="display: block !important;"/>
-                                <p slot="title" class=" title title-${index}">Boarding place at Colombo-08</p>
-                                <p slot="price" class=" price price-${index}">Rs. 17, 000</p>
-                                <p slot="description" class=" description description-${index}">
-                                    A boarding house is a house (frequently a family home) in which lodgers rent one or more rooms for one or more nights, and sometimes for extended periods of weeks, months, and years. The common parts of the house are maintained, and some services, such as laundry and cleaning, may be supplied.
-                                </p>
-                                <input class="id id-${index}" type="hidden" slot="id" value=""/>
-                            </property-view>
-                        `
-                }
-                this.stopLoader()
-            })
-            .catch(err => {
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-                this.setLoader()
-            })
-    } //End of loadpropertyView()
-
-    // Load add comps
-    async loadpropertyView() {
-        this.setLoader()
         try {
             import('./../../property/subcomp/property-view.js')
             const page = 1
@@ -85,10 +52,10 @@ export default class properties extends Base {
             )
 
             if (res.data.length < 1) {
-                this._qs('#container').innerHTML = this.notFound
+                this._qs('.content').innerHTML = this.notFound
             } else {
                 res.data.forEach(item => {
-                    this._qs('#container').innerHTML += `
+                    this._qs('.content').innerHTML += `
                     <property-view 
                     id="${item._id}"
                     data-data="${this.encode(item)}"
