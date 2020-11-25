@@ -8,6 +8,8 @@ export default CSS = `
         color: #ffffff;
         font-size: 5rem;
         text-align: center;
+        height: 6rem;
+        overflow: hidden;
     }
 
     .wrap {
@@ -19,16 +21,16 @@ export default CSS = `
         justify-content: center;
         align-items: center;
         flex-direction: row-reverse;
-        margin: 5rem auto;
+        margin: -6rem auto;
         flex-wrap: wrap;
     }
 
     user-comp {
-        transform: scale(0.8);
+        transform: scale(0.75);
     }
 
     .down-wrap {
-        margin: -4rem auto 2rem auto;
+        margin: 4rem auto 2rem auto;
         cursor: pointer;
         animation: animation-down 2s infinite ease;
     }

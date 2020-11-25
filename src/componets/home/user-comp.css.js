@@ -25,6 +25,7 @@ export default CSS = `
   margin: 1rem;
   width: 20vw;
   font-size: 4vw;
+  text-align: end;
 }
 
 .container:hover {
