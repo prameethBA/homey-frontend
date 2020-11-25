@@ -62,12 +62,12 @@ export default CSS = `
     }
 
     .parallax-1 {
-        background-image: url('./assets/img/house.jpg');
+        background-image: url('./assets/img/apt-img-7.jpg');
         height: 42rem;
     }
 
     .parallax-2 {
-        background-image: url('./assets/img/background.jpg');
+        background-image: url('./assets/img/apt-img-9.jpg');
         min-height: 95vh;
         align-items: center;
         justify-content: center;
@@ -76,7 +76,7 @@ export default CSS = `
     }
 
     .parallax-3 {
-        background-image: url(./assets/img/mountain.jpg);
+        background-image: url(./assets/img/apt-img-11.jpg);
         justify-content: center;
         align-items: center;
         color: #ffffff;
@@ -148,7 +148,7 @@ export default CSS = `
     }
 
     .ad {
-        background-image: url(/assets/img/1.png);
+        background-image: url(/assets/img/apt-img-5.jpg);
         width: 70vw;
         min-height: 50vh;
         background-position: center;
@@ -244,8 +244,26 @@ export default CSS = `
         color: #0000ef;
     }
 
-    .api {
-        background-image: url(./assets/img/house.jpg);
+    .api-1 {
+        background-image: url(./assets/img/apt-img-2.jpg);
+        min-height: 20vw;
+        width: 20vw;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin: 2rem 1rem;
+    }
+    .api-2 {
+        background-image: url(./assets/img/apt-img-1.jpg);
+        min-height: 20vw;
+        width: 20vw;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin: 2rem 1rem;
+    }
+    .api-3 {
+        background-image: url(./assets/img/apt-img-3.jpg);
         min-height: 20vw;
         width: 20vw;
         background-position: center;
