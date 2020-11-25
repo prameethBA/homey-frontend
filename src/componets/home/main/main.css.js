@@ -62,7 +62,7 @@ export default CSS = `
     }
 
     .parallax-1 {
-        background-image: url('./assets/img/apt-img-7.jpg');
+        background-image: url('./assets/img/apt-img-12.jpg');
         height: 42rem;
     }
 
@@ -198,8 +198,12 @@ export default CSS = `
     }
 
     .features-image-2 {
-        background-image: url(/assets/img/security.jpg);
+        background-image: url(/assets/img/best-match.jpg);
     }
+    .features-image-3{
+        background-image: url(/assets/img/rent-your-own.jpg);
+    }
+    
 
     .features-description {
         display: flex;
