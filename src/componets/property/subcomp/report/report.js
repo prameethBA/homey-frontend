@@ -21,13 +21,13 @@ export default class Report extends Base {
                 <div class="row input-container">
                     <div class="col-xs-12">
                         <div class="styled-input wide">
-                            <input type="text" required />
+                            <input id="reason" type="text" required />
                             <label>Reason for reporting</label>
                         </div>
                     </div>
                     <div class="">
                         <div class="styled-input wide">
-                            <textarea required></textarea>
+                            <textarea id="message" required></textarea>
                             <label>Message</label>
                         </div>
                     </div>
@@ -64,11 +64,45 @@ export default class Report extends Base {
         )
     } // End of exitWithEscape()
 
+    //validate data
+    validate() {
+        try {
+            const reason = this._qs('#reason')
+            const message = this._qs('#message')
+
+            if (/^ *$|^$/.test(reason.value))
+                throw { message: 'Reason cannot be empty' }
+            if (/^ *$|^$/.test(message.value))
+                throw { message: 'Message cannot be empty' }
+            return true
+        } catch (err) {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: {
+                        pop: 'error',
+                        msg: err.message,
+                        duration: err.duration == undefined ? 10 : err.duration
+                    }
+                })
+            )
+            return false
+        }
+    } //End of validate()
+
+    //listenButton
+    listenButton() {
+        this._qs('.submit-btn').addEventListener('click', () => {
+            if (this.validate()) console.log('done')
+        })
+    } //End of listenButton()
+
     connectedCallback() {
         // close the dock
         this.close()
         // Exit with escape key
         this.exitWithEscape()
+        //listenButton
+        this.listenButton()
     } //End of connectedCallback
 } //End of Class
 
