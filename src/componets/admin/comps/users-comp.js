@@ -39,7 +39,7 @@ export default class users extends Base {
         let data = `
             <div class="profile">
                 <div class="sub-row">
-                    <img data-id="${user.userId}" id="img-${user.userId}" class="display-picture view-profile" src="/assets/img/alt/no-mage.png" />
+                    <img data-id="${user.userId}" id="img-${user.userId}" class="display-picture view-profile" src="/assets/img/alt/load-post.gif" />
                 </div>
                 <div class="sub-row">
                     <span class="name view-profile" data-id="${user.userId}">${user.firstName} ${user.lastName}</span>
