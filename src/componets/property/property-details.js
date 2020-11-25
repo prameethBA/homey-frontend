@@ -13,6 +13,7 @@ export default class PropertyDetails extends Base {
     constructor() {
         super()
         this.mount()
+        this.wait('.container')
     } //end of the constructor
 
     //load property
@@ -78,7 +79,11 @@ export default class PropertyDetails extends Base {
             </div>
             <div class="row">
               <div class="contact-info">
-                <span> <a>Show contacts </a></span>
+                <span class="show-contacts"> <a>Show contacts </a></span>
+                <div class="contacts" id="contacts">
+                    <span>Email: lakmal@gmail.com</span>
+                    <span>Mobile: 077 527 7373</span>
+                </div>
               </div>
             </div>
             <div class="row">
@@ -213,14 +218,11 @@ export default class PropertyDetails extends Base {
 
     //reserve component
     async reserve() {
-        this.setLoader()
         await import('./subcomp/reserve/reserve.js')
             .then(() => {
                 this._qs('.popup').innerHTML = `<reserve-comp></reserve-comp>`
-                this.stopLoader()
             })
             .catch(err => {
-                this.stopLoader()
                 dispatchEvent(
                     new CustomEvent('pop-up', {
                         detail: {
@@ -241,17 +243,14 @@ export default class PropertyDetails extends Base {
 
     //comment component
     async comment() {
-        this.setLoader()
         await import('./../universal/comment/comment-comp.js')
             .then(() => {
                 this._qs('.popup').innerHTML = `<comment-comp
                     data-data="${this.encode(this._qs('.title').innerHTML)}" 
                     id="${this.state.id}"
                 ></comment-comp>`
-                this.stopLoader()
             })
             .catch(err => {
-                this.stopLoader()
                 dispatchEvent(
                     new CustomEvent('pop-up', {
                         detail: {
@@ -270,9 +269,24 @@ export default class PropertyDetails extends Base {
         this._qs('.feedback').addEventListener('click', () => this.comment())
     } //End of loadComment()
 
+    //showContacts
+    showContacts() {
+        this._qs('.show-contacts').addEventListener('click', () => {
+            if (this._qs('.contacts').style.display == 'none') {
+                this._qs('.contacts').style.display = 'flex'
+                this._qs('.show-contacts').classList.add('collapse')
+            } else {
+                this._qs('.contacts').style.display = 'none'
+                this._qs('.show-contacts').classList.remove('collapse')
+            }
+        })
+    } //End of showContacts()
+
     async connectedCallback() {
         //load property
         await this.loadProperty()
+        //showContacts
+        this.showContacts()
         //get images
         await this.getImages()
 
