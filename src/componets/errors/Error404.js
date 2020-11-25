@@ -9,7 +9,7 @@ export default class Error404 extends Base {
         <div>
             404 | Page  not found.
         </div>
-        <span>Go back to <a>home 🔙</a></span>
+        <span>Go back to <a href="/">home 🔙</a></span>
     </div>
 `
     constructor() {
@@ -17,19 +17,7 @@ export default class Error404 extends Base {
         this.mount()
     } //End of the constructor
 
-    connectedCallback() {
-        this._qs('a').addEventListener('click', () =>
-            dispatchEvent(
-                new CustomEvent('load-comp', {
-                    detail: {
-                        path: `/`,
-                        comp: `../main`,
-                        compName: 'main-comp'
-                    }
-                })
-            )
-        )
-    }
+    connectedCallback() {}
 } //End of Class
 
 window.customElements.define('err-404', Error404)

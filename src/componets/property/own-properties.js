@@ -53,7 +53,7 @@ export default class OwnProperties extends Base {
             })
 
             if (res.data.length < 1) {
-                this._qs('#container').innerHTML = this.notFound
+                this._qs('.content').innerHTML = this.notFound
             } else {
                 this._qs('.content').innerHTML = ''
                 res.data.forEach(item => {
