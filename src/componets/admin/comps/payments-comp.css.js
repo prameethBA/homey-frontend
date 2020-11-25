@@ -14,10 +14,21 @@ export default CSS = `
     box-shadow: 0 0 25px -5px;
 }
 
+.block {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+}
+
 .details {
     
     background-color: rgba(200, 200, 200, 1);
     padding-bottom: 50px;
+}
+
+.details > div:last-child {
+    display: flex;
+    justify-content: center;
 }
 
 span {
@@ -52,13 +63,11 @@ button:hover{
 }
 .continue{
   position: absolute;
-  font-size: 1.5em;
+  border-radius: 2rem;
   background-color: rgba(12, 164, 44, 0.8);
 }
 .payment-history-heading {
   text-align: center;
-  font-size: 2.5em;
-  z-index: -1;
   position: relative;
 }
 .heading{
