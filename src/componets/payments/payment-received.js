@@ -19,7 +19,16 @@ export default class PaymentReceived extends Base {
     tr = `
       <tr>
           <td>91908091830</td>
-          <td>Boarding fee for <a>#293b24o82g9vh4o</a></td>
+          <td>Boarding fee for <a>#293b24o82g9vh4o</a> Luxury Two Houses for Rent Short Term or Long Term</td>
+          <td>Rs. 17, 000</td>
+          <td>2020-10-12 12:45:23</td>
+          <td>⬇ received</td>
+      </tr>
+    `
+    tr1 = `
+      <tr>
+          <td>91908091830</td>
+          <td>Boarding fee for <a>#293b24o82g9vh4o</a> Annexe For Rent -ethul Kotte</td>
           <td>Rs. 17, 000</td>
           <td>2020-10-12 12:45:23</td>
           <td>⬇ received</td>
@@ -43,10 +52,9 @@ export default class PaymentReceived extends Base {
                 </thead>
                 <tbody id="received-table-body">
                     ${this.tr}
+                    ${this.tr1}
                     ${this.tr}
-                    ${this.tr}
-                    ${this.tr}
-                    ${this.tr}
+                    ${this.tr1}
                 </tbody>
             </table>
         </div>
