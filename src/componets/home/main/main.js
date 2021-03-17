@@ -40,7 +40,7 @@ class TxtRotate {
         } else if (this.isDeleting && this.txt === '') {
             this.isDeleting = false
             this.loopNum++
-                delta = 50
+            delta = 50
         }
 
         setTimeout(() => {
@@ -60,7 +60,7 @@ export default class Main extends Base {
                 <img
                     slot='image'
                     defer
-                    src='https://media.istockphoto.com/photos/for-rent-sign-in-front-of-new-house-picture-id149060607?k=6&m=149060607&s=612x612&w=0&h=9CQCG-T1Oq2vgBjUEJbxny1OqJAbs6FpbhTQZK36Lxg='
+                    src='/assets/img/sale.png'
                     alt='Image'></img>
                 <h1 slot='title'>Rent or Lease your own property</h1>
             </user-comp>
@@ -71,7 +71,7 @@ export default class Main extends Base {
                 <img
                     slot='image'
                     defer
-                    src='https://s3.amazonaws.com/clients.granalacantadvertiser.images/wp-content/uploads/2017/06/14072232/2236775_2_O.jpg'
+                    src='/assets/img/lokking.jpg'
                     alt='Image'></img>
                 <h1 slot='title'>Looking for a place</h1>
             </user-comp>
@@ -94,6 +94,7 @@ export default class Main extends Base {
         <div class='container'>
             <div class='parallax parallax-1'>
                 ${this.main}                
+                ${this.userComp}                
                 <div class='down-wrap'>
                     <div class='down'>»</div>
                 </div>
@@ -280,22 +281,22 @@ export default class Main extends Base {
 
     // Load signuo or login form
     loadForm(elem) {
-            this._qs(`.${elem}`).addEventListener('click', () => {
-                dispatchEvent(new Event(`load-${elem}-form`))
-            })
-            if (this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
-        } //End of loadForm()
+        this._qs(`.${elem}`).addEventListener('click', () => {
+            dispatchEvent(new Event(`load-${elem}-form`))
+        })
+        if (this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
+    } //End of loadForm()
 
     connectedCallback() {
-            //typingEffect
-            this.typingEffect()
-                //scroll down page when click scroll down arrow
-            this.scrollDown()
+        //typingEffect
+        this.typingEffect()
+        //scroll down page when click scroll down arrow
+        this.scrollDown()
 
-            // Load signup or login form
-            this.loadForm('login')
-            this.loadForm('signup')
-        } //End of connectedCallback()
+        // Load signup or login form
+        this.loadForm('login')
+        this.loadForm('signup')
+    } //End of connectedCallback()
 } //End of Class
 
 window.customElements.define('main-comp', Main)
