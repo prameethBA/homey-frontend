@@ -1,5 +1,6 @@
 import Base from './../../Base.js'
 import CSS from './home-comp.css.js'
+import '/componets/universal/pagination/pagination.js'
 
 export default class Home extends Base {
     css = CSS
@@ -24,7 +25,7 @@ export default class Home extends Base {
             </table>
             </div>
             <div class="pagination">
-                <a class="previous">First</a> | <a>1</a> | <a>2</a> | <a class="current">3</a> | <a>4</a> | <a>5</a> |<a class="last">Last</a>
+                <plagination-comp></plagination-comp>
             </div>
     </div>
     <div class="preview-advertisement"></div>
