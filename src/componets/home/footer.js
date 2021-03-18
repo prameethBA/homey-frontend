@@ -1,49 +1,41 @@
 import Base from './../Base.js'
+import CSS from './footer.css.js'
 
 export default class Footer extends Base {
-
-  css = `
-    footer {
-      display: none;
-      text-align: center;
-      height: 0;
-      transition: height 2s;
-      z-index: 5;
-    }
-
-    .visible {
-      height: 100%;
-      display: flex;
-    }
-    
-    span {
-      padding: 0.5em;
-      color: #eeeeee;
-      background-color: #001f3f;
-      width: 100vw;
-    }
-`
-  content = `
+    css = CSS
+    content = `
     <footer>
         <span>
             Copyright | ${new Date().getFullYear()} | homey.lk
         </span>
+        <div class="float">
+          <div class="float-icon"></div>
+        </div>
     </footer>
 `
-  constructor() {
-    super()
-    this.mount()
-  }
+    constructor() {
+        super()
+        this.mount()
+    } // End of the constructor
 
-  connectedCallback() {
-    const scrollMethod = () => {
-      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 40/*722.400390625*/) this._qs('footer').classList.add('visible')
-      else this._qs('footer').classList.remove('visible')
+    // back top
+    backToTop() {
+        if (
+            document.body.scrollTop > 400 ||
+            document.documentElement.scrollTop > 400
+        ) {
+            this._qs('.float').style.bottom = '2rem'
+            this._qs('.float').addEventListener('click', () => {
+                window.scrollTo(0, 0)
+            })
+        } else {
+            this._qs('.float').style.bottom = '-100%'
+            this._qs('.float').removeEventListener('click', () => {})
+        }
     }
 
-    addEventListener('scroll', () => scrollMethod())
-    
-  } //End of the connected callback
-
+    connectedCallback() {
+        addEventListener('scroll', () => this.backToTop())
+    } //End of the connected callback
 } // End of Class
 window.customElements.define('footer-c', Footer)

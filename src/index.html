@@ -5,27 +5,52 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Homey</title>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="assets/css/reset.css" />
+        <link rel="stylesheet" href="/assets/css/reset.css" />
+        <link rel="stylesheet" href="/assets/css/loader.css" />
+        <script defer src="/assets/js/libraries/axios.min.js"></script>
+        <script
+            defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8RpefQ5-mHoAPGkt6tf1uZAaKjHghTNI&libraries=places"
+        ></script>
+        <script
+            type="text/javascript"
+            src="https://www.gstatic.com/charts/loader.js"
+        ></script>
     </head>
+
     <body>
         <noscript>You must enable JavaScript to Run this Application</noscript>
         <div id="root"></div>
-        <div id="loader">Loading ...</div>
-        <script type="module" src="app.js" async></script>
+        <div id="loader">
+            <div class="loader">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <script type="module" src="/app.js" async></script>
         <script>
-            window.addEventListener('load', ()=>{
-                document.getElementById("loader").style.color = 'transparent'
-                document.getElementById("loader").style.backgroundColor = 'transparent'
+            // function initMap() {
+            //     dispatchEvent(new Event('map-loaded'))
+            // }
+
+            window.addEventListener('load', () => {
+                document.getElementById('loader').style.opacity = '0'
             })
-            window.addEventListener('pre-load', ()=>{
-                document.getElementById("loader").style.transition = '1s'
-                document.getElementById("loader").style.color = '#ffffff'
-                document.getElementById("loader").style.backgroundColor = 'orangered'
+            window.addEventListener('pre-load', () => {
+                document.getElementById('loader').style.transition =
+                    'all 2s ease'
+                document.getElementById('loader').style.opacity = '1'
             })
-            window.addEventListener('stop-pre-load', ()=>{
-                document.getElementById("loader").style.transition = 'all 2s ease-in-out'
-                document.getElementById("loader").style.color = 'transparent'
-                document.getElementById("loader").style.backgroundColor = 'transparent'
+            window.addEventListener('stop-pre-load', () => {
+                document.getElementById('loader').style.transition = '0'
+                document.getElementById('loader').style.opacity = '0'
             })
         </script>
     </body>
