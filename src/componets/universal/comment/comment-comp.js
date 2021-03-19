@@ -7,7 +7,7 @@ export default class Comment extends Base {
     loader = `<img src="/assets/img/alt/load-post.gif">`
 
     content = `
-    
+    <div class="backdrop">
     <div class="comments-app">
         <div id="close">+</div>
         <h1>${this.getParams('data-data')}</h1>
@@ -41,6 +41,7 @@ export default class Comment extends Base {
         </div>
         <div id="comments" class="comments">          
         </div>
+      </div>
       </div>
 
     `
@@ -136,7 +137,7 @@ export default class Comment extends Base {
     connectedCallback() {
         this._qs('#close').addEventListener(
             'click',
-            () => (this._qs('.comments-app').style.display = 'none')
+            () => (this._qs('.backdrop').style.display = 'none')
         )
 
         //get comments
