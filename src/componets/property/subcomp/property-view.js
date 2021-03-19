@@ -239,7 +239,7 @@ export default class PropertyView extends Base {
                             pop: 'error',
                             msg: err.message,
                             duration:
-                                err.duration == undefined ? 10 : err.duration
+                                err.duration == undefined ? 3 : err.duration
                         }
                     })
                 )
@@ -274,7 +274,7 @@ export default class PropertyView extends Base {
                             pop: 'error',
                             msg: err.message,
                             duration:
-                                err.duration == undefined ? 10 : err.duration
+                                err.duration == undefined ? 3 : err.duration
                         }
                     })
                 )
