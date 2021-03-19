@@ -135,7 +135,7 @@ export default class AvalibaleProperty extends Base {
                 <option >All</option>
             </select>
             <button class="search-button"> Search now!</button>
-            <span class="toggle-filter">🔃</span>
+            <span class="toggle-filter"><img src="/assets/icon/Filter/filter_24px.png"></span>
         </div>
     `
 

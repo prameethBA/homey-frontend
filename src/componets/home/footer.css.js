@@ -11,14 +11,6 @@ span {
   padding: 0.5em;
 }
 
-.float-icon {
-  font-size: 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #000000;
-}
-
 .float {
     display: flex;
     position: fixed;
@@ -34,7 +26,6 @@ span {
     border-radius: 50%;
     box-shadow: inset 0px -1px 4px 1px rgba(0,0,0,1);
     transition: all 1s ease-in-out;
-    background-image: url('/assets/icon/up-arrow.png');
     background-repeat: no-repeat;	
     background-size: contain;
     z-index: 10000;
