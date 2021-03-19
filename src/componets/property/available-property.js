@@ -152,7 +152,7 @@ export default class AvalibaleProperty extends Base {
     `
 
     pagination = `
-        <plagination-comp></plagination-comp>
+        <pagination-comp></pagination-comp>
     `
 
     constructor() {

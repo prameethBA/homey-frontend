@@ -24,14 +24,14 @@ export default class Favourite extends Base {
             </div>
         </div>
         <div class="pagination">
-            <plagination-comp></plagination-comp>
+            <pagination-comp></pagination-comp>
         </div>
         <div id="questioner">
         </div>
     `
 
     pagination = `
-        <plagination-comp></plagination-comp>
+        <pagination-comp></pagination-comp>
         `
     constructor() {
         super()

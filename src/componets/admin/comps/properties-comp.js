@@ -29,7 +29,7 @@ export default class properties extends Base {
             </div>
         </div>
         <div class="pagination">
-            <plagination-comp></plagination-comp>
+            <pagination-comp></pagination-comp>
         </div>
         <div id="questioner">
         </div>

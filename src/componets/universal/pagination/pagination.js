@@ -1,7 +1,7 @@
 import Base from '/componets/Base.js'
 import CSS from './pagination.css.js'
 
-export default class pagination extends Base {
+export default class Pagination extends Base {
     css = CSS
 
     content = `
@@ -23,22 +23,10 @@ constructor() {
 
 //connectedCallback
 connectedCallback() {
-    try {
-        if (google != undefined) {
-            this.initMap()
-        } else throw Error()
-    } catch (err) {
-        this.initMap()
-    }
-
-    // close the dock
-    this.close()
-    // Exit with escape key
-    this.exitWithEscape()
 } //End of connectedCallback()
 } //End of Class
 
 
 
-window.customElements.define('plagination-comp', plagination)
+window.customElements.define('pagination-comp', Pagination)
 

@@ -26,7 +26,7 @@ export default class Report extends Base {
             </div>
         </div>
         <div class="pagination">
-            <plagination-comp></plagination-comp>
+            <pagination-comp></pagination-comp>
         </div>
     <div class="preview-advertisement"></div>
     `

@@ -25,7 +25,7 @@ export default class Pendings extends Base {
             </table>
         </div>
         <div class="pagination">
-            <plagination-comp></plagination-comp>
+            <pagination-comp></pagination-comp>
         </div>
     </div>
     <div class="preview-advertisement"></div>

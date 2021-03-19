@@ -16,7 +16,7 @@ export default class AdminAccount extends Base {
         <div class="row users">
         </div>
         <div class="pagination">
-            <plagination-comp></plagination-comp>
+            <pagination-comp></pagination-comp>
         </div>
     </div>
 
