@@ -57,9 +57,10 @@ export default CSS = `
   flex-direction: column;
 }
 
+
 .tags li a {
   border-radius: 50px;
-  background-color: #b3dbd3;
+  background-color: #ff9900;
   display: block;
   color: #000;
   padding: 9px 36px;
