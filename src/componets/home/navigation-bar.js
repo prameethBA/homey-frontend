@@ -1,5 +1,6 @@
 import Base from '../Base.js'
 import CSS from './navigation-bar.css.js'
+import '/componets/home/notification-bar.js'
 
 export default class Nav extends Base {
     css = CSS
