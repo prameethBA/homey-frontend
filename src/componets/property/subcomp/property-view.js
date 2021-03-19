@@ -260,7 +260,7 @@ export default class PropertyView extends Base {
             .then(() => {
                 this._qs(
                     '#comment-box'
-                ).innerHTML = `<reserve-comp></reserve-comp>`
+                ).innerHTML = `<reserve-comp id="${this.getParam('id')}"></reserve-comp>`
                 this.stopLoader()
             })
             .catch(err => {

@@ -12,7 +12,7 @@ export default class Reserve extends Base {
                     <span class="menu-title">Reserve the property</span>
                 </div>
             <div class="row">
-                <span id="propertyId">#y7834trry9q2eygi</span>
+                <span id="propertyId">#${this.getParam('id')}</span>
             </div>
             <div class="row">
                 <span class="title">Boarding house in colombo</span>
@@ -53,7 +53,29 @@ export default class Reserve extends Base {
     constructor() {
         super()
         this.mount()
+
+        
     } //End of constructor
+
+
+    //add to real time reserving menu
+    async setRealTimeReservingEntry() {
+        try {
+            const res = await axios.post(`${this.host}/property-update/add`, {
+                ...this.authData(),
+                propertyId: this.getParam('id')
+            })
+
+            await import('./subcomp/comment-box.js')
+            res.data.forEach(item => {
+                this._qs(
+                    '#comments'
+                ).innerHTML += `<comment-box id=${item.id} view="true"></comment-box>`
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     //close the dock
     close() {
@@ -66,6 +88,7 @@ export default class Reserve extends Base {
     exitDock() {
         this._qs('.backdrop').style.opacity = '0'
         this._qs('.backdrop').style.pointerEvents = 'none'
+
     } // End of exitDock()
 
     //Exit with Escape key
