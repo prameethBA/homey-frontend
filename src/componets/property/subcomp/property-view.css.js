@@ -72,6 +72,7 @@ export default CSS = `
         align-items: flex-start;
         line-height: 1rem;
         text-align: justify;
+        min-height: 2rem;
     }
 
     .details {
@@ -93,11 +94,14 @@ export default CSS = `
         justify-content: space-around;
         position: relative;
         width: 40%;
+        
     }
 
     .quick-links > div {
         cursor: pointer;
         position: relative;
+        margin:5px;
+
     }
 
     .price {

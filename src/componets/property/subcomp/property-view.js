@@ -58,14 +58,14 @@ export default class PropertyView extends Base {
                         ${
                             this.getParam('overview') == 'true'
                                 ? `<span></span>`
-                                : `<div class="favourite" data-data="add" title="Add to favoutite">⭐</div>`
+                                : `<div class="favourite" data-data="add" title="Add to favoutite"> <img src="/assets/icon/Favourite/Heart_Filled_24px.png"> </div>`
                         }
-                        <div class="share" title="Share">✉</div>
+                        <div class="share" title="Share"><img src="/assets/icon/Share/share_24px.png"></div>
                         <div class="status">⚪</div>
                         ${
                             this.getParam('overview') == 'true'
                                 ? `<span></span>`
-                                : `<div class="report" title="Report">⚠</div>`
+                                : `<div class="report" title="Report"><img src="/assets/icon/Report/Report_24px.png"></div>`
                         }
                     </div>
                     <p class="price">Rental</p>
@@ -112,15 +112,15 @@ export default class PropertyView extends Base {
         switch (this.state.property_status) {
             case '0':
                 this._qs('.status').innerHTML =
-                    '<span title="Pending Approval">⭕</span>'
+                    '<span title="Pending Approval">    <img src="/assets/icon/Available/Pending_24px.png">   </span>'
                 break
             case '1':
                 this._qs('.status').innerHTML =
-                    '<span title="Available">🟢</span>'
+                    '<span title="Available">   <img src="/assets/icon/Available/Available_24px.png">   </span>'
                 break
             case '2':
                 this._qs('.status').innerHTML =
-                    '<span title="Rejected">🔴</span>'
+                    '<span title="Rejected">    <img src="/assets/icon/Available/NotAvailable_24px.png">   </span>'
                 break
         }
 
@@ -398,12 +398,12 @@ export default class PropertyView extends Base {
             this.wait('.favourite')
             if (this._qs('.favourite').dataset.data == 'add') {
                 await this.addFavourite('add')
-                this._qs('.favourite').innerHTML = '🔺'
+                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>'
                 this._qs('.favourite').title = 'Remove from favourite'
                 this._qs('.favourite').dataset.data = 'remove'
             } else {
                 await this.addFavourite('remove')
-                this._qs('.favourite').innerHTML = '⭐'
+                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
                 this._qs('.favourite').title = 'Add to favourite'
                 this._qs('.favourite').dataset.data = 'add'
             }
@@ -421,7 +421,7 @@ export default class PropertyView extends Base {
                 }
             )
             if (res.data.action == '1') {
-                this._qs('.favourite').innerHTML = '🔺'
+                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>'
                 this._qs('.favourite').title = 'Remove from favourite'
                 this._qs('.favourite').dataset.data = 'remove'
             }

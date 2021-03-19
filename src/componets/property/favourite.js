@@ -1,5 +1,6 @@
 import Base from '../Base.js'
 import CSS from './favourite.css.js'
+import '/componets/universal/pagination/pagination.js'
 
 export default class Favourite extends Base {
     css = CSS
@@ -23,19 +24,14 @@ export default class Favourite extends Base {
             </div>
         </div>
         <div class="pagination">
-            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
+            <pagination-comp></pagination-comp>
         </div>
         <div id="questioner">
         </div>
     `
 
     pagination = `
-        <div class='pagination'>
-            <div class='previous'>First</div>
-            <div class='pagination-active'>1</div> <div>2</div>
-            <div class='current'>3</div> <div>4</div> <div>5</div>
-            <div class='last'>Last</div>
-        </div>
+        <pagination-comp></pagination-comp>
         `
     constructor() {
         super()

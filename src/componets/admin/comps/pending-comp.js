@@ -1,5 +1,6 @@
 import Base from './../../Base.js'
 import CSS from './pending-comp.css.js'
+import '/componets/universal/pagination/pagination.js'
 
 export default class Pendings extends Base {
     css = CSS
@@ -24,7 +25,7 @@ export default class Pendings extends Base {
             </table>
         </div>
         <div class="pagination">
-            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
+            <pagination-comp></pagination-comp>
         </div>
     </div>
     <div class="preview-advertisement"></div>
