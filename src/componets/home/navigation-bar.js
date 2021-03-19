@@ -1,5 +1,6 @@
 import Base from '../Base.js'
 import CSS from './navigation-bar.css.js'
+import '/componets/home/notification-bar.js'
 
 export default class Nav extends Base {
     css = CSS
@@ -27,7 +28,7 @@ export default class Nav extends Base {
           </div>
           <div class="row separator"></div>
           <div class="row nav-items">
-            <a data-path="">🔔</a>
+            <a data-path=""><img src="/assets/icon/Notification/notification_24px.png"></a>
             <a data-path="property" id="property" class="nav-link">Properties</a>
             <a data-path="favourite" id="favourite" class="nav-link">Favourites</a>
 
