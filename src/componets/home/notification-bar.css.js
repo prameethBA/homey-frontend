@@ -1,5 +1,6 @@
 export default CSS = `
 .notifications {
+    z-index:1;
     position: absolute;
     top: calc(50% + 1em);
     left: calc(50%);
