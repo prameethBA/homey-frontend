@@ -17,9 +17,6 @@ export default class Forum extends Base {
                 </p>
             </div>
             <div class="post-row">
-                <i class="fa fa-thumbs-up" style="font-size:25px; color:#138D75; margin-right:10px;"></i>10
-                <i class="fa fa-thumbs-down" style="font-size:25px; color:#black; margin-left:10px; margin-right:10px;"></i>1
-                <i class="fa fa-comment-o" style="font-size:25px; color:#black; margin-left:25px; margin-right:15px;"></i>3
                 <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
             </div>
             <hr>

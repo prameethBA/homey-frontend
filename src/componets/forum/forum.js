@@ -15,7 +15,8 @@ export default class Forum extends Base {
                 <button class="tab-button">My Posts</button>
             </div>
             <div>   
-                <button class="tab-button">Create Post + </button>
+                <button class="tab-button" id="create-post">Create Post + </button>
+                <div id="create-post-box"></div>
             </div>
         </div>
         <div class="container">
@@ -34,9 +35,6 @@ export default class Forum extends Base {
                 <forum-post></forum-post>
                 <forum-post></forum-post>
                 <forum-post></forum-post>
-                <forum-post></forum-post>
-                <forum-post></forum-post>
-                <forum-post></forum-post>
             </div>
             
         </div>
@@ -45,6 +43,36 @@ export default class Forum extends Base {
         super()
         this.mount()
     } //End of constructor
+
+     createPost(){
+        this._qs("#create-post").addEventListener("click",async()=>{
+            this.setLoader()
+            await import('./create-post.js')
+                .then(() => {
+                    this._qs('#create-post-box').innerHTML = `
+                        <create-post>
+                        </create-post>`
+                    this.stopLoader()
+                })
+                .catch(err => {
+                    this.stopLoader()
+                    dispatchEvent(
+                        new CustomEvent('pop-up', {
+                            detail: {
+                                pop: 'error',
+                                msg: err.message,
+                                duration:
+                                    err.duration == undefined ? 3 : err.duration
+                            }
+                        })
+                    )
+                })
+        })
+    }
+
+    connectedCallback() {
+        this.createPost();
+    } //End of connectedCallback()
 } //End of class
 
 window.customElements.define('forum-comp', Forum)
