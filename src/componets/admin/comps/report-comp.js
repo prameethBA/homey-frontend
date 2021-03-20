@@ -25,9 +25,9 @@ export default class Report extends Base {
             </table>
             </div>
         </div>
-        <div class="pagination">
-            <pagination-comp></pagination-comp>
-        </div>
+        
+        <pagination-comp></pagination-comp>
+        
     <div class="preview-advertisement"></div>
     `
 

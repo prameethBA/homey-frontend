@@ -22,9 +22,9 @@ export default class users extends Base {
         </div>
         <div class="row users">
         </div>
-        <div class="pagination">
-            <pagination-comp></pagination-comp>
-        </div>
+        
+        <pagination-comp></pagination-comp>
+        
     </div>
 
     <div class="popup"></div>
