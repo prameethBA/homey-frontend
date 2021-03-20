@@ -36,6 +36,8 @@ export default class Pagination extends Base {
     this._qs("#pagination").innerHTML = content;
   } //End of setPagination()
 
+  //
+
   //connectedCallback
   connectedCallback() {
       //setPagination
