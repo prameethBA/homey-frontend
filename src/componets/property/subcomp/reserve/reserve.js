@@ -107,7 +107,7 @@ export default class Reserve extends Base {
     );
   } // End of exitWithEscape()
 
-  startPayment() {
+  startPayment(payment) {
     // Called when user completed the payment. It can be a successful payment or failure
     payhere.onCompleted = function onCompleted(orderId) {
       console.log("Payment completed. OrderID:" + orderId);
@@ -126,31 +126,6 @@ export default class Reserve extends Base {
       console.log("Error:" + error);
     };
 
-    // Put the payment variables here
-    const payment = {
-      sandbox: true,
-      merchant_id: "1213639", // Replace your Merchant ID
-      return_url: "https:://homey.lk/payment/done", // Important
-      cancel_url: "https://homey.lk/payment/cancel", // Important
-      notify_url: "https://homey.lk/payment/notify",
-      order_id: "ItemNo12345",
-      items: "Door bell wireles",
-      amount: "1000.00",
-      currency: "LKR",
-      first_name: "Saman",
-      last_name: "Perera",
-      email: "samanp@gmail.com",
-      phone: "0771234567",
-      address: "No.1, Galle Road",
-      city: "Colombo",
-      country: "Sri Lanka",
-      delivery_address: "No. 46, Galle road, Kalutara South",
-      delivery_city: "Kalutara",
-      delivery_country: "Sri Lanka",
-      custom_1: "",
-      custom_2: "",
-    };
-
     payhere.startPayment(payment);
   } //End of startPayment
 
@@ -161,11 +136,35 @@ export default class Reserve extends Base {
       const res = await axios.post(`${this.host}/payment/request`, {
         ...this.authData(),
         propertyId: this.getParam("id"),
-        amount: this.state.fee + this.state.subTotal,
+        amount: +this.state.fee + +this.state.subTotal,
       });
 
       if (res.status == 200) {
-        console.log(res);
+        // Put the payment variables here
+        const payment = {
+          sandbox: true,
+          merchant_id: res.data.merchant_id, 
+          return_url: res.data.return_url,
+          cancel_url: res.data.cancel_url,
+          notify_url: res.data.notify_url,
+          order_id: res.data.order_id,
+          items: res.data.items,
+          amount: res.data.amount,
+          currency: res.data.currency,
+          first_name: res.data.first_name,
+          last_name: res.data.last_name,
+          email: res.data.email,
+          phone: res.data.phone,
+          address: res.data.address,
+          city: res.data.city,
+          country: res.data.country,
+          delivery_address: res.data.delivery_address,
+          delivery_city: res.data.delivery_city,
+          delivery_country: res.data.delivery_country,
+          custom_1: res.data.custom_1,
+        };
+        this.unwait('.reserve-button')
+        this.startPayment(payment)
       } else throw res.data;
     } catch (err) {
       console.log(err);
@@ -221,7 +220,9 @@ export default class Reserve extends Base {
     this.togglePayment();
 
     // Show the payhere.js popup, when "PayHere Pay" is clicked
-    this._qs("#payhere-payment").addEventListener("click", () => this.paymentRequest());
+    this._qs("#payhere-payment").addEventListener("click", () =>
+      this.paymentRequest()
+    );
   } //End of connectedCallback
 } //End of Class
 
