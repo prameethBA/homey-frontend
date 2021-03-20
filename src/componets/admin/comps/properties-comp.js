@@ -16,7 +16,7 @@ export default class properties extends Base {
             <div class="row">
                 <span class="search-container">
                     <input id="search" type="text" class="search" placeholder="Search here" />
-                    <label for="search">🔍</label>
+                    <label for="search"><img src="/assets/icon/Search/search_24px.png"></label>
                     </span>
                     <div class="button-group">
                         <button class="reported danger-button">Reported Properties</button>
