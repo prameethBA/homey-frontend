@@ -51,22 +51,22 @@ export default class PropertyDetails extends Base {
 
                 switch (res.data.property_status) {
                     case '0':
-                        data += `⭕ Pending Approval`
+                        data += `<img src="/assets/icon/Available/NotAvailable_24px.png"> Pending Approval`
                         break
                     case '1':
-                        data += `🟢 Available`
+                        data += `<img src="/assets/icon/Available/Available_24px.png"> Available`
                         break
                     case '2':
-                        data += `🔴 Rejected`
+                        data += `<img src="/assets/icon/Available/rejected_24px.png">  Rejected`
                         break
                     default:
-                        data += `🟠 Reserved`
+                        data += `<img src="/assets/icon/Available/reserved_24px.png"> Reserved`
                         break
                 }
 
                 data += `</div>
-              <div class="favourite">⭐</div>
-              <div class="share">📩</div>
+              <div class="favourite"><img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></div>
+              <div class="share"><img src="/assets/icon/Share/share_24px.png"></div>
             </div>
             <div class="row">
               <div class="description">

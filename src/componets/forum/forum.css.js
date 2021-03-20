@@ -1,5 +1,7 @@
 export default CSS = `
 
+
+
 .heading {
   flex: 1;
   padding: 0.1rem;
@@ -29,6 +31,10 @@ export default CSS = `
   background-color: #001f3f;
   color: rgb(255, 255, 255);
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24);
+}
+
+.container {
+  display:flex;
 }
 
 .buttons {
@@ -62,9 +68,9 @@ export default CSS = `
 
 .tags li a {
   border-radius: 50px;
-  background-color: #ff9900;
+  background-color: #001f3f;
   display: block;
-  color: rgb(0, 0, 0);
+  color: white;
   padding: 9px 36px;
   margin-bottom: 2em;
   text-decoration: none;
@@ -72,7 +78,7 @@ export default CSS = `
 
 .tags li a:hover {
     cursor: pointer;
-    background-color: #001f3f;
+    background-color:#ff9900 ;
     background-position: right;
     color: rgb(250, 250, 250);
     box-shadow: 0 0 20px -5px;
@@ -87,36 +93,6 @@ export default CSS = `
   text-align: center;
   text-transform: uppercase;
 }
-
-.user-image {
-  width: 4rem;
-  margin-top: 1.5em;
-  padding: 0;
-}
-
-.textarea {
-    display: inline-flex;
-    width: 100%;
-    height: 1.5rem;
-    border: none;
-    border-radius: 0.2rem;
-    text-indent: 0.2rem;
-}
-
-.container {
-  display: flex;
-  align-self: center;
-  justify-content: center;
-  margin-right: 1.5em;
-  margin-top: 1em;
-}
-
-.posts {
-  flex: 85%;
-  padding-right: 2px;
-  margin-left: 3em;
-}
-
 
 button{
       display: flex;
