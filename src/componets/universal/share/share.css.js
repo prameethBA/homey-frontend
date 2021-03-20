@@ -7,6 +7,7 @@ export default CSS = `
     right: 0;
     bottom: 0;
     background-color: rgba(0,0,0, 0.7);
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 1);
     z-index: 1;
     display: flex;
     justify-content: center;
@@ -102,7 +103,7 @@ export default CSS = `
     position: relative;
     overflow: hidden;
     border-radius: 28%;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 1);
     opacity: 0.99;
   }
   .social-btns .btn:before {

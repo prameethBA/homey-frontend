@@ -15,6 +15,8 @@ export default class PropertyDetails extends Base {
     super();
     this.mount();
     this.wait(".container");
+    //getFavourite
+    this.getFavourite();
   } //end of the constructor
 
   //load property
@@ -52,22 +54,22 @@ export default class PropertyDetails extends Base {
 
         switch (res.data.property_status) {
           case "0":
-            data += `<img class="btn" src="/assets/icon/Available/NotAvailable_24px.png"> Pending Approval`;
+            data += `<img class="btn" title="NotAvailable" src="/assets/icon/Available/NotAvailable_24px.png"> Pending Approval`;
             break;
           case "1":
-            data += `<img class="btn" src="/assets/icon/Available/Available_24px.png"> Available`;
+            data += `<img class="btn" title="Available" src="/assets/icon/Available/Available_24px.png"> Available`;
             break;
           case "2":
-            data += `<img class="btn" src="/assets/icon/Available/rejected_24px.png">  Rejected`;
+            data += `<img class="btn" title="Rejected" src="/assets/icon/Available/rejected_24px.png">  Rejected`;
             break;
           default:
-            data += `<img class="btn" src="/assets/icon/Available/reserved_24px.png"> Reserved`;
+            data += `<img class="btn" title="Reserved" src="/assets/icon/Available/reserved_24px.png"> Reserved`;
             break;
         }
 
         data += `</div>
-              <div class="favourite"><img class="btn" src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></div>
-              <div class="share"><img class="btn" src="/assets/icon/Share/share_24px.png" id="share-post"></div>
+              <div class="favourite" title="Add to favourite"><img class="btn" src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></div>
+              <div class="share" title="share"><img class="btn" src="/assets/icon/Share/share_24px.png" id="share-post"></div>
             </div>
             <div class="row">
               <div class="description">

@@ -60,7 +60,7 @@ export default class PropertyView extends Base {
                                 ? `<span></span>`
                                 : `<div class="favourite" data-data="add" title="Add to favoutite"> <img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"> </div>`
                         }
-                        <div class="share" title="Share"><img src="/assets/icon/Share/share_24px.png"></div>
+                        <div class="share" title="Share"><img src="/assets/icon/Share/share_24px.png" id="share-post"></div>
                         <div class="status">⚪</div>
                         ${
                             this.getParam('overview') == 'true'
@@ -91,6 +91,7 @@ export default class PropertyView extends Base {
         </div>
         <div id="comment-box"></div>
         <slot name="id" ></slot>
+        <div id="share-post-box"></div>
     `
 
     constructor() {
@@ -430,6 +431,33 @@ export default class PropertyView extends Base {
         }
     } //End of getFavourite()
 
+
+  //sharePost
+  sharePost() {
+    this._qs("#share-post").addEventListener("click", async () => {
+      this.setLoader();
+      await import("/componets/universal/share/share.js");
+      try {
+        this._qs("#share-post-box").innerHTML = `
+                        <share-comp>
+                        </share-comp>`;
+        this.stopLoader();
+      } catch (err) {
+        this.stopLoader();
+        dispatchEvent(
+          new CustomEvent("pop-up", {
+            detail: {
+              pop: "error",
+              msg: err.message,
+              duration: err.duration == undefined ? 3 : err.duration,
+            },
+          })
+        );
+      }
+    });
+  } // End of sharePost
+
+
     connectedCallback() {
         //SetValues
         this.setValues()
@@ -463,6 +491,8 @@ export default class PropertyView extends Base {
             //listen for addFavourite
             this.listenAddFavourite()
         }
+        //Shate post
+        this.sharePost();
     } //end of connected callback
 } //End of class
 
