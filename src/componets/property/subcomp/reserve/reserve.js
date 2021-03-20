@@ -157,7 +157,6 @@ export default class Reserve extends Base {
   //Request payment infomations
   async paymentRequest() {
     this.wait(".reserve-button");
-
     try {
       const res = await axios.post(`${this.host}/payment/request`, {
         ...this.authData(),
@@ -172,7 +171,7 @@ export default class Reserve extends Base {
       console.log(err);
     }
 
-    this.unwait(".reserve-button");
+    // this.unwait(".reserve-button");
   }
 
   //toggle payment
@@ -222,7 +221,7 @@ export default class Reserve extends Base {
     this.togglePayment();
 
     // Show the payhere.js popup, when "PayHere Pay" is clicked
-    this._qs("#payhere-payment").addEventListener("click", this.paymentRequest);
+    this._qs("#payhere-payment").addEventListener("click", () => this.paymentRequest());
   } //End of connectedCallback
 } //End of Class
 

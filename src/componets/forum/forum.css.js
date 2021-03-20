@@ -1,4 +1,5 @@
 export default CSS = `
+
 .heading {
   flex: 1;
   padding: 0.1rem;
@@ -15,7 +16,6 @@ export default CSS = `
 .tab-button {
   border: none;
   border-color: #239710;
-  background-color: #ff9900;
   text-align: center;
   text-decoration: none;
   margin: 0 1.5rem;
@@ -25,7 +25,9 @@ export default CSS = `
 }
 
 .tab-button:hover {
-  border-color: rgb(149, 192, 169);
+    cursor: pointer;
+  background-color: #001f3f;
+  color: rgb(255, 255, 255);
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24);
 }
 
@@ -36,9 +38,9 @@ export default CSS = `
 
 .tags {
     padding: 5px;
-    background-color: #39b54a;
+    background-color: #064e9c;
+    border-radius: 20px;
     border: 2px solid #06070669;
-    border-radius: 30px;
     place-items: center;
     justify-content: center;
     flex: 30%;
@@ -57,19 +59,23 @@ export default CSS = `
   flex-direction: column;
 }
 
+
 .tags li a {
   border-radius: 50px;
-  background-color: #b3dbd3;
+  background-color: #ff9900;
   display: block;
-  color: #000;
+  color: rgb(0, 0, 0);
   padding: 9px 36px;
   margin-bottom: 2em;
   text-decoration: none;
 }
 
 .tags li a:hover {
-  background-color: #138D75;
-  color: white;
+    cursor: pointer;
+    background-color: #001f3f;
+    background-position: right;
+    color: rgb(250, 250, 250);
+    box-shadow: 0 0 20px -5px;
 }
 
 .tags-txt {
@@ -105,15 +111,12 @@ export default CSS = `
   margin-top: 1em;
 }
 
-.post-container {}
-
 .posts {
   flex: 85%;
   padding-right: 2px;
   margin-left: 3em;
 }
 
-.post-row {}
 
 button{
       display: flex;
@@ -134,10 +137,6 @@ button{
       min-width: 15%;
   }
   
-  button:hover{
-      cursor: pointer;
-      background-position: right;
-      color: black;
-      box-shadow: 0 0 20px -5px;
-  }
+
+
 `

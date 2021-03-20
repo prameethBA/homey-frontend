@@ -58,7 +58,7 @@ export default class PropertyView extends Base {
                         ${
                             this.getParam('overview') == 'true'
                                 ? `<span></span>`
-                                : `<div class="favourite" data-data="add" title="Add to favoutite"> <img src="/assets/icon/Favourite/Heart_Filled_24px.png"> </div>`
+                                : `<div class="favourite" data-data="add" title="Add to favoutite"> <img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"> </div>`
                         }
                         <div class="share" title="Share"><img src="/assets/icon/Share/share_24px.png"></div>
                         <div class="status">⚪</div>
@@ -239,7 +239,7 @@ export default class PropertyView extends Base {
                             pop: 'error',
                             msg: err.message,
                             duration:
-                                err.duration == undefined ? 10 : err.duration
+                                err.duration == undefined ? 3 : err.duration
                         }
                     })
                 )
@@ -274,7 +274,7 @@ export default class PropertyView extends Base {
                             pop: 'error',
                             msg: err.message,
                             duration:
-                                err.duration == undefined ? 10 : err.duration
+                                err.duration == undefined ? 3 : err.duration
                         }
                     })
                 )
@@ -398,12 +398,12 @@ export default class PropertyView extends Base {
             this.wait('.favourite')
             if (this._qs('.favourite').dataset.data == 'add') {
                 await this.addFavourite('add')
-                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>'
+                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
                 this._qs('.favourite').title = 'Remove from favourite'
                 this._qs('.favourite').dataset.data = 'remove'
             } else {
                 await this.addFavourite('remove')
-                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
+                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>'
                 this._qs('.favourite').title = 'Add to favourite'
                 this._qs('.favourite').dataset.data = 'add'
             }
@@ -421,7 +421,7 @@ export default class PropertyView extends Base {
                 }
             )
             if (res.data.action == '1') {
-                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>'
+                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
                 this._qs('.favourite').title = 'Remove from favourite'
                 this._qs('.favourite').dataset.data = 'remove'
             }

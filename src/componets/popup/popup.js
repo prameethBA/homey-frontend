@@ -45,11 +45,11 @@ export default class error extends Base {
 
     connectedCallback() {
         setTimeout(() => {
-            this._qs('.container').style.top = '1rem'
+            this._qs('.container').style.right = '1rem'
         }, 10)
 
         this._qs('#close-popup').addEventListener('click', () => {
-            this._qs('.container').style.top = '-100%'
+            this._qs('.container').style.right = '-100%'
         })
 
         let widthvalue = 0
@@ -58,7 +58,7 @@ export default class error extends Base {
             widthvalue++
             if (widthvalue > 100) {
                 clearInterval(loader)
-                this._qs('.container').style.top = '-100%'
+                this._qs('.container').style.right = '-100%'
             }
         }, this.state.duration / 100)
     } //End of the connectedCallback()
