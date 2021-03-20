@@ -110,6 +110,18 @@ export default CSS = `
     
       .button-group-user > button {
        }
+    @media(max-Width: 800px){
+      .content {
+        flex-direction: column;
+        justifyContent: center;
+      }
+      .title {
+        position: unset;
+      }
+      .search-container {
+        flex-direction: column;
+      }
+    }
 
        ${notFound}
 
