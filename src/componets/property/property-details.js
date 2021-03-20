@@ -220,7 +220,7 @@ export default class PropertyDetails extends Base {
     async reserve() {
         await import('./subcomp/reserve/reserve.js')
             .then(() => {
-                this._qs('.popup').innerHTML = `<reserve-comp></reserve-comp>`
+                this._qs('.popup').innerHTML = `<reserve-comp id="${this.state.id}"></reserve-comp>`
             })
             .catch(err => {
                 dispatchEvent(
