@@ -105,4 +105,20 @@ export default CSS = `
       color: black;
       box-shadow: 0 0 20px -5px;
   }
+
+
+  @media(max-Width: 800px){
+    .cards{
+      flex-direction: column;
+    }
+  }
+
+  @media(max-Width: 500px){
+    .cards {
+      justify-Content:center;
+      padding-left: 2rem;  
+    }
+  }
+
+  
 `

@@ -322,9 +322,9 @@ export default CSS = `
   .expanded {
     transform: rotate(45deg);
   }
+  
   @media(max-Width: 800px){
     .row {
-      display: flex;
       flex-direction: column;
       justify-Content: center;
     }
@@ -334,15 +334,28 @@ export default CSS = `
       align-items: center;
     }
     .column {
-      display: flex;
       flex-direction: column;
       width: 100%;
+    }
+    .first-aside {
+      width: 100%;
+   }
+    .profile-picture-container {
+      flex-direction: column;
+      justify-Content: center;
+      width: 10rem;
+      height: 10rem;
+    }
+    .expand {      
+      transition: none;
+    }
+    .expanded {
+      transform:none; 
     }
   }
 
   @media(max-Width: 500px){
     .row {
-      display: flex;
       flex-direction: column;
       justify-Content: center;
     }
@@ -352,10 +365,16 @@ export default CSS = `
       align-items: center;
     }
     .form-row {
-      display: flex;
       flex-direction: column;
       width: 100%;
     }
+    .img-label {
+      width: auto;
+      height: auto;
+    }
+    .last-login-container {
+      font-size: small;
+  }
   }
 
 `
