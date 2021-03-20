@@ -23,9 +23,9 @@ export default class Favourite extends Base {
                 <div class="content"></div>
             </div>
         </div>
-        <div class="pagination">
-            <pagination-comp></pagination-comp>
-        </div>
+        
+        <pagination-comp></pagination-comp>
+        
         <div id="questioner">
         </div>
     `

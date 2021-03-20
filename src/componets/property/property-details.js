@@ -15,6 +15,8 @@ export default class PropertyDetails extends Base {
     super();
     this.mount();
     this.wait(".container");
+    //getFavourite
+    this.getFavourite();
   } //end of the constructor
 
   //load property
@@ -52,22 +54,22 @@ export default class PropertyDetails extends Base {
 
         switch (res.data.property_status) {
           case "0":
-            data += `<img src="/assets/icon/Available/NotAvailable_24px.png"> Pending Approval`;
+            data += `<img class="btn" title="NotAvailable" src="/assets/icon/Available/NotAvailable_24px.png"> Pending Approval`;
             break;
           case "1":
-            data += `<img src="/assets/icon/Available/Available_24px.png"> Available`;
+            data += `<img class="btn" title="Available" src="/assets/icon/Available/Available_24px.png"> Available`;
             break;
           case "2":
-            data += `<img src="/assets/icon/Available/rejected_24px.png">  Rejected`;
+            data += `<img class="btn" title="Rejected" src="/assets/icon/Available/rejected_24px.png">  Rejected`;
             break;
           default:
-            data += `<img src="/assets/icon/Available/reserved_24px.png"> Reserved`;
+            data += `<img class="btn" title="Reserved" src="/assets/icon/Available/reserved_24px.png"> Reserved`;
             break;
         }
 
         data += `</div>
-              <div class="favourite"><img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></div>
-              <div class="share"><img src="/assets/icon/Share/share_24px.png" id="share-post"></div>
+              <div class="favourite" title="Add to favourite"><img class="btn" src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></div>
+              <div class="share" title="share"><img class="btn" src="/assets/icon/Share/share_24px.png" id="share-post"></div>
             </div>
             <div class="row">
               <div class="description">
@@ -308,6 +310,75 @@ export default class PropertyDetails extends Base {
     });
   } // End of sharePost
 
+
+//addFavourite
+async addFavourite(action) {
+    try {
+        const res = await axios.post(
+            `${this.host}/property/favourite/${action}`,
+            {
+                ...this.authData(),
+                propertyId: this.getParam('id')
+            }
+        )
+        if (res.data.status == '204') {
+            if (action == 'add')
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: { pop: 'info', msg: res.data.message }
+                    })
+                )
+            else
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: { pop: 'error', msg: res.data.message }
+                    })
+                )
+        } else throw res.data
+    } catch (err) {
+        console.log(err)
+    }
+} //End of addFavourite()
+
+//listen for addFavourite
+listenAddFavourite() {
+    this._qs('.favourite').addEventListener('click', async () => {
+        this.wait('.favourite')
+        if (this._qs('.favourite').dataset.data == 'add') {
+            await this.addFavourite('add')
+            this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
+            this._qs('.favourite').title = 'Remove from favourite'
+            this._qs('.favourite').dataset.data = 'remove'
+        } else {
+            await this.addFavourite('remove')
+            this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>'
+            this._qs('.favourite').title = 'Add to favourite'
+            this._qs('.favourite').dataset.data = 'add'
+        }
+    })
+} //End of listenaddFavourite()
+
+//getFavourite
+async getFavourite() {
+    try {
+        const res = await axios.post(
+            `${this.host}/property/favourite/get`,
+            {
+                ...this.authData(),
+                propertyId: this.getParam('id')
+            }
+        )
+        if (res.data.action == '1') {
+            this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
+            this._qs('.favourite').title = 'Remove from favourite'
+            this._qs('.favourite').dataset.data = 'remove'
+        }
+    } catch (err) {
+        console.log(err)
+    }
+} //End of getFavourite()
+
+
   async connectedCallback() {
     //load property
     await this.loadProperty();
@@ -320,7 +391,11 @@ export default class PropertyDetails extends Base {
     this.previewImage();
     //Set sub image as main Image
     this.setMainImage();
+    //Shate post
     this.sharePost();
+    this.listenAddFavourite();
+
+
   } //End of connectedCallback()
 } //End of the class
 

@@ -1,8 +1,9 @@
 export default CSS = `
 .notifications {
+    z-index:1;
     position: absolute;
-    top: calc(50% + 1em);
-    left: calc(50%);
+    top: 9rem;
+    left: 50%;
     background-color: rgb(31, 26, 26);
     box-shadow: 0 0 0 0.5em rgba(0, 0, 0, 0.1);
     transform: translate(-50%, -50%);

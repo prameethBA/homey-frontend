@@ -28,7 +28,7 @@ export default class Nav extends Base {
           </div>
           <div class="row separator"></div>
           <div class="row nav-items">
-            <a data-path=""><img src="/assets/icon/Notification/notification_24px.png"></a>
+            <a data-path=""><img src="/assets/icon/Notification/notification_24px.png" id="notification"></a>
             <a data-path="property" id="property" class="nav-link">Properties</a>
             <a data-path="favourite" id="favourite" class="nav-link">Favourites</a>
 
@@ -76,7 +76,9 @@ export default class Nav extends Base {
         </nav>
         `
 
-    content = `<header></header>`
+    content = `
+    <header></header>
+    <div id="notification-bar-box"></div>`
 
     constructor() {
         super()
@@ -402,6 +404,39 @@ export default class Nav extends Base {
         )
     } //logOutMethod()
 
+
+    notificationBar(){
+        this._qs("#notification").addEventListener("click",async()=>{
+            this.setLoader()
+            await import('./notification-bar.js')
+                .then(() => {
+                    this._qs('#notification-bar-box').innerHTML = `
+                        <notification-comp>
+                        </notification-comp>`
+                    this.stopLoader()
+                })
+                .catch(err => {
+                    this.stopLoader()
+                    dispatchEvent(
+                        new CustomEvent('pop-up', {
+                            detail: {
+                                pop: 'error',
+                                msg: err.message,
+                                duration:
+                                    err.duration == undefined ? 3 : err.duration
+                            }
+                        })
+                    )
+                })
+        })
+    }
+
+    closeNotification(){
+        addEventListener("click",()=>{
+            this._qs("notification-comp").style.display="none";
+        })
+    }
+
     connectedCallback() {
         //Login method
         this.loginMethod()
@@ -411,6 +446,12 @@ export default class Nav extends Base {
 
         //Scrolbar behavoiur when scroll
         this.scrollNavbar()
+
+        //Notification Bar
+        this.notificationBar();
+
+        //closeNotificationBar
+        this.closeNotification();
     } // End of connected callback
 } // End of Class
 
