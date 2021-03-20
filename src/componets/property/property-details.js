@@ -1,31 +1,34 @@
-import Base from './../Base.js'
-import CSS from './property-details.css.js'
+import Base from "./../Base.js";
+import CSS from "./property-details.css.js";
 
 export default class PropertyDetails extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
     <div class="container">
     </div>
 
     <div class="popup"></div>
-  `
-    constructor() {
-        super()
-        this.mount()
-        this.wait('.container')
-    } //end of the constructor
+    <div id="share-post-box"></div>
+  `;
+  constructor() {
+    super();
+    this.mount();
+    this.wait(".container");
+    //getFavourite
+    this.getFavourite();
+  } //end of the constructor
 
-    //load property
-    async loadProperty() {
-        await axios
-            .post(`${this.host}/property/get/property`, {
-                ...this.authData(),
-                propertyId: window.location.pathname.split('/')[2]
-            })
-            .then(res => {
-                this.state.id = res.data._id
-                let data = `
+  //load property
+  async loadProperty() {
+    await axios
+      .post(`${this.host}/property/get/property`, {
+        ...this.authData(),
+        propertyId: window.location.pathname.split("/")[2],
+      })
+      .then((res) => {
+        this.state.id = res.data._id;
+        let data = `
             <div class="images">
             <div class="main-image-container">
               <img class="img main-image" src="/assets/img/alt/load-post.gif" />
@@ -47,26 +50,26 @@ export default class PropertyDetails extends Base {
               <div class="price">Rs.${res.data.price}/Month</div>
             </div>
             <div class="row row-status">
-              <div class="status">`
+              <div class="status">`;
 
-                switch (res.data.property_status) {
-                    case '0':
-                        data += `⭕ Pending Approval`
-                        break
-                    case '1':
-                        data += `🟢 Available`
-                        break
-                    case '2':
-                        data += `🔴 Rejected`
-                        break
-                    default:
-                        data += `🟠 Reserved`
-                        break
-                }
+        switch (res.data.property_status) {
+          case "0":
+            data += `<img class="btn" title="NotAvailable" src="/assets/icon/Available/NotAvailable_24px.png"> Pending Approval`;
+            break;
+          case "1":
+            data += `<img class="btn" title="Available" src="/assets/icon/Available/Available_24px.png"> Available`;
+            break;
+          case "2":
+            data += `<img class="btn" title="Rejected" src="/assets/icon/Available/rejected_24px.png">  Rejected`;
+            break;
+          default:
+            data += `<img class="btn" title="Reserved" src="/assets/icon/Available/reserved_24px.png"> Reserved`;
+            break;
+        }
 
-                data += `</div>
-              <div class="favourite">⭐</div>
-              <div class="share">📩</div>
+        data += `</div>
+              <div class="favourite" title="Add to favourite"><img class="btn" src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></div>
+              <div class="share" title="share"><img class="btn" src="/assets/icon/Share/share_24px.png" id="share-post"></div>
             </div>
             <div class="row">
               <div class="description">
@@ -94,207 +97,306 @@ export default class PropertyDetails extends Base {
               </div>
             </div>
           </div>
-          `
-                this._qs('.container').innerHTML = data
+          `;
+        this._qs(".container").innerHTML = data;
 
-                // load feature List
-                this.loadFeatureList(JSON.parse(res.data.facilities))
+        // load feature List
+        this.loadFeatureList(JSON.parse(res.data.facilities));
 
-                //Load the reserve component
-                this.loadReserve()
+        //Load the reserve component
+        this.loadReserve();
 
-                //loadComment
-                this.loadComment()
+        //loadComment
+        this.loadComment();
 
-                //Load map view component
-                this.loadMapView()
-            })
-    } //End of loadProperty()
+        //Load map view component
+        this.loadMapView();
+      });
+  } //End of loadProperty()
 
-    // load feature List
-    async loadFeatureList(list) {
-        await import('./subcomp/facility.js')
-            .then(() => {
-                // API call for get Facilities List
-                list.forEach(
-                    item =>
-                        (this._qs('.features').innerHTML += `
+  // load feature List
+  async loadFeatureList(list) {
+    await import("./subcomp/facility.js")
+      .then(() => {
+        // API call for get Facilities List
+        list.forEach(
+          (item) =>
+            (this._qs(".features").innerHTML += `
           <facility-comp 
           key="${item.featureId}" 
           name="${item.feature}" 
-          measurable="${item.quantity == 'null' ? 'false' : '1'}" 
+          measurable="${item.quantity == "null" ? "false" : "1"}" 
           checked="true" 
           quantity="${item.quantity}"
           ></facility-comp>
           `)
-                )
-            })
-            .catch(err =>
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-            )
-    } //End of loadFetureList()
+        );
+      })
+      .catch((err) =>
+        dispatchEvent(
+          new CustomEvent("pop-up", {
+            detail: { pop: "error", msg: err },
+          })
+        )
+      );
+  } //End of loadFetureList()
 
-    // load map view
-    async mapView() {
-        await import('../universal/popup-map.js')
-            .then(res => {
-                this._qs(
-                    '.popup'
-                ).innerHTML = `<map-view location="${encodeURIComponent(
-                    JSON.stringify({ lat: 7.8, lng: 80.4 })
-                )}"></map-view>`
-            })
-            .catch(err =>
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: err }
-                    })
-                )
-            )
-    } //End of mapView()
+  // load map view
+  async mapView() {
+    await import("../universal/popup-map.js")
+      .then((res) => {
+        this._qs(
+          ".popup"
+        ).innerHTML = `<map-view location="${encodeURIComponent(
+          JSON.stringify({ lat: 7.8, lng: 80.4 })
+        )}"></map-view>`;
+      })
+      .catch((err) =>
+        dispatchEvent(
+          new CustomEvent("pop-up", {
+            detail: { pop: "error", msg: err },
+          })
+        )
+      );
+  } //End of mapView()
 
-    //Load map view
-    loadMapView() {
-        this._qs('.map').addEventListener('click', () => this.mapView())
-    }
+  //Load map view
+  loadMapView() {
+    this._qs(".map").addEventListener("click", () => this.mapView());
+  }
 
-    //get images
-    async getImages() {
-        try {
-            const res = await axios.post(
-                `${this.host}/images/property/${this.state.id}`,
-                {
-                    ...this.authData(),
-                    propertyId: this.state.id
-                }
-            )
-
-            if (res.data.length == 0) {
-                this._qs('.main-image').src = '/assets/img/alt/no-mage.png'
-                this._qs('.sub-images').style.display = 'none'
-            } else {
-                let index = 0
-                this._qs('.sub-images').innerHTML = ''
-                await res.data.forEach(image => {
-                    if (index == 0) this._qs('.main-image').src = image.image
-                    else
-                        this._qs(
-                            '.sub-images'
-                        ).innerHTML += `<img class="img sub-image" src="${image.image}" />`
-                    index++
-                })
-            }
-        } catch (err) {
-            console.log(err)
+  //get images
+  async getImages() {
+    try {
+      const res = await axios.post(
+        `${this.host}/images/property/${this.state.id}`,
+        {
+          ...this.authData(),
+          propertyId: this.state.id,
         }
-    } //End of getImages()
+      );
 
-    //preview image
-    previewImage() {
-        this._qs('.main-image').addEventListener('mousemove', () => {
-            this._qs('.preview-image-container').style.display = 'flex'
-            this._qs('.preview-image').src = this._qs('.main-image').src
-        })
+      if (res.data.length == 0) {
+        this._qs(".main-image").src = "/assets/img/alt/no-mage.png";
+        this._qs(".sub-images").style.display = "none";
+      } else {
+        let index = 0;
+        this._qs(".sub-images").innerHTML = "";
+        await res.data.forEach((image) => {
+          if (index == 0) this._qs(".main-image").src = image.image;
+          else
+            this._qs(
+              ".sub-images"
+            ).innerHTML += `<img class="img sub-image" src="${image.image}" />`;
+          index++;
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  } //End of getImages()
 
-        this._qs('.main-image').addEventListener('mouseout', () => {
-            this._qs('.preview-image-container').style.display = 'none'
-        })
-    } //end of previewImage()
+  //preview image
+  previewImage() {
+    this._qs(".main-image").addEventListener("mousemove", () => {
+      this._qs(".preview-image-container").style.display = "flex";
+      this._qs(".preview-image").src = this._qs(".main-image").src;
+    });
 
-    //set as main image
-    setMainImage() {
-        this._qsAll('.sub-image').forEach(item => {
-            item.addEventListener('click', () => {
-                const previousMainImage = this._qs('.main-image').src
-                this._qs('.main-image').src = item.src
-                item.src = previousMainImage
-            })
-        })
-    } //end of setMainImage
+    this._qs(".main-image").addEventListener("mouseout", () => {
+      this._qs(".preview-image-container").style.display = "none";
+    });
+  } //end of previewImage()
 
-    //reserve component
-    async reserve() {
-        await import('./subcomp/reserve/reserve.js')
-            .then(() => {
-                this._qs('.popup').innerHTML = `<reserve-comp></reserve-comp>`
-            })
-            .catch(err => {
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: {
-                            pop: 'error',
-                            msg: err.message,
-                            duration:
-                                err.duration == undefined ? 10 : err.duration
-                        }
-                    })
-                )
-            })
-    } //End of reserve()
+  //set as main image
+  setMainImage() {
+    this._qsAll(".sub-image").forEach((item) => {
+      item.addEventListener("click", () => {
+        const previousMainImage = this._qs(".main-image").src;
+        this._qs(".main-image").src = item.src;
+        item.src = previousMainImage;
+      });
+    });
+  } //end of setMainImage
 
-    //loadReserve
-    loadReserve() {
-        this._qs('.reserve').addEventListener('click', () => this.reserve())
-    } //end of loadReserve()
+  //reserve component
+  async reserve() {
+    await import("./subcomp/reserve/reserve.js")
+      .then(() => {
+        this._qs(
+          ".popup"
+        ).innerHTML = `<reserve-comp id="${this.state.id}"></reserve-comp>`;
+      })
+      .catch((err) => {
+        dispatchEvent(
+          new CustomEvent("pop-up", {
+            detail: {
+              pop: "error",
+              msg: err.message,
+              duration: err.duration == undefined ? 10 : err.duration,
+            },
+          })
+        );
+      });
+  } //End of reserve()
 
-    //comment component
-    async comment() {
-        await import('./../universal/comment/comment-comp.js')
-            .then(() => {
-                this._qs('.popup').innerHTML = `<comment-comp
-                    data-data="${this.encode(this._qs('.title').innerHTML)}" 
+  //loadReserve
+  loadReserve() {
+    this._qs(".reserve").addEventListener("click", () => this.reserve());
+  } //end of loadReserve()
+
+  //comment component
+  async comment() {
+    await import("./../universal/comment/comment-comp.js")
+      .then(() => {
+        this._qs(".popup").innerHTML = `<comment-comp
+                    data-data="${this.encode(this._qs(".title").innerHTML)}" 
                     id="${this.state.id}"
-                ></comment-comp>`
-            })
-            .catch(err => {
+                ></comment-comp>`;
+      })
+      .catch((err) => {
+        dispatchEvent(
+          new CustomEvent("pop-up", {
+            detail: {
+              pop: "error",
+              msg: err.message,
+              duration: err.duration == undefined ? 10 : err.duration,
+            },
+          })
+        );
+      });
+  } //End of comment()
+
+  //loadComment
+  loadComment() {
+    this._qs(".feedback").addEventListener("click", () => this.comment());
+  } //End of loadComment()
+
+  //showContacts
+  showContacts() {
+    this._qs(".show-contacts").addEventListener("click", () => {
+      if (this._qs(".contacts").style.display == "none") {
+        this._qs(".contacts").style.display = "flex";
+        this._qs(".show-contacts").classList.add("collapse");
+      } else {
+        this._qs(".contacts").style.display = "none";
+        this._qs(".show-contacts").classList.remove("collapse");
+      }
+    });
+  } //End of showContacts()
+
+  //sharePost
+  sharePost() {
+    this._qs("#share-post").addEventListener("click", async () => {
+      this.setLoader();
+      await import("/componets/universal/share/share.js");
+      try {
+        this._qs("#share-post-box").innerHTML = `
+                        <share-comp>
+                        </share-comp>`;
+        this.stopLoader();
+      } catch (err) {
+        this.stopLoader();
+        dispatchEvent(
+          new CustomEvent("pop-up", {
+            detail: {
+              pop: "error",
+              msg: err.message,
+              duration: err.duration == undefined ? 3 : err.duration,
+            },
+          })
+        );
+      }
+    });
+  } // End of sharePost
+
+
+//addFavourite
+async addFavourite(action) {
+    try {
+        const res = await axios.post(
+            `${this.host}/property/favourite/${action}`,
+            {
+                ...this.authData(),
+                propertyId: this.getParam('id')
+            }
+        )
+        if (res.data.status == '204') {
+            if (action == 'add')
                 dispatchEvent(
                     new CustomEvent('pop-up', {
-                        detail: {
-                            pop: 'error',
-                            msg: err.message,
-                            duration:
-                                err.duration == undefined ? 10 : err.duration
-                        }
+                        detail: { pop: 'info', msg: res.data.message }
                     })
                 )
-            })
-    } //End of comment()
+            else
+                dispatchEvent(
+                    new CustomEvent('pop-up', {
+                        detail: { pop: 'error', msg: res.data.message }
+                    })
+                )
+        } else throw res.data
+    } catch (err) {
+        console.log(err)
+    }
+} //End of addFavourite()
 
-    //loadComment
-    loadComment() {
-        this._qs('.feedback').addEventListener('click', () => this.comment())
-    } //End of loadComment()
+//listen for addFavourite
+listenAddFavourite() {
+    this._qs('.favourite').addEventListener('click', async () => {
+        this.wait('.favourite')
+        if (this._qs('.favourite').dataset.data == 'add') {
+            await this.addFavourite('add')
+            this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
+            this._qs('.favourite').title = 'Remove from favourite'
+            this._qs('.favourite').dataset.data = 'remove'
+        } else {
+            await this.addFavourite('remove')
+            this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>'
+            this._qs('.favourite').title = 'Add to favourite'
+            this._qs('.favourite').dataset.data = 'add'
+        }
+    })
+} //End of listenaddFavourite()
 
-    //showContacts
-    showContacts() {
-        this._qs('.show-contacts').addEventListener('click', () => {
-            if (this._qs('.contacts').style.display == 'none') {
-                this._qs('.contacts').style.display = 'flex'
-                this._qs('.show-contacts').classList.add('collapse')
-            } else {
-                this._qs('.contacts').style.display = 'none'
-                this._qs('.show-contacts').classList.remove('collapse')
+//getFavourite
+async getFavourite() {
+    try {
+        const res = await axios.post(
+            `${this.host}/property/favourite/get`,
+            {
+                ...this.authData(),
+                propertyId: this.getParam('id')
             }
-        })
-    } //End of showContacts()
+        )
+        if (res.data.action == '1') {
+            this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
+            this._qs('.favourite').title = 'Remove from favourite'
+            this._qs('.favourite').dataset.data = 'remove'
+        }
+    } catch (err) {
+        console.log(err)
+    }
+} //End of getFavourite()
 
-    async connectedCallback() {
-        //load property
-        await this.loadProperty()
-        //showContacts
-        this.showContacts()
-        //get images
-        await this.getImages()
 
-        //preview Images
-        this.previewImage()
-        //Set sub image as main Image
-        this.setMainImage()
-    } //End of connectedCallback()
+  async connectedCallback() {
+    //load property
+    await this.loadProperty();
+    //showContacts
+    this.showContacts();
+    //get images
+    await this.getImages();
+
+    //preview Images
+    this.previewImage();
+    //Set sub image as main Image
+    this.setMainImage();
+    //Shate post
+    this.sharePost();
+    this.listenAddFavourite();
+
+
+  } //End of connectedCallback()
 } //End of the class
 
-window.customElements.define('property-details', PropertyDetails)
+window.customElements.define("property-details", PropertyDetails);

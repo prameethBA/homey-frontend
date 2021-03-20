@@ -10,6 +10,9 @@ export default CSS = `
       display:none;
       z-index: 1;
     }
+    .btn{
+      cursor: pointer;
+    }
 
     .preview-image {
       position: absolute;

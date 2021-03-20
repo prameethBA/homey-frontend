@@ -24,7 +24,7 @@ export default class Notification extends Base {
                         Date and Time
                     </div>
         </div>
-</div>
+    </div>
     `
 
     constructor() {

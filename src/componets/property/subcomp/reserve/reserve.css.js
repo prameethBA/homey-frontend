@@ -188,4 +188,24 @@ export default CSS = `
     .reserve-button:hover{
         box-shadow: 1px 1px 5px 0px rgba(0,62,21,0.8);
     }
-`
+
+    .id-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #user-count {
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+      padding: 0.5rem;
+      border-radius: 50%;
+      height: 1rem;
+      width: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+    }
+
+`;

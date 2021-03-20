@@ -38,7 +38,7 @@ export default CSS = `
     border-bottom-left-radius: 2rem;
 }
 
-.pagination-active{
+.active{
     background-color: darkorange;
     font-weight: bold;
 }
