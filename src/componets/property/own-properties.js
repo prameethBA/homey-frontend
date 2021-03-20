@@ -33,7 +33,7 @@ export default class OwnProperties extends Base {
             </div>
         </div>
         
-        <pagination-comp></pagination-comp>
+        <pagination-comp data-pages="10" data-current="5"></pagination-comp>
         
         <div id="questioner">
         </div>
