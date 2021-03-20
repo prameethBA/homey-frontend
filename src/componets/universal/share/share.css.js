@@ -14,6 +14,23 @@ export default CSS = `
     transition: all 0.5s ease-in-out;
 }
 
+#close-popup {
+  color: #black;
+  font-size: 3rem;
+  transform: rotate(45deg);
+  cursor: pointer;
+  position: absolute;
+  right: 31%;
+  top:41%;
+  margin-top: -1rem;
+  transition: all 1s ease;
+  z-index:1;
+}
+
+#close-popup:hover {
+  color: #cccccc;
+}
+
 .social-btns{
     height: 20%;
     width: 40%;

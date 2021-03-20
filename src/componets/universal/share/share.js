@@ -6,6 +6,7 @@ export default class Share extends Base {
 
   content = `
     <div class="backdrop">
+            <span id="close-popup" title="close(Esc)">+</span>
             <div class="social-btns">
                 <a class="btn facebook" href="#"><img src="/assets/icon/Share/fb_32px.png" class="fa fa-facebook"></i></a>
                 <a class="btn twitter" href="#"><img src="/assets/icon/Share/twitter_32px.png" class="fa fa-twitter"></a>
@@ -18,6 +19,13 @@ export default class Share extends Base {
     super();
     this.mount();
   } //End of the constructor
+
+  //close the dock
+    close() {
+        this._qs('#close-popup').addEventListener('click', () => {
+            this.exitDock()
+        })
+    } //End of the close()
 
   // Exit the dock
   exitDock() {
@@ -34,6 +42,8 @@ export default class Share extends Base {
 
   //connectedCallback
   connectedCallback() {
+      // close the dock
+    this.close()
     // Exit with escape key
     this.exitWithEscape();
   } //End of connectedCallback()
