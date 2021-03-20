@@ -86,4 +86,15 @@ export default CSS = `
         text-decoration: underline;
     }
 
+    @media(max-Width: 800px){
+        .left-nav-container {
+            display: none;
+        }
+        #received-table {
+            font-size: smaller;
+        }
+    }
+
+    
+
 `
