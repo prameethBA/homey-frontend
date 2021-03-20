@@ -7,9 +7,9 @@ export default class Share extends Base {
   content = `
     <div class="backdrop">
             <div class="social-btns">
-                <a class="btn facebook" href="#"><img src="fb_32px.png" class="fa fa-facebook"></i></a>
-                <a class="btn twitter" href="#"><img src="twitter_32px.png" class="fa fa-twitter"></a>
-                <a class="btn whatsapp" href="#"><img src="whatsapp_32px.png" class="fa fa-whatsapp"></a>
+                <a class="btn facebook" href="#"><img src="/assets/icon/Share/fb_32px.png" class="fa fa-facebook"></i></a>
+                <a class="btn twitter" href="#"><img src="/assets/icon/Share/twitter_32px.png" class="fa fa-twitter"></a>
+                <a class="btn whatsapp" href="#"><img src="/assets/icon/Share/whatsapp_32px.png" class="fa fa-whatsapp"></a>
             </div>
         </div>
 `;
