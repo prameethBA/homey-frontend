@@ -432,9 +432,9 @@ export default class Nav extends Base {
     }
 
     closeNotification(){
-        addEventListener("click",()=>{
-            this._qs("notification-comp").style.display="none";
-        })
+        // addEventListener("click",()=>{
+        //     this._qs("notification-comp").style.display="none";
+        // })
     }
 
     connectedCallback() {
