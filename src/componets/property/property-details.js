@@ -9,6 +9,7 @@ export default class PropertyDetails extends Base {
     </div>
 
     <div class="popup"></div>
+    <div id="share-post-box"></div>
   `
     constructor() {
         super()
@@ -66,7 +67,7 @@ export default class PropertyDetails extends Base {
 
                 data += `</div>
               <div class="favourite"><img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></div>
-              <div class="share"><img src="/assets/icon/Share/share_24px.png"></div>
+              <div class="share"><img src="/assets/icon/Share/share_24px.png" id="share-post"></div>
             </div>
             <div class="row">
               <div class="description">
@@ -282,6 +283,41 @@ export default class PropertyDetails extends Base {
         })
     } //End of showContacts()
 
+
+
+
+    sharePost(){
+        this._qs("#share-post").addEventListener("click",async()=>{
+            this.setLoader()
+            await import('/components/universal/share/share.js')
+                .then(() => {
+                    this._qs('#share-post-box').innerHTML = `
+                        <share-post>
+                        </share-post>`
+                    this.stopLoader()
+                })
+                .catch(err => {
+                    this.stopLoader()
+                    dispatchEvent(
+                        new CustomEvent('pop-up', {
+                            detail: {
+                                pop: 'error',
+                                msg: err.message,
+                                duration:
+                                    err.duration == undefined ? 3 : err.duration
+                            }
+                        })
+                    )
+                })
+        })
+    }
+
+
+
+
+
+
+
     async connectedCallback() {
         //load property
         await this.loadProperty()
@@ -294,6 +330,7 @@ export default class PropertyDetails extends Base {
         this.previewImage()
         //Set sub image as main Image
         this.setMainImage()
+        this.sharePost();
     } //End of connectedCallback()
 } //End of the class
 
