@@ -11,8 +11,9 @@ export default class Reserve extends Base {
             <div class="row">
                     <span class="menu-title">Reserve the property</span>
                 </div>
-            <div class="row">
+            <div class="row id-row">
                 <span id="propertyId">#${this.getParam("id")}</span>
+                <span id="user-count" title="Online users viewing this ad">0</span>
             </div>
             <div class="row">
                 <span class="title">Title</span>
@@ -70,8 +71,10 @@ export default class Reserve extends Base {
       if (res.status == 200) {
         this.state.title = res.data.title;
         (this.state.fee = res.data.fee),
+          (this.state.userCount = res.data.userCount),
           (this.state.subTotal = res.data.keyMoney);
 
+        this._qs("#user-count").innerHTML = `${this.state.userCount}`;
         this._qs(".title").innerHTML = `${this.state.title}`;
         this._qs(".keymoney").innerHTML = `Rs. ${this.state.subTotal}`;
         this._qs(".service-fee").innerHTML = `Rs. ${this.state.fee}`;
@@ -89,8 +92,18 @@ export default class Reserve extends Base {
 
   //close the dock
   close() {
-    this._qs("#close-popup").addEventListener("click", () => {
+    this._qs("#close-popup").addEventListener("click", async () => {
       this.exitDock();
+      try {
+        const res = await axios.post(`${this.host}/property-update/remove`, {
+          ...this.authData(),
+          propertyId: this.getParam("id"),
+        });
+        if (res.status == 200) console.log(res.data);
+        else throw res;
+      } catch (err) {
+        console.log(err);
+      }
     });
   } //End of the close()
 
@@ -143,7 +156,7 @@ export default class Reserve extends Base {
         // Put the payment variables here
         const payment = {
           sandbox: true,
-          merchant_id: res.data.merchant_id, 
+          merchant_id: res.data.merchant_id,
           return_url: res.data.return_url,
           cancel_url: res.data.cancel_url,
           notify_url: res.data.notify_url,
@@ -163,8 +176,8 @@ export default class Reserve extends Base {
           delivery_country: res.data.delivery_country,
           custom_1: res.data.custom_1,
         };
-        this.unwait('.reserve-button')
-        this.startPayment(payment)
+        this.unwait(".reserve-button");
+        this.startPayment(payment);
       } else throw res.data;
     } catch (err) {
       console.log(err);
