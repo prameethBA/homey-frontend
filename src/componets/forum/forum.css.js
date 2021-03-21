@@ -112,7 +112,12 @@ button{
       transition: all 0.5s;
       min-width: 15%;
   }
+@media(max-Width:600px){
+  .container {
+    flex-direction: column;
+  }
   
+}
 
 
 `
