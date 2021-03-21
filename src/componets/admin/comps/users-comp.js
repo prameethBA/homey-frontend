@@ -69,10 +69,10 @@ export default class users extends Base {
     }</a></span>
                 </div>
                 <div class="sub-row button-group-user">
-                    <button class="primary-button">Deactivate</button>
-                    <button class="danger-button">Temporaly Block</button>
-                    <button class="danger-button">Permenatly Ban</button>
-                    <button class="danger-button">Make confirm contacts</button>
+                    <button class="primary-button" id="deactivate">Deactivate</button>
+                    <button class="danger-button" id="block">Temporaly Block</button>
+                    <button class="danger-button" id="ban">Permenatly Ban</button>
+                    <button class="danger-button" id="confirm">Make confirm contacts</button>
                 </div>
             </div>
         `;
@@ -148,7 +148,26 @@ export default class users extends Base {
     this.stopLoader();
   } //end of getUsers()
 
+  //Deactivate
+  // async deactivate(userId,e) {
+  //   try {
+  //     const button = e;
+  //     this.wait(button);
+  //     const res = await axios.post(`${this.host}/user/deacivate/${userId}`, {
+  //       ...this.authData(),
+  //     });
+  //     if (res.status == 200) {
+  //       this.unwait(button);
+  //       button.innerHTML = "Activate";
+  //     } else throw res;
+  //   } catch (err) {
+  //     console.log(err);
+  //     this.unwait(button);
+  //   }
+  // } //End of deactivate()
   /*
+
+  
   //filterProperty()
   filterProperty() {
     this._qsAll(".button-link").forEach((item) => {
@@ -191,6 +210,7 @@ export default class users extends Base {
   connectedCallback() {
     // getUsers from API
     this.getUsers();
+
     //filterProperty()
     //this.filterProperty();
   } //End of connectedCallback()
