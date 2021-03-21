@@ -120,17 +120,18 @@ export default class Reserve extends Base {
     );
   } // End of exitWithEscape()
 
-  startPayment(payment) {
+  startPayment(payment, loadComp) {
     // Called when user completed the payment. It can be a successful payment or failure
     payhere.onCompleted = function onCompleted(orderId) {
-      console.log("Payment completed. OrderID:" + orderId);
+      setPath("/reserved-properties")
       //Note: validate the payment and show success or failure page to the customer
     };
 
     // Called when user closes the payment without completing
     payhere.onDismissed = function onDismissed() {
       //Note: Prompt user to pay again or show an error page
-      console.log("Payment dismissed");
+      loadComp('/reserved-properties', '/property/reserved-properties', 'reserved-properties')
+
     };
 
     // Called when error happens when initializing payment such as invalid parameters
@@ -175,9 +176,10 @@ export default class Reserve extends Base {
           delivery_city: res.data.delivery_city,
           delivery_country: res.data.delivery_country,
           custom_1: res.data.custom_1,
+          custom_2: 'reserve',
         };
         this.unwait(".reserve-button");
-        this.startPayment(payment);
+        this.startPayment(payment, this.loadComp);
       } else throw res.data;
     } catch (err) {
       this.popup(err, 'error')

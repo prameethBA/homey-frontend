@@ -118,6 +118,19 @@ export default class Base extends HTMLElement {
         )
     }
 
+    //load comp
+    loadComp(path, comp, compName) {
+        dispatchEvent(
+            new CustomEvent('load-comp', {
+                detail: {
+                    path: path,
+                    comp: comp,
+                    compName: compName
+                }
+            })
+        )
+    }
+
     // Slectors
     _qs(selector) {
         return this.shadowRoot.querySelector(selector)
