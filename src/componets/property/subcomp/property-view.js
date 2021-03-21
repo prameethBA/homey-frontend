@@ -496,4 +496,7 @@ export default class PropertyView extends Base {
     } //end of connected callback
 } //End of class
 
-window.customElements.define('property-view', PropertyView)
+const elementName = 'property-view'
+customElements.get(elementName) == undefined
+    ? window.customElements.define(elementName, PropertyView)
+    : null

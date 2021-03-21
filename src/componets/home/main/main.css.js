@@ -390,11 +390,40 @@ export default CSS = `
     }
 
     @media screen and (max-width: 768px) {
-        
+        .about-us {
+            position: initial;
+            flex-direction: column;
+            display: flex;
+        }
     }
 
-    @media screen and (max-width: 512px) {
-
-}
+    @media screen and (max-width: 500px) {
+        .user-comp {
+            display: flex;
+            justify-content: center;
+            margin: -4rem auto;
+            flex-wrap: wrap;
+        }
+        .features-image{
+            width: 60vw;
+            height: 55vw;
+        }
+        .api {
+            min-height: 30vw;
+            width: 90vw;
+        }
+        #main-title {
+            padding-bottom: 50px;
+            font-size: 3rem;
+        }
+        .about-us {
+            position: initial;
+            flex-direction: column;
+            display: flex;
+        }
+        .subscribe-button{
+            min-width: 100%;
+        }
+    }
 
 `

@@ -103,16 +103,29 @@ export default class Base extends HTMLElement {
     // Helpers
 
     //pop-up
-    popup(err, type) {
+    popup(msg, type,duration = 3) {
         dispatchEvent(
             new CustomEvent('pop-up', {
                 detail: {
                     pop: type,
-                    msg: err.message,
+                    msg: msg,
                     duration:
-                        err.duration == undefined
+                        duration == undefined
                             ? 10
-                            : err.duration
+                            : duration
+                }
+            })
+        )
+    }
+
+    //load comp
+    loadComp(path, comp, compName) {
+        dispatchEvent(
+            new CustomEvent('load-comp', {
+                detail: {
+                    path: path,
+                    comp: comp,
+                    compName: compName
                 }
             })
         )
