@@ -97,6 +97,15 @@ export default CSS = `
       background-color: darkorange;
       font-weight: bold;
   }
+  @media screen and (max-width: 512px) {
+    #container {
+        display: flex;
+        overflow: scroll;
+        flex-direction: column;
+        margin-bottom: 1rem;
+    }
+
+
 
   
 
