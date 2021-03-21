@@ -1,27 +1,33 @@
-import Base from '/componets/Base.js'
-import CSS from './user-card.css.js'
+import Base from "/componets/Base.js";
+import CSS from "./user-card.css.js";
 
 export default class UserCard extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  data = this.decode(this.getParam("data-user"));
+
+  content = `
     <div class="profile">
     <div class="sub-row">
-        <img data-id="${user.userId}" id="img-${user.userId}" class="display-picture view-profile" src="/assets/img/alt/load-post.gif" />
+        <img data-id="${this.data.userId}" id="img-${
+    this.data.userId
+  }" class="display-picture view-profile" src="/assets/img/alt/load-post.gif" />
     </div>
     <div class="sub-row">
-        <span class="name view-profile" data-id="${user.userId}">${user.firstName} ${user.lastName}</span>
+        <span class="name view-profile" data-id="${this.data.userId}">${
+    this.data.firstName
+  } ${this.data.lastName}</span>
         <span class="status">
 
         </span>
     </div>
     <div class="sub-row">
-        <span class="email"><a href="mailto:${user.email}">${
-    user.email
-    }<a></span>
-            <span class="mobile"><a href="callto:${user.mobile}">${
-    user.mobile != null ? user.mobile : "Mobile number not updated"
-    }</a></span>
+        <span class="email"><a href="mailto:${this.data.email}">${
+    this.data.email
+  }<a></span>
+            <span class="mobile"><a href="callto:${this.data.mobile}">${
+    this.data.mobile != null ? this.data.mobile : "Mobile number not updated"
+  }</a></span>
         </div>
         <div class="sub-row button-group-user">
             <button class="primary-button" id="deactivate">Deactivate</button>
@@ -31,36 +37,31 @@ export default class UserCard extends Base {
         </div>
     </div>
 
-    `
+    `;
 
+  constructor() {
+    super();
+    this.mount();
+  } //End of constructor
 
-    constructor() {
-        super()
-        this.mount()
-    } //End of constructor
-
-    //Set status
-    setStatus(status){
-        let data
-         switch (status) {
-            case "0":
-              data += `🟠 Unconfirmed`;
-              break;
-            case "1":
-              data += `🟢 Confirmed`;
-              break;
-            default:
-              data += `🔴 Invalid User`;
-              break;
-          }
-          this._qs(".status").innerHTML=data;
-
-
+  //Set status
+  setStatus(status) {
+    let data;
+    switch (status) {
+      case "0":
+        data += `🟠 Unconfirmed`;
+        break;
+      case "1":
+        data += `🟢 Confirmed`;
+        break;
+      default:
+        data += `🔴 Invalid User`;
+        break;
     }
+    this._qs(".status").innerHTML = data;
+  }
 
-
-
-      //getprofilePicture
+  //getprofilePicture
   async getprofilePicture(userId) {
     try {
       const res = await axios.post(
@@ -77,13 +78,13 @@ export default class UserCard extends Base {
     }
   } //End of getprofilePicture()
 
+  connectedCallback() {
+    //status
+    this.setStatus(this.data.status);
 
-
-    connectedCallback() {
-        //status
-        this.status(this.state.status);
-
-    } //End of connectedCallback
+    //getprofilePicture
+    this.getprofilePicture(this.data.userId);
+  } //End of connectedCallback
 } //End of Class
 
-window.customElements.define('user-card', UserCard)
+window.customElements.define("user-card", UserCard);

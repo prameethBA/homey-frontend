@@ -37,49 +37,49 @@ export default class users extends Base {
 
   //Load user component
   loadUser(user) {
-    let data = `
-            <div class="profile">
-                <div class="sub-row">
-                    <img data-id="${user.userId}" id="img-${user.userId}" class="display-picture view-profile" src="/assets/img/alt/load-post.gif" />
-                </div>
-                <div class="sub-row">
-                    <span class="name view-profile" data-id="${user.userId}">${user.firstName} ${user.lastName}</span>
-                    <span class="status">`;
+    // let data = `
+    //         <div class="profile">
+    //             <div class="sub-row">
+    //                 <img data-id="${user.userId}" id="img-${user.userId}" class="display-picture view-profile" src="/assets/img/alt/load-post.gif" />
+    //             </div>
+    //             <div class="sub-row">
+    //                 <span class="name view-profile" data-id="${user.userId}">${user.firstName} ${user.lastName}</span>
+    //                 <span class="status">`;
 
-    switch (user.status) {
-      case "0":
-        data += `🟠 Unconfirmed`;
-        break;
-      case "1":
-        data += `🟢 Confirmed`;
-        break;
-      default:
-        data += `🔴 Invalid User`;
-        break;
-    }
+    //   switch (user.status) {
+    //     case "0":
+    //       data += `🟠 Unconfirmed`;
+    //       break;
+    //     case "1":
+    //       data += `🟢 Confirmed`;
+    //       break;
+    //     default:
+    //       data += `🔴 Invalid User`;
+    //       break;
+    //   }
 
-    data += `</span>
-                </div>
-                <div class="sub-row">
-                    <span class="email"><a href="mailto:${user.email}">${
-      user.email
-    }<a></span>
-                    <span class="mobile"><a href="callto:${user.mobile}">${
-      user.mobile != null ? user.mobile : "Mobile number not updated"
-    }</a></span>
-                </div>
-                <div class="sub-row button-group-user">
-                    <button class="primary-button" id="deactivate">Deactivate</button>
-                    <button class="danger-button" id="block">Temporaly Block</button>
-                    <button class="danger-button" id="ban">Permenatly Ban</button>
-                    <button class="danger-button" id="confirm">Make confirm contacts</button>
-                </div>
-            </div>
-        `;
-    this._qs(".users").innerHTML += data;
+    // data += `</span>
+    //             </div>
+    //             <div class="sub-row">
+    //                 <span class="email"><a href="mailto:${user.email}">${
+    //   user.email
+    // }<a></span>
+    //                 <span class="mobile"><a href="callto:${user.mobile}">${
+    //   user.mobile != null ? user.mobile : "Mobile number not updated"
+    // }</a></span>
+    //             </div>
+    //             <div class="sub-row button-group-user">
+    //                 <button class="primary-button" id="deactivate">Deactivate</button>
+    //                 <button class="danger-button" id="block">Temporaly Block</button>
+    //                 <button class="danger-button" id="ban">Permenatly Ban</button>
+    //                 <button class="danger-button" id="confirm">Make confirm contacts</button>
+    //             </div>
+    //         </div>
+    //     `;
+    // this._qs(".users").innerHTML += data;
 
     //getprofilePicture
-    this.getprofilePicture(user.userId);
+    // this.getprofilePicture(user.userId);
   } //End of loadUser()
 
   //View user account summary
@@ -122,11 +122,11 @@ export default class users extends Base {
   } //End of getprofilePicture()
 
   //load view user component
-  loadViewUser() {
-    this._qsAll(".view-profile").forEach((item) => {
-      item.addEventListener("click", () => this.viewUser(item.dataset.id));
-    });
-  } //end of loadViewUser()
+  // loadViewUser() {
+  //   this._qsAll(".view-profile").forEach((item) => {
+  //     item.addEventListener("click", () => this.viewUser(item.dataset.id));
+  //   });
+  // } //end of loadViewUser()
 
   // getUsers from API
   async getUsers() {
@@ -135,13 +135,14 @@ export default class users extends Base {
       const res = await axios.post(`${this.host}/admin-users/all-users`, {
         ...this.authData(),
       });
-      res.data.forEach((user) => {
-        //Load user component
-        this.loadUser(user);
-
-        //loadViewUser
-        this.loadViewUser();
-      });
+      
+      if(res.status == 200) {
+        await import('./subcomp/user-card.js')
+        res.data.forEach(item => {
+          this._qs('.users').innerHTML += `<user-card data-user="${this.encode(item)}"></user-card>`
+        })
+      } else throw res
+      
     } catch (err) {
       console.log(err);
     }
@@ -167,7 +168,7 @@ export default class users extends Base {
   // } //End of deactivate()
   /*
 
-  
+
   //filterProperty()
   filterProperty() {
     this._qsAll(".button-link").forEach((item) => {
