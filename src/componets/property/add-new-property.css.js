@@ -305,7 +305,7 @@ export default CSS = `
     }
   }
 
-  @media screen and (max-width: 992px) {
+  @media screen and (max-width: 1000px) {
     facility-comp {
       margin-left: 5rem;
     }
@@ -314,16 +314,16 @@ export default CSS = `
     }
   }
 
-  @media screen and (max-width: 768px) {
-    .facilities {
-      margin: auto;
-      display: block;  
+  @media screen and (max-width: 800px) {
+    .row {
+      flex-direction: column;
+      justify-content: center;
     }
-
-    facility-comp {
-      margin: 1rem;
+    .form {
+      position: relative;
+      margin: 0px 3rem;
+      padding:0px;
     }
-  
     .col {
       width: 100%;
       margin-top: 1rem;
@@ -332,21 +332,15 @@ export default CSS = `
     .description textarea {
       width: 100%;
     }
-
-    #preview-facilities {
-      grid-template-columns: auto auto !important;
-    }
-
-  }
-
-  @media screen and (max-width: 512px) {
     .facilities {
-      width: 85%
-      font-size: 0.9rem;
-    }
-    #preview-facilities {
-      grid-template-columns: auto !important;
+      display: flex;
     }
   }
+
+  @media screen and (max-width: 500px) {
+    .sub-title {
+      margin: 2rem auto 2rem auto;
+      }
+    } 
 
 `

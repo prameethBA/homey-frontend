@@ -89,7 +89,7 @@ export default class App extends Base {
                 : this.setPath('/')
         )
 
-        window.addEventListener('popstate', function (e) {
+        window.addEventListener('popstate', (e) => {
             // Load login form component
             router.get('/login', () =>
                 dispatchEvent(new Event('load-login-form'))
