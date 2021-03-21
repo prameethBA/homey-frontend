@@ -149,6 +149,19 @@ export default class App extends Base {
                 )
             )
 
+            // Load reserved-properties component
+            router.get('/reserved-properties', () =>
+                dispatchEvent(
+                    new CustomEvent('load-comp', {
+                        detail: {
+                            path: `/reserved-properties`,
+                            comp: `property/reserved-properties`,
+                            compName: 'reserved-properties'
+                        }
+                    })
+                )
+            )
+
             // Load profile component
             router.get('/profile', () =>
                 dispatchEvent(
