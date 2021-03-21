@@ -102,6 +102,22 @@ export default class Base extends HTMLElement {
 
     // Helpers
 
+    //pop-up
+    popup(err, type) {
+        dispatchEvent(
+            new CustomEvent('pop-up', {
+                detail: {
+                    pop: type,
+                    msg: err.message,
+                    duration:
+                        err.duration == undefined
+                            ? 10
+                            : err.duration
+                }
+            })
+        )
+    }
+
     // Slectors
     _qs(selector) {
         return this.shadowRoot.querySelector(selector)
