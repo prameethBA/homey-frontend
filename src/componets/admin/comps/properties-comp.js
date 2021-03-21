@@ -63,7 +63,6 @@ export default class properties extends Base {
                     </property-view>
                     `
                 })
-                this._qs('#pagination').innerHTML = this.pagination
             }
         } catch (err) {
             console.log(err)
