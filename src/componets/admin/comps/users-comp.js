@@ -35,53 +35,6 @@ export default class users extends Base {
     this.mount();
   } //End of the constructor
 
-  //Load user component
-  loadUser(user) {
-    // let data = `
-    //         <div class="profile">
-    //             <div class="sub-row">
-    //                 <img data-id="${user.userId}" id="img-${user.userId}" class="display-picture view-profile" src="/assets/img/alt/load-post.gif" />
-    //             </div>
-    //             <div class="sub-row">
-    //                 <span class="name view-profile" data-id="${user.userId}">${user.firstName} ${user.lastName}</span>
-    //                 <span class="status">`;
-
-    //   switch (user.status) {
-    //     case "0":
-    //       data += `🟠 Unconfirmed`;
-    //       break;
-    //     case "1":
-    //       data += `🟢 Confirmed`;
-    //       break;
-    //     default:
-    //       data += `🔴 Invalid User`;
-    //       break;
-    //   }
-
-    // data += `</span>
-    //             </div>
-    //             <div class="sub-row">
-    //                 <span class="email"><a href="mailto:${user.email}">${
-    //   user.email
-    // }<a></span>
-    //                 <span class="mobile"><a href="callto:${user.mobile}">${
-    //   user.mobile != null ? user.mobile : "Mobile number not updated"
-    // }</a></span>
-    //             </div>
-    //             <div class="sub-row button-group-user">
-    //                 <button class="primary-button" id="deactivate">Deactivate</button>
-    //                 <button class="danger-button" id="block">Temporaly Block</button>
-    //                 <button class="danger-button" id="ban">Permenatly Ban</button>
-    //                 <button class="danger-button" id="confirm">Make confirm contacts</button>
-    //             </div>
-    //         </div>
-    //     `;
-    // this._qs(".users").innerHTML += data;
-
-    //getprofilePicture
-    // this.getprofilePicture(user.userId);
-  } //End of loadUser()
-
   //View user account summary
   async viewUser(id) {
     this.setLoader();
@@ -104,22 +57,6 @@ export default class users extends Base {
       });
   } //End of viewUser()
 
-  //getprofilePicture
-  async getprofilePicture(userId) {
-    try {
-      const res = await axios.post(
-        `${this.host}/images/profile/get/${userId}`,
-        {
-          userId: this.getUserId(),
-          token: this.getToken(),
-        }
-      );
-      this._qs(`#img-${userId}`).src =
-        res.data.image != "" ? res.data.image : "/assets/img/alt/no-mage.png";
-    } catch (err) {
-      console.log(err);
-    }
-  } //End of getprofilePicture()
 
   //load view user component
   // loadViewUser() {

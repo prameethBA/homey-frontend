@@ -46,7 +46,7 @@ export default class UserCard extends Base {
 
   //Set status
   setStatus(status) {
-    let data;
+    let data = '';
     switch (status) {
       case "0":
         data += `🟠 Unconfirmed`;
@@ -74,7 +74,7 @@ export default class UserCard extends Base {
       this._qs(`#img-${userId}`).src =
         res.data.image != "" ? res.data.image : "/assets/img/alt/no-mage.png";
     } catch (err) {
-      console.log(err);
+      this.popup(err.message, 'error')
     }
   } //End of getprofilePicture()
 
