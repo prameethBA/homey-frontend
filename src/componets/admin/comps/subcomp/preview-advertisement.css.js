@@ -150,25 +150,29 @@ export default CSS = `
         box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
     }
 
-    @media screen and (max-width: 1200px) {
-
+    @media (max-width: 1200px) {
         .container {
             width: 60%;
         }
 
     }
     
-    @media screen and (max-width: 992px) {
+    @media  (max-width: 992px) {
         .container {
-            width: 80%;
+            width: 70%;
         }
-    }
-    
-    @media screen and (max-width: 768px) {
 
     }
     
-    @media screen and (max-width: 512px) {
+    @media (max-width: 768px) {
+        .button {
+            width: 70%;
+        }
+
+    }
+    
+    @media (max-width: 512px) {
+        
 
     }
 

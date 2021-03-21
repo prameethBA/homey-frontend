@@ -111,4 +111,18 @@ export default CSS = `
           cursor: help;
       }
 
+    @media(max-Width: 800px){
+
+    }
+
+    @media(max-Width: 500px){
+      .container .form .form-row{
+        flex-direction: column;  
+      }
+      button{
+        width:100%;
+        
+      }
+    }
+
 `
