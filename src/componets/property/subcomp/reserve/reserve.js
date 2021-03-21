@@ -120,24 +120,28 @@ export default class Reserve extends Base {
     );
   } // End of exitWithEscape()
 
-  startPayment(payment, loadComp) {
+  startPayment(payment, loadComp, popup) {
     // Called when user completed the payment. It can be a successful payment or failure
     payhere.onCompleted = function onCompleted(orderId) {
-      setPath("/reserved-properties")
+      popup("Property reserved. wait for the confirmation from the property owner", "success");
+
+      loadComp(
+        "/reserved-properties",
+        "/property/reserved-properties",
+        "reserved-properties"
+      );
+
       //Note: validate the payment and show success or failure page to the customer
     };
 
     // Called when user closes the payment without completing
     payhere.onDismissed = function onDismissed() {
-      //Note: Prompt user to pay again or show an error page
-      loadComp('/reserved-properties', '/property/reserved-properties', 'reserved-properties')
-
+      popup("Reserving process dismissed.", "info");
     };
 
     // Called when error happens when initializing payment such as invalid parameters
     payhere.onError = function onError(error) {
-      // Note: show an error page
-      console.log("Error:" + error);
+      popup(error , "error");
     };
 
     payhere.startPayment(payment);
@@ -176,16 +180,15 @@ export default class Reserve extends Base {
           delivery_city: res.data.delivery_city,
           delivery_country: res.data.delivery_country,
           custom_1: res.data.custom_1,
-          custom_2: 'reserve',
+          custom_2: "reserve",
         };
         this.unwait(".reserve-button");
-        this.startPayment(payment, this.loadComp);
+        this.startPayment(payment, this.loadComp, this.popup);
       } else throw res.data;
     } catch (err) {
-      this.popup(err, 'error')
+      this.popup(err, "error");
+      this.unwait(".reserve-button");
     }
-
-    // this.unwait(".reserve-button");
   }
 
   //toggle payment
@@ -241,4 +244,7 @@ export default class Reserve extends Base {
   } //End of connectedCallback
 } //End of Class
 
-window.customElements.define("reserve-comp", Reserve);
+const elementName = "reserve-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Reserve)
+  : null;

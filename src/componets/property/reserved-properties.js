@@ -38,10 +38,14 @@ export default class ReservedProperties extends Base {
   async loadpropertyView() {
     this.wait(".content");
     try {
-      import("./subcomp/property-view.js");
-      const res = await axios.post(`${this.host}/property/get/own`, {
+      await import("./subcomp/property-view.js");
+      const res = await axios.post(`${this.host}/property/reserved/own`, {
         ...this.authData(),
       });
+
+      console.log(res)
+
+      if(res.data.status == 500) throw res.data
 
       if (res.data.length < 1) {
         this._qs(".content").innerHTML = this.notFound;
@@ -59,7 +63,7 @@ export default class ReservedProperties extends Base {
         });
       }
     } catch (err) {
-      console.log(err);
+      this.popup(err.message, 'error')
       this.unwait(".content");
     }
   } //End of loadpropertyView()
@@ -72,4 +76,7 @@ export default class ReservedProperties extends Base {
   } //End of connectedCallback()
 } //End of the class
 
-window.customElements.define("reserved-properties", ReservedProperties);
+const elementName = "reserved-properties";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, ReservedProperties)
+  : null;
