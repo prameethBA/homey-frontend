@@ -180,7 +180,7 @@ export default class Reserve extends Base {
         this.startPayment(payment);
       } else throw res.data;
     } catch (err) {
-      console.log(err);
+      this.popup(err, 'error')
     }
 
     // this.unwait(".reserve-button");

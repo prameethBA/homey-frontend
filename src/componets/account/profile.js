@@ -110,7 +110,7 @@ export default class Profile extends Base {
                             <input class="form-field" type="text" id="firstName" value="" />
                         </div>
                         <div class="form-column">
-                            <label for="LastName">First Name</label>
+                            <label for="LastName">Last Name</label>
                             <input class="form-field" type="text" id="lastName" value="" />
                         </div>
                     </div>

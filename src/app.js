@@ -89,7 +89,7 @@ export default class App extends Base {
                 : this.setPath('/')
         )
 
-        window.addEventListener('popstate', function (e) {
+        window.addEventListener('popstate', (e) => {
             // Load login form component
             router.get('/login', () =>
                 dispatchEvent(new Event('load-login-form'))
@@ -144,6 +144,19 @@ export default class App extends Base {
                             path: `/own-properties`,
                             comp: `property/own-properties`,
                             compName: 'own-properties'
+                        }
+                    })
+                )
+            )
+
+            // Load reserved-properties component
+            router.get('/reserved-properties', () =>
+                dispatchEvent(
+                    new CustomEvent('load-comp', {
+                        detail: {
+                            path: `/reserved-properties`,
+                            comp: `property/reserved-properties`,
+                            compName: 'reserved-properties'
                         }
                     })
                 )
@@ -363,6 +376,19 @@ export default class App extends Base {
                 })
             )
         )
+
+         // Load reserved-properties component
+         router.get('/reserved-properties', () =>
+         dispatchEvent(
+             new CustomEvent('load-comp', {
+                 detail: {
+                     path: `/reserved-properties`,
+                     comp: `property/reserved-properties`,
+                     compName: 'reserved-properties'
+                 }
+             })
+         )
+     )
 
         // Load profile component
         router.get('/profile', () =>
