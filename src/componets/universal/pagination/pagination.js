@@ -1,32 +1,49 @@
-import Base from '/componets/Base.js'
-import CSS from './pagination.css.js'
+import Base from "/componets/Base.js";
+import CSS from "./pagination.css.js";
 
 export default class Pagination extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `<span id='pagination'></span>`;
+
+  constructor() {
+    super();
+    this.mount();
+  } //End of the constructor
+
+  setPagination() {
+    let content = `
         <div class='pagination'>
             <div class='previous'>First</div>
-            <div class='pagination-active'>1</div> <div>2</div>
-            <div class='current'>3</div> <div>4</div> <div>5</div>
+                <div class="link">
+                    ${+this.getParam("data-current")-2}
+                </div>
+                <div class="link">
+                    ${+this.getParam("data-current")-1}
+                </div>
+                <div class="link active">
+                    ${this.getParam("data-current")}
+                </div> 
+                <div class="link">
+                    ${+this.getParam("data-current")+1}
+                </div>
+                <div class="link">
+                    ${+this.getParam("data-current")+2}
+                </div>
             <div class='last'>Last</div>
         </div>
-    
-`
+    `;
+    this._qs("#pagination").innerHTML = content;
+  } //End of setPagination()
 
-constructor() {
-    super()
-    this.mount()
-} //End of the constructor
+  //
 
-
-
-//connectedCallback
-connectedCallback() {
-} //End of connectedCallback()
+  //connectedCallback
+  connectedCallback() {
+      //setPagination
+      this.setPagination()
+      
+  } //End of connectedCallback()
 } //End of Class
 
-
-
-window.customElements.define('pagination-comp', Pagination)
-
+window.customElements.define("pagination-comp", Pagination);

@@ -33,7 +33,7 @@ export default class OwnProperties extends Base {
             </div>
         </div>
         
-        <pagination-comp></pagination-comp>
+        <pagination-comp data-pages="10" data-current="5"></pagination-comp>
         
         <div id="questioner">
         </div>
@@ -45,7 +45,6 @@ export default class OwnProperties extends Base {
 
   // Load add comps
   async loadpropertyView() {
-    this.setLoader();
     this.wait(".content");
     try {
       import("./subcomp/property-view.js");
@@ -60,9 +59,9 @@ export default class OwnProperties extends Base {
         res.data.forEach((item) => {
           this._qs(".content").innerHTML += `
                     <property-view 
-                    id="${item.property_id}"
-                    data-data="${this.encode(item)}"
-                    overview='true'
+                      id="${item.property_id}"
+                      data-data="${this.encode(item)}"
+                      overview='true'
                     >
                     </property-view>
                     `;
@@ -72,7 +71,6 @@ export default class OwnProperties extends Base {
       console.log(err);
       this.unwait(".content");
     }
-    this.stopLoader();
   } //End of loadpropertyView()
 
   //listenForButtons
@@ -100,7 +98,7 @@ export default class OwnProperties extends Base {
                   ...this.authData(),
                 }
               );
-              console.log(res);
+
               if (res.data.length < 1) {
                 this._qs(".content").innerHTML = this.notFound;
               } else {
