@@ -66,7 +66,7 @@ exitWithEscape() {
 //listenButton
 listenButton() {
     this._qs('.submit-btn').addEventListener('click', () => {
-        if (this.validate()) this.report() //report
+        if (this.validate()) this.submitPost() //submitPost
     })
 } //End of listenButton()
 
@@ -102,8 +102,8 @@ async submitPost() {
     try {
         const res = await axios.post(`${this.host}/forum/create`, {
             ...this.authData(),
-            reason: this._qs('#title').value,
-            message: this._qs('#content').value
+            title: this._qs('#title').value,
+            content: this._qs('#content').value
         })
 
         if (res.data.action == 'true') {
@@ -125,11 +125,11 @@ async submitPost() {
                 })
             )
         }
-        this._qs('.backdrop').innerHTML = ''
     } catch (err) {
         console.log(err)
-        this.unwait('.submit-btn')
     }
+    this.exitDock();
+    this.unwait('.submit-btn')
 } //End of submitPost
 
 
