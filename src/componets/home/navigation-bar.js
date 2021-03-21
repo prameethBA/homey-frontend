@@ -37,6 +37,7 @@ export default class Nav extends Base {
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
+                <a data-path="own-properties" id="reserved-properties">Reserved Properties</a>
                 <a data-path="own-properties" id="add-new-property">Add New Property</a>
                 <a data-path="own-properties" id="own-properties">View Own Properties</a>
               </div>
@@ -188,6 +189,20 @@ export default class Nav extends Base {
                 })
             )
         )
+        
+        //Reserved Property
+        this._qs('#reserved-properties').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/reserved-properties`,
+                        comp: `property/reserved-properties`,
+                        compName: 'reserved-properties'
+                    }
+                })
+            )
+        )
+
         // Payments
         this._qs('#received').addEventListener('click', () =>
             dispatchEvent(
