@@ -99,6 +99,7 @@ export default class PropertyView extends Base {
         this.mount()
 
         this.state = this.decode(this.getAttribute('data-data'))
+
         //getFavourite
         if (this.getAttribute('overview') != 'true') this.getFavourite()
         // this.qs('img').style.display = 'block'
@@ -457,6 +458,15 @@ export default class PropertyView extends Base {
     });
   } // End of sharePost
 
+  //reserve
+  reserve() {
+      if(this.state.reserved == 1)  {
+        this._qs('.reserve').innerHTML = 'Reserved'
+        this._qs('.reserve').disabled = true
+        this._qs('.reserve').classList.add('reserved')
+        this._qs('.reserve').classList.remove('reserve')
+      }
+  }//end of reserve
 
     connectedCallback() {
         //SetValues
@@ -493,6 +503,9 @@ export default class PropertyView extends Base {
         }
         //Shate post
         this.sharePost();
+        
+        //reserve
+        this.reserve()
     } //end of connected callback
 } //End of class
 
