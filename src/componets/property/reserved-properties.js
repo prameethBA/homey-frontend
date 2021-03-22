@@ -43,8 +43,6 @@ export default class ReservedProperties extends Base {
         ...this.authData(),
       });
 
-      console.log(res)
-
       if(res.data.status == 500) throw res.data
 
       if (res.data.length < 1) {
