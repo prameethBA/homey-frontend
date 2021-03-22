@@ -216,6 +216,11 @@ export default CSS = `
         background-image: linear-gradient(to right top, #ff8700, #ff8100, #ff7a00, #ff7400, #ff6d00);
     }
 
+    .reserved {
+        background-image: linear-gradient(to right, #8f0000, #f22323, #640000);
+    }
+
+
     .more {
         background-image: linear-gradient(to right top, #0fb5af, #0dc7c0, #0ad9d2, #06ece4, #00fff6);
         color: #777777;
