@@ -458,15 +458,15 @@ export default class PropertyView extends Base {
     });
   } // End of sharePost
 
-  //reserve
-  reserve() {
+  //checkReserve
+  checkReserve() {
       if(this.state.reserved == 1)  {
         this._qs('.reserve').innerHTML = 'Reserved'
         this._qs('.reserve').disabled = true
         this._qs('.reserve').classList.add('reserved')
         this._qs('.reserve').classList.remove('reserve')
-      }
-  }//end of reserve
+      } else console.log(this.state.reserved)
+  }//end of checkReserve
 
     connectedCallback() {
         //SetValues
@@ -504,8 +504,8 @@ export default class PropertyView extends Base {
         //Shate post
         this.sharePost();
         
-        //reserve
-        this.reserve()
+        //checkReserve
+        this.checkReserve()
     } //end of connected callback
 } //End of class
 
