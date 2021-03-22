@@ -102,7 +102,7 @@ export default class UserCard extends Base {
     });
   } //End of viewUser()
 
-  //  Deactivate
+  // Deactivate
   deactivate(userId) {
     this._qs("#deactivate").addEventListener("click", async () => {
       this.wait(".status");
@@ -151,6 +151,68 @@ export default class UserCard extends Base {
     });
   } //End of deactivate()
 
+
+    //Temporaly Block
+    block(userId) {
+      this._qs('#block').addEventListener('click', async () => {
+       this.wait('.status')
+       try {
+         const button = this._qs('#block');
+         const res = await axios.post(`${this.host}/user/block/${userId}`, {
+           ...this.authData(),
+         });
+         if (res.status == 200) {
+           button.innerHTML = "Activate";
+         } else throw res;
+       } catch (err) {
+         this.popup(err.message, "error")
+       }
+       this.unwait('.status')
+      })
+       
+     } //End of block()
+
+    //Permenatly Ban
+    ban(userId) {
+      this._qs('#ban').addEventListener('click', async () => {
+       this.wait('.status')
+       try {
+         const button = this._qs('#ban');
+         const res = await axios.post(`${this.host}/user/ban/${userId}`, {
+           ...this.authData(),
+         });
+         if (res.status == 200) {
+           button.innerHTML = "Activate";
+         } else throw res;
+       } catch (err) {
+         this.popup(err.message, "error")
+       }
+       this.unwait('.status')
+      })
+       
+     } //End of ban()
+
+
+    //Confirm
+    confirm(userId) {
+      this._qs('#confirm').addEventListener('click', async () => {
+       this.wait('.status')
+       try {
+         const button = this._qs('#confirm');
+         const res = await axios.post(`${this.host}/user/confirm/${userId}`, {
+           ...this.authData(),
+         });
+         if (res.status == 200) {
+           button.innerHTML = "Activate";
+         } else throw res;
+       } catch (err) {
+         this.popup(err.message, "error")
+       }
+       this.unwait('.status')
+      })
+       
+     } //End of confirm()
+
   connectedCallback() {
     //status
     this.setStatus(this.data.status);
@@ -161,8 +223,18 @@ export default class UserCard extends Base {
     //View user account summary
     this.viewUser(this.data.userId);
 
-    //  Deactivate
-    this.deactivate(this.data.userId);
+    // Deactivate
+  this.deactivate(this.data.userId);
+
+    //Temporaly Block
+  this.block(this.data.userId);
+
+  //Permenatly Ban
+  this.ban(this.data.userId);
+
+  //Confirm
+  this.confirm(this.data.userId);
+
   } //End of connectedCallback
 } //End of Class
 
