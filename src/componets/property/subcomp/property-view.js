@@ -460,6 +460,7 @@ export default class PropertyView extends Base {
 
   //checkReserve
   checkReserve() {
+      console.log(this.state);
       if(this.state.reserved == 1)  {
         this._qs('.reserve').innerHTML = 'Reserved'
         this._qs('.reserve').disabled = true
