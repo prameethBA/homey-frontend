@@ -149,34 +149,26 @@ export default class LoginForm extends Base {
                 const userName = this._qs('#email').value
                 const password = this._qs('#password').value
                 axios
-                    .post(`${this.host}/login`, {
+                    .post(`${this.host}/login/request-login`, {
                         userName: userName,
                         password: password
                     })
                     .then(res => {
                         console.log(res.data)
-                        if (res.data.login === 'true' && res.status == 201) {
+                        if (res.data.login == true && res.status == 200) {
                             // set the login information to loacal or session storage of the browser
                             if (this._qs('#remember').checked == true) {
                                 localStorage.login = 'true'
                                 localStorage.userType =
                                     res.data.userData.userType
-                                localStorage.userId = res.data.userData.userId
+                                localStorage.userId = res.data.userId
                                 localStorage.token = res.data.token
-                                localStorage.name =
-                                    res.data.userData.firstName +
-                                    ' ' +
-                                    res.data.userData.lastName
                             } else {
                                 sessionStorage.login = 'true'
                                 sessionStorage.userType =
-                                    res.data.userData.userType
-                                sessionStorage.userId = res.data.userData.userId
+                                    res.data.userType
+                                sessionStorage.userId = res.data.userId
                                 sessionStorage.token = res.data.token
-                                sessionStorage.name =
-                                    res.data.userData.firstName +
-                                    ' ' +
-                                    res.data.userData.lastName
                             }
 
                             dispatchEvent(new Event('login-success'))

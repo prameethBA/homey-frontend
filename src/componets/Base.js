@@ -5,7 +5,7 @@ export default class Base extends HTMLElement {
 
     state = {}
 
-    host = 'https://api.homey.lk'
+    host = 'https://dev.homey.lk'
 
     loader = `<div class="lds-dual-ring"></div>`
 
