@@ -26,44 +26,12 @@ export default class users extends Base {
         <pagination-comp data-pages="10" data-current="5"></pagination-comp>
         
     </div>
-
-    <div class="popup"></div>
     `;
 
   constructor() {
     super();
     this.mount();
   } //End of the constructor
-
-  //View user account summary
-  async viewUser(id) {
-    this.setLoader();
-    await import("./subcomp/view-user/view-user.js")
-      .then(() => {
-        this._qs(".popup").innerHTML = `<view-user id="${id}"></view-user>`;
-        this.stopLoader();
-      })
-      .catch((err) => {
-        this.stopLoader();
-        dispatchEvent(
-          new CustomEvent("pop-up", {
-            detail: {
-              pop: "error",
-              msg: err.message,
-              duration: err.duration == undefined ? 10 : err.duration,
-            },
-          })
-        );
-      });
-  } //End of viewUser()
-
-
-  //load view user component
-  // loadViewUser() {
-  //   this._qsAll(".view-profile").forEach((item) => {
-  //     item.addEventListener("click", () => this.viewUser(item.dataset.id));
-  //   });
-  // } //end of loadViewUser()
 
   // getUsers from API
   async getUsers() {
@@ -72,38 +40,23 @@ export default class users extends Base {
       const res = await axios.post(`${this.host}/admin-users/all-users`, {
         ...this.authData(),
       });
-      
-      if(res.status == 200) {
-        await import('./subcomp/user-card.js')
-        res.data.forEach(item => {
-          this._qs('.users').innerHTML += `<user-card data-user="${this.encode(item)}"></user-card>`
-        })
-      } else throw res
-      
+
+      if (res.status == 200) {
+        await import("./subcomp/user-card.js");
+        res.data.forEach((item) => {
+          this._qs(".users").innerHTML += `<user-card id="${item.userId}" data-user="${this.encode(
+            item
+          )}"></user-card>`;
+        });
+
+      } else throw res;
     } catch (err) {
-      console.log(err);
+      this.popup(err.message, "error");
     }
     this.stopLoader();
   } //end of getUsers()
 
-  //Deactivate
-  // async deactivate(userId,e) {
-  //   try {
-  //     const button = e;
-  //     this.wait(button);
-  //     const res = await axios.post(`${this.host}/user/deacivate/${userId}`, {
-  //       ...this.authData(),
-  //     });
-  //     if (res.status == 200) {
-  //       this.unwait(button);
-  //       button.innerHTML = "Activate";
-  //     } else throw res;
-  //   } catch (err) {
-  //     console.log(err);
-  //     this.unwait(button);
-  //   }
-  // } //End of deactivate()
-  /*
+ /*
 
 
   //filterProperty()
