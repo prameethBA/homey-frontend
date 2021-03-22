@@ -1,5 +1,6 @@
 import Base from './../../Base.js'
 import CSS from './users-comp.css.js'
+import '/componets/universal/pagination/pagination.js'
 
 export default class AdminAccount extends Base {
     css = CSS
@@ -9,14 +10,14 @@ export default class AdminAccount extends Base {
         <div class="row">
             <span class="search-container">
                 <input id="search" type="text" class="search" placeholder="Search here" />
-                <label for="search">🔍</label>
+                <label for="search"><img src="/assets/icon/Search/search_24px.png"></label>
                 </span>
         </div>
         <div class="row users">
         </div>
-        <div class="pagination">
-            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
-        </div>
+        
+        <pagination-comp></pagination-comp>
+        
     </div>
 
     <div class="popup"></div>

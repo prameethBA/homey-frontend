@@ -58,14 +58,14 @@ export default class PropertyView extends Base {
                         ${
                             this.getParam('overview') == 'true'
                                 ? `<span></span>`
-                                : `<div class="favourite" data-data="add" title="Add to favoutite">⭐</div>`
+                                : `<div class="favourite" data-data="add" title="Add to favoutite"> <img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"> </div>`
                         }
-                        <div class="share" title="Share">✉</div>
+                        <div class="share" title="Share"><img src="/assets/icon/Share/share_24px.png" id="share-post"></div>
                         <div class="status">⚪</div>
                         ${
                             this.getParam('overview') == 'true'
                                 ? `<span></span>`
-                                : `<div class="report" title="Report">⚠</div>`
+                                : `<div class="report" title="Report"><img src="/assets/icon/Report/Report_24px.png"></div>`
                         }
                     </div>
                     <p class="price">Rental</p>
@@ -91,6 +91,7 @@ export default class PropertyView extends Base {
         </div>
         <div id="comment-box"></div>
         <slot name="id" ></slot>
+        <div id="share-post-box"></div>
     `
 
     constructor() {
@@ -98,6 +99,7 @@ export default class PropertyView extends Base {
         this.mount()
 
         this.state = this.decode(this.getAttribute('data-data'))
+
         //getFavourite
         if (this.getAttribute('overview') != 'true') this.getFavourite()
         // this.qs('img').style.display = 'block'
@@ -112,15 +114,15 @@ export default class PropertyView extends Base {
         switch (this.state.property_status) {
             case '0':
                 this._qs('.status').innerHTML =
-                    '<span title="Pending Approval">⭕</span>'
+                    '<span title="Pending Approval">    <img src="/assets/icon/Available/Pending_24px.png">   </span>'
                 break
             case '1':
                 this._qs('.status').innerHTML =
-                    '<span title="Available">🟢</span>'
+                    '<span title="Available">   <img src="/assets/icon/Available/Available_24px.png">   </span>'
                 break
             case '2':
                 this._qs('.status').innerHTML =
-                    '<span title="Rejected">🔴</span>'
+                    '<span title="Rejected">    <img src="/assets/icon/Available/NotAvailable_24px.png">   </span>'
                 break
         }
 
@@ -239,7 +241,7 @@ export default class PropertyView extends Base {
                             pop: 'error',
                             msg: err.message,
                             duration:
-                                err.duration == undefined ? 10 : err.duration
+                                err.duration == undefined ? 3 : err.duration
                         }
                     })
                 )
@@ -260,7 +262,10 @@ export default class PropertyView extends Base {
             .then(() => {
                 this._qs(
                     '#comment-box'
-                ).innerHTML = `<reserve-comp></reserve-comp>`
+                ).innerHTML = `
+                    <reserve-comp 
+                        id="${this.getParam('id')}"
+                    ></reserve-comp>`
                 this.stopLoader()
             })
             .catch(err => {
@@ -271,7 +276,7 @@ export default class PropertyView extends Base {
                             pop: 'error',
                             msg: err.message,
                             duration:
-                                err.duration == undefined ? 10 : err.duration
+                                err.duration == undefined ? 3 : err.duration
                         }
                     })
                 )
@@ -395,12 +400,12 @@ export default class PropertyView extends Base {
             this.wait('.favourite')
             if (this._qs('.favourite').dataset.data == 'add') {
                 await this.addFavourite('add')
-                this._qs('.favourite').innerHTML = '🔺'
+                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
                 this._qs('.favourite').title = 'Remove from favourite'
                 this._qs('.favourite').dataset.data = 'remove'
             } else {
                 await this.addFavourite('remove')
-                this._qs('.favourite').innerHTML = '⭐'
+                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>'
                 this._qs('.favourite').title = 'Add to favourite'
                 this._qs('.favourite').dataset.data = 'add'
             }
@@ -418,7 +423,7 @@ export default class PropertyView extends Base {
                 }
             )
             if (res.data.action == '1') {
-                this._qs('.favourite').innerHTML = '🔺'
+                this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
                 this._qs('.favourite').title = 'Remove from favourite'
                 this._qs('.favourite').dataset.data = 'remove'
             }
@@ -426,6 +431,43 @@ export default class PropertyView extends Base {
             console.log(err)
         }
     } //End of getFavourite()
+
+
+  //sharePost
+  sharePost() {
+    this._qs("#share-post").addEventListener("click", async () => {
+      this.setLoader();
+      await import("/componets/universal/share/share.js");
+      try {
+        this._qs("#share-post-box").innerHTML = `
+                        <share-comp>
+                        </share-comp>`;
+        this.stopLoader();
+      } catch (err) {
+        this.stopLoader();
+        dispatchEvent(
+          new CustomEvent("pop-up", {
+            detail: {
+              pop: "error",
+              msg: err.message,
+              duration: err.duration == undefined ? 3 : err.duration,
+            },
+          })
+        );
+      }
+    });
+  } // End of sharePost
+
+  //checkReserve
+  checkReserve() {
+      console.log(this.state);
+      if(this.state.reserved == 1)  {
+        this._qs('.reserve').innerHTML = 'Reserved'
+        this._qs('.reserve').disabled = true
+        this._qs('.reserve').classList.add('reserved')
+        this._qs('.reserve').classList.remove('reserve')
+      } else console.log(this.state.reserved)
+  }//end of checkReserve
 
     connectedCallback() {
         //SetValues
@@ -460,7 +502,15 @@ export default class PropertyView extends Base {
             //listen for addFavourite
             this.listenAddFavourite()
         }
+        //Shate post
+        this.sharePost();
+        
+        //checkReserve
+        this.checkReserve()
     } //end of connected callback
 } //End of class
 
-window.customElements.define('property-view', PropertyView)
+const elementName = 'property-view'
+customElements.get(elementName) == undefined
+    ? window.customElements.define(elementName, PropertyView)
+    : null

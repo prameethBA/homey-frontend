@@ -159,4 +159,29 @@ export default CSS = `
         background-image: linear-gradient(to right top, #ff7e00, #ff7809, #ff7211, #ff6b17, #ff651c);
         color: #ffffff;
     }
+
+    @media(max-Width: 800px){
+        .left-nav-container {
+            display: none;
+        }
+        
+    }
+
+    @media(max-Width: 500px){
+        .success {
+            display: flex;
+            justify-content: space-around;
+            width: 70%;
+        }
+        .row {
+            flex-direction: column;
+        }
+        .form .form-row {;
+            flex-direction: column;  
+        }
+        #received-table {
+            font-size: smaller;
+        }
+    }
+
 `

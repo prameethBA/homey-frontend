@@ -2,14 +2,15 @@ export default CSS = `
 .container {
   z-index: 1000;
   position: fixed;
-  left: 0;
-  top: -100%;
-  right: 0;
+  bottom:0;
+  right: -100%;
   background-color: red;
   background-image: linear-gradient(to right top, #eb5d5d, #e85b5b, #e45958, #e15656, #de5454);
-  width: 90%;
+  width: 30%;
+  height:10%;
   border-radius: 3px;
-  margin: auto;
+  margin-bottom:6%;
+  margin-top:auto;
   transition: all 1s ease-in-out;
 }
 

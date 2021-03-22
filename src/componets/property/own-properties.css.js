@@ -148,5 +148,17 @@ export default CSS = `
        }
 
 ${notFound}
+  @media(max-Width: 800px){
+    .content {
+      flex-direction: column;
+      justifyContent: center;
+    }
+    .title {
+      position: unset;
+    }
+    .search-container {
+      flex-direction: column;
+    }
+  }     
 
 `

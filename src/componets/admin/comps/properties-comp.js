@@ -1,5 +1,6 @@
 import Base from './../../Base.js'
 import CSS from './properties-comp.css.js'
+import '/componets/universal/pagination/pagination.js'
 
 export default class properties extends Base {
     css = CSS
@@ -15,7 +16,7 @@ export default class properties extends Base {
             <div class="row">
                 <span class="search-container">
                     <input id="search" type="text" class="search" placeholder="Search here" />
-                    <label for="search">🔍</label>
+                    <label for="search"><img src="/assets/icon/Search/search_24px.png"></label>
                     </span>
                     <div class="button-group">
                         <button class="reported danger-button">Reported Properties</button>
@@ -27,9 +28,8 @@ export default class properties extends Base {
                 <div class="content"></div>
             </div>
         </div>
-        <div class="pagination">
-            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
-        </div>
+        <pagination-comp></pagination-comp>
+        
         <div id="questioner">
         </div>
     `
@@ -63,7 +63,6 @@ export default class properties extends Base {
                     </property-view>
                     `
                 })
-                this._qs('#pagination').innerHTML = this.pagination
             }
         } catch (err) {
             console.log(err)

@@ -4,7 +4,7 @@ export default class Dev extends Base {
     css = `
        .contanier {
             margin: 5rem 1rem;
-        } 
+        }
 
         table {
             font-family: Arial, Helvetica, sans-serif;

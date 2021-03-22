@@ -1,5 +1,6 @@
 import Base from '../Base.js'
 import CSS from './navigation-bar.css.js'
+//import '/componets/home/notification-bar.js'
 
 export default class Nav extends Base {
     css = CSS
@@ -27,7 +28,7 @@ export default class Nav extends Base {
           </div>
           <div class="row separator"></div>
           <div class="row nav-items">
-            <a data-path="">🔔</a>
+            <a data-path=""><img src="/assets/icon/Notification/notification_24px.png" id="notification"></a>
             <a data-path="property" id="property" class="nav-link">Properties</a>
             <a data-path="favourite" id="favourite" class="nav-link">Favourites</a>
 
@@ -36,6 +37,7 @@ export default class Nav extends Base {
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
+                <a data-path="own-properties" id="reserved-properties">Reserved Properties</a>
                 <a data-path="own-properties" id="add-new-property">Add New Property</a>
                 <a data-path="own-properties" id="own-properties">View Own Properties</a>
               </div>
@@ -75,7 +77,9 @@ export default class Nav extends Base {
         </nav>
         `
 
-    content = `<header></header>`
+    content = `
+    <header></header>
+    <div id="notification-bar-box"></div>`
 
     constructor() {
         super()
@@ -185,6 +189,20 @@ export default class Nav extends Base {
                 })
             )
         )
+        
+        //Reserved Property
+        this._qs('#reserved-properties').addEventListener('click', () =>
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/reserved-properties`,
+                        comp: `property/reserved-properties`,
+                        compName: 'reserved-properties'
+                    }
+                })
+            )
+        )
+
         // Payments
         this._qs('#received').addEventListener('click', () =>
             dispatchEvent(
@@ -401,6 +419,39 @@ export default class Nav extends Base {
         )
     } //logOutMethod()
 
+
+    notificationBar(){
+        this._qs("#notification").addEventListener("click",async()=>{
+            this.setLoader()
+            await import('./notification-bar.js')
+                .then(() => {
+                    this._qs('#notification-bar-box').innerHTML = `
+                        <notification-comp>
+                        </notification-comp>`
+                    this.stopLoader()
+                })
+                .catch(err => {
+                    this.stopLoader()
+                    dispatchEvent(
+                        new CustomEvent('pop-up', {
+                            detail: {
+                                pop: 'error',
+                                msg: err.message,
+                                duration:
+                                    err.duration == undefined ? 3 : err.duration
+                            }
+                        })
+                    )
+                })
+        })
+    }
+
+    closeNotification(){
+        // addEventListener("click",()=>{
+        //     this._qs("notification-comp").style.display="none";
+        // })
+    }
+
     connectedCallback() {
         //Login method
         this.loginMethod()
@@ -410,6 +461,12 @@ export default class Nav extends Base {
 
         //Scrolbar behavoiur when scroll
         this.scrollNavbar()
+
+        //Notification Bar
+        this.notificationBar();
+
+        //closeNotificationBar
+        this.closeNotification();
     } // End of connected callback
 } // End of Class
 

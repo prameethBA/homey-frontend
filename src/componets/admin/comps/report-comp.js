@@ -1,5 +1,6 @@
 import Base from '/componets/Base.js'
 import CSS from './report-comp.css.js'
+import '/componets/universal/pagination/pagination.js'
 
 export default class Report extends Base {
     css = CSS
@@ -24,9 +25,9 @@ export default class Report extends Base {
             </table>
             </div>
         </div>
-        <div class="pagination">
-            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
-        </div>
+        
+        <pagination-comp></pagination-comp>
+        
     <div class="preview-advertisement"></div>
     `
 

@@ -1,4 +1,7 @@
 export default CSS = `
+
+
+
 .heading {
   flex: 1;
   padding: 0.1rem;
@@ -15,7 +18,6 @@ export default CSS = `
 .tab-button {
   border: none;
   border-color: #239710;
-  background-color: #ff9900;
   text-align: center;
   text-decoration: none;
   margin: 0 1.5rem;
@@ -25,8 +27,14 @@ export default CSS = `
 }
 
 .tab-button:hover {
-  border-color: rgb(149, 192, 169);
+    cursor: pointer;
+  background-color: #001f3f;
+  color: rgb(255, 255, 255);
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24);
+}
+
+.container {
+  display:flex;
 }
 
 .buttons {
@@ -36,9 +44,9 @@ export default CSS = `
 
 .tags {
     padding: 5px;
-    background-color: #39b54a;
+    background-color: #064e9c;
+    border-radius: 20px;
     border: 2px solid #06070669;
-    border-radius: 30px;
     place-items: center;
     justify-content: center;
     flex: 30%;
@@ -57,19 +65,23 @@ export default CSS = `
   flex-direction: column;
 }
 
+
 .tags li a {
   border-radius: 50px;
-  background-color: #b3dbd3;
+  background-color: #001f3f;
   display: block;
-  color: #000;
+  color: white;
   padding: 9px 36px;
   margin-bottom: 2em;
   text-decoration: none;
 }
 
 .tags li a:hover {
-  background-color: #138D75;
-  color: white;
+    cursor: pointer;
+    background-color:#ff9900 ;
+    background-position: right;
+    color: rgb(250, 250, 250);
+    box-shadow: 0 0 20px -5px;
 }
 
 .tags-txt {
@@ -81,39 +93,6 @@ export default CSS = `
   text-align: center;
   text-transform: uppercase;
 }
-
-.user-image {
-  width: 4rem;
-  margin-top: 1.5em;
-  padding: 0;
-}
-
-.textarea {
-    display: inline-flex;
-    width: 100%;
-    height: 1.5rem;
-    border: none;
-    border-radius: 0.2rem;
-    text-indent: 0.2rem;
-}
-
-.container {
-  display: flex;
-  align-self: center;
-  justify-content: center;
-  margin-right: 1.5em;
-  margin-top: 1em;
-}
-
-.post-container {}
-
-.posts {
-  flex: 85%;
-  padding-right: 2px;
-  margin-left: 3em;
-}
-
-.post-row {}
 
 button{
       display: flex;
@@ -133,11 +112,12 @@ button{
       transition: all 0.5s;
       min-width: 15%;
   }
-  
-  button:hover{
-      cursor: pointer;
-      background-position: right;
-      color: black;
-      box-shadow: 0 0 20px -5px;
+@media(max-Width:600px){
+  .container {
+    flex-direction: column;
   }
+  
+}
+
+
 `

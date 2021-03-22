@@ -1,5 +1,6 @@
 import Base from '../Base.js'
 import CSS from './available-property.css.js'
+import '/componets/universal/pagination/pagination.js'
 
 export default class AvalibaleProperty extends Base {
     css = CSS
@@ -134,7 +135,7 @@ export default class AvalibaleProperty extends Base {
                 <option >All</option>
             </select>
             <button class="search-button"> Search now!</button>
-            <span class="toggle-filter">🔃</span>
+            <span class="toggle-filter"><img src="/assets/icon/Filter/filter_24px.png"></span>
         </div>
     `
 
@@ -151,12 +152,7 @@ export default class AvalibaleProperty extends Base {
     `
 
     pagination = `
-        <div class='pagination'>
-            <div class='previous'>First</div>
-            <div class='pagination-active'>1</div> <div>2</div>
-            <div class='current'>3</div> <div>4</div> <div>5</div>
-            <div class='last'>Last</div>
-        </div>
+        <pagination-comp></pagination-comp>
     `
 
     constructor() {

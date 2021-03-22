@@ -13,6 +13,19 @@ export default CSS = `
     background-color: #dee1e3;
     font-family: "Roboto", "Tahoma", "Arial", sans-serif;,
   }
+
+  .backdrop{
+    position:fixed;
+    overflow:auto;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:1;
+    background-color:rgb(0 0 0 / 85%);
+    margin: 2rem;
+
+  }
   
   .text-right{ text-align: right; }
   
@@ -26,7 +39,6 @@ export default CSS = `
     right: 0;
     overflow: auto;
     bottom: 0;
-    background-color: rgba(255,255,255,1);
     z-index: 1;
   }
 
@@ -35,6 +47,7 @@ export default CSS = `
   }
   
   .comments-app h1{
+    color:#ff9900;
     margin-bottom: 1.5em;
     text-align: center;
     text-shadow: 0 0 2px rgba(152, 152, 152, 1);

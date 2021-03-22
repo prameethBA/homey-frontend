@@ -5,7 +5,7 @@ export default class Base extends HTMLElement {
 
     state = {}
 
-    host = 'https://api.homey.lk'
+    host = 'https://dev.homey.lk'
 
     loader = `<div class="lds-dual-ring"></div>`
 
@@ -101,6 +101,35 @@ export default class Base extends HTMLElement {
     }
 
     // Helpers
+
+    //pop-up
+    popup(msg, type,duration = 3) {
+        dispatchEvent(
+            new CustomEvent('pop-up', {
+                detail: {
+                    pop: type,
+                    msg: msg,
+                    duration:
+                        duration == undefined
+                            ? 10
+                            : duration
+                }
+            })
+        )
+    }
+
+    //load comp
+    loadComp(path, comp, compName) {
+        dispatchEvent(
+            new CustomEvent('load-comp', {
+                detail: {
+                    path: path,
+                    comp: comp,
+                    compName: compName
+                }
+            })
+        )
+    }
 
     // Slectors
     _qs(selector) {

@@ -1,162 +1,110 @@
-import Base from './../../Base.js'
-import CSS from './users-comp.css.js'
+import Base from "./../../Base.js";
+import CSS from "./users-comp.css.js";
+import "/componets/universal/pagination/pagination.js";
 
 export default class users extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
     <div class="container">
         <div class="row">
             <span class="search-container">
                 <input id="search" type="text" class="search" placeholder="Search here" />
-                <label for="search">🔍</label>
+                <label for="search"><img src="/assets/icon/Search/search_24px.png"></label>
                 </span>
                 <div class="button-group">
-                    <button class="reported danger-button">Reported users</button>
-                    <button class="unconfiremed primary-button">Unconfiremed Users</button>
-                    <button class="banned danger-button">Banned Users</button>
-                    <button class="deactivated primary-button">Deactivated Users</button>
-                    <button class="deleted danger-button">Deleted Users</button>
+                    <button class="button-link reported danger-button" id="reported">Reported users</button>
+                    <button class="button-link unconfiremed primary-button" id="unconfiremed">Unconfiremed Users</button>
+                    <button class="button-link banned danger-button" id="banned">Banned Users</button>
+                    <button class="button-link deactivated primary-button" id="deactivated">Deactivated Users</button>
+                    <button class="button-link deleted danger-button" id="deleted">Deleted Users</button>
                 </div>
         </div>
         <div class="row users">
         </div>
-        <div class="pagination">
-            <div class="previous">First</div> <div class="pagination-active">1</div> <div>2</div> <div class="current">3</div> <div>4</div> <div>5</div><div class="last">Last</div>
-        </div>
+        
+        <pagination-comp data-pages="10" data-current="5"></pagination-comp>
+        
     </div>
+    `;
 
-    <div class="popup"></div>
-    `
+  constructor() {
+    super();
+    this.mount();
+  } //End of the constructor
 
-    constructor() {
-        super()
-        this.mount()
-    } //End of the constructor
+  // getUsers from API
+  async getUsers() {
+    this.setLoader();
+    try {
+      const res = await axios.post(`${this.host}/admin-users/all-users`, {
+        ...this.authData(),
+      });
 
-    //Load user component
-    loadUser(user) {
-        let data = `
-            <div class="profile">
-                <div class="sub-row">
-                    <img data-id="${user.userId}" id="img-${user.userId}" class="display-picture view-profile" src="/assets/img/alt/load-post.gif" />
-                </div>
-                <div class="sub-row">
-                    <span class="name view-profile" data-id="${user.userId}">${user.firstName} ${user.lastName}</span>
-                    <span class="status">`
+      if (res.status == 200) {
+        await import("./subcomp/user-card.js");
+        res.data.forEach((item) => {
+          this._qs(".users").innerHTML += `<user-card id="${item.userId}" data-user="${this.encode(
+            item
+          )}"></user-card>`;
+        });
 
-        switch (user.status) {
-            case '0':
-                data += `🟠 Unconfirmed`
-                break
-            case '1':
-                data += `🟢 Confirmed`
-                break
-            default:
-                data += `🔴 Invalid User`
-                break
-        }
+      } else throw res;
+    } catch (err) {
+      this.popup(err.message, "error");
+    }
+    this.stopLoader();
+  } //end of getUsers()
 
-        data += `</span>
-                </div>
-                <div class="sub-row">
-                    <span class="email"><a href="mailto:${user.email}">${
-            user.email
-        }<a></span>
-                    <span class="mobile"><a href="callto:${user.mobile}">${
-            user.mobile != null ? user.mobile : 'Mobile number not updated'
-        }</a></span>
-                </div>
-                <div class="sub-row button-group-user">
-                    <button class="primary-button">Deactivate</button>
-                    <button class="danger-button">Temporaly Block</button>
-                    <button class="danger-button">Permenatly Ban</button>
-                    <button class="danger-button">Make confirm contacts</button>
-                </div>
-            </div>
-        `
-        this._qs('.users').innerHTML += data
+ /*
 
-        //getprofilePicture
-        this.getprofilePicture(user.userId)
-    } //End of loadUser()
 
-    //View user account summary
-    async viewUser(id) {
-        this.setLoader()
-        await import('./subcomp/view-user/view-user.js')
-            .then(() => {
-                this._qs(
-                    '.popup'
-                ).innerHTML = `<view-user id="${id}"></view-user>`
-                this.stopLoader()
-            })
-            .catch(err => {
-                this.stopLoader()
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: {
-                            pop: 'error',
-                            msg: err.message,
-                            duration:
-                                err.duration == undefined ? 10 : err.duration
-                        }
-                    })
-                )
-            })
-    } //End of viewUser()
-
-    //getprofilePicture
-    async getprofilePicture(userId) {
-        try {
+  //filterProperty()
+  filterProperty() {
+    this._qsAll(".button-link").forEach((item) => {
+      item.addEventListener("click", async () => {
+          this.wait(item)
+          try {
             const res = await axios.post(
-                `${this.host}/images/profile/get/${userId}`,
+                `${this.host}/property/filter/own/${item.id}`,
                 {
-                    userId: this.getUserId(),
-                    token: this.getToken()
+                  ...this.authData(),
                 }
-            )
-            this._qs(`#img-${userId}`).src =
-                res.data.image != ''
-                    ? res.data.image
-                    : '/assets/img/alt/no-mage.png'
-        } catch (err) {
-            console.log(err)
-        }
-    } //End of getprofilePicture()
+              );
 
-    //load view user component
-    loadViewUser() {
-        this._qsAll('.view-profile').forEach(item => {
-            item.addEventListener('click', () => this.viewUser(item.dataset.id))
-        })
-    } //end of loadViewUser()
+              if (res.data.length < 1) {
+                this._qs(".content").innerHTML = this.notFound;
+              } else {
+                this._qs(".content").innerHTML = "";
+                res.data.forEach((item) => {
+                  this._qs(".content").innerHTML += `
+                            <property-view 
+                            id="${item.property_id}"
+                            data-data="${this.encode(item)}"
+                            overview='true'
+                            >
+                            </property-view>
+                            `;
+                });
+              }
+          } catch (err) {
+              console.log(err);
+          }
+          this.unwait(item)
+        
+      });
+    });
+  } //Endof filterProperty()
+*/
 
+  // connectedCallback
+  connectedCallback() {
     // getUsers from API
-    async getUsers() {
-        this.setLoader()
-        await axios
-            .post(`${this.host}/AdminUsers/all-users`, {
-                ...this.authData()
-            })
-            .then(res => {
-                res.data.forEach(user => {
-                    //Load user component
-                    this.loadUser(user)
+    this.getUsers();
 
-                    //loadViewUser
-                    this.loadViewUser()
-                })
-            })
-            .catch(err => console.log(err))
-        this.stopLoader()
-    } //end of getUsers()
-
-    // connectedCallback
-    connectedCallback() {
-        // getUsers from API
-        this.getUsers()
-    } //End of connectedCallback()
+    //filterProperty()
+    //this.filterProperty();
+  } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define('users-comp', users)
+window.customElements.define("users-comp", users);
