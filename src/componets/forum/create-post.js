@@ -18,13 +18,13 @@ export default class CreatePost extends Base {
                 <div class="row input-container">
                     <div class="col-xs-12">
                         <div class="styled-input wide">
-                            <input id="reason" type="text" required />
+                            <input id="title" type="text" required />
                             <label>Forum title</label>
                         </div>
                     </div>
                     <div class="">
                         <div class="styled-input wide">
-                            <textarea id="message" required></textarea>
+                            <textarea id="content" required></textarea>
                             <label>Message</label>
                         </div>
                     </div>
@@ -66,9 +66,75 @@ exitWithEscape() {
 //listenButton
 listenButton() {
     this._qs('.submit-btn').addEventListener('click', () => {
-        if (this.validate()) this.report() //report
+        if (this.validate()) this.submitPost() //submitPost
     })
 } //End of listenButton()
+
+
+//validate data
+validate() {
+    try {
+        const reason = this._qs('#title')
+        const message = this._qs('#content')
+
+        if (/^ *$|^$/.test(reason.value))
+            throw { message: 'Title cannot be empty' }
+        if (/^ *$|^$/.test(message.value))
+            throw { message: 'Content cannot be empty' }
+        return true
+    } catch (err) {
+        dispatchEvent(
+            new CustomEvent('pop-up', {
+                detail: {
+                    pop: 'error',
+                    msg: err.message,
+                    duration: err.duration == undefined ? 10 : err.duration
+                }
+            })
+        )
+        return false
+    }
+} //End of validate()
+
+//SubmitPost
+async submitPost() {
+    this.wait('.submit-btn')
+    try {
+        const res = await axios.post(`${this.host}/forum/create`, {
+            ...this.authData(),
+            title: this._qs('#title').value,
+            content: this._qs('#content').value
+        })
+
+        if (res.data.action == 'true') {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: {
+                        pop: 'success',
+                        msg: res.data.message
+                    }
+                })
+            )
+        } else {
+            dispatchEvent(
+                new CustomEvent('pop-up', {
+                    detail: {
+                        pop: 'error',
+                        msg: 'Failed to lodge the complaint'
+                    }
+                })
+            )
+        }
+    } catch (err) {
+        console.log(err)
+    }
+    this.exitDock();
+    this.unwait('.submit-btn')
+} //End of submitPost
+
+
+
+
 
 
 
