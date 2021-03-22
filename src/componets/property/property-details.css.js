@@ -176,4 +176,32 @@ export default CSS = `
     transform: rotate(-90deg) !important;
   }
 
+    
+  @media screen and (max-width: 900px) {
+    .action {
+      flex-direction: column;
+    }
+    button {
+      width: 80%;
+      margin: 0;
+    }
+    @media screen and (max-width: 500px) {
+      .main-image {
+        width: 70%;
+      }
+      .sub-images {
+        justify-content: unset;
+      }
+      .container {
+        flex-direction: column;
+      }
+      .action {
+        flex-direction: column;
+      }
+      button {
+        width: 135%;
+        margin: 0;
+      }
+    }
+  }
   `

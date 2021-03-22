@@ -208,15 +208,26 @@ export default CSS = `
 
     }
 
-    @media screen and (max-width: 768px) {
-
+    @media screen and (max-width: 650px) {
+        .search{
+            flex-direction: column;
+            height: 15rem;
+            padding-top: 1rem;
+        }
+        select, button{
+            width: 60%;
+        }
     }
 
     @media screen and (max-width: 512px) {
         #container {
             display: flex;
             overflow: scroll;
+            flex-direction: column;
+            margin-bottom: 1rem;
         }
+
+        
     }
 
 `
