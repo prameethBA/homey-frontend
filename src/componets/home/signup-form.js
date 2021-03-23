@@ -228,11 +228,11 @@ export default class SignUpForm extends Base {
 
             this.popup(
               res.data.message + " Confirm the email and log into continue.",
-              "success"
+              "success",10
             );
           } else throw res;
         } catch (err) {
-          this.popup(err.message, "error");
+          this.popup(err.message, "error",10);
         }
       } else
         this.popup(

@@ -1,10 +1,10 @@
-import Base from '/componets/Base.js'
-import CSS from './create-post.css.js'
+import Base from "/componets/Base.js";
+import CSS from "./create-post.css.js";
 
 export default class CreatePost extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
     <div class="backdrop">
         <div class="report-container">
             <span id="close-popup" title="close(Esc)">+</span>
@@ -36,119 +36,88 @@ export default class CreatePost extends Base {
         </div>
     </div>
     
-`
+`;
 
-constructor() {
-    super()
-    this.mount()
-} //End of the constructor
+  constructor() {
+    super();
+    this.mount();
+  } //End of the constructor
 
-//close the dock
-close() {
-    this._qs('#close-popup').addEventListener('click', () => {
-        this.exitDock()
-    })
-} //End of the close()
+  //close the dock
+  close() {
+    this._qs("#close-popup").addEventListener("click", () => {
+      this.exitDock();
+    });
+  } //End of the close()
 
-// Exit the dock
-exitDock() {
-    this._qs('.backdrop').style.opacity = '0'
-    this._qs('.backdrop').style.pointerEvents = 'none'
-} // End of exitDock()
+  // Exit the dock
+  exitDock() {
+    this._qs(".backdrop").style.opacity = "0";
+    this._qs(".backdrop").style.pointerEvents = "none";
+  } // End of exitDock()
 
-//Exit with Escape key
-exitWithEscape() {
-    addEventListener('keyup', ({ key }) =>
-        key === 'Escape' ? this.exitDock() : null
-    )
-} // End of exitWithEscape()
+  //Exit with Escape key
+  exitWithEscape() {
+    addEventListener("keyup", ({ key }) =>
+      key === "Escape" ? this.exitDock() : null
+    );
+  } // End of exitWithEscape()
 
-//listenButton
-listenButton() {
-    this._qs('.submit-btn').addEventListener('click', () => {
-        if (this.validate()) this.submitPost() //submitPost
-    })
-} //End of listenButton()
+  //listenButton
+  listenButton() {
+    this._qs(".submit-btn").addEventListener("click", () => {
+      if (this.validate()) this.submitPost(); //submitPost
+    });
+  } //End of listenButton()
 
-
-//validate data
-validate() {
+  //validate data
+  validate() {
     try {
-        const reason = this._qs('#title')
-        const message = this._qs('#content')
+      const reason = this._qs("#title");
+      const message = this._qs("#content");
 
-        if (/^ *$|^$/.test(reason.value))
-            throw { message: 'Title cannot be empty' }
-        if (/^ *$|^$/.test(message.value))
-            throw { message: 'Content cannot be empty' }
-        return true
+      if (/^ *$|^$/.test(reason.value))
+        throw { message: "Title cannot be empty" };
+      if (/^ *$|^$/.test(message.value))
+        throw { message: "Content cannot be empty" };
+      return true;
     } catch (err) {
-        dispatchEvent(
-            new CustomEvent('pop-up', {
-                detail: {
-                    pop: 'error',
-                    msg: err.message,
-                    duration: err.duration == undefined ? 10 : err.duration
-                }
-            })
-        )
-        return false
+      this.popup(err.message, "error", 10);
+      return false;
     }
-} //End of validate()
+  } //End of validate()
 
-//SubmitPost
-async submitPost() {
-    this.wait('.submit-btn')
+  //SubmitPost
+  async submitPost() {
+    this.wait(".submit-btn");
     try {
-        const res = await axios.post(`${this.host}/forum/create`, {
-            ...this.authData(),
-            title: this._qs('#title').value,
-            content: this._qs('#content').value
-        })
+      const res = await axios.post(`${this.host}/forum/create`, {
+        ...this.authData(),
+        title: this._qs("#title").value,
+        content: this._qs("#content").value,
+      });
 
-        if (res.data.action == 'true') {
-            dispatchEvent(
-                new CustomEvent('pop-up', {
-                    detail: {
-                        pop: 'success',
-                        msg: res.data.message
-                    }
-                })
-            )
-        } else {
-            dispatchEvent(
-                new CustomEvent('pop-up', {
-                    detail: {
-                        pop: 'error',
-                        msg: 'Failed to lodge the complaint'
-                    }
-                })
-            )
-        }
+      if (res.data.action == "true") {
+        this.popup(res.data.message, "success");
+      } else {
+        this.popup("Failed to lodge the complaint", "error");
+      }
     } catch (err) {
-        console.log(err)
+      console.log(err);
     }
     this.exitDock();
-    this.unwait('.submit-btn')
-} //End of submitPost
+    this.unwait(".submit-btn");
+  } //End of submitPost
 
-
-
-
-
-
-
-//connectedCallback
-connectedCallback() {
+  //connectedCallback
+  connectedCallback() {
     // close the dock
-    this.close()
+    this.close();
     // Exit with escape key
-    this.exitWithEscape()
+    this.exitWithEscape();
     //listenButton
-    this.listenButton()
-} //End of connectedCallback()
+    this.listenButton();
+  } //End of connectedCallback()
 } //End of Class
 
-
-
-window.customElements.define('create-post', CreatePost)
+window.customElements.define("create-post", CreatePost);
