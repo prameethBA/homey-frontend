@@ -73,7 +73,7 @@ export default class CommentBox extends Base {
             this._qs('#comment-author').innerHTML =
                 res.data.userId == '0'
                     ? 'Anonymous'
-                    : `${res.data.firstName} ${res.data.lastName}`
+                    : `${res.data.firstName == null ? 'A' : res.data.firstName } ${res.data.lastName == null ? 'User' : res.data.lastName}`
 
             if (res.data.userId == '0')
                 this._qs('#profile-picture').innerHTML = `
