@@ -225,19 +225,14 @@ export default class SignUpForm extends Base {
 
           if (res.data.signup === "true" && res.status == 201) {
             dispatchEvent(new Event("load-login-form"));
-            dispatchEvent(
-              new CustomEvent("pop-up", {
-                detail: {
-                  pop: "success",
-                  msg:
-                    res.data.message +
-                    " Confirm the email and log into continue.",
-                },
-              })
+
+            this.popup(
+              res.data.message + " Confirm the email and log into continue.",
+              "success",10
             );
           } else throw res;
         } catch (err) {
-          this.popup(err.message, "error");
+          this.popup(err.message, "error",10);
         }
       } else
         this.popup(
@@ -256,26 +251,17 @@ export default class SignUpForm extends Base {
 
     // Signup with Google
     this._qs(".google").addEventListener("click", async () => {
-      dispatchEvent(
-        new CustomEvent("pop-up", {
-          detail: {
-            pop: "notice",
-            msg: "Feature disabled at the moment. Use email instead.",
-          },
-        })
+      this.popup(
+        "Feature disabled at the moment. Use email instead.",
+        "notice"
       );
-      this.popup("Feature disabled at the moment. Use email instead.", "notice")
     });
 
     // Signup with FaceBook
     this._qs(".facebook").addEventListener("click", async () => {
-      dispatchEvent(
-        new CustomEvent("pop-up", {
-          detail: {
-            pop: "notice",
-            msg: "Feature disabled at the moment. Use email instead.",
-          },
-        })
+      this.popup(
+        "Feature disabled at the moment. Use email instead.",
+        "notice"
       );
     });
   } //End of connected callback
