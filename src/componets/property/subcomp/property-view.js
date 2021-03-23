@@ -156,7 +156,7 @@ export default class PropertyView extends Base {
   async getImages() {
     try {
       const res = await axios.post(
-        `${this.host}/images/property/${this.getAttribute("id")}`,
+        `${this.host}/images/get-property/${this.getAttribute("id")}`,
         {
           userId: this.getUserId(),
           token: this.getToken(),
@@ -342,15 +342,15 @@ export default class PropertyView extends Base {
   async addFavourite(action) {
     try {
       const res = await axios.post(
-        `${this.host}/property/favourite/${action}`,
+        `${this.host}/property/toggle-favourite/${action}`,
         {
           ...this.authData(),
           propertyId: this.getParam("id"),
         }
       );
       if (res.data.status == "204") {
-        if (action == "add") this.popup(res.data.message, "info");
-        else this.popup(res.data.message, "error");
+        if (action == "add") this.popup(res.data.message, "success");
+        else this.popup(res.data.message, "info");
       } else throw res.data;
     } catch (err) {
       console.log(err);
@@ -380,7 +380,7 @@ export default class PropertyView extends Base {
   //getFavourite
   async getFavourite() {
     try {
-      const res = await axios.post(`${this.host}/property/favourite/get`, {
+      const res = await axios.post(`${this.host}/property/get-favourite-status`, {
         ...this.authData(),
         propertyId: this.getParam("id"),
       });
