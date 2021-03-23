@@ -118,7 +118,6 @@ export default class Comment extends Base {
           this.popup("Login in to add a comment", "info");
         }
         this.popup(err.message, "error");
-        console.log(err);
       }
     });
   } //End of addNewComment()
