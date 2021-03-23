@@ -85,7 +85,7 @@ export default class Report extends Base {
   async report() {
     this.wait(".submit-btn");
     try {
-      const res = await axios.post(`${this.host}/feedback/report/save`, {
+      const res = await axios.post(`${this.host}/feedback/save-report`, {
         ...this.authData(),
         propertyId: this.getParam("id"),
         reason: this._qs("#reason").value,
@@ -94,6 +94,7 @@ export default class Report extends Base {
 
       if (res.data.action == "true") {
         this.popup(res.data.message, "success");
+        this.exitDock();
       } else {
         this.popup("Failed to lodge the complaint", "error");
       }
