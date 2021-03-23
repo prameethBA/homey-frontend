@@ -54,18 +54,30 @@ export default class Comment extends Base {
   //getprofilePicture
   async getprofilePicture() {
     try {
-      const res = await axios.post(`${this.host}/images/profile/get`, {
-        userId: this.getUserId(),
-        token: this.getToken(),
-      });
-      this._qs("#profile-picture").innerHTML = `<img id="profile-picture-image"
-              src="${
-                res.data.image != ""
-                  ? res.data.image
-                  : "/assets/img/alt/no-mage.png"
-              }" 
-              alt="Profile picture"
-              />`;
+      if (
+        localStorage.profilePiture == undefined ||
+        localStorage.profilePiture == null
+      ) {
+        const res = await axios.post(
+          `${this.host}/images/getProfileImage/${this.getUserId()}`
+        );
+        this._qs(
+          "#profile-picture"
+        ).innerHTML = `<img id="profile-picture-image"
+                src="${
+                  res.data.image != ""
+                    ? res.data.image
+                    : "/assets/img/alt/no-mage.png"
+                }" 
+                alt="Profile picture"
+                />`;
+      } else
+        this._qs(
+          "#profile-picture"
+        ).innerHTML = `<img id="profile-picture-image"
+      src="${localStorage.profilePiture}" 
+      alt="Profile picture"
+      />`;
     } catch (err) {
       console.log(err);
     }
@@ -108,10 +120,7 @@ export default class Comment extends Base {
   //get comments
   async getComments() {
     try {
-      const res = await axios.post(`${this.host}/feedback/get/all`, {
-        ...this.authData(),
-        propertyId: this.getParam("id"),
-      });
+      const res = await axios.get(`${this.host}/feedback/get-all-comments/${this.getParam("id")}`);
 
       await import("./subcomp/comment-box.js");
       res.data.forEach((item) => {
