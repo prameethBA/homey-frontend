@@ -48,7 +48,7 @@ export default class AdvertisementSettings extends Base {
           <div class="toggle_opt">
               <label for="schedule" id="schedule-label">Schedule to post</label>
               <label class="switch">
-                  <input type="checkbox" id="schedule" >
+                  <input type="checkbox" id="schedule" checked>
                   <span class="slider round"></span>
                 </label>
           </div>

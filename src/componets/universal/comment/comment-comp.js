@@ -90,7 +90,7 @@ export default class Comment extends Base {
         if (this.isLogin() == false) throw "load-login";
         const feedback = this._qs("#feedback").value;
         const anonymous = this._qs("#comment-anonymous").checked ? 1 : 0;
-        if (feedback == "") throw "Empty comment";
+        if (feedback == "") throw {message:"Empty comment"};
         const res = await axios.post(`${this.host}/feedback/add-comment`, {
           ...this.authData(),
           propertyId: this.getParam("id"),

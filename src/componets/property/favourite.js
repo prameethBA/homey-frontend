@@ -45,7 +45,7 @@ export default class Favourite extends Base {
         try {
             import('./subcomp/property-view.js')
             const res = await axios.post(
-                `${this.host}/property/favourite/getAll`,
+                `${this.host}/property/get-all-favourites`,
                 {
                     ...this.authData()
                 }

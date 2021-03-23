@@ -143,7 +143,7 @@ export default class AddNewProperty extends Base {
   //validate Mobile
   async validateMobile() {
     this.wait(".container");
-    const res = await axios.post(`${this.host}/profile/validate/mobile`, {
+    const res = await axios.post(`${this.host}/profile/validate-mobile`, {
       ...this.authData(),
     });
     if (res.data.action == "false") {
@@ -172,8 +172,8 @@ export default class AddNewProperty extends Base {
   // API call for get Districts
   async getDistricts() {
     try {
-      const res = await axios.get(`${this.host}/district`);
-      res.data.data.forEach(
+      const res = await axios.get(`${this.host}/district/all`);
+      res.data.forEach(
         (element) =>
           (this._qs(
             "#district"
@@ -187,7 +187,7 @@ export default class AddNewProperty extends Base {
   // API call for get RentalPeriod
   async getRentalPeriod() {
     try {
-      const res = await axios.get(`${this.host}/rental-period`);
+      const res = await axios.get(`${this.host}/rental-period/all`);
       res.data.forEach(
         (element) =>
           (this._qs(
@@ -202,8 +202,8 @@ export default class AddNewProperty extends Base {
   // API call for get property types
   async getPropertytypes() {
     try {
-      const res = await axios.get(`${this.host}/property-type`);
-      res.data.data.forEach(
+      const res = await axios.get(`${this.host}/property-type/all`);
+      res.data.forEach(
         (element) =>
           (this._qs(
             "#propertyType"
@@ -228,16 +228,16 @@ export default class AddNewProperty extends Base {
   async getNearestCity(location) {
     try {
       const res = await axios.post(
-        `${this.host}/cities/nearest-city`,
+        `${this.host}/cities/get-nearest-city`,
         location
       );
-
       this._qs("#city-list").innerHTML = "";
-      let index = 0;
-      res.data.forEach((item) => {
+      res.data.forEach((item, index) => {
         this._qs("#city-list").innerHTML += `<option value="${item.city}" />`;
-        if (index == 0) this._qs("#city").value = item.city;
-        index++;
+        if (index == 0) {
+          this._qs("#city").value = item.city;
+          this.popup(`Nearest city is <b>${item.city}</b>`, "info", 5);
+        }
       });
       this._qs("#district").value = res.data[0].district;
     } catch (err) {
@@ -250,10 +250,10 @@ export default class AddNewProperty extends Base {
     // API call for get Facilities List
     try {
       await import("./subcomp/facility.js");
-      const res = await axios.get(`${this.host}/facility`);
+      const res = await axios.get(`${this.host}/facility/all`);
 
       if (res.status == "200") {
-        res.data.data.forEach((element) => {
+        res.data.forEach((element) => {
           if (element.measurable == 1) {
             this._qs("#facilities-measurable").innerHTML += `
                         <facility-comp 
@@ -568,11 +568,11 @@ export default class AddNewProperty extends Base {
 
   //post the Advertisement
   postAdvertisement(data) {
-    addEventListener("post-advertisement", async () => {
+    addEventListener("post-advertisement", () => {
       try {
         this._qs("#progress").style.display = "flex";
         // Api call to add Advertisement to the databsse
-        const res = await axios.post(
+        axios.post(
           `${this.host}/property/add-new`,
           {
             ...data,
@@ -594,15 +594,17 @@ export default class AddNewProperty extends Base {
               }
             },
           }
-        );
+        ).then(async res => {
+          if (res.status == 201) {
         // Popup for enable add fetures
-        if (res.status == 201) {
-          this.popup(res.data.message, "success");
-          await import("./subcomp/advertisement-settings.js");
-          this._qs(
-            ".popup"
-          ).innerHTML = `<advertisement-settings data-key="${res.data.propertyId}"></advertisement-settings>`;
-        } else throw res.data;
+            this.popup(res.data.message, "success");
+            await import("./subcomp/advertisement-settings.js");
+            this._qs(
+              ".popup"
+            ).innerHTML = `<advertisement-settings data-key="${res.data.propertyId}"></advertisement-settings>`;
+          } else throw res.data;
+        })
+        
       } catch (err) {
         this.popup(err.message, "error", 10);
       } //End of the catch for try

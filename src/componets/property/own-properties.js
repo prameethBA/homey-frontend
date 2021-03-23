@@ -48,7 +48,7 @@ export default class OwnProperties extends Base {
     this.wait(".content");
     try {
       import("./subcomp/property-view.js");
-      const res = await axios.post(`${this.host}/property/get/own`, {
+      const res = await axios.post(`${this.host}/property/get-own`, {
         ...this.authData(),
       });
 
