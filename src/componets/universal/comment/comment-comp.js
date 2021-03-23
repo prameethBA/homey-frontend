@@ -124,6 +124,13 @@ export default class Comment extends Base {
     }
   } //End of getComments()
 
+   //Exit with Escape key
+   exitWithEscape() {
+    addEventListener("keyup", ({ key }) =>
+      key === "Escape" ? this._qs(".backdrop").style.display = "none" : null
+    );
+  } // End of exitWithEscape()
+
   connectedCallback() {
     this._qs("#close").addEventListener(
       "click",
@@ -138,6 +145,8 @@ export default class Comment extends Base {
 
     //add new comment
     this.addNewComment();
+    // Exit with escape key
+    this.exitWithEscape();
   } //End of connectedCallback
 } //End of class
 
