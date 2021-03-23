@@ -217,7 +217,7 @@ export default class Profile extends Base {
     async getProfileInfo() {
         this.setLoader()
         await axios
-            .post(`${this.host}/profile/info`, {
+            .post(`${this.host}/profile/get-info`, {
                 userId: this.getUserId(),
                 token: this.getToken()
             })
