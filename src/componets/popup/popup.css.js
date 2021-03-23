@@ -26,7 +26,7 @@ export default CSS = `
 
 .oninfo {
   background-color: lightblue;
-  background-image: linear-gradient(to right top, #8e2de2, #8023e1, #7119e1, #600de0, #4a00e0);
+  background-image: linear-gradient(to right top, #1e3c72, #21417b, #244785, #274c8e, #2a5298);
 }
 
 ::slotted(div) {
