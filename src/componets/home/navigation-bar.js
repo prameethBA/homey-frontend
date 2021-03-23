@@ -432,16 +432,8 @@ export default class Nav extends Base {
                 })
                 .catch(err => {
                     this.stopLoader()
-                    dispatchEvent(
-                        new CustomEvent('pop-up', {
-                            detail: {
-                                pop: 'error',
-                                msg: err.message,
-                                duration:
-                                    err.duration == undefined ? 3 : err.duration
-                            }
-                        })
-                    )
+                    
+                    this.popup(err.message, 'error', 3)
                 })
         })
     }

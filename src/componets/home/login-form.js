@@ -174,15 +174,7 @@ export default class LoginForm extends Base {
               sessionStorage.userId = "";
               sessionStorage.token = "";
 
-              dispatchEvent(
-                new CustomEvent("pop-up", {
-                  detail: {
-                    pop: "error",
-                    msg: res.data.message,
-                    duration: 5,
-                  },
-                })
-              );
+              this.popup(res.data.message, "error", 5);
             }
             this.stopLoader();
           })
@@ -194,11 +186,7 @@ export default class LoginForm extends Base {
             sessionStorage.userId = "";
             sessionStorage.token = "";
 
-            dispatchEvent(
-              new CustomEvent("pop-up", {
-                detail: { pop: "error", msg: err.message },
-              })
-            );
+            this.popup(err.message, "error");
             this.stopLoader();
           }); //End of Login API call
       }; // End of login()
@@ -210,25 +198,17 @@ export default class LoginForm extends Base {
 
       // Login with Google
       this._qs(".google").addEventListener("click", async () => {
-        dispatchEvent(
-          new CustomEvent("pop-up", {
-            detail: {
-              pop: "notice",
-              msg: "Feature disabled at the moment. Use email instead.",
-            },
-          })
+        this.popup(
+          "Feature disabled at the moment. Use email instead.",
+          "notice"
         );
       });
 
       // Login with FaceBook
       this._qs(".facebook").addEventListener("click", async () => {
-        dispatchEvent(
-          new CustomEvent("pop-up", {
-            detail: {
-              pop: "notice",
-              msg: "Feature disabled at the moment. Use email instead.",
-            },
-          })
+        this.popup(
+          "Feature disabled at the moment. Use email instead.",
+          "notice"
         );
       });
     } catch (err) {

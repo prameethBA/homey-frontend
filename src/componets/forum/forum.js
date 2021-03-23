@@ -1,11 +1,11 @@
-import Base from '../Base.js'
-import CSS from './forum.css.js'
-import './forum-post.js'
+import Base from "../Base.js";
+import CSS from "./forum.css.js";
+import "./forum-post.js";
 
 export default class Forum extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
         <div class="heading">
                 <h1>HOMEY.LK Forum</h1>
         </div>
@@ -38,41 +38,33 @@ export default class Forum extends Base {
             </div>
             
         </div>
-`
-    constructor() {
-        super()
-        this.mount()
-    } //End of constructor
+`;
+  constructor() {
+    super();
+    this.mount();
+  } //End of constructor
 
-     createPost(){
-        this._qs("#create-post").addEventListener("click",async()=>{
-            this.setLoader()
-            await import('./create-post.js')
-                .then(() => {
-                    this._qs('#create-post-box').innerHTML = `
+  createPost() {
+    this._qs("#create-post").addEventListener("click", async () => {
+      this.setLoader();
+      await import("./create-post.js")
+        .then(() => {
+          this._qs("#create-post-box").innerHTML = `
                         <create-post>
-                        </create-post>`
-                    this.stopLoader()
-                })
-                .catch(err => {
-                    this.stopLoader()
-                    dispatchEvent(
-                        new CustomEvent('pop-up', {
-                            detail: {
-                                pop: 'error',
-                                msg: err.message,
-                                duration:
-                                    err.duration == undefined ? 3 : err.duration
-                            }
-                        })
-                    )
-                })
+                        </create-post>`;
+          this.stopLoader();
         })
-    }
+        .catch((err) => {
+          this.stopLoader();
 
-    connectedCallback() {
-        this.createPost();
-    } //End of connectedCallback()
+          this.popup(err.message, "error", 3);
+        });
+    });
+  }
+
+  connectedCallback() {
+    this.createPost();
+  } //End of connectedCallback()
 } //End of class
 
-window.customElements.define('forum-comp', Forum)
+window.customElements.define("forum-comp", Forum);
