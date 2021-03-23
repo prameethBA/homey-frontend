@@ -232,7 +232,7 @@ export default class AvalibaleProperty extends Base {
   // API call for get Districts
   async getDistricts() {
     try {
-      const res = await axios.get(`${this.host}/district`);
+      const res = await axios.get(`${this.host}/district/all`);
       res.data.data.forEach(
         (element) =>
           (this._qs(
@@ -256,7 +256,7 @@ export default class AvalibaleProperty extends Base {
         await this.sleep(101);
         // API call for get Districts
         const res = await axios.get(
-          `${this.host}/cities/districtId/${this._qs(".district").value}`
+          `${this.host}/cities/get-district/${this._qs(".district").value}`
         );
         this._qs(".city").innerHTML = "";
         if (res.status == "200")
@@ -276,8 +276,8 @@ export default class AvalibaleProperty extends Base {
   // API call for get property types
   async getPropertytypes() {
     try {
-      const res = await axios.get(`${this.host}/property-type`);
-      res.data.data.forEach(
+      const res = await axios.get(`${this.host}/property-type/all`);
+      res.data.forEach(
         (element) =>
           (this._qs(
             ".property-type"
