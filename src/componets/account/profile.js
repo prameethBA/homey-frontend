@@ -609,13 +609,12 @@ export default class Profile extends Base {
           this.setLoader();
           const data = {
             ...this.authData(),
-            email: this._qs("#email").value,
             old: this._qs("#currentPassword").value,
             new: this._qs("#newPassword").value,
           };
 
           await axios
-            .patch(`${this.host}/login/change-password`, data)
+            .put(`${this.host}/login/change-password`, data)
             .then((res) => {
               if (res.status == 201)
                 this.popup(res.data.message, "success", 20);
