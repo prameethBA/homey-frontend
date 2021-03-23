@@ -132,13 +132,7 @@ export default class PropertyDetails extends Base {
           `)
         );
       })
-      .catch((err) =>
-        dispatchEvent(
-          new CustomEvent("pop-up", {
-            detail: { pop: "error", msg: err },
-          })
-        )
-      );
+      .catch((err) => this.popup(err, "error"));
   } //End of loadFetureList()
 
   // load map view
@@ -151,13 +145,7 @@ export default class PropertyDetails extends Base {
           JSON.stringify({ lat: 7.8, lng: 80.4 })
         )}"></map-view>`;
       })
-      .catch((err) =>
-        dispatchEvent(
-          new CustomEvent("pop-up", {
-            detail: { pop: "error", msg: err },
-          })
-        )
-      );
+      .catch((err) => this.popup(err, "error"));
   } //End of mapView()
 
   //Load map view
@@ -228,15 +216,7 @@ export default class PropertyDetails extends Base {
         ).innerHTML = `<reserve-comp id="${this.state.id}"></reserve-comp>`;
       })
       .catch((err) => {
-        dispatchEvent(
-          new CustomEvent("pop-up", {
-            detail: {
-              pop: "error",
-              msg: err.message,
-              duration: err.duration == undefined ? 10 : err.duration,
-            },
-          })
-        );
+        this.popup(err.message, "error", 10);
       });
   } //End of reserve()
 
@@ -255,15 +235,7 @@ export default class PropertyDetails extends Base {
                 ></comment-comp>`;
       })
       .catch((err) => {
-        dispatchEvent(
-          new CustomEvent("pop-up", {
-            detail: {
-              pop: "error",
-              msg: err.message,
-              duration: err.duration == undefined ? 10 : err.duration,
-            },
-          })
-        );
+        this.popup(err.message, "error", 10);
       });
   } //End of comment()
 
@@ -297,87 +269,68 @@ export default class PropertyDetails extends Base {
         this.stopLoader();
       } catch (err) {
         this.stopLoader();
-        dispatchEvent(
-          new CustomEvent("pop-up", {
-            detail: {
-              pop: "error",
-              msg: err.message,
-              duration: err.duration == undefined ? 3 : err.duration,
-            },
-          })
-        );
+
+        this.popup(err.message, "error", 3);
       }
     });
   } // End of sharePost
 
-
-//addFavourite
-async addFavourite(action) {
+  //addFavourite
+  async addFavourite(action) {
     try {
-        const res = await axios.post(
-            `${this.host}/property/favourite/${action}`,
-            {
-                ...this.authData(),
-                propertyId: this.getParam('id')
-            }
-        )
-        if (res.data.status == '204') {
-            if (action == 'add')
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'info', msg: res.data.message }
-                    })
-                )
-            else
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: { pop: 'error', msg: res.data.message }
-                    })
-                )
-        } else throw res.data
-    } catch (err) {
-        console.log(err)
-    }
-} //End of addFavourite()
-
-//listen for addFavourite
-listenAddFavourite() {
-    this._qs('.favourite').addEventListener('click', async () => {
-        this.wait('.favourite')
-        if (this._qs('.favourite').dataset.data == 'add') {
-            await this.addFavourite('add')
-            this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
-            this._qs('.favourite').title = 'Remove from favourite'
-            this._qs('.favourite').dataset.data = 'remove'
-        } else {
-            await this.addFavourite('remove')
-            this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>'
-            this._qs('.favourite').title = 'Add to favourite'
-            this._qs('.favourite').dataset.data = 'add'
+      const res = await axios.post(
+        `${this.host}/property/favourite/${action}`,
+        {
+          ...this.authData(),
+          propertyId: this.getParam("id"),
         }
-    })
-} //End of listenaddFavourite()
+      );
+      if (res.data.status == "204") {
+        if (action == "add") this.popup(res.data.message, "info");
+        else this.popup(res.data.message, "error");
+      } else throw res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  } //End of addFavourite()
 
-//getFavourite
-async getFavourite() {
+  //listen for addFavourite
+  listenAddFavourite() {
+    this._qs(".favourite").addEventListener("click", async () => {
+      this.wait(".favourite");
+      if (this._qs(".favourite").dataset.data == "add") {
+        await this.addFavourite("add");
+        this._qs(".favourite").innerHTML =
+          '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>';
+        this._qs(".favourite").title = "Remove from favourite";
+        this._qs(".favourite").dataset.data = "remove";
+      } else {
+        await this.addFavourite("remove");
+        this._qs(".favourite").innerHTML =
+          '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>';
+        this._qs(".favourite").title = "Add to favourite";
+        this._qs(".favourite").dataset.data = "add";
+      }
+    });
+  } //End of listenaddFavourite()
+
+  //getFavourite
+  async getFavourite() {
     try {
-        const res = await axios.post(
-            `${this.host}/property/favourite/get`,
-            {
-                ...this.authData(),
-                propertyId: this.getParam('id')
-            }
-        )
-        if (res.data.action == '1') {
-            this._qs('.favourite').innerHTML = '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>'
-            this._qs('.favourite').title = 'Remove from favourite'
-            this._qs('.favourite').dataset.data = 'remove'
-        }
+      const res = await axios.post(`${this.host}/property/favourite/get`, {
+        ...this.authData(),
+        propertyId: this.getParam("id"),
+      });
+      if (res.data.action == "1") {
+        this._qs(".favourite").innerHTML =
+          '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>';
+        this._qs(".favourite").title = "Remove from favourite";
+        this._qs(".favourite").dataset.data = "remove";
+      }
     } catch (err) {
-        console.log(err)
+      console.log(err);
     }
-} //End of getFavourite()
-
+  } //End of getFavourite()
 
   async connectedCallback() {
     //load property
@@ -394,8 +347,6 @@ async getFavourite() {
     //Shate post
     this.sharePost();
     this.listenAddFavourite();
-
-
   } //End of connectedCallback()
 } //End of the class
 
