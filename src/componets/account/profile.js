@@ -292,8 +292,7 @@ export default class Profile extends Base {
           this.wait(".yes-profile");
 
           const data = {
-            userId: this.getUserId(),
-            token: this.getToken(),
+            ...this.authData(),
             firstName: this._qs("#firstName").value,
             lastName: this._qs("#lastName").value,
             email: this._qs("#email").value,
@@ -310,7 +309,7 @@ export default class Profile extends Base {
           };
 
           await axios
-            .post(`${this.host}/profile/update`, data)
+            .post(`${this.host}/profile/update-profile`, data)
             .then((res) => {
               if (res.status == 201) this.popup(res.data.message, "success", 5);
               else throw res.data;
@@ -609,15 +608,14 @@ export default class Profile extends Base {
         this._qs(".yes-password").addEventListener("click", async () => {
           this.setLoader();
           const data = {
-            userId: this.getUserId(),
-            token: this.getToken(),
+            ...this.authData(),
             email: this._qs("#email").value,
             old: this._qs("#currentPassword").value,
             new: this._qs("#newPassword").value,
           };
 
           await axios
-            .patch(`${this.host}/login/password`, data)
+            .patch(`${this.host}/login/change-password`, data)
             .then((res) => {
               if (res.status == 201)
                 this.popup(res.data.message, "success", 20);
