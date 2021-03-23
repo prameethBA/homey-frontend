@@ -73,5 +73,12 @@ button:hover{
 .heading{
   font-size:1.5em;
 }
+@media(max-Width:1000px){
+
+  .block {
+    display: flex;
+    flex-direction: column;
+  }
+} 
 
 `

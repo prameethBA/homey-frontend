@@ -166,6 +166,14 @@ button {
 .danger:hover {
     box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
 }
+@media(max-Width:550px){
+    .container {
+        overflow-x: initial;
+    }
+    
+    
+
+}
 
 
 `
