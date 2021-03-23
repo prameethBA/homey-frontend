@@ -63,7 +63,8 @@ export default class Reserve extends Base {
     this.wait(".reserve-button");
 
     try {
-      const res = await axios.post(`${this.host}/property-update/add`, {
+      if (this.isLogin() == false) throw "load-login";
+      const res = await axios.post(`${this.host}/property-update/add-status`, {
         ...this.authData(),
         propertyId: this.getParam("id"),
       });
@@ -84,7 +85,11 @@ export default class Reserve extends Base {
         }`;
       }
     } catch (err) {
-      console.log(err);
+      if (err == "load-login") {
+        dispatchEvent(new Event("load-login-form"));
+        this.popup("Login in to Reserve the property", "info");
+      }
+      this.popup(err.message, "error");
     }
 
     this.unwait(".reserve-button");
@@ -95,7 +100,7 @@ export default class Reserve extends Base {
     this._qs("#close-popup").addEventListener("click", async () => {
       this.exitDock();
       try {
-        const res = await axios.post(`${this.host}/property-update/remove`, {
+        const res = await axios.post(`${this.host}/property-update/remove-status`, {
           ...this.authData(),
           propertyId: this.getParam("id"),
         });
@@ -109,6 +114,7 @@ export default class Reserve extends Base {
 
   // Exit the dock
   exitDock() {
+    console.log('asasas')
     this._qs(".backdrop").style.opacity = "0";
     this._qs(".backdrop").style.pointerEvents = "none";
   } // End of exitDock()
@@ -120,11 +126,11 @@ export default class Reserve extends Base {
     );
   } // End of exitWithEscape()
 
-  startPayment(payment, loadComp, popup) {
+  startPayment(payment, loadComp, popup,exitDock) {
     // Called when user completed the payment. It can be a successful payment or failure
     payhere.onCompleted = function onCompleted(orderId) {
       popup("Property reserved. wait for the confirmation from the property owner", "success");
-
+      exitDock();
       loadComp(
         "/reserved-properties",
         "/property/reserved-properties",
@@ -137,12 +143,15 @@ export default class Reserve extends Base {
     // Called when user closes the payment without completing
     payhere.onDismissed = function onDismissed() {
       popup("Reserving process dismissed.", "info");
+      exitDock();
     };
 
     // Called when error happens when initializing payment such as invalid parameters
     payhere.onError = function onError(error) {
       popup(error , "error");
+      exitDock();
     };
+
 
     payhere.startPayment(payment);
   } //End of startPayment
@@ -156,7 +165,7 @@ export default class Reserve extends Base {
         propertyId: this.getParam("id"),
         amount: +this.state.fee + +this.state.subTotal,
       });
-
+      
       if (res.status == 200) {
         // Put the payment variables here
         const payment = {
@@ -183,7 +192,7 @@ export default class Reserve extends Base {
           custom_2: "reserve",
         };
         this.unwait(".reserve-button");
-        this.startPayment(payment, this.loadComp, this.popup);
+        this.startPayment(payment, this.loadComp, this.popup,this.exitDock);
       } else throw res.data;
     } catch (err) {
       this.popup(err, "error");

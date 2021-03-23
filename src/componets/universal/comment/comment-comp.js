@@ -87,10 +87,11 @@ export default class Comment extends Base {
   addNewComment() {
     this._qs("#submit").addEventListener("click", async () => {
       try {
+        if (this.isLogin() == false) throw "load-login";
         const feedback = this._qs("#feedback").value;
         const anonymous = this._qs("#comment-anonymous").checked ? 1 : 0;
         if (feedback == "") throw "Empty comment";
-        const res = await axios.post(`${this.host}/feedback/add`, {
+        const res = await axios.post(`${this.host}/feedback/add-comment`, {
           ...this.authData(),
           propertyId: this.getParam("id"),
           feedback: feedback,
@@ -112,7 +113,11 @@ export default class Comment extends Base {
           this._qs("#feedback").value = "";
         } else throw res.data;
       } catch (err) {
-        console.log(err);
+        if (err == "load-login") {
+          dispatchEvent(new Event("load-login-form"));
+          this.popup("Login in to add a comment", "info");
+        }
+        this.popup(err.message, "error");
       }
     });
   } //End of addNewComment()
@@ -120,7 +125,9 @@ export default class Comment extends Base {
   //get comments
   async getComments() {
     try {
-      const res = await axios.get(`${this.host}/feedback/get-all-comments/${this.getParam("id")}`);
+      const res = await axios.get(
+        `${this.host}/feedback/get-all-comments/${this.getParam("id")}`
+      );
 
       await import("./subcomp/comment-box.js");
       res.data.forEach((item) => {

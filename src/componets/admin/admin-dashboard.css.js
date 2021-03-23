@@ -127,6 +127,22 @@ export default CSS = `
     .list-hover-slide a.is-current:before, .list-hover-slide a:hover:before {
         left: 0;
     }
+    @media(max-Width:550px){
+        .container {
+            position: initial;
+            overflow: initial;
+            position: relative;
+            width: unset;
+            overflow-x: initial;
+        }
+        #content {
+            margin:0;
+        }
+        #breadcrumb {
+            margin-top: 6rem;
+        }
+    }
+
 
     
 `
