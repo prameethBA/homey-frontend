@@ -217,7 +217,7 @@ export default class Profile extends Base {
   async getProfileInfo() {
     this.setLoader();
     await axios
-      .post(`${this.host}/profile/info`, {
+      .post(`${this.host}/profile/get-info`, {
         userId: this.getUserId(),
         token: this.getToken(),
       })
@@ -501,7 +501,7 @@ export default class Profile extends Base {
   //getprofilePicture
   async getprofilePicture() {
     await axios
-      .post(`${this.host}/images/profile/get`, {
+      .post(`${this.host}/images/get-profile-image`, {
         userId: this.getUserId(),
         token: this.getToken(),
       })
@@ -540,7 +540,7 @@ export default class Profile extends Base {
       this._qs(".progress").style.display = "block";
 
       axios
-        .post(`${this.host}/images/profile/save`, data, {
+        .post(`${this.host}/images/profile-save`, data, {
           onUploadProgress: (progressEvent) => {
             const { loaded, total } = progressEvent;
             let percent = Math.floor((loaded * 100) / total);
