@@ -284,7 +284,7 @@ export default class PropertyDetails extends Base {
         return true
       } else throw res.data;
     } catch (err) {
-      this.popup(err.message, "error");
+      this.popup(err.message, "error")
       return false
     }
   } //End of addFavourite()
@@ -316,6 +316,9 @@ export default class PropertyDetails extends Base {
   //getFavourite
   async getFavourite() {
     try {
+      if(!this.isLogin()) {
+        this._qs(".favourite").innerHTML = ''
+      }
       const res = await axios.post(`${this.host}/property/get-favourite-status`, {
         ...this.authData(),
         propertyId: this.getParam("id"),
@@ -330,7 +333,7 @@ export default class PropertyDetails extends Base {
         this._qs(".favourite").dataset.data = "add";
       }
     } catch (err) {
-      console.log(err);
+      this.popup(err.message, "error")
     }
   } //End of getFavourite()
 

@@ -386,21 +386,24 @@ export default class PropertyView extends Base {
   //getFavourite
   async getFavourite() {
     try {
-      const res = await axios.post(
-        `${this.host}/property/get-favourite-status`,
-        {
-          ...this.authData(),
-          propertyId: this.getParam("id"),
-        }
-      );
-      if (res.data.action == "1") {
+      if(!this.isLogin()) {
+        this._qs(".favourite").innerHTML = ''
+      }
+      const res = await axios.post(`${this.host}/property/get-favourite-status`, {
+        ...this.authData(),
+        propertyId: this.getParam("id"),
+      });
+      if (res.data.action == "1") { 
         this._qs(".favourite").innerHTML =
           '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>';
         this._qs(".favourite").title = "Remove from favourite";
         this._qs(".favourite").dataset.data = "remove";
+      } else {
+        this._qs(".favourite").title = "Add to favourite";
+        this._qs(".favourite").dataset.data = "add";
       }
     } catch (err) {
-      console.log(err);
+      this.popup(err.message, "error")
     }
   } //End of getFavourite()
 
