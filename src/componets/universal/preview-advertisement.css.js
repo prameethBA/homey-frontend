@@ -30,6 +30,7 @@ export default CSS = `
     position: absolute;
     top: 1rem;
     margin: 1rem;
+    transition: all 0.5s ease-in-out;
 }
 
 #close-popup {
