@@ -24,6 +24,10 @@ const search = `
         font-size: 2rem;
         cursor: pointer;
     }
+
+    form {
+        display: inline;
+    }
 `
 
 const filter = `
@@ -96,7 +100,7 @@ const filter = `
         margin-bottom: 1rem;
     }
 
-    select, button {
+    select, .search-button {
         position: relative;
         height: 2rem;
         border-radius: 1rem;
@@ -112,7 +116,7 @@ const filter = `
         flex: 1;
     }
 
-    select:hover, button:hover{
+    select:hover, .search-button:hover{
         background-position: right;
         color: black;
     }

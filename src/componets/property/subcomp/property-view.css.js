@@ -234,4 +234,18 @@ export default CSS = `
         margin: auto 1rem;
     }
 
+    .type-card {
+        background-color: #001f3f;
+        color: white;
+        padding: 0.4rem;
+        margin: 0.2rem;
+        border-radius: 1rem;
+    }
+
+    .type {
+        display: flex;
+        width: 100%;
+        justify-content: end;
+    }
+
     `
