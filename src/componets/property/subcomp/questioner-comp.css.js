@@ -93,5 +93,13 @@ export default CSS = `
         color: #000000;
         box-shadow: 0 0 20px -5px;
     }
+    @media(max-Width: 800px){
+        .title {
+            margin: 0em 3em 0em 4em; 
+        }
+        .buttons {
+            width: 70%;
+        }
+      }
 
 `
