@@ -660,6 +660,46 @@ export default class Profile extends Base {
     });
   } //End of toggleCollapse()
 
+
+
+  
+  //Delete Account
+  deleteAccount() {
+    this._qs("#remove").addEventListener("click", async () => {
+          const data = {
+            ...this.authData(),
+          };
+
+          await axios
+            .put(`${this.host}/login/change-password`, data)
+            .then((res) => {
+              if (res.status == 201)
+                this.popup(res.data.message, "success", 20);
+              else throw res.data;
+
+              this.stopLoader();
+              this._qs(".popup").style.display = "none";
+            })
+            .catch((err) => {
+              this.popup(err.message, "error", 10);
+              this.stopLoader();
+              this._qs(".popup").style.display = "none";
+            });
+        });
+
+        this._qs(".no-password").addEventListener(
+          "click",
+          () => (this._qs(".popup").style.display = "none")
+        );
+      } else
+        this.popup(
+          "Please input valid password to update Password",
+          "error",
+          5
+        );
+    });
+  } //End of updatePassword()
+
   connectedCallback() {
     axios
       .get(
