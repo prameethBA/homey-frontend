@@ -2,13 +2,13 @@ export default CSS = `
 .container {
   z-index: 1000;
   position: fixed;
-  bottom:0;
+  top: 9em;
   right: -100%;
   background-color: red;
-  background-image: linear-gradient(to right top, #eb5d5d, #e85b5b, #e45958, #e15656, #de5454);
-  width: 30%;
-  height:10%;
-  border-radius: 3px;
+  background-image: linear-gradient(to right top, #f73d4d, #e3343c, #cf2b2c, #bb221c, #a71a0b);
+  width: 25rem;
+  height: 5rem;
+  border-radius: 5px;
   margin-bottom:6%;
   margin-top:auto;
   transition: all 1s ease-in-out;
@@ -16,47 +16,54 @@ export default CSS = `
 
 .onsuccess {
   background-color: green;
-  background-image: linear-gradient(to right top, #24da37, #31de4a, #3ce35a, #47e769, #51eb77);
+  background-image: linear-gradient(to right top, #00d86f, #00cc5a, #02bf43, #06b32a, #09a702);
 }
 
 .onnotice {
   background-color: gray;
-  background-image: linear-gradient(to right top, #b2b2b2, #9c9b9c, #878586, #737071, #605b5b);
+  background-image: linear-gradient(to right top, #626262, #818181, #a1a1a1, #c2c2c3, #e4e5e5);
 }
 
 .oninfo {
   background-color: lightblue;
-  background-image: linear-gradient(to right top, #0066ff, #0076ff, #0084ff, #0091ff, #009dff);
+  background-image: linear-gradient(to right top, #1e3c72, #21417b, #244785, #274c8e, #2a5298);
 }
 
 ::slotted(div) {
     padding: 0.2rem;
     text-align: center;
     color: #eeeeee;
+    padding: 0.5rem 0.2rem 1.2rem 0.2rem;
 }
 
 #close-popup {
   color: #eeeeee;
   display: inline-block;
-  font-size: 5rem;
-  transform: rotate(90deg);
   position: absolute;
-  right: 0.2rem;
-  bottom: -2rem;
+  right: 0.1rem;
+  top: 0rem;
   cursor: pointer;
+}
+.close-img{
+  size:smaller;
 }
 
 .title {
-    margin: 1em 0.5em;
+    margin:0em 0em 0em 9em;
     color: #ffffff;
     font-weight: bold;
+    font-size: larger;
+    
+
 }
 
 .loading {
   width: 0;
   padding: 0;
-  margin: 0 0 0.2rem 0;
+  margin: 0 0 0.4rem 0;
   transition: width 0.1s ease;
+  border: 3px solid white;
+  border-radius: 1px;
 }
 
 `
