@@ -19,19 +19,19 @@ export default class AvalibaleProperty extends Base {
             <dir></dir>
             <div class="column filter-items">
                 <div class="row filter-item">
-                    <input id="home" type="checkbox" />
+                    <input class="browse" id="home" type="checkbox" />
                     <label for="home">Home</label>
                 </div>
                 <div class="row filter-item">
-                    <input id="appartment" type="checkbox" />
+                    <input class="browse" id="appartment" type="checkbox" />
                     <label for="appartment">Appartment</label>
                 </div>
                 <div class="row filter-item">
-                    <input id="annex" type="checkbox" />
+                    <input class="browse" id="annex" type="checkbox" />
                     <label for="annex">Annex</label>
                 </div>
                 <div class="row filter-item">
-                    <input id="building" type="checkbox" />
+                    <input class="browse" id="building" type="checkbox" />
                     <label for="building">Building</label>
                 </div>
             </div>
@@ -42,15 +42,15 @@ export default class AvalibaleProperty extends Base {
             <dir></dir>
             <div class="column filter-items">
                 <div class="row filter-item">
-                    <input id="now" type="checkbox" />
+                    <input class="availability" id="now" type="checkbox" />
                     <label for="now">Available now</label>
                 </div>
                 <div class="row filter-item">
-                    <input id="later" type="checkbox" />
+                    <input class="availability" id="later" type="checkbox" />
                     <label for="later">Available later</label>
                 </div>
                 <div class="row filter-item">
-                    <input id="sharing" type="checkbox" />
+                    <input class="availability" id="sharing" type="checkbox" />
                     <label for="sharing">Available sharing</label>
                 </div>
             </div>	
@@ -61,19 +61,19 @@ export default class AvalibaleProperty extends Base {
             <dir></dir>
             <div class="column filter-items">
                 <div class="row filter-item">
-                    <input id="daily" type="checkbox" />
+                    <input class="rental" id="daily" type="checkbox" />
                     <label for="daily">Daily</label>
                 </div>
                 <div class="row filter-item">
-                    <input id="weekly" type="checkbox" />
+                    <input class="rental" id="weekly" type="checkbox" />
                     <label for="weekly">Weekly</label>
                 </div>
                 <div class="row filter-item">
-                    <input id="monthly" type="checkbox" />
+                    <input class="rental" id="monthly" type="checkbox" />
                     <label for="monthly">Monthly</label>
                 </div>
                 <div class="row filter-item">
-                    <input id="yearly" type="checkbox" />
+                    <input class="rental" id="yearly" type="checkbox" />
                     <label for="yearly">Yearly</label>
                 </div>
             </div>
@@ -84,7 +84,7 @@ export default class AvalibaleProperty extends Base {
 				<dir></dir>
                 <div class="column filter-items">
                     <div class="row price">
-                        <input type="text" placeholder="100"> 
+                        <input class="price" type="text" placeholder="100"> 
                         <span> to </span>  
                         <input type="text" placeholder="1000">
                     </div>
@@ -96,7 +96,7 @@ export default class AvalibaleProperty extends Base {
 				<dir></dir>
 				<div class="column filter-items">
                     <div class="row price">
-                        <input type="text" placeholder="100"> 
+                        <input class="keyMoney" type="text" placeholder="100"> 
                         <span> to </span>  
                         <input type="text" placeholder="1000">
                     </div>
