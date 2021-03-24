@@ -98,9 +98,20 @@ export default class CreatePost extends Base {
       });
 
       if (res.data.action == "true") {
+        dispatchEvent(
+          new CustomEvent("new-post-added", {
+            detail: {
+              title: this._qs("#title").value,
+              content: this._qs("#content").value,
+              user_id: this.getUserId(),
+              _id: "",
+              created: "just now",
+            },
+          })
+        );
         this.popup(res.data.message, "success");
       } else {
-        this.popup("Failed to lodge the complaint", "error");
+        this.popup(res.data.message, "error");
       }
     } catch (err) {
       console.log(err);
