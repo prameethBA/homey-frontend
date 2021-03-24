@@ -601,7 +601,7 @@ export default class AddNewProperty extends Base {
             await import("./subcomp/advertisement-settings.js");
             this._qs(
               ".popup"
-            ).innerHTML = `<advertisement-settings data-key="${res.data.propertyId}"></advertisement-settings>`;
+            ).innerHTML = `<advertisement-settings data-key="${res.data.propertyId}" data-available="${data.availableFrom}"></advertisement-settings>`;
           } else throw res.data;
         })
         
