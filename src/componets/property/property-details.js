@@ -281,9 +281,11 @@ export default class PropertyDetails extends Base {
       if (res.data.status == "204") {
         if (action == 'add') this.popup(res.data.message, "success");
         else this.popup(res.data.message, "info");
+        return true
       } else throw res.data;
     } catch (err) {
-      console.log(err);
+      this.popup(err.message, "error");
+      return false
     }
   } //End of addFavourite()
 
@@ -292,17 +294,21 @@ export default class PropertyDetails extends Base {
     this._qs(".favourite").addEventListener("click", async () => {
       this.wait(".favourite");
       if (this._qs(".favourite").dataset.data == "add") {
-        await this.addFavourite("add");
-        this._qs(".favourite").innerHTML =
-          '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>';
-        this._qs(".favourite").title = "Remove from favourite";
-        this._qs(".favourite").dataset.data = "remove";
+        const res = await this.addFavourite("add");
+        if (res) {
+          this._qs(".favourite").innerHTML =
+            '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>';
+          this._qs(".favourite").title = "Remove from favourite";
+          this._qs(".favourite").dataset.data = "remove";
+        } else this.unwait(".favourite");
       } else {
-        await this.addFavourite("remove");
-        this._qs(".favourite").innerHTML =
-          '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>';
-        this._qs(".favourite").title = "Add to favourite";
-        this._qs(".favourite").dataset.data = "add";
+        const res = await this.addFavourite("remove");
+        if (res) {
+          this._qs(".favourite").innerHTML =
+            '<img src="/assets/icon/Favourite/Heart_NotFilled_24px.png"></img>';
+          this._qs(".favourite").title = "Add to favourite";
+          this._qs(".favourite").dataset.data = "add";
+        } else this.unwait(".favourite");
       }
     });
   } //End of listenaddFavourite()
