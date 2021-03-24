@@ -78,10 +78,10 @@ export default class Questioner extends Base {
   async fetchPropertyTypes() {
     // API call for get property types
     await axios
-      .get(`${this.host}/property-type`)
+      .get(`${this.host}/property-type/all`)
       .then((res) => {
         let data = "";
-        res.data.data.forEach((element) => {
+        res.data.forEach((element) => {
           data += `
                         <option value="${element.property_type_id}">${element.property_type_name}</option>
                         `;
@@ -98,7 +98,7 @@ export default class Questioner extends Base {
   async fetchCities() {
     // API call for get cities
     await axios
-      .get(`${this.host}/cities`)
+      .get(`${this.host}/cities/all`)
       .then((res) => {
         let data = "";
         res.data.forEach((city) => {
