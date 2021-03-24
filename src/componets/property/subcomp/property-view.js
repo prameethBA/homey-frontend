@@ -4,6 +4,16 @@ import CSS from "./property-view.css.js";
 export default class PropertyView extends Base {
   css = CSS;
 
+  confirmPropertyDelete = `
+  <div>
+      <div class="title">Do you really want to remove property?</div>
+      <div class="button-group">
+          <button class="yes-remove danger-button">Yes</button>
+          <button class="no-remove">No</button>
+      </div>
+  </div>
+`;
+
   options = `
     <div class="online-payment toggle-menu">
         <span>Accept Online payments</span>
@@ -89,6 +99,7 @@ export default class PropertyView extends Base {
                 <button class="more">More >></button>
             </div>
         </div>
+        <div class="popup"></div>
         <div id="comment-box"></div>
         <slot name="id" ></slot>
         <div id="share-post-box"></div>
@@ -315,26 +326,34 @@ export default class PropertyView extends Base {
 
   //Remove property
   async removeProperty() {
-    try {
-      const res = await axios.post(`${this.host}/property/remove`, {
-        ...this.authData(),
-        propertyId: this.getParam("id"),
-      });
-      if (res.data.status == "204") {
-        this.parentNode.removeChild(this);
-
-        this.popup(res.data.message, "info");
-      } else throw res.data;
-    } catch (err) {
-      console.log(err);
-    }
+    this._qs(".yes-remove").addEventListener("click", async () => {
+      try {
+        const res = await axios.post(`${this.host}/property/remove`, {
+          ...this.authData(),
+          propertyId: this.getParam("id"),
+        });
+        if (res.data.status == "204") {
+          this.parentNode.removeChild(this);
+          this.popup(res.data.message, "info");
+        } else throw res.data;
+      } catch (err) {
+        console.log(err);
+      }
+    });
+    this._qs(".no-remove").addEventListener("click", () => {
+      this._qs(".popup").style.display = "none";
+      this.unwait(".remove");
+      //listen for remove
+      this.listenRemove();
+    });
   } //End of removeProperty()
 
   //listen for remove
   listenRemove() {
-    this._qs(".remove").addEventListener("click", async () => {
-      this.wait(".container");
-      await this.removeProperty();
+    this._qs(".remove").addEventListener("click", () => {
+      this.wait(".remove");
+      this._qs(".popup").innerHTML = this.confirmPropertyDelete;
+      this.removeProperty();
     });
   } //End of listenRemove()
 
@@ -386,14 +405,17 @@ export default class PropertyView extends Base {
   //getFavourite
   async getFavourite() {
     try {
-      if(!this.isLogin()) {
-        this._qs(".favourite").innerHTML = ''
+      if (!this.isLogin()) {
+        this._qs(".favourite").innerHTML = "";
       }
-      const res = await axios.post(`${this.host}/property/get-favourite-status`, {
-        ...this.authData(),
-        propertyId: this.getParam("id"),
-      });
-      if (res.data.action == "1") { 
+      const res = await axios.post(
+        `${this.host}/property/get-favourite-status`,
+        {
+          ...this.authData(),
+          propertyId: this.getParam("id"),
+        }
+      );
+      if (res.data.action == "1") {
         this._qs(".favourite").innerHTML =
           '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>';
         this._qs(".favourite").title = "Remove from favourite";
@@ -403,7 +425,7 @@ export default class PropertyView extends Base {
         this._qs(".favourite").dataset.data = "add";
       }
     } catch (err) {
-      this.popup(err.message, "error")
+      this.popup(err.message, "error");
     }
   } //End of getFavourite()
 
