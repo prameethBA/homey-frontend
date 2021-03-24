@@ -88,7 +88,7 @@ export default class PropertyDetails extends Base {
             </div>
             <div class="row">
               <div class="action">
-                <button class="reserve"> Reserve Now! </button>
+                ${res.data.user_id != this.getUserId() ? '<button class="reserve"> Reserve Now! </button>' : ""}
                 <button class="feedback"> Feedback </button>
                 <button class="map"> On map 📌</button>
               </div>
@@ -101,13 +101,14 @@ export default class PropertyDetails extends Base {
         this.loadFeatureList(JSON.parse(res.data.facilities));
 
         //Load the reserve component
-        this.loadReserve();
+        res.data.user_id != this.getUserId() ? this.loadReserve() : false;
 
         //loadComment
         this.loadComment();
 
         //Load map view component
         this.loadMapView();
+        this.state.location = res.data.location
       });
   } //End of loadProperty()
 
@@ -134,12 +135,13 @@ export default class PropertyDetails extends Base {
 
   // load map view
   async mapView() {
+    const location = JSON.parse(this.state.location)
     await import("../universal/popup-map.js")
       .then((res) => {
         this._qs(
           ".popup"
         ).innerHTML = `<map-view location="${encodeURIComponent(
-          JSON.stringify({ lat: 7.8, lng: 80.4 })
+          JSON.stringify({ lat: location.ltd, lng: location.lng })
         )}"></map-view>`;
       })
       .catch((err) => this.popup(err, "error"));
