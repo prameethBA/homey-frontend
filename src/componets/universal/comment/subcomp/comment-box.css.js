@@ -11,12 +11,12 @@ export default CSS = `
     border: none;
     border-radius: 50%;
     box-shadow: 1px 1px 7px 1px rgba(0, 0, 0, 0.7);
-    height: 5rem;
+    height: 3rem;
     left: 0;
     overflow: hidden;
     position: absolute;
     top: 0;
-    width: 5rem;
+    width: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,10 +30,10 @@ export default CSS = `
   }
   
   .comment .comment-box{
-    background-color: #fcfcfc;
+    background-color: #DADADA;
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, .15);
-    margin-left: 100px;
+    margin-left: 80px;
     min-height: 60px;
     position: relative;
     padding: 15px;
@@ -56,13 +56,13 @@ export default CSS = `
   }
   
   .comment .comment-text{
-    color: #555f77;
+    color: #797979;
     font-size: 15px;
     margin-bottom: 25px;
   }
   
   .comment .comment-footer{
-    color: #acb4c2;
+    color: #414345;
     font-size: 13px;
   }
   
@@ -73,7 +73,7 @@ export default CSS = `
   }
   
   .comment .comment-footer a{
-    color: #acb4c2;
+    color: #493240;
     text-decoration: none;
   
     -webkit-transition: 350ms color;
