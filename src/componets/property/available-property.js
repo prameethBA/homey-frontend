@@ -233,7 +233,7 @@ export default class AvalibaleProperty extends Base {
   async getDistricts() {
     try {
       const res = await axios.get(`${this.host}/district/all`);
-      res.data.data.forEach(
+      res.data.forEach(
         (element) =>
           (this._qs(
             ".district"
