@@ -22,7 +22,7 @@ export default CSS = `
     left:0;
     right:0;
     z-index:1;
-    background-color:rgb(0 0 0 / 85%);
+    background-color:#444442;
     margin: 2rem;
 
   }
@@ -56,13 +56,21 @@ export default CSS = `
   .comment-form{  }
   .comment-form .comment-avatar{  }
   
-  .comment-form .form{ margin-left: 100px; }
+  .comment-form .form{
+    margin-left: 80px;
+  }
   
-  .comment-form .form .form-row{ margin-bottom: 10px; }
-  .comment-form .form .form-row:last-child{ margin-bottom: 0; }
-  
+  .comment-form .form .form-row{ 
+    margin-bottom: 10px; 
+  }
+
+  .comment-form .form .form-row:last-child{ 
+    margin-bottom: 0; 
+  }
+
+    
   .comment-form .form .input{
-    background-color: #ffffff;
+    background-color: #DADADA;
     border: none;
     border-radius: 4px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
@@ -81,8 +89,8 @@ export default CSS = `
   }
   
   .comment-form .form textarea.input{
-    height: 100px;
-    padding: 15px;
+    height: 75px;
+    padding: 10px;
   }
   
   .comment-form .form label{
@@ -140,12 +148,12 @@ export default CSS = `
     border: none;
     border-radius: 50%;
     box-shadow: 1px 1px 7px 1px rgba(0, 0, 0, 0.7);
-    height: 5rem;
+    height: 3rem;
     left: 0;
     overflow: hidden;
     position: absolute;
     top: 0;
-    width: 5rem;
+    width: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -165,7 +173,7 @@ export default CSS = `
     margin-left: 100px;
     min-height: 60px;
     position: relative;
-    padding: 15px;
+    padding: 10px;
   }
   
   .comment .comment-box:before,
@@ -237,7 +245,7 @@ export default CSS = `
   }
 
   #close {
-    color: #767676;
+    color: #ffffff;
     display: inline-block;
     font-size: 4rem;
     transform: rotate(45deg);
@@ -249,6 +257,17 @@ export default CSS = `
 
   #close:hover {
     color: #111111;
+  }
+  @media screen and (max-width: 800px) {
+    .comments-app {
+      padding: 5rem 3rem 0rem 3rem;
+    }
+  }
+  
+  @media screen and (max-width: 512px) {
+    .backdrop{
+      margin: 0;
+    }
   }
   
 `

@@ -88,7 +88,13 @@ export default class PropertyDetails extends Base {
             </div>
             <div class="row">
               <div class="action">
-                ${res.data.user_id != this.getUserId() ? '<button class="reserve"> Reserve Now! </button>' : ""}
+                ${
+                  res.data.user_id != this.getUserId()
+                    ? res.data.reserved != 1
+                      ? '<button class="reserve"> Reserve Now! </button>'
+                      : ""
+                    : ""
+                }
                 <button class="feedback"> Feedback </button>
                 <button class="map"> On map 📌</button>
               </div>
@@ -101,14 +107,18 @@ export default class PropertyDetails extends Base {
         this.loadFeatureList(JSON.parse(res.data.facilities));
 
         //Load the reserve component
-        res.data.user_id != this.getUserId() ? this.loadReserve() : false;
+        res.data.user_id != this.getUserId()
+          ? res.data.reserved != 1
+            ? this.loadReserve()
+            : false
+          : false;
 
         //loadComment
         this.loadComment();
 
         //Load map view component
         this.loadMapView();
-        this.state.location = res.data.location
+        this.state.location = res.data.location;
       });
   } //End of loadProperty()
 
@@ -135,16 +145,19 @@ export default class PropertyDetails extends Base {
 
   // load map view
   async mapView() {
-    const location = JSON.parse(this.state.location)
-    await import("../universal/popup-map.js")
-      .then((res) => {
-        this._qs(
-          ".popup"
-        ).innerHTML = `<map-view location="${encodeURIComponent(
-          JSON.stringify({ lat: location.ltd, lng: location.lng })
-        )}"></map-view>`;
-      })
-      .catch((err) => this.popup(err, "error"));
+    if (this.state.location != "null") {
+      const location = JSON.parse(this.state.location);
+      await import("../universal/popup-map.js")
+        .then((res) => {
+          this._qs(
+            ".popup"
+          ).innerHTML = `<map-view location="${encodeURIComponent(
+            JSON.stringify({ lat: location.ltd, lng: location.lng })
+          )}"></map-view>`;
+        })
+        .catch((err) => this.popup(err, "error"));
+    }
+    this.popup("Location does not specified", "info", 2);
   } //End of mapView()
 
   //Load map view
@@ -281,13 +294,13 @@ export default class PropertyDetails extends Base {
         }
       );
       if (res.data.status == "204") {
-        if (action == 'add') this.popup(res.data.message, "success");
+        if (action == "add") this.popup(res.data.message, "success");
         else this.popup(res.data.message, "info");
-        return true
+        return true;
       } else throw res.data;
     } catch (err) {
-      this.popup(err.message, "error")
-      return false
+      this.popup(err.message, "error");
+      return false;
     }
   } //End of addFavourite()
 
@@ -318,14 +331,17 @@ export default class PropertyDetails extends Base {
   //getFavourite
   async getFavourite() {
     try {
-      if(!this.isLogin()) {
-        this._qs(".favourite").innerHTML = ''
+      if (!this.isLogin()) {
+        this._qs(".favourite").innerHTML = "";
       }
-      const res = await axios.post(`${this.host}/property/get-favourite-status`, {
-        ...this.authData(),
-        propertyId: this.getParam("id"),
-      });
-      if (res.data.action == "1") { 
+      const res = await axios.post(
+        `${this.host}/property/get-favourite-status`,
+        {
+          ...this.authData(),
+          propertyId: this.getParam("id"),
+        }
+      );
+      if (res.data.action == "1") {
         this._qs(".favourite").innerHTML =
           '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>';
         this._qs(".favourite").title = "Remove from favourite";
@@ -335,7 +351,7 @@ export default class PropertyDetails extends Base {
         this._qs(".favourite").dataset.data = "add";
       }
     } catch (err) {
-      this.popup(err.message, "error")
+      this.popup(err.message, "error");
     }
   } //End of getFavourite()
 
@@ -346,10 +362,9 @@ export default class PropertyDetails extends Base {
     this.showContacts();
     //get images
     await this.getImages();
-    
+
     //getFavourite
     this.getFavourite();
-
 
     //preview Images
     this.previewImage();

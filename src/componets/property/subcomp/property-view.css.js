@@ -245,5 +245,18 @@ export default CSS = `
       .danger-button:hover {
           box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
       }
+    .type-card {
+        background-color: #001f3f;
+        color: white;
+        padding: 0.4rem;
+        margin: 0.2rem;
+        border-radius: 1rem;
+    }
+
+    .type {
+        display: flex;
+        width: 100%;
+        justify-content: end;
+    }
 
     `

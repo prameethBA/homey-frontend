@@ -88,6 +88,7 @@ export default class PropertyView extends Base {
                 }
 
             </div>
+            <div class="type"><span class="type-card">${this.getParam('data-type') == 'undefined' ? '' : this.getParam('data-type')}</span></div>
             <p class="description">${"item.description"}</p>
             <div class='button-group'>
                 <button class="comment">Comment</button>
