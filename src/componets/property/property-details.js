@@ -15,15 +15,12 @@ export default class PropertyDetails extends Base {
     super();
     this.mount();
     this.wait(".container");
-    //getFavourite
-    this.getFavourite();
   } //end of the constructor
 
   //load property
   async loadProperty() {
     await axios
-      .post(`${this.host}/property/get/property`, {
-        ...this.authData(),
+      .post(`${this.host}/property/get-property`, {
         propertyId: window.location.pathname.split("/")[2],
       })
       .then((res) => {
@@ -157,11 +154,7 @@ export default class PropertyDetails extends Base {
   async getImages() {
     try {
       const res = await axios.post(
-        `${this.host}/images/property/${this.state.id}`,
-        {
-          ...this.authData(),
-          propertyId: this.state.id,
-        }
+        `${this.host}/images/get-property/${this.state.id}`
       );
 
       if (res.data.length == 0) {
@@ -279,15 +272,15 @@ export default class PropertyDetails extends Base {
   async addFavourite(action) {
     try {
       const res = await axios.post(
-        `${this.host}/property/favourite/${action}`,
+        `${this.host}/property/toggle-favourite/${action}`,
         {
           ...this.authData(),
           propertyId: this.getParam("id"),
         }
       );
       if (res.data.status == "204") {
-        if (action == "add") this.popup(res.data.message, "info");
-        else this.popup(res.data.message, "error");
+        if (action == 'add') this.popup(res.data.message, "success");
+        else this.popup(res.data.message, "info");
       } else throw res.data;
     } catch (err) {
       console.log(err);
@@ -317,15 +310,18 @@ export default class PropertyDetails extends Base {
   //getFavourite
   async getFavourite() {
     try {
-      const res = await axios.post(`${this.host}/property/favourite/get`, {
+      const res = await axios.post(`${this.host}/property/get-favourite-status`, {
         ...this.authData(),
         propertyId: this.getParam("id"),
       });
-      if (res.data.action == "1") {
+      if (res.data.action == "1") { 
         this._qs(".favourite").innerHTML =
           '<img src="/assets/icon/Favourite/Heart_Filled_24px.png"></img>';
         this._qs(".favourite").title = "Remove from favourite";
         this._qs(".favourite").dataset.data = "remove";
+      } else {
+        this._qs(".favourite").title = "Add to favourite";
+        this._qs(".favourite").dataset.data = "add";
       }
     } catch (err) {
       console.log(err);
@@ -339,6 +335,10 @@ export default class PropertyDetails extends Base {
     this.showContacts();
     //get images
     await this.getImages();
+    
+    //getFavourite
+    this.getFavourite();
+
 
     //preview Images
     this.previewImage();
