@@ -624,6 +624,7 @@ export default class Profile extends Base {
               this._qs(".popup").style.display = "none";
             })
             .catch((err) => {
+              console.log(err)
               this.popup(err.message, "error", 10);
               this.stopLoader();
               this._qs(".popup").style.display = "none";

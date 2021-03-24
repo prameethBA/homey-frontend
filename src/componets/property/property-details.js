@@ -88,7 +88,7 @@ export default class PropertyDetails extends Base {
             </div>
             <div class="row">
               <div class="action">
-                <button class="reserve"> Reserve Now! </button>
+                ${res.data.user_id != this.getUserId() ? '<button class="reserve"> Reserve Now! </button>' : ""}
                 <button class="feedback"> Feedback </button>
                 <button class="map"> On map 📌</button>
               </div>
@@ -101,7 +101,7 @@ export default class PropertyDetails extends Base {
         this.loadFeatureList(JSON.parse(res.data.facilities));
 
         //Load the reserve component
-        this.loadReserve();
+        res.data.user_id != this.getUserId() ? this.loadReserve() : false;
 
         //loadComment
         this.loadComment();
