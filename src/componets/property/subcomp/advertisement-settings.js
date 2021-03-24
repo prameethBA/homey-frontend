@@ -8,7 +8,9 @@ export default class AdvertisementSettings extends Base {
       <div class="schedule-container">
         <div class="schedule-title">Post on</div>
         <div class="schedule-date">
-          <input type="date" id="schedule-date" value="${new Date(this.getParam('data-available'))
+          <input type="date" id="schedule-date" value="${new Date(
+            this.getParam("data-available")
+          )
             .toISOString()
             .slice(0, 10)}"/>
           <input type="time" id="schedule-time" value="${new Date()
@@ -48,7 +50,7 @@ export default class AdvertisementSettings extends Base {
           <div class="toggle_opt">
               <label for="schedule" id="schedule-label">Schedule to post</label>
               <label class="switch">
-                  <input type="checkbox" id="schedule" checked>
+                  <input type="checkbox" id="schedule">
                   <span class="slider round"></span>
                 </label>
           </div>
@@ -81,6 +83,7 @@ export default class AdvertisementSettings extends Base {
   constructor() {
     super();
     this.mount();
+    this._qs(".popup").innerHTML = this.schedule;
   } //End of constructor
 
   //schedule post
@@ -142,20 +145,20 @@ export default class AdvertisementSettings extends Base {
 
       if (res.status == 201) {
         this.popup(res.data.message, "success", 5);
-        //redirect to own properties property
-        dispatchEvent(
-          new CustomEvent("load-comp", {
-            detail: {
-              path: `/`,
-              comp: `property/own-properties`,
-              compName: "own-properties",
-            },
-          })
-        );
       } else throw res.data;
     } catch (err) {
       this.popup(err.message, "error", 10);
     }
+    //redirect to own properties property
+    dispatchEvent(
+      new CustomEvent("load-comp", {
+        detail: {
+          path: `/`,
+          comp: `property/own-properties`,
+          compName: "own-properties",
+        },
+      })
+    );
   } //End of applySettings()
 
   connectedCallback() {

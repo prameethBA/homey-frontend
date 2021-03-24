@@ -227,6 +227,9 @@ export default class AddNewProperty extends Base {
   //get nearest city
   async getNearestCity(location) {
     try {
+
+      this.state.location = location
+
       const res = await axios.post(
         `${this.host}/cities/get-nearest-city`,
         location
@@ -362,6 +365,7 @@ export default class AddNewProperty extends Base {
           this._qs("#district").selectedIndex
         ].text,
         city: this._qs("#city").value,
+        location: this.state.location,
         propertyTypeId: this._qs("#propertyType").value,
         propertyType: this._qs("#propertyType").options[
           this._qs("#propertyType").selectedIndex
