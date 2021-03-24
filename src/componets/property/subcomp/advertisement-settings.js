@@ -8,7 +8,7 @@ export default class AdvertisementSettings extends Base {
       <div class="schedule-container">
         <div class="schedule-title">Post on</div>
         <div class="schedule-date">
-          <input type="date" id="schedule-date" value="${new Date()
+          <input type="date" id="schedule-date" value="${new Date(this.getParam('data-available'))
             .toISOString()
             .slice(0, 10)}"/>
           <input type="time" id="schedule-time" value="${new Date()
@@ -133,7 +133,7 @@ export default class AdvertisementSettings extends Base {
         sendCopy: sendCopy,
       };
 
-      const res = await axios.patch(`${this.host}/property/settings`, {
+      const res = await axios.patch(`${this.host}/property/save-settings`, {
         ...data,
         userId: this.getUserId(),
         token: this.getToken(),
