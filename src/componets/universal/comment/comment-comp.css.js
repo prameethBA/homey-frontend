@@ -258,5 +258,16 @@ export default CSS = `
   #close:hover {
     color: #111111;
   }
+  @media screen and (max-width: 800px) {
+    .comments-app {
+      padding: 5rem 3rem 0rem 3rem;
+    }
+  }
+  
+  @media screen and (max-width: 512px) {
+    .backdrop{
+      margin: 0;
+    }
+  }
   
 `
