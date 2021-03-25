@@ -155,7 +155,7 @@ export default class PreviewAdvertisement extends Base {
                 ></facility-comp>`
         })
 
-        const res = await axios.get(`${this.host}/rental-period`)
+        const res = await axios.get(`${this.host}/rental-period/all`)
 
         res.data.forEach(element => {
             if (this.state.rentalPeriod == element._id)

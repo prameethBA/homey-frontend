@@ -24,7 +24,7 @@ export default class ReservedProperties extends Base {
             </div>
         </div>
         
-        <pagination-comp data-pages="10" data-current="5"></pagination-comp>
+        <div id="pagination"></div>
         
         <div id="questioner">
         </div>
@@ -38,14 +38,19 @@ export default class ReservedProperties extends Base {
   async loadpropertyView() {
     this.wait(".content");
     try {
-      import("./subcomp/property-view.js");
-      const res = await axios.post(`${this.host}/property/get/own`, {
+      await import("./subcomp/property-view.js");
+      const res = await axios.post(`${this.host}/property/get-reserved`, {
         ...this.authData(),
       });
+
+      if (res.data.status == 500) throw res.data;
 
       if (res.data.length < 1) {
         this._qs(".content").innerHTML = this.notFound;
       } else {
+        this._qs(
+          ".pagination"
+        ).innerHTML = `<pagination-comp data-pages="10" data-current="5"></pagination-comp>`;
         this._qs(".content").innerHTML = "";
         res.data.forEach((item) => {
           this._qs(".content").innerHTML += `
@@ -59,17 +64,18 @@ export default class ReservedProperties extends Base {
         });
       }
     } catch (err) {
-      console.log(err);
+      this.popup(err.message, "error");
       this.unwait(".content");
     }
   } //End of loadpropertyView()
 
-
   connectedCallback() {
     // Load add comps
     this.loadpropertyView();
-
   } //End of connectedCallback()
 } //End of the class
 
-window.customElements.define("reserved-properties", ReservedProperties);
+const elementName = "reserved-properties";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, ReservedProperties)
+  : null;

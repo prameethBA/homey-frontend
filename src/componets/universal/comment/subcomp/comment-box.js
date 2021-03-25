@@ -47,11 +47,7 @@ export default class CommentBox extends Base {
     async getprofilePicture(userID) {
         try {
             const res = await axios.post(
-                `${this.host}/images/profile/get/${userID}`,
-                {
-                    userId: this.getUserId(),
-                    token: this.getToken()
-                }
+                `${this.host}/images/get-profile-image/${userID}`
             )
             this._qs('#profile-picture').innerHTML = `<img 
                   src="${
@@ -70,17 +66,14 @@ export default class CommentBox extends Base {
     async viewComment() {
         if (this.getParam('view') == 'true') {
             const res = await axios.post(
-                `${this.host}/feedback/get/${this.getParam('id')}`,
-                {
-                    ...this.authData()
-                }
+                `${this.host}/feedback/get-property/${this.getParam('id')}`
             )
             this._qs('.comment-text').innerHTML = res.data.feedback
             this._qs('.comment-date').innerHTML = res.data.created
             this._qs('#comment-author').innerHTML =
                 res.data.userId == '0'
                     ? 'Anonymous'
-                    : `${res.data.firstName} ${res.data.lastName}`
+                    : `${res.data.firstName == null ? 'A' : res.data.firstName } ${res.data.lastName == null ? 'User' : res.data.lastName}`
 
             if (res.data.userId == '0')
                 this._qs('#profile-picture').innerHTML = `

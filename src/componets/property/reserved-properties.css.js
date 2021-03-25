@@ -1,9 +1,11 @@
 const notFound = `
-.notFound {display: flex;
-justify-content: center;
-align-items: center;
-width: 100vw;
-height: 58vh;}
+.notFound {dwidth: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+}
 `
 
 export default CSS = `

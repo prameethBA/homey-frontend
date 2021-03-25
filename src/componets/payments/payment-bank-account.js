@@ -1,10 +1,10 @@
-import Base from '../Base.js'
-import CSS from './payment-bank-account.css.js'
+import Base from "../Base.js";
+import CSS from "./payment-bank-account.css.js";
 
 export default class PaymentBankAccount extends Base {
-    css = CSS
+  css = CSS;
 
-    leftNav = `
+  leftNav = `
     <div class="column left-nav-container">
       <div class="column left-nav">
         <div><a href="/payment/received">Received Payments</a></div>
@@ -14,9 +14,9 @@ export default class PaymentBankAccount extends Base {
         <div class="active"><a href="/payment/bank-account">Bank Account Details</a></div>
       </div>
     </div>
-`
+`;
 
-    bankAccount = `
+  bankAccount = `
     <div class="column account-card">
       <div class="name">EAPD LAKMAL</div>
       <div>Nations trust bank</div>
@@ -30,9 +30,9 @@ export default class PaymentBankAccount extends Base {
         <button class="danger">Remove</button>
       </div>
     </div>
-  `
+  `;
 
-    content = `
+  content = `
     <div class="container row">
       ${this.leftNav}
       <div class="column content">
@@ -45,44 +45,36 @@ export default class PaymentBankAccount extends Base {
       </div>
     </div>
     <div class="popup"></div>
-  `
-    constructor() {
-        super()
-        this.mount()
-    } //End of constructor
+  `;
+  constructor() {
+    super();
+    this.mount();
+  } //End of constructor
 
-    //Add new account component
-    async newAccount() {
-        this.setLoader()
-        await import('./subcomp/new-account/new-account.js')
-            .then(() => {
-                this._qs('.popup').innerHTML = `<new-account></new-account>`
-                this.stopLoader()
-            })
-            .catch(err => {
-                this.stopLoader()
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: {
-                            pop: 'error',
-                            msg: err.message,
-                            duration:
-                                err.duration == undefined ? 10 : err.duration
-                        }
-                    })
-                )
-            })
-    } //End of newAccount()
+  //Add new account component
+  async newAccount() {
+    this.setLoader();
+    await import("./subcomp/new-account/new-account.js")
+      .then(() => {
+        this._qs(".popup").innerHTML = `<new-account></new-account>`;
+        this.stopLoader();
+      })
+      .catch((err) => {
+        this.stopLoader();
 
+        this.popup(err.message, "error", 10);
+      });
+  } //End of newAccount()
+
+  //loadNewAccount
+  loadNewAccount() {
+    this._qs(".add-new").addEventListener("click", () => this.newAccount());
+  } //end of loadNewAccount()
+
+  connectedCallback() {
     //loadNewAccount
-    loadNewAccount() {
-        this._qs('.add-new').addEventListener('click', () => this.newAccount())
-    } //end of loadNewAccount()
-
-    connectedCallback() {
-        //loadNewAccount
-        this.loadNewAccount()
-    } //End of connected callback
+    this.loadNewAccount();
+  } //End of connected callback
 }
 
-window.customElements.define('payment-bank-account', PaymentBankAccount)
+window.customElements.define("payment-bank-account", PaymentBankAccount);

@@ -1,10 +1,10 @@
-import Base from './../Base.js'
-import CSS from './login-form.css.js'
+import Base from "./../Base.js";
+import CSS from "./login-form.css.js";
 
 export default class LoginForm extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
     <div id="backdrop" title=">>Click to close this form">
     </div>
 
@@ -49,212 +49,172 @@ export default class LoginForm extends Base {
         </div>
     </div>
 
-`
-    constructor() {
-        super()
-        this.mount()
-    } //End of constructor
+`;
+  constructor() {
+    super();
+    this.mount();
+  } //End of constructor
 
-    //getprofilePicture
-    async getprofilePicture() {
-        await axios
-            .post(`${this.host}/images/profile/get`, {
-                userId: this.getUserId(),
-                token: this.getToken()
-            })
-            .then(res => {
-                localStorage.profilePicture =
-                    res.data.image != ''
-                        ? res.data.image
-                        : '/assets/img/alt/no-mage.png'
+  //getprofilePicture
+  async getprofilePicture() {
+    try {
+      const res = await axios.post(`${this.host}/images/get-profile-image`, {
+        ...this.authData(),
+      });
 
-                dispatchEvent(new Event('profile-picture-loaded'))
-            })
-            .catch(err => console.log(err))
-    } //End of getprofilePicture()
+      localStorage.profilePicture =
+        res.data.image != "" ? res.data.image : "/assets/img/alt/no-mage.png";
+      dispatchEvent(new Event("profile-picture-loaded"));
+    } catch (err) {
+      this.popup(err.message, "error");
+    }
+  } //End of getprofilePicture()
 
-    connectedCallback() {
-        try {
-            // backdrop
-            this._qs('#backdrop').addEventListener('click', () => {
-                this._qs('.form').style.display = 'none'
-                this._qs('#backdrop').style.display = 'none'
-                // this.setPath('/')
-            })
+  connectedCallback() {
+    try {
+      // backdrop
+      this._qs("#backdrop").addEventListener("click", () => {
+        this._qs(".form").style.display = "none";
+        this._qs("#backdrop").style.display = "none";
+        // this.setPath('/')
+      });
 
-            this._qs('#signup').addEventListener('click', () =>
-                dispatchEvent(new Event('load-signup-form'))
-            )
+      this._qs("#signup").addEventListener("click", () =>
+        dispatchEvent(new Event("load-signup-form"))
+      );
 
-            this._qs('#reset-password').addEventListener('click', () =>
-                dispatchEvent(new Event('reset-password-form'))
-            )
+      this._qs("#reset-password").addEventListener("click", () =>
+        dispatchEvent(new Event("reset-password-form"))
+      );
 
-            // Client side form validation
-            const validation = () => {
-                this.state.validation = false
-                const events = ['focus', 'keyup']
-                events.forEach(element => {
-                    this._qs('#email').addEventListener(element, () => {
-                        if (this._qs('#email').value == '') {
-                            this._qs('#validation-email').innerHTML =
-                                '❌ Enter the email or Mobile'
-                            this.state.validation = false
-                        } else if (
-                            !(
-                                /^\w{2,}@\w{2,}\.\w{2,4}$/.test(
-                                    this._qs('#email').value
-                                ) ||
-                                /^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(
-                                    this._qs('#email').value
-                                )
-                            )
-                        ) {
-                            this._qs('#validation-email').innerHTML =
-                                '❌ Enter a valid email or Mobile'
-                            this.state.validation = false
-                        } else {
-                            this._qs('#validation-email').innerHTML = ''
-                            this.state.validation = true
-                        }
+      // Client side form validation
+      const validation = () => {
+        this.state.validation = false;
+        const events = ["focus", "keyup"];
+        events.forEach((element) => {
+          this._qs("#email").addEventListener(element, () => {
+            if (this._qs("#email").value == "") {
+              this._qs("#validation-email").innerHTML =
+                "❌ Enter the email or Mobile";
+              this.state.validation = false;
+            } else if (
+              !(
+                /^\w{2,}@\w{2,}\.\w{2,4}$/.test(this._qs("#email").value) ||
+                /^(?:7|0|(?:\+94))[0-9]{9,10}$/.test(this._qs("#email").value)
+              )
+            ) {
+              this._qs("#validation-email").innerHTML =
+                "❌ Enter a valid email or Mobile";
+              this.state.validation = false;
+            } else {
+              this._qs("#validation-email").innerHTML = "";
+              this.state.validation = true;
+            }
 
-                        this.state.validation == true
-                            ? (this._qs('#login').disabled = false)
-                            : (this._qs('#login').disabled = true)
-                    })
-                })
+            this.state.validation == true
+              ? (this._qs("#login").disabled = false)
+              : (this._qs("#login").disabled = true);
+          });
+        });
 
-                events.forEach(element => {
-                    this._qs('#password').addEventListener(element, () => {
-                        if (this._qs('#password').value == '') {
-                            this._qs('#validation-password').innerHTML =
-                                '❌ Enter the password'
-                            this.state.validation = false
-                        } else {
-                            this._qs('#validation-password').innerHTML = ''
-                            this.state.validation = true
-                        }
+        events.forEach((element) => {
+          this._qs("#password").addEventListener(element, () => {
+            if (this._qs("#password").value == "") {
+              this._qs("#validation-password").innerHTML =
+                "❌ Enter the password";
+              this.state.validation = false;
+            } else {
+              this._qs("#validation-password").innerHTML = "";
+              this.state.validation = true;
+            }
 
-                        this.state.validation == true
-                            ? (this._qs('#login').disabled = false)
-                            : (this._qs('#login').disabled = true)
-                    })
-                })
-            } //End of validation
+            this.state.validation == true
+              ? (this._qs("#login").disabled = false)
+              : (this._qs("#login").disabled = true);
+          });
+        });
+      }; //End of validation
 
-            // Login
-            const login = () => {
-                this.setLoader()
-                // API call for login
-                const userName = this._qs('#email').value
-                const password = this._qs('#password').value
-                axios
-                    .post(`${this.host}/login`, {
-                        userName: userName,
-                        password: password
-                    })
-                    .then(res => {
-                        console.log(res.data)
-                        if (res.data.login === 'true' && res.status == 201) {
-                            // set the login information to loacal or session storage of the browser
-                            if (this._qs('#remember').checked == true) {
-                                localStorage.login = 'true'
-                                localStorage.userType =
-                                    res.data.userData.userType
-                                localStorage.userId = res.data.userData.userId
-                                localStorage.token = res.data.token
-                                localStorage.name =
-                                    res.data.userData.firstName +
-                                    ' ' +
-                                    res.data.userData.lastName
-                            } else {
-                                sessionStorage.login = 'true'
-                                sessionStorage.userType =
-                                    res.data.userData.userType
-                                sessionStorage.userId = res.data.userData.userId
-                                sessionStorage.token = res.data.token
-                                sessionStorage.name =
-                                    res.data.userData.firstName +
-                                    ' ' +
-                                    res.data.userData.lastName
-                            }
+      // Login
+      const login = () => {
+        this.setLoader();
+        // API call for login
+        const userName = this._qs("#email").value;
+        const password = this._qs("#password").value;
+        axios
+          .post(`${this.host}/login/request-login`, {
+            userName: userName,
+            password: password,
+          })
+          .then((res) => {
+            if (res.data.login == true && res.status == 200) {
+              // set the login information to loacal or session storage of the browser
+              if (this._qs("#remember").checked == true) {
+                localStorage.login = "true";
+                localStorage.userType = res.data.userType;
+                localStorage.userId = res.data.userId;
+                localStorage.token = res.data.token;
+              } else {
+                sessionStorage.login = "true";
+                sessionStorage.userType = res.data.userType;
+                sessionStorage.userId = res.data.userId;
+                sessionStorage.token = res.data.token;
+              }
 
-                            dispatchEvent(new Event('login-success'))
-                            this.setPath('/')
-                            dispatchEvent(new Event('exit-form'))
-                            //getprofilePicture
-                            this.getprofilePicture()
-                        } else {
-                            localStorage.login = 'false'
-                            localStorage.userId = ''
-                            localStorage.token = ''
-                            sessionStorage.login = 'false'
-                            sessionStorage.userId = ''
-                            sessionStorage.token = ''
+              dispatchEvent(new Event("login-success"));
+              this.setPath("/");
+              dispatchEvent(new Event("exit-form"));
+              //getprofilePicture
+              this.getprofilePicture();
+            } else {
+              localStorage.login = "false";
+              localStorage.userId = "";
+              localStorage.token = "";
+              sessionStorage.login = "false";
+              sessionStorage.userId = "";
+              sessionStorage.token = "";
 
-                            dispatchEvent(
-                                new CustomEvent('pop-up', {
-                                    detail: {
-                                        pop: 'error',
-                                        msg: res.data.message,
-                                        duration: 5
-                                    }
-                                })
-                            )
-                        }
-                        this.stopLoader()
-                    })
-                    .catch(err => {
-                        localStorage.login = 'false'
-                        localStorage.userId = ''
-                        localStorage.token = ''
-                        sessionStorage.login = 'false'
-                        sessionStorage.userId = ''
-                        sessionStorage.token = ''
+              this.popup(res.data.message, "error", 5);
+            }
+            this.stopLoader();
+          })
+          .catch((err) => {
+            localStorage.login = "false";
+            localStorage.userId = "";
+            localStorage.token = "";
+            sessionStorage.login = "false";
+            sessionStorage.userId = "";
+            sessionStorage.token = "";
 
-                        dispatchEvent(
-                            new CustomEvent('pop-up', {
-                                detail: { pop: 'error', msg: err.message }
-                            })
-                        )
-                        this.stopLoader()
-                    }) //End of Login API call
-            } // End of login()
+            this.popup(err.message, "error");
+            this.stopLoader();
+          }); //End of Login API call
+      }; // End of login()
 
-            //Exucute validation
-            validation()
+      //Exucute validation
+      validation();
 
-            this._qs('#login').addEventListener('click', () => login())
+      this._qs("#login").addEventListener("click", () => login());
 
-            // Login with Google
-            this._qs('.google').addEventListener('click', async () => {
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: {
-                            pop: 'notice',
-                            msg:
-                                'Feature disabled at the moment. Use email instead.'
-                        }
-                    })
-                )
-            })
+      // Login with Google
+      this._qs(".google").addEventListener("click", async () => {
+        this.popup(
+          "Feature disabled at the moment. Use email instead.",
+          "notice"
+        );
+      });
 
-            // Login with FaceBook
-            this._qs('.facebook').addEventListener('click', async () => {
-                dispatchEvent(
-                    new CustomEvent('pop-up', {
-                        detail: {
-                            pop: 'notice',
-                            msg:
-                                'Feature disabled at the moment. Use email instead.'
-                        }
-                    })
-                )
-            })
-        } catch (err) {
-            console.log(err)
-        }
-    } //End of connectedCallback
+      // Login with FaceBook
+      this._qs(".facebook").addEventListener("click", async () => {
+        this.popup(
+          "Feature disabled at the moment. Use email instead.",
+          "notice"
+        );
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  } //End of connectedCallback
 }
 
-window.customElements.define('login-form', LoginForm)
+window.customElements.define("login-form", LoginForm);

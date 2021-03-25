@@ -45,7 +45,7 @@ export default class Favourite extends Base {
         try {
             import('./subcomp/property-view.js')
             const res = await axios.post(
-                `${this.host}/property/favourite/getAll`,
+                `${this.host}/property/get-all-favourites`,
                 {
                     ...this.authData()
                 }
@@ -56,6 +56,7 @@ export default class Favourite extends Base {
             } else {
                 this._qs('.content').innerHTML = ''
                 res.data.forEach(item => {
+                    console.log(res.data)
                     this._qs('.content').innerHTML += `
                     <property-view 
                     id="${item.property_id}"
