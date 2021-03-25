@@ -17,23 +17,7 @@ export default class AvalibaleProperty extends Base {
 		<div class="nav_container column">
             <h3>Browse</h3>
             <dir></dir>
-            <div class="column filter-items">
-                <div class="row filter-item">
-                    <input class="browse" id="home" type="checkbox" />
-                    <label for="home">Home</label>
-                </div>
-                <div class="row filter-item">
-                    <input class="browse" id="appartment" type="checkbox" />
-                    <label for="appartment">Appartment</label>
-                </div>
-                <div class="row filter-item">
-                    <input class="browse" id="annex" type="checkbox" />
-                    <label for="annex">Annex</label>
-                </div>
-                <div class="row filter-item">
-                    <input class="browse" id="building" type="checkbox" />
-                    <label for="building">Building</label>
-                </div>
+            <div class="column filter-items browse-items">
             </div>
 		</div>
 		
@@ -59,23 +43,7 @@ export default class AvalibaleProperty extends Base {
 		<div class="nav_container column">
             <h3>Rental Period</h3>
             <dir></dir>
-            <div class="column filter-items">
-                <div class="row filter-item">
-                    <input class="rental" id="daily" type="checkbox" />
-                    <label for="daily">Daily</label>
-                </div>
-                <div class="row filter-item">
-                    <input class="rental" id="weekly" type="checkbox" />
-                    <label for="weekly">Weekly</label>
-                </div>
-                <div class="row filter-item">
-                    <input class="rental" id="monthly" type="checkbox" />
-                    <label for="monthly">Monthly</label>
-                </div>
-                <div class="row filter-item">
-                    <input class="rental" id="yearly" type="checkbox" />
-                    <label for="yearly">Yearly</label>
-                </div>
+            <div class="column filter-items rental-items">
             </div>
 		</div>
 		
@@ -84,9 +52,9 @@ export default class AvalibaleProperty extends Base {
 				<dir></dir>
                 <div class="column filter-items">
                     <div class="row price">
-                        <input class="price" type="text" placeholder="100"> 
+                        <input class="price-input" type="text" id="min-price" placeholder="100"> 
                         <span> to </span>  
-                        <input type="text" placeholder="1000">
+                        <input class="price-input" type="text" id="max-price" placeholder="1000">
                     </div>
 				</div>	
 		</div>
@@ -96,9 +64,9 @@ export default class AvalibaleProperty extends Base {
 				<dir></dir>
 				<div class="column filter-items">
                     <div class="row price">
-                        <input class="keyMoney" type="text" placeholder="100"> 
+                        <input class="key-money" type="text" id="keymoney-min" placeholder="100"> 
                         <span> to </span>  
-                        <input type="text" placeholder="1000">
+                        <input class="key-money" type="text" id="keymoney-max" placeholder="1000">
                     </div>
 				</div>		
 		</div>
@@ -284,11 +252,33 @@ export default class AvalibaleProperty extends Base {
         this._qs(
           ".property-type"
         ).innerHTML += `<option value="${element.property_type_id}">${element.property_type_name}</option>`;
+        this._qs(".browse-items").innerHTML += `
+            <div class="row filter-item">
+                <input class="browse" id="browse-${element.property_type_id}" type="checkbox">
+                <label for="browse-${element.property_type_id}">${element.property_type_name}</label>
+            </div>`;
       });
     } catch (err) {
       this.popup(err, "error");
     }
   } //End of getPropertytypes()
+
+  // API call for get Rental periods
+  async getRentalPeriods() {
+    try {
+      const res = await axios.get(`${this.host}/rental-period/all`);
+      res.data.forEach((element) => {
+        this._qs(".rental-items").innerHTML += `
+            <div class="row filter-item">
+                <input class="rental" id="rental-${element._id}" type="checkbox" />
+                <label for="rental-${element._id}">${element.rental_period_name}</label>
+            </div>
+            `;
+      });
+    } catch (err) {
+      this.popup(err, "error");
+    }
+  } //End of getRentalPeriods()
 
   // search add comps
   async searchProperty() {
@@ -351,17 +341,46 @@ export default class AvalibaleProperty extends Base {
       let search = this._qs(".search-box");
       const district = this._qs(".district").value;
       const city = this._qs(".city").value;
-      const propertyType = this._qs(".property-type").value;
+
+      // let search = this._qs(".search-box");
+      let browse = {},
+        rental = {},
+        availability = {},
+        keymoney = {},
+        price = {};
+      this._qsAll(".browse").forEach((item) => {
+        browse[item.id.substr(7)] = item.checked ? 1 : 0;
+      });
+
+      this._qsAll(".rental").forEach((item) => {
+        rental[item.id.substr(7)] = item.checked ? 1 : 0;
+      });
+
+      this._qsAll(".availability").forEach((item) => {
+        availability[item.id] = item.checked ? 1 : 0;
+      });
+
+      this._qsAll(".price-input").forEach((item) => {
+        price[item.id] = item.value == "" ? 0 : item.value;
+      });
+
+      this._qsAll(".key-money").forEach((item) => {
+        keymoney[item.id] = item.value == "" ? 0 : item.value;
+      });
+
       const res = await axios.post(
-        `${this.host}/property/search/${search.value}`,
+        `${this.host}/property/filter/${search.value}`,
         {
+          browse: browse,
+          rental: rental,
+          availability: availability,
+          keymoney: keymoney,
+          price: price,
           district: district,
           city: city,
-          propertyType: propertyType,
         }
       );
 
-      search.value = "";
       this._qs("#container").innerHTML = "";
 
       if (res.data.length < 1) {
@@ -385,7 +404,7 @@ export default class AvalibaleProperty extends Base {
       console.log(err);
     }
     // this.stopLoader()
-    this.unwait(".search-button");
+    this.unwait(".filter-button");
   } //End of filterProperty
 
   //loadSearch
@@ -418,6 +437,9 @@ export default class AvalibaleProperty extends Base {
 
     // API call for get property types
     this.getPropertytypes();
+
+    // API call for get Rental periods
+    this.getRentalPeriods();
 
     //loadSearch
     this.loadSearch();

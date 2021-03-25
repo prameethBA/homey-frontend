@@ -93,7 +93,7 @@ export default class OwnProperties extends Base {
           this.wait(item)
           try {
             const res = await axios.post(
-                `${this.host}/property/filter/own/${item.id}`,
+                `${this.host}/property/filter-own/${item.id}`,
                 {
                   ...this.authData(),
                 }
