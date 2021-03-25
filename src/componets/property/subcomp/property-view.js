@@ -88,7 +88,11 @@ export default class PropertyView extends Base {
                 }
 
             </div>
-            <div class="type"><span class="type-card">${this.getParam('data-type') == 'undefined' ? '' : this.getParam('data-type')}</span></div>
+            <div class="type"><span class="type-card">${
+              this.getParam("data-type") == "undefined"
+                ? ""
+                : this.getParam("data-type")
+            }</span></div>
             <p class="description">${"item.description"}</p>
             <div class='button-group'>
                 <button class="comment">Comment</button>
@@ -114,6 +118,7 @@ export default class PropertyView extends Base {
 
     //getFavourite
     if (this.getAttribute("overview") != "true") this.getFavourite();
+    if (this.getParam("admin") == "true") this.loadAdminContent();
     // this.qs('img').style.display = 'block'
   } //End of constructor
 
@@ -455,8 +460,15 @@ export default class PropertyView extends Base {
       this._qs(".reserve").disabled = true;
       this._qs(".reserve").classList.add("reserved");
       this._qs(".reserve").classList.remove("reserve");
-    } else console.log(this.state.reserved);
+    } else if (this.getParam("admin") == "true") {
+      this._qs(".reserve").style.display = 'none'
+    }
   } //end of checkReserve
+
+  //loadAdminContent
+  loadAdminContent() {
+    console.log(this.state);
+  }
 
   connectedCallback() {
     //SetValues

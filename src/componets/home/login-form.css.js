@@ -213,6 +213,9 @@ export default CSS = `
                 font-size: 0.6rem;
                 padding-bottom: 0.2rem;
             }
+            button {
+                width: 90%;
+            }
         }
 
 `
