@@ -30,6 +30,7 @@ export default class Pendings extends Base {
     </div>
     <div class="preview-advertisement"></div>
     <div class="popup"></div>
+    <div class="loader"></div>
 `;
   constructor() {
     super();
@@ -42,17 +43,18 @@ export default class Pendings extends Base {
       item.addEventListener("click", async () => {
         this.wait(item);
         const res = await axios.post(
-          `${this.host}/admin-property-preview/pending-approval`,
+          `${this.host}/admin-property/pending-approval`,
           {
             ...this.authData(),
             id: item.dataset.id,
           }
         );
+        console.log(res.data);
         await import("./../../universal/preview-advertisement.js");
         this._qs(
           ".preview-advertisement"
         ).innerHTML = `<preview-advertisement overview="true" data-data="${this.encode(
-          res.data
+          { ...res.data, _id: item.dataset.id }
         )}"></preview-advertisement>`;
         this.unwait(item);
       });
@@ -61,11 +63,10 @@ export default class Pendings extends Base {
 
   // get summary about pendin approvals
   async getSummary() {
-    this.setLoader();
+    this.wait(".loader");
     await axios
-      .post(`${this.host}/admin-property-summary/pending-approval`, {
-        userId: this.getUserId(),
-        token: this.getToken(),
+      .post(`${this.host}/admin-property/pending-approval/summary`, {
+        ...this.authData(),
       })
       .then((res) => {
         // console.log(res.data)
@@ -94,10 +95,10 @@ export default class Pendings extends Base {
                     `;
         });
         this.adPreview();
-        this.stopLoader();
+        this.unwait(".loader");
       })
       .catch((err) => {
-        this.stopLoader();
+        this.unwait(".loader");
         console.log(err);
       });
     //load view user component
@@ -136,13 +137,10 @@ export default class Pendings extends Base {
   //Approve
   async approve(id) {
     try {
-      const res = await axios.post(
-        `${this.host}/admin-property-summary/approve`,
-        {
-          ...this.authData(),
-          propertyId: id,
-        }
-      );
+      const res = await axios.post(`${this.host}/admin-property/approve`, {
+        ...this.authData(),
+        propertyId: id,
+      });
 
       if (res.data.status == "204") {
         // get summary about pendin approvals
@@ -170,7 +168,7 @@ export default class Pendings extends Base {
   async reject(id) {
     try {
       const res = await axios.post(
-        `${this.host}/admin-property-summary/reject`,
+        `${this.host}/admin-property/reject-approval`,
         {
           ...this.authData(),
           propertyId: id,

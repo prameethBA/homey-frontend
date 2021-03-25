@@ -1,10 +1,10 @@
-import Base from '/componets/Base.js'
-import CSS from './dashboard-comp.css.js'
+import Base from "/componets/Base.js";
+import CSS from "./dashboard-comp.css.js";
 
 export default class Dashboard extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
         <div class="container">
             <div class="row card-container">
 
@@ -12,15 +12,18 @@ export default class Dashboard extends Base {
                     <div class="row">
                         <span class="card-title">Visitors</span>
                         <span class="card-duration">
-                            <button class="success">Month</button>
+                            <button class="success">${new Date().toLocaleString(
+                              "default",
+                              { month: "long" }
+                            )}</button>
                         </span>
                     </div>
                     <div class="row">
-                        <span class="card-value">90, 532</span>
+                        <span class="card-value visitor-value">Visitor Count</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">1M</span>
-                        <span class="card-percent">^5.5%</span>
+                        <span class="card-total visitor-value-total">Total</span>
+                        <span class="card-percent visitor-percent">%</span>
                     </div>
                 </div>
 
@@ -28,15 +31,18 @@ export default class Dashboard extends Base {
                     <div class="row">
                         <span class="card-title">Advertisements</span>
                         <span class="card-duration">
-                            <button class="success">Month</button>
+                            <button class="success">${new Date().toLocaleString(
+                              "default",
+                              { month: "long" }
+                            )}</button>
                         </span>
                     </div>
                     <div class="row">
-                        <span class="card-value">1, 401</span>
+                        <span class="card-value ad-value">Ads</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">102K</span>
-                        <span class="card-percent">^6.43%</span>
+                        <span class="card-total ad-value-total">Total</span>
+                        <span class="card-percent ad-percent">%</span>
                     </div>
                 </div>
 
@@ -44,15 +50,18 @@ export default class Dashboard extends Base {
                     <div class="row">
                         <span class="card-title">Registerd users</span>
                         <span class="card-duration">
-                            <button class="success">Month</button>
+                            <button class="success">${new Date().toLocaleString(
+                              "default",
+                              { month: "long" }
+                            )}</button>
                         </span>
                     </div>
                     <div class="row">
-                        <span class="card-value">51, 999</span>
+                        <span class="card-value user-value">Users</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">531K</span>
-                        <span class="card-percent">^2.1%</span>
+                        <span class="card-total user-value-total">Total</span>
+                        <span class="card-percent user-percent">%</span>
                     </div>
                 </div>
 
@@ -65,11 +74,11 @@ export default class Dashboard extends Base {
                         </span>
                     </div>
                     <div class="row">
-                        <span class="card-value">231</span>
+                        <span class="card-value pending-value">Pendings</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">Rejected : 3K</span>
-                        <span class="card-percent">2.1%</span>
+                        <span class="card-total rejected-value">Rejected</span>
+                        <span class="card-percent rejected-percent">%</span>
                     </div>
                 </div>
 
@@ -81,11 +90,11 @@ export default class Dashboard extends Base {
                         </span>
                     </div>
                     <div class="row">
-                        <span class="card-value">31</span>
+                        <span class="card-value reports-value">Reports</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">Total : 1.96K</span>
-                        <span class="card-percent">98.44% reviewed</span>
+                        <span class="card-total reports-value-total">Total</span>
+                        <span class="card-percent reports-percent">Reviewed</span>
                     </div>
                 </div>
 
@@ -93,144 +102,139 @@ export default class Dashboard extends Base {
             <div class="row chart-container">
                 <div id="chart_div"></div>
             </div>
+            <div class="loader"></div>
         </div>
-    `
+    `;
 
-    constructor() {
-        super()
-        this.mount()
-    } //End of constructor
+  constructor() {
+    super();
+    this.mount();
+  } //End of constructor
+
+  //getvisitors
+  async getSummary() {
+    this.wait(".loader");
+    const res = await axios.post(`${this.host}/admin-summary/All`, {
+      ...this.authData(),
+    });
+
+    if (res.status == "200") {
+      //Visitors
+      this._qs(".visitor-value").innerHTML = res.data.visitor.count;
+      this._qs(".visitor-value-total").innerHTML =
+        "Total : " + res.data.visitor.totalCount;
+      this._qs(".visitor-percent").innerHTML =
+        (+res.data.visitor.count / +res.data.visitor.totalCount) * 100 + "%";
+
+      //Ads
+      this._qs(".ad-value").innerHTML = res.data.ads.count;
+      this._qs(".ad-value-total").innerHTML =
+        "Total : " + res.data.ads.totalCount;
+      this._qs(".ad-percent").innerHTML =
+        (+res.data.ads.count / +res.data.ads.totalCount) * 100 + "%";
+
+      //User
+      this._qs(".user-value").innerHTML = res.data.user.count;
+      this._qs(".user-value-total").innerHTML = res.data.user.totalCount;
+      this._qs(".user-percent").innerHTML =
+        Math.round((+res.data.user.count / +res.data.user.totalCount) * 100) +
+        "%";
+
+      //Pending
+      this._qs(".pending-value").innerHTML = res.data.pending;
+      this._qs(".rejected-value").innerHTML = "Rejected : " + res.data.rejected;
+      this._qs(".rejected-percent").innerHTML =
+        Math.round(
+          (+res.data.rejected / (+res.data.pending + +res.data.rejected)) * 100
+        ) + "%";
+
+      //Reports
+      this._qs(".reports-value").innerHTML = res.data.reports.pending;
+      this._qs(".reports-value-total").innerHTML =
+        "Total : " + (+res.data.reports.pending + +res.data.reports.reviewd);
+      this._qs(".reports-percent").innerHTML =
+        Math.round(
+          (+res.data.reports.reviewd /
+            (+res.data.reports.pending + +res.data.reports.reviewd)) *
+            100
+        ) + "% Reviewed";
+    }
+    this.unwait(".loader");
+  }
+
+  //load Chart
+  async loadChart() {
+    this.wait("#chart_div");
+    const res = await axios.post(`${this.host}/admin-summary/get-traffic`, {
+      ...this.authData(),
+    });
+
+    if (res.status == 200) {
+      google.charts.load("current", { packages: ["corechart", "line"] });
+      google.charts.setOnLoadCallback(drawBackgroundColor);
+      const chartDiv = this._qs("#chart_div");
+
+      function drawBackgroundColor() {
+        var data = new google.visualization.DataTable();
+        data.addColumn("number", "X");
+        data.addColumn("number", "traffic");
+
+        let today = new Date();
+        let dataArray = [];
+        res.data.forEach((item) => {
+          dataArray.push([+item.date.substring(8), +item.hits]);
+        });
+
+        data.addRows(dataArray);
+
+        var options = {
+          hAxis: {
+            title: "Date",
+          },
+          vAxis: {
+            title: "Hits",
+          },
+          backgroundColor: "#f1f8e9",
+        };
+
+        var chart = new google.visualization.LineChart(chartDiv);
+        chart.draw(data, options);
+      }
+    }
+  } //End of loadChart
+
+  //close the dock
+  // close() {
+  //     this._qs('#close-popup').addEventListener('click', () => {
+  //         this.exitDock()
+  //     })
+  // } //End of the close()
+
+  // // Exit the dock
+  // exitDock() {
+  //     this._qs('.backdrop').style.opacity = '0'
+  //     this._qs('.backdrop').style.pointerEvents = 'none'
+  // } // End of exitDock()
+
+  // //Exit with Escape key
+  // exitWithEscape() {
+  //     addEventListener('keyup', ({ key }) =>
+  //         key === 'Escape' ? this.exitDock() : null
+  //     )
+  // } // End of exitWithEscape()
+
+  connectedCallback() {
+    // // close the dock
+    // this.close()
+    // // Exit with escape key
+    // this.exitWithEscape()
 
     //load Chart
-    loadChart() {
-        google.charts.load('current', { packages: ['corechart', 'line'] })
-        google.charts.setOnLoadCallback(drawBackgroundColor)
-        const chartDiv = this._qs('#chart_div')
+    this.loadChart();
 
-        function drawBackgroundColor() {
-            var data = new google.visualization.DataTable()
-            data.addColumn('number', 'X')
-            data.addColumn('number', 'traffic')
-
-            let today = new Date()
-
-            data.addRows([
-                [0, 0],
-                [1, 10],
-                [2, 23],
-                [3, 17],
-                [4, 18],
-                [5, 9],
-                [6, 11],
-                [7, 27],
-                [8, 33],
-                [9, 40],
-                [10, 32],
-                [11, 35],
-                [12, 30],
-                [13, 40],
-                [14, 42],
-                [15, 47],
-                [16, 44],
-                [17, 48],
-                [18, 52],
-                [19, 54],
-                [20, 42],
-                [21, 55],
-                [22, 56],
-                [23, 57],
-                [24, 60],
-                [25, 50],
-                [26, 52],
-                [27, 51],
-                [28, 49],
-                [29, 53],
-                [30, 55],
-                [31, 60],
-                [32, 61],
-                [33, 59],
-                [34, 62],
-                [35, 65],
-                [36, 62],
-                [37, 58],
-                [38, 55],
-                [39, 61],
-                [40, 64],
-                [41, 65],
-                [42, 63],
-                [43, 66],
-                [44, 67],
-                [45, 69],
-                [46, 69],
-                [47, 70],
-                [48, 72],
-                [49, 68],
-                [50, 66],
-                [51, 65],
-                [52, 67],
-                [53, 70],
-                [54, 71],
-                [55, 72],
-                [56, 73],
-                [57, 75],
-                [58, 70],
-                [59, 68],
-                [60, 64],
-                [61, 60],
-                [62, 65],
-                [63, 67],
-                [64, 68],
-                [65, 69],
-                [66, 70],
-                [67, 72],
-                [68, 75],
-                [69, 80]
-            ])
-
-            var options = {
-                hAxis: {
-                    title: 'Time'
-                },
-                vAxis: {
-                    title: 'Hits'
-                },
-                backgroundColor: '#f1f8e9'
-            }
-
-            var chart = new google.visualization.LineChart(chartDiv)
-            chart.draw(data, options)
-        }
-    } //End of loadChart
-
-    //close the dock
-    // close() {
-    //     this._qs('#close-popup').addEventListener('click', () => {
-    //         this.exitDock()
-    //     })
-    // } //End of the close()
-
-    // // Exit the dock
-    // exitDock() {
-    //     this._qs('.backdrop').style.opacity = '0'
-    //     this._qs('.backdrop').style.pointerEvents = 'none'
-    // } // End of exitDock()
-
-    // //Exit with Escape key
-    // exitWithEscape() {
-    //     addEventListener('keyup', ({ key }) =>
-    //         key === 'Escape' ? this.exitDock() : null
-    //     )
-    // } // End of exitWithEscape()
-
-    connectedCallback() {
-        // // close the dock
-        // this.close()
-        // // Exit with escape key
-        // this.exitWithEscape()
-
-        //load Chart
-        this.loadChart()
-    } //End of connectedCallback
+    //getvisitors
+    this.getSummary();
+  } //End of connectedCallback
 } //End of Class
 
-window.customElements.define('dashboard-comp', Dashboard)
+window.customElements.define("dashboard-comp", Dashboard);
