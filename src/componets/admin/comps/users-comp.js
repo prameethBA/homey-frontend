@@ -5,6 +5,12 @@ import "/componets/universal/pagination/pagination.js";
 export default class users extends Base {
   css = CSS;
 
+  notFound = `
+        <div class="notFound">
+            <h1> No Users Found!</h1>
+        </div>
+    `;
+
   content = `
     <div class="container">
         <div class="row">
@@ -22,7 +28,7 @@ export default class users extends Base {
                     <button class="button-link deleted danger-button" id="deleted">Deleted Users</button>
                 </div>
         </div>
-        <div class="row users">
+        <div class="row users content">
         </div>
         
         <pagination-comp data-pages="10" data-current="5"></pagination-comp>
@@ -104,12 +110,13 @@ export default class users extends Base {
       try {
         this.wait(".loader");
         const query = this._qs("#search").value;
-        await import("./../../property/subcomp/property-view.js");
+        await import("./../../home/user-comp.js");
         // const page = 1
         // const limit = 12
 
-        const res = await axios.get(
-          `${this.host}/admin-property/search/${query}`
+        const res = await axios.post(
+          `${this.host}/admin-users/search-users/${query}`,
+          { ...this.authData() }
         );
 
         if (res.data.length < 1) {
@@ -117,14 +124,9 @@ export default class users extends Base {
         } else {
           this._qs(".content").innerHTML = "";
           res.data.forEach((item) => {
-            this._qs(".content").innerHTML += `
-                      <property-view 
-                      admin="true"
-                      id="${item._id}"
-                      data-data="${this.encode(item)}"
-                      >
-                      </property-view>
-                      `;
+            this._qs(".content").innerHTML += `<user-card id="${
+              item.userId
+            }" data-user="${this.encode(item)}"></user-card>`;
           });
         }
         this.unwait(".loader");

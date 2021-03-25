@@ -1,4 +1,12 @@
+const notFound = `
+    .notFound {display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 58vh;}
+`
+
 export default CSS = `
+${notFound}
   .container {
     display: flex;
     justify-content: center;
