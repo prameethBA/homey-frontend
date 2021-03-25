@@ -53,8 +53,6 @@ export default CSS = `
     color: #ffffff;
     font-weight: bold;
     font-size: larger;
-    
-
 }
 
 .loading {
@@ -64,6 +62,20 @@ export default CSS = `
   transition: width 0.1s ease;
   border: 3px solid white;
   border-radius: 1px;
+}
+@media screen and (max-width: 500px) {
+  .container{
+    width: 18rem;
+    height: 6rem;
+    right: -200%;
+  }
+  .title {
+    margin: 0em 0em 0em 6em;
+  }
+  ::slotted(div) {
+    padding-bottom: 1rem;
+  } 
+
 }
 
 `

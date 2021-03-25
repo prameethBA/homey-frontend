@@ -10,15 +10,15 @@ export default class Footer extends Base {
         </span>
         <div class="float">
           <div class="float-icon">
-          <img src="/assets/icon/Up/upNew_32px.png">
+          <img class="float-image" src="/assets/icon/Up/upNew_32px.png">
           </div>
         </div>
     </footer>
 `
     constructor() {
-        super()
-        this.mount()
-    } // End of the constructor
+            super()
+            this.mount()
+        } // End of the constructor
 
     // back top
     backToTop() {
@@ -37,7 +37,7 @@ export default class Footer extends Base {
     }
 
     connectedCallback() {
-        addEventListener('scroll', () => this.backToTop())
-    } //End of the connected callback
+            addEventListener('scroll', () => this.backToTop())
+        } //End of the connected callback
 } // End of Class
 window.customElements.define('footer-c', Footer)

@@ -30,12 +30,16 @@ export default class UserCard extends Base {
   }</a></span>
         </div>
         <div class="sub-row button-group-user">
-            <button class="${this.data.status == 2 ? 'danger' : 'primary' }-button" id="deactivate" data-status="${this.data.status == 2 ? 'deactive' : 'active' }">
-            ${this.data.status == 2 ? 'Activate' : 'Deactivate' }
+            <button class="${
+              this.data.status == 2 || this.data.status == 4 ? "danger" : "primary"
+            }-button" id="deactivate" data-status="${
+    this.data.status == 2 || this.data.status == 4 ? "deactive" : "active"
+  }">
+            ${this.data.status == 2 || this.data.status == 4 ? "Activate" : "Deactivate"}
             </button>
-            <button class="danger-button" id="block">Temporaly Block</button>
-            <button class="danger-button" id="ban">Permenatly Ban</button>
-            <button class="danger-button" id="confirm">Make confirm contacts</button>
+            <button class="danger-button" id="ban">${
+              this.data.status == 4 ? "Banned" : "Permenatly Ban"
+            }</button>
         </div>
     </div>
     <div class="popup"></div>
@@ -60,9 +64,15 @@ export default class UserCard extends Base {
       case "2":
         data += `🔴 Deactivated User`;
         break;
+      case "3":
+        data += `🔴 Blocked User`;
+        break;
+      case "4":
+        data += `🔴 Banned User`;
+        break;
       default:
         data += `🔴 Requested confirmation`;
-      break;
+        break;
     }
     this._qs(".status").innerHTML = data;
   }
@@ -71,7 +81,7 @@ export default class UserCard extends Base {
   async getprofilePicture(userId) {
     try {
       const res = await axios.post(
-        `${this.host}/images/profile/get/${userId}`,
+        `${this.host}/images/get-profile-image/${userId}`,
         {
           userId: this.getUserId(),
           token: this.getToken(),
@@ -111,7 +121,7 @@ export default class UserCard extends Base {
 
         if (button.dataset.status == "active") {
           const res = await axios.post(
-            `${this.host}/user/deactivate/${userId}`,
+            `${this.host}/admin-users/deactivate/${userId}`,
             {
               ...this.authData(),
             }
@@ -121,28 +131,35 @@ export default class UserCard extends Base {
             button.dataset.status = "deactive";
             button.classList.add("danger-button");
             button.classList.remove("primary-button");
-            this.setStatus('2')
+            this.setStatus("2");
             this.popup(
-              `${this.data.firstName + this.data.lastName}, ${res.data.message}`
+              `${this.data.firstName + this.data.lastName}, ${
+                res.data.message
+              }`,
+              "info"
             );
           } else throw res.data;
-          
         } else if (button.dataset.status == "deactive") {
-          const res = await axios.post(`${this.host}/user/activate/${userId}`, {
-            ...this.authData(),
-          });
+          const res = await axios.post(
+            `${this.host}/admin-users/activate/${userId}`,
+            {
+              ...this.authData(),
+            }
+          );
           if (res.data.status == 200) {
             button.innerHTML = "Deactivate";
             button.dataset.status = "active";
             button.classList.add("primary-button");
             button.classList.remove("danger-button");
-            this.setStatus('1')
+            this.setStatus("1");
             this.popup(
-              `${this.data.firstName + this.data.lastName}, ${res.data.message}`, 'success'
+              `${this.data.firstName + this.data.lastName}, ${
+                res.data.message
+              }`,
+              "success"
             );
           } else throw res.data;
         }
-
       } catch (err) {
         console.log(err);
         this.popup(err.message, "error");
@@ -151,67 +168,66 @@ export default class UserCard extends Base {
     });
   } //End of deactivate()
 
+  // //Temporaly Block
+  // block(userId) {
+  //   this._qs('#block').addEventListener('click', async () => {
+  //    this.wait('.status')
+  //    try {
+  //      const button = this._qs('#block');
+  //      const res = await axios.post(`${this.host}/admin-users/block/${userId}`, {
+  //        ...this.authData(),
+  //      });
+  //      if (res.status == 200) {
+  //        button.innerHTML = "Activate";
+  //      } else throw res;
+  //    } catch (err) {
+  //      this.popup(err.message, "error")
+  //    }
+  //    this.unwait('.status')
+  //   })
 
-    //Temporaly Block
-    block(userId) {
-      this._qs('#block').addEventListener('click', async () => {
-       this.wait('.status')
-       try {
-         const button = this._qs('#block');
-         const res = await axios.post(`${this.host}/user/block/${userId}`, {
-           ...this.authData(),
-         });
-         if (res.status == 200) {
-           button.innerHTML = "Activate";
-         } else throw res;
-       } catch (err) {
-         this.popup(err.message, "error")
-       }
-       this.unwait('.status')
-      })
-       
-     } //End of block()
+  //  } //End of block()
 
-    //Permenatly Ban
-    ban(userId) {
-      this._qs('#ban').addEventListener('click', async () => {
-       this.wait('.status')
-       try {
-         const button = this._qs('#ban');
-         const res = await axios.post(`${this.host}/user/ban/${userId}`, {
-           ...this.authData(),
-         });
-         if (res.status == 200) {
-           button.innerHTML = "Activate";
-         } else throw res;
-       } catch (err) {
-         this.popup(err.message, "error")
-       }
-       this.unwait('.status')
-      })
-       
-     } //End of ban()
+  //Permenatly Ban
+  ban(userId) {
+    this._qs("#ban").addEventListener("click", async () => {
+      this.wait(".status");
+      try {
+        const button = this._qs("#ban");
+        const res = await axios.post(`${this.host}/admin-users/ban/${userId}`, {
+          ...this.authData(),
+        });
+        if (res.status == 200) {
+          button.innerHTML = "Banned";
+          button.disabled = true;
+          this.popup(res.data.message, "info");
+        } else throw res;
+      } catch (err) {
+        this.popup(err.message, "error");
+      }
+      this.unwait(".status");
+    });
+  } //End of ban()
 
+  // //Confirm
+  // confirm(userId) {
+  //   this._qs('#confirm').addEventListener('click', async () => {
+  //    this.wait('.status')
+  //    try {
+  //      const button = this._qs('#confirm');
+  //      const res = await axios.post(`${this.host}/user/confirm/${userId}`, {
+  //        ...this.authData(),
+  //      });
+  //      if (res.status == 200) {
+  //        button.innerHTML = "Activate";
+  //      } else throw res;
+  //    } catch (err) {
+  //      this.popup(err.message, "error")
+  //    }
+  //    this.unwait('.status')
+  //   })
 
-    //Confirm
-    confirm(userId) {
-      this._qs('#confirm').addEventListener('click', async () => {
-       this.wait('.status')
-       try {
-         const button = this._qs('#confirm');
-         const res = await axios.post(`${this.host}/user/confirm/${userId}`, {
-           ...this.authData(),
-         });
-         if (res.status == 200) {
-           button.innerHTML = "Activate";
-         } else throw res;
-       } catch (err) {
-         this.popup(err.message, "error")
-       }
-       this.unwait('.status')
-      })
-       
-     } //End of confirm()
+  //  } //End of confirm()
 
   connectedCallback() {
     //status
@@ -224,17 +240,16 @@ export default class UserCard extends Base {
     this.viewUser(this.data.userId);
 
     // Deactivate
-  this.deactivate(this.data.userId);
+    this.deactivate(this.data.userId);
 
-    //Temporaly Block
-  this.block(this.data.userId);
+    //   //Temporaly Block
+    // this.block(this.data.userId);
 
-  //Permenatly Ban
-  this.ban(this.data.userId);
+    //Permenatly Ban
+    this.ban(this.data.userId);
 
-  //Confirm
-  this.confirm(this.data.userId);
-
+    // //Confirm
+    // this.confirm(this.data.userId);
   } //End of connectedCallback
 } //End of Class
 
