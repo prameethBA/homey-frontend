@@ -598,16 +598,16 @@ window.customElements.define("app-comp", App);
 
 document.getElementById("root").innerHTML = "<app-comp></app-comp>";
 
-// Register ServiceWorker
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .then((registration) => {
-        // console.log("Service Worker is registered", registration.scope);
-      })
-      .catch((err) => {
-        console.error("Registration failed:", err);
-      });
-  });
-}
+// // Register ServiceWorker
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", () => {
+//     navigator.serviceWorker
+//       .register("/sw.js")
+//       .then((registration) => {
+//         // console.log("Service Worker is registered", registration.scope);
+//       })
+//       .catch((err) => {
+//         console.error("Registration failed:", err);
+//       });
+//   });
+// }

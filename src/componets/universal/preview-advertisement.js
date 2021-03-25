@@ -1,12 +1,12 @@
-import Base from '/componets/Base.js'
-import CSS from './preview-advertisement.css.js'
+import Base from "/componets/Base.js";
+import CSS from "./preview-advertisement.css.js";
 
-import './../property/subcomp/facility.js'
+import "./../property/subcomp/facility.js";
 
 export default class PreviewAdvertisement extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
     <div class="backdrop">
     <div class="container">
         <span id="close-popup" title="close(Esc)">+</span>
@@ -30,173 +30,164 @@ export default class PreviewAdvertisement extends Base {
             <div class="user-details row"></div>
             <div class="row approval">
             ${
-                this.getParam('overview') != 'true'
-                    ? `<div class="button approve-button">Post the advertisement</div>
+              this.getParam("overview") != "true"
+                ? `<div class="button approve-button">Post the advertisement</div>
                 <div class="button decline-button">edit</div>`
-                    : ``
+                : ``
             }
             </div>
         </div>
     </div>
 </div>
     
-`
-    constructor() {
-        super()
-        this.mount()
+`;
+  constructor() {
+    super();
+    this.mount();
 
-        this.state = this.getParams('data-data')
-    } //End of the constructor
+    this.state = this.getParams("data-data");
+  } //End of the constructor
 
-    //close the dock
-    close() {
-        this._qs('#close-popup').addEventListener('click', () => {
-            this.exitDock()
-        })
-    } //End of the close()
+  //close the dock
+  close() {
+    this._qs("#close-popup").addEventListener("click", () => {
+      this.exitDock();
+    });
+  } //End of the close()
 
-    // Exit the dock
-    exitDock() {
-        this._qs('.backdrop').style.opacity = '0'
-        this._qs('.backdrop').style.pointerEvents = 'none'
-    } // End of exitDock()
+  // Exit the dock
+  exitDock() {
+    this._qs(".backdrop").style.opacity = "0";
+    this._qs(".backdrop").style.pointerEvents = "none";
+  } // End of exitDock()
 
-    //Exit with Escape key
-    exitWithEscape() {
-        addEventListener('keyup', ({ key }) =>
-            key === 'Escape' ? this.exitDock() : null
-        )
-    } // End of exitWithEscape()
+  //Exit with Escape key
+  exitWithEscape() {
+    addEventListener("keyup", ({ key }) =>
+      key === "Escape" ? this.exitDock() : null
+    );
+  } // End of exitWithEscape()
 
-    //get images
-    async getImages() {
-        try {
-            const res = await axios.post(
-                `${this.host}/images/property/${this.state._id}`,
-                {
-                    userId: this.getUserId(),
-                    token: this.getToken(),
-                    propertyId: this.state._id
-                }
-            )
+  //get images
+  async getImages() {
+    try {
+      const res = await axios.post(
+        `${this.host}/images/get-property/${this.state._id}`
+      );
 
-            if (res.data.length == 0)
-                this._qs(
-                    '.images'
-                ).innerHTML = `<img class="img" src="/assets/img/alt/no-mage.png" style="display: block !important;" />`
-            else {
-                this._qs('.images').innerHTML = ''
-                await res.data.forEach(image => {
-                    this._qs(
-                        '.images'
-                    ).innerHTML += `<img class="img" src="${image.image}" />`
-                })
-            }
+      if (res.data.length == 0)
+        this._qs(
+          ".images"
+        ).innerHTML = `<img class="img" src="/assets/img/alt/no-mage.png" style="display: block !important;" />`;
+      else {
+        this._qs(".images").innerHTML = "";
+        await res.data.forEach((image) => {
+          this._qs(
+            ".images"
+          ).innerHTML += `<img class="img" src="${image.image}" />`;
+        });
+      }
 
-            //image slider
-            this.slider()
-        } catch (err) {
-            console.log(err)
-        }
-    } //End of getImages()
+      //image slider
+      this.slider();
+    } catch (err) {
+      console.log(err);
+    }
+  } //End of getImages()
 
-    //inject Data
-    async inejectData() {
-        if (this.getParam('overview') != 'true') {
-            this.state.images.forEach(item => {
-                this._qs('.images').innerHTML += `
+  //inject Data
+  async inejectData() {
+    if (this.getParam("overview") != "true") {
+      this.state.images.forEach((item) => {
+        this._qs(".images").innerHTML += `
                     <img src="${item}" class="image" alt="Preview uploaded image">
-                `
-            })
-            this._qs('.title').innerHTML =
-                this.state.propertyType + ' | ' + this.state.title
+                `;
+      });
+      this._qs(".title").innerHTML =
+        this.state.propertyType + " | " + this.state.title;
 
-            this._qs('.location').innerHTML = `
+      this._qs(".location").innerHTML = `
                 <div>District : ${this.state.district}</div>
                 <div>City : ${this.state.city}</div>
-            `
+            `;
 
-            this._qs('.location-details').innerHTML = `
+      this._qs(".location-details").innerHTML = `
                 <div>Address : ${
-                    this.state.address == ''
-                        ? this.state.city + ', ' + this.state.district
-                        : this.state.address
+                  this.state.address == ""
+                    ? this.state.city + ", " + this.state.district
+                    : this.state.address
                 }</div>
                 <div>Conatct number : ${this.state.mobile}</div>
-            `
-        } else {
-            this._qs('.title').innerHTML = this.state.title
-        }
+            `;
+    } else {
+      this._qs(".title").innerHTML = this.state.title;
+    }
 
-        this._qs('.price').innerHTML =
-            'Rental : <a> Rs.' + this.state.price + '</a>'
-        this._qs('.key-money').innerHTML =
-            'Key Money: <a> Rs.' + this.state.keyMoney + '</a>'
-        this._qs('.available-from').innerHTML =
-            'Avalible from: <a>' + this.state.availableFrom + '</a>'
+    this._qs(".price").innerHTML =
+      "Rental : <a> Rs." + this.state.price + "</a>";
+    this._qs(".key-money").innerHTML =
+      "Key Money: <a> Rs." + this.state.keyMoney + "</a>";
+    this._qs(".available-from").innerHTML =
+      "Avalible from: <a>" + this.state.availableFrom + "</a>";
 
-        this._qs('.description').innerHTML = this.state.description
+    this._qs(".description").innerHTML = this.state.description;
 
-        if (typeof this.state.facilities == 'string')
-            this.state.facilities = JSON.parse(this.state.facilities)
+    if (typeof this.state.facilities == "string")
+      this.state.facilities = JSON.parse(this.state.facilities);
 
-        this.state.facilities.forEach(item => {
-            this._qs('.facilities').innerHTML += `
+    this.state.facilities.forEach((item) => {
+      this._qs(".facilities").innerHTML += `
                 <facility-comp 
                     key="${item.featureId}" 
                     name="${item.feature}" 
                     ${
-                        item.quantity != 'null'
-                            ? 'measurable="1"'
-                            : 'measurable="0"'
+                      item.quantity != "null"
+                        ? 'measurable="1"'
+                        : 'measurable="0"'
                     } 
                     checked="true" 
                     quantity="${item.quantity}"
-                ></facility-comp>`
-        })
+                ></facility-comp>`;
+    });
 
-        const res = await axios.get(`${this.host}/rental-period/all`)
+    const res = await axios.get(`${this.host}/rental-period/all`);
 
-        res.data.forEach(element => {
-            if (this.state.rentalPeriod == element._id)
-                this._qs('.minimum-period').innerHTML =
-                    'Minimum rental period: <a>' +
-                    (this.state.minimumPeriod == ''
-                        ? 'Not applicable'
-                        : `${
-                              this.state.minimumPeriod +
-                              ' ' +
-                              element.rental_period
-                          }s`) +
-                    '</a>'
-        })
-    } //End of injectData()
+    res.data.forEach((element) => {
+      if (this.state.rentalPeriod == element._id)
+        this._qs(".minimum-period").innerHTML =
+          "Minimum rental period: <a>" +
+          (this.state.minimumPeriod == ""
+            ? "Not applicable"
+            : `${this.state.minimumPeriod + " " + element.rental_period}s`) +
+          "</a>";
+    });
+  } //End of injectData()
 
-    //connectedCallback
-    connectedCallback() {
-        // close the dock
-        this.close()
-        // Exit with escape key
-        this.exitWithEscape()
+  //connectedCallback
+  connectedCallback() {
+    // close the dock
+    this.close();
+    // Exit with escape key
+    this.exitWithEscape();
 
-        //inject Data
-        this.inejectData()
-        if (this.getParam('overview') != 'true') {
-            this._qs('.approve-button').addEventListener('click', () =>
-                dispatchEvent(new CustomEvent('post-advertisement'))
-            )
-            this._qs('.decline-button').addEventListener('click', () => {
-                // Exit the dock
-                this.exitDock()
-            })
-        } else {
-            //get images
-            this.getImages()
-        }
-    } //End of connectedCallback()
+    //inject Data
+    this.inejectData();
+    if (this.getParam("overview") != "true") {
+      this._qs(".approve-button").addEventListener("click", () =>
+        dispatchEvent(new CustomEvent("post-advertisement"))
+      );
+      this._qs(".decline-button").addEventListener("click", () => {
+        // Exit the dock
+        this.exitDock();
+      });
+    } else {
+      //get images
+      this.getImages();
+    }
+  } //End of connectedCallback()
 } //End of Class
 
-const elementName = 'preview-advertisement'
+const elementName = "preview-advertisement";
 customElements.get(elementName) == undefined
-    ? window.customElements.define(elementName, PreviewAdvertisement)
-    : null
+  ? window.customElements.define(elementName, PreviewAdvertisement)
+  : null;
