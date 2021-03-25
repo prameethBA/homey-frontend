@@ -25,8 +25,8 @@ export default CSS = `
   .comment-form .comment-avatar img,
   .comment .comment-avatar img{
     display: block;
-    height: auto;
-    width: 100%;
+    width: 5rem;
+    height: 5rem;
   }
   
   .comment .comment-box{

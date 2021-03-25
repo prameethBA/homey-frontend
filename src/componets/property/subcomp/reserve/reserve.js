@@ -63,7 +63,8 @@ export default class Reserve extends Base {
     this.wait(".reserve-button");
 
     try {
-      const res = await axios.post(`${this.host}/property-update/add`, {
+      if (this.isLogin() == false) throw "load-login";
+      const res = await axios.post(`${this.host}/property-update/add-status`, {
         ...this.authData(),
         propertyId: this.getParam("id"),
       });
@@ -84,7 +85,11 @@ export default class Reserve extends Base {
         }`;
       }
     } catch (err) {
-      console.log(err);
+      if (err == "load-login") {
+        dispatchEvent(new Event("load-login-form"));
+        this.popup("Login in to Reserve the property", "info");
+      }
+      this.popup(err.message, "error");
     }
 
     this.unwait(".reserve-button");
@@ -95,7 +100,7 @@ export default class Reserve extends Base {
     this._qs("#close-popup").addEventListener("click", async () => {
       this.exitDock();
       try {
-        const res = await axios.post(`${this.host}/property-update/remove`, {
+        const res = await axios.post(`${this.host}/property-update/remove-status`, {
           ...this.authData(),
           propertyId: this.getParam("id"),
         });
@@ -109,6 +114,7 @@ export default class Reserve extends Base {
 
   // Exit the dock
   exitDock() {
+    console.log('asasas')
     this._qs(".backdrop").style.opacity = "0";
     this._qs(".backdrop").style.pointerEvents = "none";
   } // End of exitDock()
@@ -120,24 +126,32 @@ export default class Reserve extends Base {
     );
   } // End of exitWithEscape()
 
-  startPayment(payment) {
+  startPayment(payment, loadComp, popup,exitDock) {
     // Called when user completed the payment. It can be a successful payment or failure
     payhere.onCompleted = function onCompleted(orderId) {
-      console.log("Payment completed. OrderID:" + orderId);
+      popup("Property reserved. wait for the confirmation from the property owner", "success");
+      exitDock();
+      loadComp(
+        "/reserved-properties",
+        "/property/reserved-properties",
+        "reserved-properties"
+      );
+
       //Note: validate the payment and show success or failure page to the customer
     };
 
     // Called when user closes the payment without completing
     payhere.onDismissed = function onDismissed() {
-      //Note: Prompt user to pay again or show an error page
-      console.log("Payment dismissed");
+      popup("Reserving process dismissed.", "info");
+      exitDock();
     };
 
     // Called when error happens when initializing payment such as invalid parameters
     payhere.onError = function onError(error) {
-      // Note: show an error page
-      console.log("Error:" + error);
+      popup(error , "error");
+      exitDock();
     };
+
 
     payhere.startPayment(payment);
   } //End of startPayment
@@ -151,7 +165,7 @@ export default class Reserve extends Base {
         propertyId: this.getParam("id"),
         amount: +this.state.fee + +this.state.subTotal,
       });
-
+      
       if (res.status == 200) {
         // Put the payment variables here
         const payment = {
@@ -175,15 +189,15 @@ export default class Reserve extends Base {
           delivery_city: res.data.delivery_city,
           delivery_country: res.data.delivery_country,
           custom_1: res.data.custom_1,
+          custom_2: "reserve",
         };
         this.unwait(".reserve-button");
-        this.startPayment(payment);
+        this.startPayment(payment, this.loadComp, this.popup,this.exitDock);
       } else throw res.data;
     } catch (err) {
-      this.popup(err, 'error')
+      this.popup(err, "error");
+      this.unwait(".reserve-button");
     }
-
-    // this.unwait(".reserve-button");
   }
 
   //toggle payment
@@ -239,4 +253,7 @@ export default class Reserve extends Base {
   } //End of connectedCallback
 } //End of Class
 
-window.customElements.define("reserve-comp", Reserve);
+const elementName = "reserve-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Reserve)
+  : null;

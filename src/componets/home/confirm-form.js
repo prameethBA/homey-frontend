@@ -18,7 +18,6 @@ export default class Confirm extends Base {
     constructor() {
         super()
         this.mount()
-
         const getQueryStringParams = query => {
             return query
                 ? (/^[?#]/.test(query) ? query.slice(1) : query)
@@ -36,6 +35,7 @@ export default class Confirm extends Base {
         const data = getQueryStringParams(window.location.search)
 
         const confirmUser = async () => {
+            console.log(data)
             await axios
                 .post(`${this.host}/signup/confirm`, {
                     userId: data.id,
@@ -44,24 +44,15 @@ export default class Confirm extends Base {
                 .then(res => {
                     this._qs('p').innerHTML = res.data.message
                     if (res.status == 201) {
-                        dispatchEvent(
-                            new CustomEvent('pop-up', {
-                                detail: {
-                                    pop: 'success',
-                                    msg: res.data.message
-                                }
-                            })
-                        )
+                       
+                        this.popup(res.data.message, 'success')
                         this.setPath('/login')
                         dispatchEvent(new Event('load-login-form'))
                     } else throw res.data
                 })
                 .catch(err =>
-                    dispatchEvent(
-                        new CustomEvent('pop-up', {
-                            detail: { pop: 'error', msg: err.message }
-                        })
-                    )
+                    
+                    this.popup(err.message, 'error')
                 )
         }
 

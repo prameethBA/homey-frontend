@@ -202,4 +202,7 @@ export default class ViewUser extends Base {
     } //End of connectedCallback
 } //End of Class
 
-window.customElements.define('view-user', ViewUser)
+const elementName = "view-user";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, ViewUser)
+  : null;
