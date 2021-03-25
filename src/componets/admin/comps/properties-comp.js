@@ -82,7 +82,7 @@ export default class properties extends Base {
       filter();
     });
     this._qs(".search-icon").addEventListener("click", () => filter);
-  }//end of search
+  } //end of search
 
   // Load add comps
   async loadpropertyView() {
@@ -123,11 +123,22 @@ export default class properties extends Base {
         .then(() => {
           this.setPath(`/admin/${comp.substr(0, comp.length - 5)}`); //remove '-comp' string piece to set path
           this._qs("#container").innerHTML = `<${comp}></${comp}>`;
-
-          //Set breadcrumbs
-          this.setBreadCrumbs(window.location.pathname.split("/"));
         })
-        .catch((err) => this.popup(err.message, "error", 10));
+        .catch((err) => this.popup(err.message, "error", 5));
+    });
+  }
+
+  //Pendings properties
+  viewPendings() {
+    this._qs(".pending").addEventListener("click", async () => {
+      // load comp
+      const comp = "pending-comp";
+      await import(`./${comp}.js`)
+        .then(() => {
+          this.setPath(`/admin/${comp.substr(0, comp.length - 5)}`); //remove '-comp' string piece to set path
+          this._qs("#container").innerHTML = `<${comp}></${comp}>`;
+        })
+        .catch((err) => this.popup(err.message, "error", 5));
     });
   }
 
@@ -141,6 +152,9 @@ export default class properties extends Base {
 
     //reported properties
     this.viewReports();
+
+    //Pendings properties
+    this.viewPendings();
   } //End of connectedCallback()
 } //End of Class
 

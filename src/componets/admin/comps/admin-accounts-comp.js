@@ -94,10 +94,9 @@ export default class AdminAccount extends Base {
   async getprofilePicture(userId) {
     try {
       const res = await axios.post(
-        `${this.host}/images/profile/get/${userId}`,
+        `${this.host}/images/get-profile-image/${userId}`,
         {
-          userId: this.getUserId(),
-          token: this.getToken(),
+         ...this.authData()
         }
       );
       this._qs(`#img-${userId}`).src =
@@ -118,7 +117,7 @@ export default class AdminAccount extends Base {
   async getUsers() {
     this.setLoader();
     await axios
-      .post(`${this.host}/AdminUsers/all-admins`, {
+      .post(`${this.host}/admin-users/all-admins`, {
         ...this.authData(),
       })
       .then((res) => {
