@@ -43,4 +43,16 @@ span {
   }
 }
 
+@media screen and (max-width: 512px) {
+  .float {
+    width: 2rem;
+    height: 2rem;
+    right: 1rem;
+  }
+  .float-image{
+    width: 16px;
+    height: 16px;
+  }
+}
+
 `
