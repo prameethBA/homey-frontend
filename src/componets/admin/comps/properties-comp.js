@@ -82,7 +82,7 @@ export default class properties extends Base {
       filter();
     });
     this._qs(".search-icon").addEventListener("click", () => filter);
-  }
+  }//end of search
 
   // Load add comps
   async loadpropertyView() {
