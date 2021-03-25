@@ -12,15 +12,18 @@ export default class Dashboard extends Base {
                     <div class="row">
                         <span class="card-title">Visitors</span>
                         <span class="card-duration">
-                            <button class="success">Month</button>
+                            <button class="success">${new Date().toLocaleString(
+                              "default",
+                              { month: "long" }
+                            )}</button>
                         </span>
                     </div>
                     <div class="row">
                         <span class="card-value visitor-value">Visitor Count</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">1M</span>
-                        <span class="card-percent">^5.5%</span>
+                        <span class="card-total visitor-value-total">Total</span>
+                        <span class="card-percent visitor-percent">%</span>
                     </div>
                 </div>
 
@@ -28,15 +31,18 @@ export default class Dashboard extends Base {
                     <div class="row">
                         <span class="card-title">Advertisements</span>
                         <span class="card-duration">
-                            <button class="success">Month</button>
+                            <button class="success">${new Date().toLocaleString(
+                              "default",
+                              { month: "long" }
+                            )}</button>
                         </span>
                     </div>
                     <div class="row">
-                        <span class="card-value">1, 401</span>
+                        <span class="card-value ad-value">Ads</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">102K</span>
-                        <span class="card-percent">^6.43%</span>
+                        <span class="card-total ad-value-total">Total</span>
+                        <span class="card-percent ad-percent">%</span>
                     </div>
                 </div>
 
@@ -44,15 +50,18 @@ export default class Dashboard extends Base {
                     <div class="row">
                         <span class="card-title">Registerd users</span>
                         <span class="card-duration">
-                            <button class="success">Month</button>
+                            <button class="success">${new Date().toLocaleString(
+                              "default",
+                              { month: "long" }
+                            )}</button>
                         </span>
                     </div>
                     <div class="row">
-                        <span class="card-value">51, 999</span>
+                        <span class="card-value user-value">Users</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">531K</span>
-                        <span class="card-percent">^2.1%</span>
+                        <span class="card-total user-value-total">Total</span>
+                        <span class="card-percent user-percent">%</span>
                     </div>
                 </div>
 
@@ -65,11 +74,11 @@ export default class Dashboard extends Base {
                         </span>
                     </div>
                     <div class="row">
-                        <span class="card-value">231</span>
+                        <span class="card-value pending-value">Pendings</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">Rejected : 3K</span>
-                        <span class="card-percent">2.1%</span>
+                        <span class="card-total rejected-value">Rejected : 3K</span>
+                        <span class="card-percent rejected-percent">2.1%</span>
                     </div>
                 </div>
 
@@ -81,11 +90,11 @@ export default class Dashboard extends Base {
                         </span>
                     </div>
                     <div class="row">
-                        <span class="card-value">31</span>
+                        <span class="card-value reports-value">Reports</span>
                     </div>
                     <div class="row">
-                        <span class="card-total">Total : 1.96K</span>
-                        <span class="card-percent">98.44% reviewed</span>
+                        <span class="card-total reports-value-total">Total : 1.96K</span>
+                        <span class="card-percent reports-percent">98.44% reviewed</span>
                     </div>
                 </div>
 
@@ -102,13 +111,52 @@ export default class Dashboard extends Base {
   } //End of constructor
 
   //getvisitors
-  async getVisitors() {
-    const res = await axios.post(`${this.host}/user/count`, {
+  async getSummary() {
+    const res = await axios.post(`${this.host}/admin-summary/All`, {
       ...this.authData(),
     });
 
-    if (res.data.status == "200")
-      this._qs(".visitor-value").innerHTML = res.data.count;
+    if (res.status == "200") {
+      //Visitors
+      this._qs(".visitor-value").innerHTML = res.data.visitor.count;
+      this._qs(".visitor-value-total").innerHTML =
+        "Total : " + res.data.visitor.totalCount;
+      this._qs(".visitor-percent").innerHTML =
+        (+res.data.visitor.count / +res.data.visitor.totalCount) * 100 + "%";
+
+      //Ads
+      this._qs(".ad-value").innerHTML = res.data.ads.count;
+      this._qs(".ad-value-total").innerHTML =
+        "Total : " + res.data.ads.totalCount;
+      this._qs(".ad-percent").innerHTML =
+        (+res.data.ads.count / +res.data.ads.totalCount) * 100 + "%";
+
+      //User
+      this._qs(".user-value").innerHTML = res.data.user.count;
+      this._qs(".user-value-total").innerHTML = res.data.user.totalCount;
+      this._qs(".user-percent").innerHTML =
+        Math.round((+res.data.user.count / +res.data.user.totalCount) * 100) +
+        "%";
+
+      //Pending
+      this._qs(".pending-value").innerHTML = res.data.pending;
+      this._qs(".rejected-value").innerHTML = "Rejected : " + res.data.rejected;
+      this._qs(".rejected-percent").innerHTML =
+        Math.round(
+          (+res.data.rejected / (+res.data.pending + +res.data.rejected)) * 100
+        ) + "%";
+
+      //Reports
+      this._qs(".reports-value").innerHTML = res.data.reports.pending;
+      this._qs(".reports-value-total").innerHTML =
+        "Total : " + +res.data.reports.pending + +res.data.reports.reviewd;
+      this._qs(".reports-percent").innerHTML =
+        Math.round(
+          (+res.data.reports.reviewd /
+            (+res.data.reports.pending + +res.data.reports.reviewd)) *
+            100
+        ) + "% Reviewed";
+    }
   }
 
   //load Chart
@@ -242,7 +290,7 @@ export default class Dashboard extends Base {
     this.loadChart();
 
     //getvisitors
-  this.getVisitors()
+    this.getSummary();
   } //End of connectedCallback
 } //End of Class
 
