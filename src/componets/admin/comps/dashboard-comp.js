@@ -77,8 +77,8 @@ export default class Dashboard extends Base {
                         <span class="card-value pending-value">Pendings</span>
                     </div>
                     <div class="row">
-                        <span class="card-total rejected-value">Rejected : 3K</span>
-                        <span class="card-percent rejected-percent">2.1%</span>
+                        <span class="card-total rejected-value">Rejected</span>
+                        <span class="card-percent rejected-percent">%</span>
                     </div>
                 </div>
 
@@ -93,8 +93,8 @@ export default class Dashboard extends Base {
                         <span class="card-value reports-value">Reports</span>
                     </div>
                     <div class="row">
-                        <span class="card-total reports-value-total">Total : 1.96K</span>
-                        <span class="card-percent reports-percent">98.44% reviewed</span>
+                        <span class="card-total reports-value-total">Total</span>
+                        <span class="card-percent reports-percent">Reviewed</span>
                     </div>
                 </div>
 
@@ -102,6 +102,7 @@ export default class Dashboard extends Base {
             <div class="row chart-container">
                 <div id="chart_div"></div>
             </div>
+            <div class="loader"></div>
         </div>
     `;
 
@@ -112,6 +113,7 @@ export default class Dashboard extends Base {
 
   //getvisitors
   async getSummary() {
+    this.wait(".loader");
     const res = await axios.post(`${this.host}/admin-summary/All`, {
       ...this.authData(),
     });
@@ -149,7 +151,7 @@ export default class Dashboard extends Base {
       //Reports
       this._qs(".reports-value").innerHTML = res.data.reports.pending;
       this._qs(".reports-value-total").innerHTML =
-        "Total : " + +res.data.reports.pending + +res.data.reports.reviewd;
+        "Total : " + (+res.data.reports.pending + +res.data.reports.reviewd);
       this._qs(".reports-percent").innerHTML =
         Math.round(
           (+res.data.reports.reviewd /
@@ -157,106 +159,47 @@ export default class Dashboard extends Base {
             100
         ) + "% Reviewed";
     }
+    this.unwait(".loader");
   }
 
   //load Chart
-  loadChart() {
-    google.charts.load("current", { packages: ["corechart", "line"] });
-    google.charts.setOnLoadCallback(drawBackgroundColor);
-    const chartDiv = this._qs("#chart_div");
+  async loadChart() {
+    this.wait("#chart_div");
+    const res = await axios.post(`${this.host}/admin-summary/get-traffic`, {
+      ...this.authData(),
+    });
 
-    function drawBackgroundColor() {
-      var data = new google.visualization.DataTable();
-      data.addColumn("number", "X");
-      data.addColumn("number", "traffic");
+    if (res.status == 200) {
+      google.charts.load("current", { packages: ["corechart", "line"] });
+      google.charts.setOnLoadCallback(drawBackgroundColor);
+      const chartDiv = this._qs("#chart_div");
 
-      let today = new Date();
+      function drawBackgroundColor() {
+        var data = new google.visualization.DataTable();
+        data.addColumn("number", "X");
+        data.addColumn("number", "traffic");
 
-      data.addRows([
-        [0, 0],
-        [1, 10],
-        [2, 23],
-        [3, 17],
-        [4, 18],
-        [5, 9],
-        [6, 11],
-        [7, 27],
-        [8, 33],
-        [9, 40],
-        [10, 32],
-        [11, 35],
-        [12, 30],
-        [13, 40],
-        [14, 42],
-        [15, 47],
-        [16, 44],
-        [17, 48],
-        [18, 52],
-        [19, 54],
-        [20, 42],
-        [21, 55],
-        [22, 56],
-        [23, 57],
-        [24, 60],
-        [25, 50],
-        [26, 52],
-        [27, 51],
-        [28, 49],
-        [29, 53],
-        [30, 55],
-        [31, 60],
-        [32, 61],
-        [33, 59],
-        [34, 62],
-        [35, 65],
-        [36, 62],
-        [37, 58],
-        [38, 55],
-        [39, 61],
-        [40, 64],
-        [41, 65],
-        [42, 63],
-        [43, 66],
-        [44, 67],
-        [45, 69],
-        [46, 69],
-        [47, 70],
-        [48, 72],
-        [49, 68],
-        [50, 66],
-        [51, 65],
-        [52, 67],
-        [53, 70],
-        [54, 71],
-        [55, 72],
-        [56, 73],
-        [57, 75],
-        [58, 70],
-        [59, 68],
-        [60, 64],
-        [61, 60],
-        [62, 65],
-        [63, 67],
-        [64, 68],
-        [65, 69],
-        [66, 70],
-        [67, 72],
-        [68, 75],
-        [69, 80],
-      ]);
+        let today = new Date();
+        let dataArray = [];
+        res.data.forEach((item) => {
+          dataArray.push([+item.date.substring(8), +item.hits]);
+        });
 
-      var options = {
-        hAxis: {
-          title: "Time",
-        },
-        vAxis: {
-          title: "Hits",
-        },
-        backgroundColor: "#f1f8e9",
-      };
+        data.addRows(dataArray);
 
-      var chart = new google.visualization.LineChart(chartDiv);
-      chart.draw(data, options);
+        var options = {
+          hAxis: {
+            title: "Date",
+          },
+          vAxis: {
+            title: "Hits",
+          },
+          backgroundColor: "#f1f8e9",
+        };
+
+        var chart = new google.visualization.LineChart(chartDiv);
+        chart.draw(data, options);
+      }
     }
   } //End of loadChart
 
