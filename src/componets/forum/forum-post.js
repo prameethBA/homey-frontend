@@ -22,6 +22,9 @@ export default class Forum extends Base {
             <div class="post-row">
                 <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
             </div>
+            <div class="form-row">
+              <button id="submit">Add Comment</button>
+            </div>
             <hr>
             <div>${
               this.data._id == this.getUserId() || this.getUserType() == 1
@@ -30,6 +33,7 @@ export default class Forum extends Base {
             }
               
             </div>
+            <div class="comment-container"></div>
         </div>
     </div>
     
@@ -51,6 +55,24 @@ export default class Forum extends Base {
         this._qs(
           ".post-username"
         ).innerHTML = `${res.data.firstName} ${res.data.lastName}`;
+      else throw res.data;
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  //getall coments
+  async getAllComments() {
+    try {
+      const res = await axios.get(
+        `${this.host}/forum/get-comments/${this.data._id}`
+      );
+
+      if (res.status == 200) {
+        res.data.forEach(item => {
+          this._qs('.comment-container').innerHTML += JSON.stringify(item) + "<br>"
+        })
+      }
       else throw res.data;
     } catch (err) {
       console.log(err.message);
@@ -80,10 +102,39 @@ export default class Forum extends Base {
     });
   } //end of delete post
 
+  //add new comment
+  addComment() {
+    this._qs("#submit").addEventListener("click", async () => {
+      try {
+        this.wait("#submit");
+        const comment = this._qs("#comment");
+        const res = await axios.post(`${this.host}/forum/add-new-comment`, {
+          ...this.authData(),
+          forumId: this.data._id,
+          comment: comment.value,
+        });
+        if (res.status == 201) {
+          this.popup(res.data.message, "success");
+          comment.value = "";
+        } else throw res.data;
+        this.unwait("#submit");
+      } catch (err) {
+        this.popup(err.message, "error");
+        this.unwait("#submit");
+      }
+    });
+  } //end of add comment
+
   //connectedCallback
   connectedCallback() {
     //get username
     this.getUserName();
+
+    //getall coments
+    this.getAllComments();
+
+    //add new comment
+    this.addComment();
 
     //delete the post
     this.data._id == this.getUserId() || this.getUserType() == 1

@@ -11,7 +11,7 @@ export default class Forum extends Base {
         <div class="buttons">
             <div>   
                 <button class="tab-button">Forum Home</button>
-                <button class="tab-button">My Posts</button>
+                <button class="tab-button my-posts">My Posts</button>
             </div>
             <div>   
                 <button class="tab-button" id="create-post">Create Post + </button>
@@ -64,6 +64,28 @@ export default class Forum extends Base {
     }
   }
 
+  //get My posts
+  async getMyPosts() {
+    try {
+      await import("./forum-post.js");
+
+      const res = await axios.get(`${this.host}/forum/all/${this.getUserId()}`);
+
+      if (res.status == 200) {
+        this._qs(".forum-post").innerHTML = "";
+        res.data.forEach((item) => {
+          this._qs(
+            ".forum-post"
+          ).innerHTML += `<forum-post data-data="${this.encode(
+            item
+          )}"></forum-post>`;
+        });
+      } else throw res.data;
+    } catch (err) {
+      this.popup(err.message, "error", 5);
+    }
+  }
+
   //create post
   createPost() {
     this._qs("#create-post").addEventListener("click", async () => {
@@ -96,6 +118,11 @@ export default class Forum extends Base {
     });
   }
 
+  //get My posts
+  myPosts() {
+    this._qs(".my-posts").addEventListener("click", () => this.getMyPosts());
+  }
+
   connectedCallback() {
     this.createPost();
 
@@ -104,6 +131,9 @@ export default class Forum extends Base {
 
     //listen for new post
     this.listenNewPost();
+
+    //get My posts
+    this.myPosts();
   } //End of connectedCallback()
 } //End of class
 
