@@ -40,7 +40,7 @@ export default class Report extends Base {
     async loadRow() {
         this.setLoader()
         try {
-            const res = await axios.post(`${this.host}/feedback/report/all`, {
+            const res = await axios.post(`${this.host}/feedback/get-all-report`, {
                 ...this.authData()
             })
 

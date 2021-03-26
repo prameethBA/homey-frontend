@@ -543,7 +543,7 @@ export default class App extends Base {
   //count vistors
   async countVisitors() {
     if(localStorage.countvisit != 'true' && !this.isLogin()) {
-      const res = await axios.post(`${this.host}/User/count-new`)
+      const res = await axios.get(`${this.host}/User/count-new`)
       if(res.status == 200) localStorage.countvisit  = 'true'
     }
   }//end of countVisitors
