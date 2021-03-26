@@ -3,37 +3,36 @@ import CSS from "./forum-post.css.js";
 import "./forum-comment.js";
 
 export default class Forum extends Base {
-  css = CSS;
+    css = CSS;
 
-  data = this.getParams("data-data");
+    data = this.getParams("data-data");
 
-  content = `
+    content = `
     <div class="posts" id="${this.data._id}">
         <div class="post-container">
             <div class="post-row">
-                <h4 class="post-username" id="${
+                <h3 class="post-username" id="${
                   this.data.user_id
                 }">Anonymous user</h4>
                 <h5 class="post-creadted">${this.data.created}</h5>
             </div>
             <div class="post-row">
-                <h3 class="post-heading">${this.data.title}</h3>
+                <h2 class="post-heading">${this.data.title}</h3>
                 <p class="justify-text">${this.data.content}</p>
             </div>
             <div class="post-row">
-                <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
+                <textarea class="textarea" rows="4" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
             </div>
             <div class="form-row">
               <button id="submit">Add Comment</button>
+              <div class="delete-btn">${
+                this.data._id == this.getUserId() || this.getUserType() == 1
+                  ? `<button id="delete-post" title="Delete the comment">🗑️</button>`
+                  : ""
+              }
+              </div>
             </div>
-            
-            <div>${
-              this.data._id == this.getUserId() || this.getUserType() == 1
-                ? `<button id="delete-post" title="Delete the comment">🗑️</button>`
-                : ""
-            }
-            <hr>  
-            </div>
+            <hr> 
             <div class="new-comment-container"></div>
             <div class="comment-container"></div>
         </div>
