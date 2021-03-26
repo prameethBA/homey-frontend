@@ -1,5 +1,6 @@
 import Base from "/componets/Base.js";
 import CSS from "./forum-post.css.js";
+import "./forum-comment.js";
 
 export default class Forum extends Base {
   css = CSS;
@@ -25,12 +26,13 @@ export default class Forum extends Base {
             <div class="form-row">
               <button id="submit">Add Comment</button>
             </div>
-            <hr>
+            
             <div>${
               this.data._id == this.getUserId() || this.getUserType() == 1
                 ? `<button id="delete-post" title="Delete the comment">🗑️</button>`
                 : ""
             }
+            <hr>  
             </div>
             <div class="comment-container"></div>
         </div>
@@ -69,7 +71,7 @@ export default class Forum extends Base {
 
       if (res.status == 200) {
         res.data.forEach(item => {
-          this._qs('.comment-container').innerHTML += JSON.stringify(item) + "<br>"
+          this._qs('.comment-container').innerHTML += `<forum-comment data-data=${this.encode(item)}></forum-comment>`
         })
       }
       else throw res.data;
