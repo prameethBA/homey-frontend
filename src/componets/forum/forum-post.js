@@ -10,7 +10,9 @@ export default class Forum extends Base {
     <div class="posts" id="${this.data._id}">
         <div class="post-container">
             <div class="post-row">
-                <h4 class="post-username" id="${this.data.user_id}">Anonymous user</h4>
+                <h4 class="post-username" id="${
+                  this.data.user_id
+                }">Anonymous user</h4>
                 <h5 class="post-creadted">${this.data.created}</h5>
             </div>
             <div class="post-row">
@@ -21,6 +23,13 @@ export default class Forum extends Base {
                 <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
             </div>
             <hr>
+            <div>${
+              this.data._id == this.getUserId() || this.getUserType() == 1
+                ? `<button id="delete-post" title="Delete the comment">🗑️</button>`
+                : ""
+            }
+              
+            </div>
         </div>
     </div>
     
@@ -48,10 +57,38 @@ export default class Forum extends Base {
     }
   }
 
+  //delete the post
+  deletePost() {
+    this._qs("#delete-post").addEventListener("click", async () => {
+      this.wait(".posts");
+
+      try {
+        const res = await axios.post(
+          `${this.host}/forum/remove/${this.data._id}`,
+          {
+            ...this.authData(),
+          }
+        );
+        if (res.status == 200) {
+          this.popup(res.data.message, "notice");
+          this._qs(".posts").innerHTML = "";
+        } else throw res.data;
+      } catch (err) {
+        this.popup(err.message, "error");
+        this.unwait(".posts");
+      }
+    });
+  } //end of delete post
+
   //connectedCallback
   connectedCallback() {
     //get username
     this.getUserName();
+
+    //delete the post
+    this.data._id == this.getUserId() || this.getUserType() == 1
+      ? this.deletePost()
+      : false;
   } //End of connectedCallback()
 } //End of Class
 
