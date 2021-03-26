@@ -22,7 +22,7 @@ export default class Forum extends Base {
             </div>
             
             ${
-              this.data._id == this.getUserId() || this.getUserType() == 1
+              this.isLogin()
                 ? `
                 <div class="post-row">
                   <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
@@ -160,9 +160,7 @@ export default class Forum extends Base {
       : false;
 
     //add new comment
-    this.data._id == this.getUserId() || this.getUserType() == 1
-      ? this.addComment()
-      : false;
+    this.isLogin() ? this.addComment() : false;
   } //End of connectedCallback()
 } //End of Class
 
