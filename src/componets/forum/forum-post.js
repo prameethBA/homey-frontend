@@ -31,7 +31,6 @@ export default class Forum extends Base {
                 ? `<button id="delete-post" title="Delete the comment">🗑️</button>`
                 : ""
             }
-              
             </div>
             <div class="comment-container"></div>
         </div>

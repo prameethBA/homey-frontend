@@ -124,14 +124,17 @@ export default class Dashboard extends Base {
       this._qs(".visitor-value-total").innerHTML =
         "Total : " + res.data.visitor.totalCount;
       this._qs(".visitor-percent").innerHTML =
-        (+res.data.visitor.count / +res.data.visitor.totalCount) * 100 + "%";
+        Math.round(
+          (+res.data.visitor.count / +res.data.visitor.totalCount) * 100
+        ) + "%";
 
       //Ads
       this._qs(".ad-value").innerHTML = res.data.ads.count;
       this._qs(".ad-value-total").innerHTML =
         "Total : " + res.data.ads.totalCount;
       this._qs(".ad-percent").innerHTML =
-        (+res.data.ads.count / +res.data.ads.totalCount) * 100 + "%";
+        Math.round((+res.data.ads.count / +res.data.ads.totalCount) * 100) +
+        "%";
 
       //User
       this._qs(".user-value").innerHTML = res.data.user.count;
