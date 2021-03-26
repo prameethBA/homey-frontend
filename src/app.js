@@ -93,6 +93,19 @@ export default class App extends Base {
       // Load login form component
       router.get("/login", () => dispatchEvent(new Event("load-login-form")));
 
+      // Load login form component
+      router.get("/forum", () =>
+        dispatchEvent(
+          new CustomEvent("load-comp", {
+            detail: {
+              path: `${window.location.pathname}`,
+              comp: `forum/forum`,
+              compName: "forum-comp",
+            },
+          })
+        )
+      );
+
       // Load signup form component
       router.get("/signup", () => dispatchEvent(new Event("load-signup-form")));
 
@@ -542,11 +555,11 @@ export default class App extends Base {
 
   //count vistors
   async countVisitors() {
-    if(localStorage.countvisit != 'true' && !this.isLogin()) {
-      const res = await axios.get(`${this.host}/User/count-new`)
-      if(res.status == 200) localStorage.countvisit  = 'true'
+    if (localStorage.countvisit != "true" && !this.isLogin()) {
+      const res = await axios.get(`${this.host}/User/count-new`);
+      if (res.status == 200) localStorage.countvisit = "true";
     }
-  }//end of countVisitors
+  } //end of countVisitors
 
   connectedCallback() {
     // Event Listner for pop-up
@@ -590,7 +603,7 @@ export default class App extends Base {
     router.init();
 
     //count vistors
-  this.countVisitors()
+    this.countVisitors();
   } //End of connectedCallback
 } //End of Class
 

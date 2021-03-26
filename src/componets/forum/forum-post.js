@@ -20,12 +20,19 @@ export default class Forum extends Base {
                 <h3 class="post-heading">${this.data.title}</h3>
                 <p class="justify-text">${this.data.content}</p>
             </div>
-            <div class="post-row">
-                <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
-            </div>
-            <div class="form-row">
-              <button id="submit">Add Comment</button>
-            </div>
+            
+            ${
+              this.data._id == this.getUserId() || this.getUserType() == 1
+                ? `
+                <div class="post-row">
+                  <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
+                </div>
+                <div class="form-row">
+                  <button id="submit">Add Comment</button>
+                </div>
+            `
+                : ""
+            }
             
             <div>${
               this.data._id == this.getUserId() || this.getUserType() == 1
@@ -147,12 +154,14 @@ export default class Forum extends Base {
     //getall coments
     this.getAllComments();
 
-    //add new comment
-    this.addComment();
-
     //delete the post
     this.data._id == this.getUserId() || this.getUserType() == 1
       ? this.deletePost()
+      : false;
+
+    //add new comment
+    this.data._id == this.getUserId() || this.getUserType() == 1
+      ? this.addComment()
       : false;
   } //End of connectedCallback()
 } //End of Class

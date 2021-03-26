@@ -14,6 +14,7 @@ export default class Nav extends Base {
     </div>
     <div class="row separator"></div>
     <div class="row nav-items">
+      <button id="forum-button"> Forum </button>
       <button id="login-button"> login </button>
     </div>
   </nav>
@@ -336,6 +337,10 @@ export default class Nav extends Base {
     loadLoginForm() {
         this._qs('#login-button').addEventListener('click', () => {
             dispatchEvent(new CustomEvent('load-login-form'))
+        })
+        this._qs('#forum-button').addEventListener('click', () => {
+            this.setPath('/forum')
+            
         })
     } // End of loadLoginForm()
 

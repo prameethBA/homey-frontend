@@ -15,7 +15,7 @@ export default class ForumComment extends Base {
         <div class="post-row">
                 <p class="justify-text">${this.data.comment}</p>
         </div>
-       
+        <hr>
     </div>
 
   `;
