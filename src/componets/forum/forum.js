@@ -10,7 +10,7 @@ export default class Forum extends Base {
         </div>
         <div class="buttons">
             <div>   
-                <button class="tab-button">Forum Home</button>
+                <button class="tab-button home">Forum Home</button>
                 <button class="tab-button my-posts">My Posts</button>
             </div>
             <div>   
@@ -19,23 +19,9 @@ export default class Forum extends Base {
             </div>
         </div>
         <div class="container">
-            <div class="tags">
-                <h2 class="tags-txt">Populer <br/>Topics</h2>
-                <ul>
-                    <li><a href="#">Annexes</a></li>
-                    <li><a href="#">Houses</a></li>
-                    <li><a href="#">Bordings</a></li>
-                    <li><a href="#">Payments</a></li>
-                    <li><a href="#">Site rules</a></li>
-                    <li><a href="#">Reporting</a></li>
-                </ul>
-            </div>
-            
-            <span class="new-forum-post">
-            </span>
+            <span class="new-forum-post"></span>
             <div class="forum-post">
             </div>
-            
         </div>
 `;
   constructor() {
@@ -123,11 +109,19 @@ export default class Forum extends Base {
     this._qs(".my-posts").addEventListener("click", () => this.getMyPosts());
   }
 
+  //Forum Home
+  homePosts() {
+    this._qs(".home").addEventListener("click", () => this.getPosts());
+  }
+
   connectedCallback() {
     this.createPost();
 
     //get posts
     this.getPosts();
+
+    //Forum home
+    this.homePosts();
 
     //listen for new post
     this.listenNewPost();
