@@ -34,6 +34,7 @@ export default class Forum extends Base {
             }
             <hr>  
             </div>
+            <div class="new-comment-container"></div>
             <div class="comment-container"></div>
         </div>
     </div>
@@ -70,11 +71,14 @@ export default class Forum extends Base {
       );
 
       if (res.status == 200) {
-        res.data.forEach(item => {
-          this._qs('.comment-container').innerHTML += `<forum-comment data-data=${this.encode(item)}></forum-comment>`
-        })
-      }
-      else throw res.data;
+        res.data.forEach((item) => {
+          this._qs(
+            ".comment-container"
+          ).innerHTML += `<forum-comment data-data=${this.encode(
+            item
+          )}></forum-comment>`;
+        });
+      } else throw res.data;
     } catch (err) {
       console.log(err.message);
     }
@@ -116,6 +120,15 @@ export default class Forum extends Base {
         });
         if (res.status == 201) {
           this.popup(res.data.message, "success");
+          this._qs(
+            ".new-comment-container"
+          ).innerHTML += `<forum-comment data-data=${this.encode({
+            comment: comment.value,
+            created: "just now",
+            firstName: "Me",
+            lastName: "",
+            user_id: "",
+          })}></forum-comment>`;
           comment.value = "";
         } else throw res.data;
         this.unwait("#submit");

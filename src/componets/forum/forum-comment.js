@@ -22,7 +22,6 @@ export default class ForumComment extends Base {
   constructor() {
     super();
     this.mount();
-    console.log(this.data);
   } //End of constructor
 
 
