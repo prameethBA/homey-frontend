@@ -339,8 +339,17 @@ export default class Nav extends Base {
             dispatchEvent(new CustomEvent('load-login-form'))
         })
         this._qs('#forum-button').addEventListener('click', () => {
+            dispatchEvent(
+                new CustomEvent('load-comp', {
+                    detail: {
+                        path: `/forum`,
+                        comp: `forum/forum`,
+                        compName: 'forum-comp'
+                    }
+                })
+            )
             this.setPath('/forum')
-            
+
         })
     } // End of loadLoginForm()
 

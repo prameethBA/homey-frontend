@@ -31,6 +31,8 @@ export default class Forum extends Base {
 
   //get posts
   async getPosts() {
+    this.setLoader();
+
     try {
       await import("./forum-post.js");
 
@@ -48,10 +50,13 @@ export default class Forum extends Base {
     } catch (err) {
       this.popup(err.message, "error", 5);
     }
+    this.stopLoader();
   }
 
   //get My posts
   async getMyPosts() {
+    this.setLoader();
+
     try {
       await import("./forum-post.js");
 
@@ -70,12 +75,18 @@ export default class Forum extends Base {
     } catch (err) {
       this.popup(err.message, "error", 5);
     }
+    this.stopLoader();
   }
 
   //create post
   createPost() {
     this._qs("#create-post").addEventListener("click", async () => {
       this.setLoader();
+      if (!this.isLogin()) {
+        dispatchEvent(new Event("load-login-form"));
+        this.popup("Login to add a post", "info");
+        return;
+      }
       await import("./create-post.js")
         .then(() => {
           this._qs("#create-post-box").innerHTML = `
@@ -106,7 +117,14 @@ export default class Forum extends Base {
 
   //get My posts
   myPosts() {
-    this._qs(".my-posts").addEventListener("click", () => this.getMyPosts());
+    this._qs(".my-posts").addEventListener("click", () => {
+      if (!this.isLogin()) {
+        dispatchEvent(new Event("load-login-form"));
+        this.popup("Login to see own posts", "info");
+        return;
+      }
+      this.getMyPosts();
+    });
   }
 
   //Forum Home
