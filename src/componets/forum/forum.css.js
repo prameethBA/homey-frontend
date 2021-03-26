@@ -49,7 +49,7 @@ export default CSS = `
     border: 2px solid #06070669;
     place-items: center;
     justify-content: center;
-    flex: 30%;
+    
     margin: 1rem;
     height: 100%;
 }

@@ -5,12 +5,20 @@ import "/componets/universal/pagination/pagination.js";
 export default class users extends Base {
   css = CSS;
 
+  notFound = `
+        <div class="notFound">
+            <h1> No Users Found!</h1>
+        </div>
+    `;
+
   content = `
     <div class="container">
         <div class="row">
             <span class="search-container">
-                <input id="search" type="text" class="search" placeholder="Search here" />
-                <label for="search"><img src="/assets/icon/Search/search_24px.png"></label>
+                <form class="search-form">
+                    <input id="search" type="text" class="search" placeholder="Search here" />
+                    <label for="search"><img src="/assets/icon/Search/search_24px.png" class="search-icon"></label>
+                </form>
                 </span>
                 <div class="button-group">
                     <button class="button-link reported danger-button" id="reported">Reported users</button>
@@ -20,11 +28,11 @@ export default class users extends Base {
                     <button class="button-link deleted danger-button" id="deleted">Deleted Users</button>
                 </div>
         </div>
-        <div class="row users">
+        <div class="row users content">
         </div>
         
         <pagination-comp data-pages="10" data-current="5"></pagination-comp>
-        
+        <div class="loader"></div>
     </div>
     `;
 
@@ -44,11 +52,10 @@ export default class users extends Base {
       if (res.status == 200) {
         await import("./subcomp/user-card.js");
         res.data.forEach((item) => {
-          this._qs(".users").innerHTML += `<user-card id="${item.userId}" data-user="${this.encode(
-            item
-          )}"></user-card>`;
+          this._qs(".users").innerHTML += `<user-card id="${
+            item.userId
+          }" data-user="${this.encode(item)}"></user-card>`;
         });
-
       } else throw res;
     } catch (err) {
       this.popup(err.message, "error");
@@ -56,7 +63,7 @@ export default class users extends Base {
     this.stopLoader();
   } //end of getUsers()
 
- /*
+  /*
 
 
   //filterProperty()
@@ -97,10 +104,52 @@ export default class users extends Base {
   } //Endof filterProperty()
 */
 
+  //search
+  search() {
+    const filter = async () => {
+      try {
+        this.wait(".loader");
+        const query = this._qs("#search").value;
+        await import("./../../home/user-comp.js");
+        // const page = 1
+        // const limit = 12
+
+        const res = await axios.post(
+          `${this.host}/admin-users/search-users/${query}`,
+          { ...this.authData() }
+        );
+
+        if (res.data.length < 1) {
+          this._qs(".content").innerHTML = this.notFound;
+        } else {
+          this._qs(".content").innerHTML = "";
+          res.data.forEach((item) => {
+            this._qs(".content").innerHTML += `<user-card id="${
+              item.userId
+            }" data-user="${this.encode(item)}"></user-card>`;
+          });
+        }
+        this.unwait(".loader");
+      } catch (err) {
+        console.log(err);
+        this.unwait(".loader");
+      }
+    };
+
+    this._qs(".search-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      filter();
+    });
+    this._qs(".search-icon").addEventListener("click", () => filter);
+  } //end of search
+
   // connectedCallback
   connectedCallback() {
     // getUsers from API
     this.getUsers();
+
+    //search
+    this.search();
 
     //filterProperty()
     //this.filterProperty();

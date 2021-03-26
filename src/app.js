@@ -540,6 +540,14 @@ export default class App extends Base {
     );
   } //End of constructor
 
+  //count vistors
+  async countVisitors() {
+    if(localStorage.countvisit != 'true' && !this.isLogin()) {
+      const res = await axios.get(`${this.host}/User/count-new`)
+      if(res.status == 200) localStorage.countvisit  = 'true'
+    }
+  }//end of countVisitors
+
   connectedCallback() {
     // Event Listner for pop-up
     addEventListener("pop-up", async (res) => {
@@ -580,6 +588,9 @@ export default class App extends Base {
     );
 
     router.init();
+
+    //count vistors
+  this.countVisitors()
   } //End of connectedCallback
 } //End of Class
 
@@ -591,9 +602,9 @@ document.getElementById("root").innerHTML = "<app-comp></app-comp>";
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("./sw.js")
+      .register("/sw.js")
       .then((registration) => {
-        console.log("Service Worker is registered", registration.scope);
+        // console.log("Service Worker is registered", registration.scope);
       })
       .catch((err) => {
         console.error("Registration failed:", err);

@@ -33,4 +33,38 @@ export default CSS = `
     width: 95%;
   }
 
-`
+  .form-row{ 
+    margin-bottom: 10px; 
+  }
+
+  .form-row:last-child{ 
+    margin-bottom: 0; 
+  }
+
+
+
+  #submit {
+    background-color: #555f77;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .15);
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    outline: none;
+    padding: 6px 15px;
+  
+    -webkit-transition: 350ms box-shadow;
+    -moz-transition: 350ms box-shadow;
+    -ms-transition: 350ms box-shadow;
+    -o-transition: 350ms box-shadow;
+    transition: 350ms box-shadow;
+  }
+  
+  #submit:focus,
+  #submit:hover{
+    box-shadow: 0 2px 6px rgba(121, 137, 148, .55);
+  }
+
+`;
