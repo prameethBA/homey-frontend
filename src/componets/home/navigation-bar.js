@@ -348,7 +348,7 @@ export default class Nav extends Base {
                     }
                 })
             )
-            this.setPath('/forum')
+            // this.setPath('/forum')
 
         })
     } // End of loadLoginForm()
