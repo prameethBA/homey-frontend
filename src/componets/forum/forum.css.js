@@ -94,8 +94,6 @@ export default CSS = `
   text-transform: uppercase;
 }
 .forum-post{
-  border: 6px solid #0EC253;
-  border-radius: 30px;
   width: 100%;
   margin: 1em 8em 1em 8em;
 }
@@ -127,6 +125,15 @@ button{
   }
   .justify-text{
     margin-left:10%;
+  }
+  #delete-comment{
+    width: 2rem;
+    height: 1.5rem;
+    background-image: none;
+    border: solid black 0px;
+    font-size: 1em;
+    border-radius:0;
+    margin: 1.5em 1em 0em 0em;
   }
 @media(max-Width:800px){
   .forum-post {
