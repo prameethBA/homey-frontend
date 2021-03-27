@@ -19,7 +19,6 @@ export default class Forum extends Base {
             </div>
         </div>
         <div class="container">
-            <span class="new-forum-post"></span>
             <div class="forum-post">
             </div>
         </div>
@@ -37,7 +36,7 @@ export default class Forum extends Base {
       await import("./forum-post.js");
 
       const res = await axios.get(`${this.host}/forum/all`);
-
+      this._qs(".forum-post").innerHTML = "";
       if (res.status == 200) {
         res.data.forEach((item) => {
           this._qs(
@@ -89,7 +88,7 @@ export default class Forum extends Base {
       }
       await import("./create-post.js")
         .then(() => {
-          this._qs("#create-post-box").innerHTML = `
+          this._qs(".forum-post").innerHTML += `
                         <create-post>
                         </create-post>`;
           this.stopLoader();
@@ -105,13 +104,11 @@ export default class Forum extends Base {
   //listen for new post
   listenNewPost() {
     addEventListener("new-post-added", (e) => {
-      const temp = this._qs(".new-forum-post").innerHTML;
       this._qs(
-        ".new-forum-post"
-      ).innerHTML = `<forum-post data-data="${this.encode(
+        ".forum-post"
+      ).innerHTML += `<forum-post data-data="${this.encode(
         e.detail
       )}"></forum-post>`;
-      this._qs(".new-forum-post").innerHTML += temp;
     });
   }
 

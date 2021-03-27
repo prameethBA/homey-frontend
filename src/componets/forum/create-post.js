@@ -104,7 +104,7 @@ export default class CreatePost extends Base {
               title: this._qs("#title").value,
               content: this._qs("#content").value,
               user_id: this.getUserId(),
-              _id: "",
+              _id: 0,
               created: "just now",
             },
           })
