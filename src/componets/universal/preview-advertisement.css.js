@@ -175,6 +175,18 @@ export default CSS = `
         box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
     }
 
+    .zoomed-image {
+        position: fixed;
+        width: 80%;
+        height: 80%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        margin: auto;
+    }
+
     @media screen and (max-width: 1200px) {
 
         .container {
@@ -191,4 +203,4 @@ export default CSS = `
     
     
 
-`
+`;

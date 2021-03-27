@@ -1,12 +1,12 @@
-import Base from '../../../Base.js'
-import CSS from './comment-box.css.js'
+import Base from "../../../Base.js";
+import CSS from "./comment-box.css.js";
 
 export default class CommentBox extends Base {
-    css = CSS
+  css = CSS;
 
-    loader = `<img src="/assets/img/alt/load-post.gif">`
+  loader = `<img src="/assets/img/alt/load-post.gif">`;
 
-    content = `
+  content = `
         <!-- Comment - Dummy -->
         <div class="comment">
         <!-- Comment Avatar -->
@@ -35,69 +35,71 @@ export default class CommentBox extends Base {
             </div>
         </div>
         </div>
-    `
+    `;
 
-    constructor() {
-        super()
-        this.mount()
-        this.state = this.getParams('data-data')
-    } //End of constructor
+  constructor() {
+    super();
+    this.mount();
+    this.state = this.getParams("data-data");
+  } //End of constructor
 
-    //getprofilePicture
-    async getprofilePicture(userID) {
-        try {
-            const res = await axios.post(
-                `${this.host}/images/get-profile-image/${userID}`
-            )
-            this._qs('#profile-picture').innerHTML = `<img 
+  //getprofilePicture
+  async getprofilePicture(userID) {
+    try {
+      const res = await axios.post(
+        `${this.host}/images/get-profile-image/${userID}`
+      );
+      this._qs("#profile-picture").innerHTML = `<img 
                   src="${
-                      res.data.image != ''
-                          ? res.data.image
-                          : '/assets/img/alt/no-mage.png'
+                    res.data.image != ""
+                      ? res.data.image
+                      : "/assets/img/alt/no-mage.png"
                   }" 
                   alt="Profile picture"
-                  />`
-        } catch (err) {
-            console.log(err)
-        }
-    } //End of getprofilePicture()
+                  />`;
+    } catch (err) {
+      console.log(err);
+    }
+  } //End of getprofilePicture()
 
-    //viewComment
-    async viewComment() {
-        if (this.getParam('view') == 'true') {
-            const res = await axios.post(
-                `${this.host}/feedback/get-property/${this.getParam('id')}`
-            )
-            this._qs('.comment-text').innerHTML = res.data.feedback
-            this._qs('.comment-date').innerHTML = res.data.created
-            this._qs('#comment-author').innerHTML =
-                res.data.userId == '0'
-                    ? 'Anonymous'
-                    : `${res.data.firstName == null ? 'A' : res.data.firstName } ${res.data.lastName == null ? 'User' : res.data.lastName}`
+  //viewComment
+  async viewComment() {
+    if (this.getParam("view") == "true") {
+      const res = await axios.post(
+        `${this.host}/feedback/get-property/${this.getParam("id")}`
+      );
+      this._qs(".comment-text").innerHTML = res.data.feedback;
+      this._qs(".comment-date").innerHTML = res.data.created;
+      this._qs("#comment-author").innerHTML =
+        res.data.userId == "0"
+          ? "Anonymous"
+          : `${res.data.firstName == null ? "A" : res.data.firstName} ${
+              res.data.lastName == null ? "User" : res.data.lastName
+            }`;
 
-            if (res.data.userId == '0')
-                this._qs('#profile-picture').innerHTML = `
+      if (res.data.userId == "0")
+        this._qs("#profile-picture").innerHTML = `
                     <img 
                         src='/assets/img/alt/no-mage.png' 
                         alt="Profile picture"
-                    />`
-            else this.getprofilePicture(res.data.userId) //getprofilePicture
-        } else {
-            this._qs('#profile-picture').innerHTML = `<img
+                    />`;
+      else this.getprofilePicture(res.data.userId); //getprofilePicture
+    } else {
+      this._qs("#profile-picture").innerHTML = `<img
                         src="${this.state.image}"
                         alt="Profile picture"
-                    />`
-            this._qs('.comment-text').innerHTML = this.state.feedback
-        }
-    } //End of viewComment()
+                    />`;
+      this._qs(".comment-text").innerHTML = this.state.feedback;
+    }
+  } //End of viewComment()
 
-    connectedCallback() {
-        //viewComment
-        this.viewComment()
-    } //End of connectedCallback
+  connectedCallback() {
+    //viewComment
+    this.viewComment();
+  } //End of connectedCallback
 } //End of class
 
-const elementName = 'comment-box'
+const elementName = "comment-box";
 // customElements.get(elementName) == undefined?
-window.customElements.define(elementName, CommentBox)
+window.customElements.define(elementName, CommentBox);
 // : null

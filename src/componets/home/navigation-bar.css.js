@@ -1,5 +1,5 @@
 const loginButton = `
-  #login-button, #admin-dashboard {	
+  #forum-button, #login-button, #admin-dashboard {	
     height: 2.5rem;	
     width: 10rem;	
     margin: auto 2rem;	
@@ -16,7 +16,7 @@ const loginButton = `
       height: 2rem;	
     }	
         
-  #login-button:hover {	
+    #forum-button, #login-button:hover {	
       background-color: #34a832;	
   }
 `

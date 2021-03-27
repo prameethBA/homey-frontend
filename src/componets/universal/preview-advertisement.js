@@ -37,6 +37,7 @@ export default class PreviewAdvertisement extends Base {
             }
             </div>
         </div>
+        <div class="zoom-image"></div>
     </div>
 </div>
     
@@ -88,12 +89,26 @@ export default class PreviewAdvertisement extends Base {
         });
       }
 
-      //image slider
-      this.slider();
+      //zoom image
+      this.zoomImage();
     } catch (err) {
       console.log(err);
     }
   } //End of getImages()
+
+  //zoom image
+  zoomImage() {
+    this._qsAll(".img").forEach((item) => {
+      item.addEventListener("mouseover", () => {
+        this._qs(
+          ".zoom-image"
+        ).innerHTML = `<img class="zoomed-image" src="${item.src}"/>`;
+      });
+      item.addEventListener("mouseout", () => {
+        this._qs(".zoom-image").innerHTML = "";
+      });
+    });
+  }
 
   //inject Data
   async inejectData() {
