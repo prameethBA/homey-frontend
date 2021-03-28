@@ -34,7 +34,6 @@ export default class ForumComment extends Base {
     this.mount();
   } //End of constructor
 
-<<<<<<< HEAD
     //delete the comment
     deleteComment() {
             this._qs(".delete-btn").addEventListener("click", async() => {
@@ -63,9 +62,6 @@ export default class ForumComment extends Base {
                 this.deleteComment() :
                 false;
         } //End of connectedCallback()
-=======
-  connectedCallback() {} //End of connectedCallback()
->>>>>>> dfdece51664c7afcb9e70f2209e9f657d29bb672
 } //End of class
 
 const elementName = "forum-comment";
