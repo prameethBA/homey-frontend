@@ -149,7 +149,6 @@ export default class PreviewAdvertisement extends Base {
 
     if (typeof this.state.facilities == "string")
       this.state.facilities = JSON.parse(this.state.facilities);
-
     this.state.facilities.forEach((item) => {
       this._qs(".facilities").innerHTML += `
                 <facility-comp 

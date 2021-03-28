@@ -49,7 +49,6 @@ export default class Pendings extends Base {
             id: item.dataset.id,
           }
         );
-        console.log(res.data);
         await import("./../../universal/preview-advertisement.js");
         this._qs(
           ".preview-advertisement"

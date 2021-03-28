@@ -75,7 +75,7 @@ export default class AdminAccount extends Base {
         `;
     // Deactivate
     this._qs(".users").innerHTML += data;
-    console.log(this.deactivate(user.userId));
+    this.deactivate(user.userId);
 
     //getprofilePicture
     this.getprofilePicture(user.userId);
