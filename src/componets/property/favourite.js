@@ -90,4 +90,7 @@ export default class Favourite extends Base {
   } //End of connectedCallback()
 } //End of the class
 
-window.customElements.define("favourite-comp", Favourite);
+const elementName = "favourite-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Favourite)
+  : null;

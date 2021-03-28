@@ -158,4 +158,7 @@ export default class properties extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("properties-comp", properties);
+const elementName = "properties-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, properties)
+  : null;

@@ -217,4 +217,7 @@ export default class LoginForm extends Base {
   } //End of connectedCallback
 }
 
-window.customElements.define("login-form", LoginForm);
+const elementName = "login-form";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, LoginForm)
+  : null;

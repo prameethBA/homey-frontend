@@ -240,4 +240,7 @@ export default class Dashboard extends Base {
   } //End of connectedCallback
 } //End of Class
 
-window.customElements.define("dashboard-comp", Dashboard);
+const elementName = "dashboard-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Dashboard)
+  : null;

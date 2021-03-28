@@ -100,6 +100,6 @@ export default class CommentBox extends Base {
 } //End of class
 
 const elementName = "comment-box";
-// customElements.get(elementName) == undefined?
-window.customElements.define(elementName, CommentBox);
-// : null
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, CommentBox)
+  : null;

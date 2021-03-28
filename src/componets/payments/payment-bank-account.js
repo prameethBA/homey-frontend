@@ -77,4 +77,7 @@ export default class PaymentBankAccount extends Base {
   } //End of connected callback
 }
 
-window.customElements.define("payment-bank-account", PaymentBankAccount);
+const elementName = "payment-bank-account";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, PaymentBankAccount)
+  : null;

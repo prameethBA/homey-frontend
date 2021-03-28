@@ -242,4 +242,7 @@ export default class AdminAccount extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("admin-accounts-comp", AdminAccount);
+const elementName = "admin-accounts-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, AdminAccount)
+  : null;

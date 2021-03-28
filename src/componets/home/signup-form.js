@@ -228,11 +228,12 @@ export default class SignUpForm extends Base {
 
             this.popup(
               res.data.message + " Confirm the email and log into continue.",
-              "success",10
+              "success",
+              10
             );
           } else throw res;
         } catch (err) {
-          this.popup(err.message, "error",10);
+          this.popup(err.message, "error", 10);
         }
       } else
         this.popup(
@@ -267,4 +268,7 @@ export default class SignUpForm extends Base {
   } //End of connected callback
 } //End of Class
 
-window.customElements.define("signup-form", SignUpForm);
+const elementName = "signup-form";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, SignUpForm)
+  : null;

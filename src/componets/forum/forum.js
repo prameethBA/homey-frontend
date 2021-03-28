@@ -146,4 +146,7 @@ export default class Forum extends Base {
   } //End of connectedCallback()
 } //End of class
 
-window.customElements.define("forum-comp", Forum);
+const elementName = "forum-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Forum)
+  : null;

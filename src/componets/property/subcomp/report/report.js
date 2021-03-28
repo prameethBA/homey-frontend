@@ -122,4 +122,7 @@ export default class Report extends Base {
   } //End of connectedCallback
 } //End of Class
 
-window.customElements.define("report-form", Report);
+const elementName = "report-form";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Report)
+  : null;

@@ -121,4 +121,7 @@ export default class Home extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("home-comp", Home);
+const elementName = "home-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Home)
+  : null;

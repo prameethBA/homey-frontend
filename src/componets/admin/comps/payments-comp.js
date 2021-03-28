@@ -183,4 +183,7 @@ export default class payments extends Base {
     */
 } //End of Class
 
-window.customElements.define("payments-comp", payments);
+const elementName = "payments-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, payments)
+  : null;

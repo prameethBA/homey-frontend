@@ -2,7 +2,7 @@ import Base from "../Base.js";
 import CSS from "./forum.css.js";
 
 export default class ForumComment extends Base {
-    css = CSS;
+  css = CSS;
 
     data = this.getParams("data-data");
 
@@ -29,11 +29,12 @@ export default class ForumComment extends Base {
     </div>
 
   `;
-    constructor() {
-            super();
-            this.mount();
-        } //End of constructor
+  constructor() {
+    super();
+    this.mount();
+  } //End of constructor
 
+<<<<<<< HEAD
     //delete the comment
     deleteComment() {
             this._qs(".delete-btn").addEventListener("click", async() => {
@@ -62,6 +63,12 @@ export default class ForumComment extends Base {
                 this.deleteComment() :
                 false;
         } //End of connectedCallback()
+=======
+  connectedCallback() {} //End of connectedCallback()
+>>>>>>> dfdece51664c7afcb9e70f2209e9f657d29bb672
 } //End of class
 
-window.customElements.define("forum-comment", ForumComment);
+const elementName = "forum-comment";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, ForumComment)
+  : null;
