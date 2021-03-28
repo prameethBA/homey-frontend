@@ -170,11 +170,7 @@ export default class Report extends Base {
   } //End of connectedCallback
 } //End of Class
 
-<<<<<<< HEAD
-window.customElements.define("report-comp", Report);
-=======
 const elementName = "report-comp";
 customElements.get(elementName) == undefined
   ? window.customElements.define(elementName, Report)
   : null;
->>>>>>> dfdece51664c7afcb9e70f2209e9f657d29bb672
