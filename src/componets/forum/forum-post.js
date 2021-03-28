@@ -3,21 +3,21 @@ import CSS from "./forum-post.css.js";
 import "./forum-comment.js";
 
 export default class Forum extends Base {
-  css = CSS;
+    css = CSS;
 
-  data = this.getParams("data-data");
+    data = this.getParams("data-data");
 
-  content = `
+    content = `
     <div class="posts" id="${this.data._id}">
         <div class="post-container">
             <div class="post-row">
                 <h3 class="post-username" id="${
                   this.data.user_id
-                }">Anonymous user</h4>
+                }">Anonymous user</h3>
                 <h5 class="post-creadted">${this.data.created}</h5>
             </div>
             <div class="post-row">
-                <h2 class="post-heading">${this.data.title}</h3>
+                <h2 class="post-heading">${this.data.title}</h2>
                 <p class="justify-text">${this.data.content}</p>
             </div>
             <div class="post-row">

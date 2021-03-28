@@ -17,7 +17,13 @@ export default CSS = `
     margin-right: 1.5em;
     margin-top: 1em;
   }
-  
+  .post-container{
+    border: 6px solid #0EC253;
+    border-radius: 30px;
+    padding: 2em;
+    margin-bottom: 1em;
+  }
+
   .posts {
     flex: 85%;
     padding-right: 2px;
@@ -42,9 +48,9 @@ export default CSS = `
     margin-bottom: 0; 
   }
 
-#delete-post{
-  margin-left: 1em;
-}
+  #delete-post{
+    margin-left: 1em;
+  }
 
   #submit {
     background-color: #555f77;
