@@ -1,10 +1,10 @@
-import Base from './../Base.js'
-import CSS from './property-history.css.js'
+import Base from "./../Base.js";
+import CSS from "./property-history.css.js";
 
 export default class PropertyHistory extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
     <div class="property-history-heading">
         <h1>Property History</h1>
     </div>
@@ -80,11 +80,14 @@ export default class PropertyHistory extends Base {
     
 
  
-  `
-    constructor() {
-        super()
-        this.mount()
-    }
+  `;
+  constructor() {
+    super();
+    this.mount();
+  }
 }
 
-window.customElements.define('property-history', PropertyHistory)
+const elementName = "property-history";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, PropertyHistory)
+  : null;

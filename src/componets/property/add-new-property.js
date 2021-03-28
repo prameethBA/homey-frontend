@@ -227,8 +227,7 @@ export default class AddNewProperty extends Base {
   //get nearest city
   async getNearestCity(location) {
     try {
-
-      this.state.location = location
+      this.state.location = location;
 
       const res = await axios.post(
         `${this.host}/cities/get-nearest-city`,
@@ -576,39 +575,40 @@ export default class AddNewProperty extends Base {
       try {
         this._qs("#progress").style.display = "flex";
         // Api call to add Advertisement to the databsse
-        axios.post(
-          `${this.host}/property/add-new`,
-          {
-            ...data,
-            ...this.authData(),
-          },
-          {
-            onUploadProgress: (progressEvent) => {
-              const { loaded, total } = progressEvent;
-              let percent = Math.floor((loaded * 100) / total);
-              this._qs("#progress-bar-progress").style.width = percent + "%";
-              this._qs("#progress-progress").innerText = `${
-                Math.round((loaded / 1024 / 1024) * 100) / 100
-              }MB of ${
-                Math.round((total / 1024 / 1024) * 100) / 100
-              }MB | ${percent}%`;
-              if (percent >= 100) {
-                this._qs("#progress").style.display = "none";
-                this._qs("#add-preview").innerHTML = "";
-              }
+        axios
+          .post(
+            `${this.host}/property/add-new`,
+            {
+              ...data,
+              ...this.authData(),
             },
-          }
-        ).then(async res => {
-          if (res.status == 201) {
-        // Popup for enable add fetures
-            this.popup(res.data.message, "success");
-            await import("./subcomp/advertisement-settings.js");
-            this._qs(
-              ".popup"
-            ).innerHTML = `<advertisement-settings data-key="${res.data.propertyId}" data-available="${data.availableFrom}"></advertisement-settings>`;
-          } else throw res.data;
-        })
-        
+            {
+              onUploadProgress: (progressEvent) => {
+                const { loaded, total } = progressEvent;
+                let percent = Math.floor((loaded * 100) / total);
+                this._qs("#progress-bar-progress").style.width = percent + "%";
+                this._qs("#progress-progress").innerText = `${
+                  Math.round((loaded / 1024 / 1024) * 100) / 100
+                }MB of ${
+                  Math.round((total / 1024 / 1024) * 100) / 100
+                }MB | ${percent}%`;
+                if (percent >= 100) {
+                  this._qs("#progress").style.display = "none";
+                  this._qs("#add-preview").innerHTML = "";
+                }
+              },
+            }
+          )
+          .then(async (res) => {
+            if (res.status == 201) {
+              // Popup for enable add fetures
+              this.popup(res.data.message, "success");
+              await import("./subcomp/advertisement-settings.js");
+              this._qs(
+                ".popup"
+              ).innerHTML = `<advertisement-settings data-key="${res.data.propertyId}" data-available="${data.availableFrom}"></advertisement-settings>`;
+            } else throw res.data;
+          });
       } catch (err) {
         this.popup(err.message, "error", 10);
       } //End of the catch for try
@@ -652,4 +652,7 @@ export default class AddNewProperty extends Base {
   } //End of connectedCallback
 } //End of Class
 
-window.customElements.define("add-new-property", AddNewProperty);
+const elementName = "add-new-property";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, AddNewProperty)
+  : null;

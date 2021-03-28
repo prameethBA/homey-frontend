@@ -178,4 +178,7 @@ export default class AdvertisementSettings extends Base {
   } //End of connected callBack()
 } //End of class
 
-window.customElements.define("advertisement-settings", AdvertisementSettings);
+const elementName = "advertisement-settings";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, AdvertisementSettings)
+  : null;

@@ -1,10 +1,10 @@
-import Base from '../Base.js'
-import CSS from './notification-bar.css.js'
+import Base from "../Base.js";
+import CSS from "./notification-bar.css.js";
 
 export default class Notification extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
     <div class="notifications">
         <div class="notification">
                 Notification 1
@@ -25,20 +25,18 @@ export default class Notification extends Base {
                     </div>
         </div>
     </div>
-    `
+    `;
 
-    constructor() {
-        super()
-        this.mount()
-    } //End of the constructor
-    
-    
-    
-    //connectedCallback
-    connectedCallback() {
-    } //End of connectedCallback()
-    } //End of Class
-    
-    
-    
-    window.customElements.define('notification-comp', Notification)
+  constructor() {
+    super();
+    this.mount();
+  } //End of the constructor
+
+  //connectedCallback
+  connectedCallback() {} //End of connectedCallback()
+} //End of Class
+
+const elementName = "notification-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Notification)
+  : null;

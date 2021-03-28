@@ -203,4 +203,7 @@ export default class Pendings extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("pending-comp", Pendings);
+const elementName = "pending-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Pendings)
+  : null;

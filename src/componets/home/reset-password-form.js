@@ -45,4 +45,7 @@ export default class ResetPassword extends Base {
   } //End of callback
 } //End of the class
 
-window.customElements.define("reset-password-form", ResetPassword);
+const elementName = "reset-password-form";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, ResetPassword)
+  : null;

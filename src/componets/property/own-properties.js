@@ -90,21 +90,21 @@ export default class OwnProperties extends Base {
   filterProperty() {
     this._qsAll(".button-link").forEach((item) => {
       item.addEventListener("click", async () => {
-          this.wait(item)
-          try {
-            const res = await axios.post(
-                `${this.host}/property/filter-own/${item.id}`,
-                {
-                  ...this.authData(),
-                }
-              );
+        this.wait(item);
+        try {
+          const res = await axios.post(
+            `${this.host}/property/filter-own/${item.id}`,
+            {
+              ...this.authData(),
+            }
+          );
 
-              if (res.data.length < 1) {
-                this._qs(".content").innerHTML = this.notFound;
-              } else {
-                this._qs(".content").innerHTML = "";
-                res.data.forEach((item) => {
-                  this._qs(".content").innerHTML += `
+          if (res.data.length < 1) {
+            this._qs(".content").innerHTML = this.notFound;
+          } else {
+            this._qs(".content").innerHTML = "";
+            res.data.forEach((item) => {
+              this._qs(".content").innerHTML += `
                             <property-view 
                             id="${item.property_id}"
                             data-data="${this.encode(item)}"
@@ -112,13 +112,12 @@ export default class OwnProperties extends Base {
                             >
                             </property-view>
                             `;
-                });
-              }
-          } catch (err) {
-              console.log(err);
+            });
           }
-          this.unwait(item)
-        
+        } catch (err) {
+          console.log(err);
+        }
+        this.unwait(item);
       });
     });
   } //Endof filterProperty()
@@ -135,4 +134,7 @@ export default class OwnProperties extends Base {
   } //End of connectedCallback()
 } //End of the class
 
-window.customElements.define("own-properties", OwnProperties);
+const elementName = "own-properties";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, OwnProperties)
+  : null;

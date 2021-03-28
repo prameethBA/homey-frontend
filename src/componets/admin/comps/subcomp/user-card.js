@@ -261,4 +261,7 @@ export default class UserCard extends Base {
   } //End of connectedCallback
 } //End of Class
 
-window.customElements.define("user-card", UserCard);
+const elementName = "user-card";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, UserCard)
+  : null;

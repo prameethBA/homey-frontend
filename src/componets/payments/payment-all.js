@@ -1,10 +1,10 @@
-import Base from '../Base.js'
-import CSS from './payment-received.css.js'
+import Base from "../Base.js";
+import CSS from "./payment-received.css.js";
 
 export default class PaymentAll extends Base {
-    css = CSS
+  css = CSS;
 
-    leftNav = `
+  leftNav = `
       <div class="column left-nav-container">
         <div class="column left-nav">
           <div><a href="/payment/received">Received Payments</a></div>
@@ -14,9 +14,9 @@ export default class PaymentAll extends Base {
           <div><a href="/payment/bank-account">Bank Account Details</a></div>
         </div>
       </div>
-  `
+  `;
 
-    tr = `
+  tr = `
       <tr>
           <td>91908091830</td>
           <td>Boarding fee for <a>#293b24o82g9vh4o</a></td>
@@ -45,9 +45,9 @@ export default class PaymentAll extends Base {
           <td>2020-10-12 12:45:23</td>
           <td>🔴 Rejected</td>
       </tr>
-    `
+    `;
 
-    content = `
+  content = `
     <div class="container row">
       ${this.leftNav}
       <div class="column content">
@@ -70,13 +70,16 @@ export default class PaymentAll extends Base {
         </div>
       </div>
     </div>
-  `
-    constructor() {
-        super()
-        this.mount()
-    } //End of constructor
+  `;
+  constructor() {
+    super();
+    this.mount();
+  } //End of constructor
 
-    connectedCallback() {} //End of connected callback
+  connectedCallback() {} //End of connected callback
 }
 
-window.customElements.define('payment-all', PaymentAll)
+const elementName = "payment-all";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, PaymentAll)
+  : null;

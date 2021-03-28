@@ -624,7 +624,7 @@ export default class Profile extends Base {
               this._qs(".popup").style.display = "none";
             })
             .catch((err) => {
-              console.log(err)
+              console.log(err);
               this.popup(err.message, "error", 10);
               this.stopLoader();
               this._qs(".popup").style.display = "none";
@@ -698,4 +698,7 @@ export default class Profile extends Base {
   } //End of connectedCallback()
 } //End of class
 
-window.customElements.define("profile-comp", Profile);
+const elementName = "profile-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Profile)
+  : null;

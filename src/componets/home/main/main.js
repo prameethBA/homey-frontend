@@ -1,57 +1,57 @@
-import Base from '../../Base.js'
-import CSS from './main.css.js'
+import Base from "../../Base.js";
+import CSS from "./main.css.js";
 
-import '../user-comp.js'
+import "../user-comp.js";
 
 class TxtRotate {
-    constructor(el, toRotate, period) {
-        this.toRotate = toRotate
-        this.el = el
-        this.loopNum = 0
-        this.period = parseInt(period, 10) || 1000
-        this.txt = ''
-        this.tick()
-        this.isDeleting = false
-        console.log(this)
+  constructor(el, toRotate, period) {
+    this.toRotate = toRotate;
+    this.el = el;
+    this.loopNum = 0;
+    this.period = parseInt(period, 10) || 1000;
+    this.txt = "";
+    this.tick();
+    this.isDeleting = false;
+    console.log(this);
+  }
+
+  tick() {
+    const i = this.loopNum % this.toRotate.length;
+    const fullTxt = this.toRotate[i];
+
+    if (this.isDeleting) {
+      this.txt = fullTxt.substring(0, this.txt.length - 1);
+    } else {
+      this.txt = fullTxt.substring(0, this.txt.length + 1);
     }
 
-    tick() {
-        const i = this.loopNum % this.toRotate.length
-        const fullTxt = this.toRotate[i]
+    this.el.innerHTML = `<span class="wrap">${this.txt}</span>`;
 
-        if (this.isDeleting) {
-            this.txt = fullTxt.substring(0, this.txt.length - 1)
-        } else {
-            this.txt = fullTxt.substring(0, this.txt.length + 1)
-        }
+    const that = this;
+    let delta = 160 - Math.random() * 100;
 
-        this.el.innerHTML = `<span class="wrap">${this.txt}</span>`
-
-        const that = this
-        let delta = 160 - Math.random() * 100
-
-        if (this.isDeleting) {
-            delta /= 2
-        }
-
-        if (!this.isDeleting && this.txt === fullTxt) {
-            delta = this.period
-            this.isDeleting = true
-        } else if (this.isDeleting && this.txt === '') {
-            this.isDeleting = false
-            this.loopNum++
-            delta = 50
-        }
-
-        setTimeout(() => {
-            that.tick()
-        }, delta)
+    if (this.isDeleting) {
+      delta /= 2;
     }
+
+    if (!this.isDeleting && this.txt === fullTxt) {
+      delta = this.period;
+      this.isDeleting = true;
+    } else if (this.isDeleting && this.txt === "") {
+      this.isDeleting = false;
+      this.loopNum++;
+      delta = 50;
+    }
+
+    setTimeout(() => {
+      that.tick();
+    }, delta);
+  }
 }
 export default class Main extends Base {
-    css = CSS
+  css = CSS;
 
-    userComp = `
+  userComp = `
         <div class='user-comp'>
             <user-comp
                 mirror='true'
@@ -76,9 +76,9 @@ export default class Main extends Base {
                 <h1 slot='title'>Looking for a place</h1>
             </user-comp>
         </div>
-    `
+    `;
 
-    main = `
+  main = `
         <div class='main-content'>
             <h1 id='main-title'>
                 <span
@@ -88,9 +88,9 @@ export default class Main extends Base {
                     data-rotate='[ "Welcome to Homey.lk", "New way to find a Home" ]'></span>
             </h1>
         </div>
-    `
+    `;
 
-    content = `
+  content = `
         <div class='container'>
             <div class='parallax parallax-1'>
                 ${this.main}                
@@ -234,69 +234,70 @@ export default class Main extends Base {
                 </div>
             </div>
         </div>
-    `
+    `;
 
-    constructor() {
-        super()
-        this.mount()
+  constructor() {
+    super();
+    this.mount();
 
-        this.setPath('/')
+    this.setPath("/");
+  }
+
+  //typingEffect
+  // typingEffect(text) {
+  //     let target = this._qs('#main-title')
+  //     let index = 0
+  //     const writing = () => {
+  //         if (index < text.length) {
+  //             target.innerHTML += text.charAt(index)
+  //             index++
+  //         } else {
+  //             target.innerHTML = 'H'
+  //             index = 0
+  //         }
+  //     }
+  //     setInterval(() => writing(), 200)
+  // } //End of typingEffect()
+
+  typingEffect() {
+    const elements = this._qs("#main-title-text");
+    const toRotate = elements.getAttribute("data-rotate");
+    const period = elements.getAttribute("data-period");
+    if (toRotate) {
+      new TxtRotate(elements, JSON.parse(toRotate), period);
     }
+  }
 
+  // Scroll haf of the page
+  scrollHalf() {
+    window.scrollBy(0, document.documentElement.clientHeight / 2);
+  }
+
+  scrollDown() {
+    this._qs(".down-wrap").addEventListener("click", () => this.scrollHalf());
+  }
+
+  // Load signuo or login form
+  loadForm(elem) {
+    this._qs(`.${elem}`).addEventListener("click", () => {
+      dispatchEvent(new Event(`load-${elem}-form`));
+    });
+    if (this.isLogin()) this._qs(`.${elem}`).style.display = "none";
+  } //End of loadForm()
+
+  connectedCallback() {
     //typingEffect
-    // typingEffect(text) {
-    //     let target = this._qs('#main-title')
-    //     let index = 0
-    //     const writing = () => {
-    //         if (index < text.length) {
-    //             target.innerHTML += text.charAt(index)
-    //             index++
-    //         } else {
-    //             target.innerHTML = 'H'
-    //             index = 0
-    //         }
-    //     }
-    //     setInterval(() => writing(), 200)
-    // } //End of typingEffect()
+    this.typingEffect();
+    //scroll down page when click scroll down arrow
+    this.scrollDown();
 
-    typingEffect() {
-        const elements = this._qs('#main-title-text')
-        const toRotate = elements.getAttribute('data-rotate')
-        const period = elements.getAttribute('data-period')
-        if (toRotate) {
-            new TxtRotate(elements, JSON.parse(toRotate), period)
-        }
-    }
-
-    // Scroll haf of the page
-    scrollHalf() {
-        window.scrollBy(0, document.documentElement.clientHeight / 2)
-    }
-
-    scrollDown() {
-        this._qs('.down-wrap').addEventListener('click', () =>
-            this.scrollHalf()
-        )
-    }
-
-    // Load signuo or login form
-    loadForm(elem) {
-        this._qs(`.${elem}`).addEventListener('click', () => {
-            dispatchEvent(new Event(`load-${elem}-form`))
-        })
-        if (this.isLogin()) this._qs(`.${elem}`).style.display = 'none'
-    } //End of loadForm()
-
-    connectedCallback() {
-        //typingEffect
-        this.typingEffect()
-        //scroll down page when click scroll down arrow
-        this.scrollDown()
-
-        // Load signup or login form
-        this.loadForm('login')
-        this.loadForm('signup')
-    } //End of connectedCallback()
+    // Load signup or login form
+    this.loadForm("login");
+    this.loadForm("signup");
+  } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define('main-comp', Main)
+const elementName = "main-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Main)
+  : null;

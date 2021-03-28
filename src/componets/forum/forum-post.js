@@ -3,11 +3,11 @@ import CSS from "./forum-post.css.js";
 import "./forum-comment.js";
 
 export default class Forum extends Base {
-    css = CSS;
+  css = CSS;
 
-    data = this.getParams("data-data");
+  data = this.getParams("data-data");
 
-    content = `
+  content = `
     <div class="posts" id="${this.data._id}">
         <div class="post-container">
             <div class="post-row">
@@ -159,4 +159,7 @@ export default class Forum extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("forum-post", Forum);
+const elementName = "forum-post";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Forum)
+  : null;

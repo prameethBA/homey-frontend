@@ -172,14 +172,17 @@ export default class Wallet extends Base {
   }
 
   connectedCallback() {
-      this.ownProperty();
-      this.favourite();
-      this.payments();
-      this.paid();
-      this.all();
-      this.cashout();
-      this.account();
+    this.ownProperty();
+    this.favourite();
+    this.payments();
+    this.paid();
+    this.all();
+    this.cashout();
+    this.account();
   } // End of connected callback
 } // End of Class
 
-window.customElements.define("wallet-comp", Wallet);
+const elementName = "wallet-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Wallet)
+  : null;
