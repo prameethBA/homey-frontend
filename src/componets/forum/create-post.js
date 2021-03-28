@@ -98,6 +98,7 @@ export default class CreatePost extends Base {
       });
 
       if (res.data.action == "true") {
+        this.exitDock()
         dispatchEvent(
           new CustomEvent("new-post-added", {
             detail: {

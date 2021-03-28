@@ -7,7 +7,7 @@ export default class ForumComment extends Base {
     data = this.getParams("data-data");
 
     content = `
-    <div>
+    <div class="conatiner">
         <div class="post-row">
             <h3 class="post-username" id="">${this.data.firstName} ${
               this.data.lastName
@@ -15,7 +15,7 @@ export default class ForumComment extends Base {
             </h3>
             <h5 class="post-creadted">${this.data.created}</h5>
             <div class="delete-btn">${
-              this.data._id == this.getUserId() || this.getUserType() == 1
+              this.data.id == this.getUserId() || this.getUserType() == 1
                 ? `<button id="delete-comment" title="Delete the comment">🗑️</button>`
                 : ""
             }
@@ -37,28 +37,28 @@ export default class ForumComment extends Base {
     //delete the comment
     deleteComment() {
             this._qs(".delete-btn").addEventListener("click", async() => {
-                this.wait(".posts");
+                this.wait(".conatiner");
 
                 try {
                     const res = await axios.post(
-                        `${this.host}/forum/remove/${this.data._id}`, {
+                        `${this.host}/forum/remove-comment/${this.data.id}`, {
                             ...this.authData(),
                         }
                     );
                     if (res.status == 200) {
                         this.popup(res.data.message, "notice");
-                        this._qs(".posts").innerHTML = "";
+                        this._qs(".conatiner").innerHTML = "";
                     } else throw res.data;
                 } catch (err) {
                     this.popup(err.message, "error");
-                    this.unwait(".posts");
+                    this.unwait(".conatiner");
                 }
             });
         } //end of delete comment
 
     connectedCallback() {
             //delete the comment
-            this.data._id == this.getUserId() || this.getUserType() == 1 ?
+            this.data.id == this.getUserId() || this.getUserType() == 1 ?
                 this.deleteComment() :
                 false;
         } //End of connectedCallback()
