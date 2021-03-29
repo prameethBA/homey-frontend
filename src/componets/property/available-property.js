@@ -452,4 +452,7 @@ export default class AvalibaleProperty extends Base {
   } //End of connected callback
 } //End of Class
 
-window.customElements.define("available-property", AvalibaleProperty);
+const elementName = "available-property";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, AvalibaleProperty)
+  : null;

@@ -1,64 +1,63 @@
-import Base from '../../../Base.js'
-import CSS from './google-map.css.js'
+import Base from "../../../Base.js";
+import CSS from "./google-map.css.js";
 
 export default class GoogleMap extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
     <div class="container">
         <div id="map"></map>
     </div>
     
-`
-    constructor() {
-        super()
-        this.mount()
-
-        //load Map
-        this.loadMap()
-    } //End of the constructor
+`;
+  constructor() {
+    super();
+    this.mount();
 
     //load Map
-    loadMap() {
-        if (document.getElementById('map') == null) {
-            let script = document.createElement('script')
-            script.id = 'map'
-            script.type = 'text/javascript'
-            script.src =
-                'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8RpefQ5-mHoAPGkt6tf1uZAaKjHghTNI&libraries=places&callback=initMap'
-            document.body.appendChild(script)
-        }
-    } //End of loadMap()
+    this.loadMap();
+  } //End of the constructor
 
-    // Innitialize map
-    async initMap() {
-        const mapDiv = this._qs('#map')
+  //load Map
+  loadMap() {
+    if (document.getElementById("map") == null) {
+      let script = document.createElement("script");
+      script.id = "map";
+      script.type = "text/javascript";
+      script.src =
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA8RpefQ5-mHoAPGkt6tf1uZAaKjHghTNI&libraries=places&callback=initMap";
+      document.body.appendChild(script);
+    }
+  } //End of loadMap()
 
-        const map = new google.maps.Map(mapDiv, {
-            center: JSON.parse(
-                decodeURIComponent(this.getAttribute('location'))
-            ),
-            zoom: 9,
-            mapTypeId: google.maps.MapTypeId.HYBRID
-        })
+  // Innitialize map
+  async initMap() {
+    const mapDiv = this._qs("#map");
 
-        const marker = new google.maps.Marker({
-            position: JSON.parse(
-                decodeURIComponent(this.getAttribute('location'))
-            ),
-            map: map
-        })
-    } //End of initMap()
+    const map = new google.maps.Map(mapDiv, {
+      center: JSON.parse(decodeURIComponent(this.getAttribute("location"))),
+      zoom: 9,
+      mapTypeId: google.maps.MapTypeId.HYBRID,
+    });
 
-    //connectedCallback
-    connectedCallback() {
-        // try {
-        //     google != undefined
-        // } catch (err) {
-        //     this.initMap()
-        // }
-        this.initMap()
-    } //End of connectedCallback()
+    const marker = new google.maps.Marker({
+      position: JSON.parse(decodeURIComponent(this.getAttribute("location"))),
+      map: map,
+    });
+  } //End of initMap()
+
+  //connectedCallback
+  connectedCallback() {
+    // try {
+    //     google != undefined
+    // } catch (err) {
+    //     this.initMap()
+    // }
+    this.initMap();
+  } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define('google-map', GoogleMap)
+const elementName = "google-map";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, GoogleMap)
+  : null;

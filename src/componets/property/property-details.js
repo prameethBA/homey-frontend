@@ -376,4 +376,7 @@ export default class PropertyDetails extends Base {
   } //End of connectedCallback()
 } //End of the class
 
-window.customElements.define("property-details", PropertyDetails);
+const elementName = "property-details";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, PropertyDetails)
+  : null;

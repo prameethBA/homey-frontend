@@ -156,4 +156,7 @@ export default class users extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("users-comp", users);
+const elementName = "users-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, users)
+  : null;

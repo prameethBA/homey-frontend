@@ -11,29 +11,28 @@ export default class Forum extends Base {
     <div class="posts" id="${this.data._id}">
         <div class="post-container">
             <div class="post-row">
-                <h4 class="post-username" id="${
+                <h3 class="post-username" id="${
                   this.data.user_id
-                }">Anonymous user</h4>
+                }">Anonymous user</h3>
                 <h5 class="post-creadted">${this.data.created}</h5>
             </div>
             <div class="post-row">
-                <h3 class="post-heading">${this.data.title}</h3>
+                <h2 class="post-heading">${this.data.title}</h2>
                 <p class="justify-text">${this.data.content}</p>
             </div>
             <div class="post-row">
-                <textarea class="textarea" rows="1" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
+                <textarea class="textarea" rows="4" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
             </div>
             <div class="form-row">
               <button id="submit">Add Comment</button>
+              <div class="delete-btn">${
+                this.data._id == this.getUserId() || this.getUserType() == 1
+                  ? `<button id="delete-post" title="Delete the Post">🗑️</button>`
+                  : ""
+              }
+              </div>
             </div>
-            
-            <div>${
-              this.data._id == this.getUserId() || this.getUserType() == 1
-                ? `<button id="delete-post" title="Delete the comment">🗑️</button>`
-                : ""
-            }
-            <hr>  
-            </div>
+            <hr> 
             <div class="comment-container"></div>
         </div>
     </div>
@@ -70,11 +69,14 @@ export default class Forum extends Base {
       );
 
       if (res.status == 200) {
-        res.data.forEach(item => {
-          this._qs('.comment-container').innerHTML += `<forum-comment data-data=${this.encode(item)}></forum-comment>`
-        })
-      }
-      else throw res.data;
+        res.data.forEach((item) => {
+          this._qs(
+            ".comment-container"
+          ).innerHTML += `<forum-comment data-data=${this.encode(
+            item
+          )}></forum-comment>`;
+        });
+      } else throw res.data;
     } catch (err) {
       console.log(err.message);
     }
@@ -82,7 +84,7 @@ export default class Forum extends Base {
 
   //delete the post
   deletePost() {
-    this._qs("#delete-post").addEventListener("click", async () => {
+    this._qs(".delete-btn").addEventListener("click", async () => {
       this.wait(".posts");
 
       try {
@@ -107,6 +109,10 @@ export default class Forum extends Base {
   addComment() {
     this._qs("#submit").addEventListener("click", async () => {
       try {
+        if (!this.isLogin()) {
+          this.popup("Login to add a comment", "info");
+          return;
+        }
         this.wait("#submit");
         const comment = this._qs("#comment");
         const res = await axios.post(`${this.host}/forum/add-new-comment`, {
@@ -116,6 +122,15 @@ export default class Forum extends Base {
         });
         if (res.status == 201) {
           this.popup(res.data.message, "success");
+          this._qs(
+            ".comment-container"
+          ).innerHTML += `<forum-comment data-data=${this.encode({
+            comment: comment.value,
+            created: "just now",
+            firstName: "Me",
+            lastName: "",
+            user_id: "",
+          })}></forum-comment>`;
           comment.value = "";
         } else throw res.data;
         this.unwait("#submit");
@@ -134,14 +149,17 @@ export default class Forum extends Base {
     //getall coments
     this.getAllComments();
 
-    //add new comment
-    this.addComment();
-
     //delete the post
     this.data._id == this.getUserId() || this.getUserType() == 1
       ? this.deletePost()
       : false;
+
+    //add new comment
+    this.addComment();
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("forum-post", Forum);
+const elementName = "forum-post";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Forum)
+  : null;

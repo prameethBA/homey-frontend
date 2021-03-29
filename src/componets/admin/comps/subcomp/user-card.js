@@ -31,11 +31,18 @@ export default class UserCard extends Base {
         </div>
         <div class="sub-row button-group-user">
             <button class="${
-              this.data.status == 2 || this.data.status == 4 ? "danger" : "primary"
+              this.data.status == 2 /*deactivated*/ ||
+              this.data.status == 4 /*blocked*/
+                ? "danger"
+                : "primary"
             }-button" id="deactivate" data-status="${
     this.data.status == 2 || this.data.status == 4 ? "deactive" : "active"
   }">
-            ${this.data.status == 2 || this.data.status == 4 ? "Activate" : "Deactivate"}
+            ${
+              this.data.status == 2 || this.data.status == 4
+                ? "Activate"
+                : "Deactivate"
+            }
             </button>
             <button class="danger-button" id="ban">${
               this.data.status == 4 ? "Banned" : "Permenatly Ban"
@@ -83,8 +90,9 @@ export default class UserCard extends Base {
       const res = await axios.post(
         `${this.host}/images/get-profile-image/${userId}`,
         {
-          userId: this.getUserId(),
-          token: this.getToken(),
+          // userId: this.getUserId(),
+          // token: this.getToken(),
+          ...this.authData(),
         }
       );
       this._qs(`#img-${userId}`).src =
@@ -253,4 +261,7 @@ export default class UserCard extends Base {
   } //End of connectedCallback
 } //End of Class
 
-window.customElements.define("user-card", UserCard);
+const elementName = "user-card";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, UserCard)
+  : null;

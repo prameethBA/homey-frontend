@@ -93,6 +93,17 @@ export default CSS = `
   text-align: center;
   text-transform: uppercase;
 }
+.forum-post{
+  width: 100%;
+  margin: 1em 8em 1em 8em;
+}
+.post-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 50%;
+}
+
 
 button{
       display: flex;
@@ -112,11 +123,30 @@ button{
       transition: all 0.5s;
       min-width: 15%;
   }
-@media(max-Width:600px){
-  .container {
-    flex-direction: column;
+  .justify-text{
+    margin-left:10%;
   }
-  
+  #delete-comment{
+    width: 2rem;
+    height: 1.5rem;
+    background-image: none;
+    border: solid black 0px;
+    font-size: 1em;
+    border-radius:0;
+    margin: 1.5em 1em 0em 0em;
+  }
+@media(max-Width:800px){
+  .forum-post {
+    margin: 1em 1em 1em 1em;
+  } 
+  .post-row{
+    margin-right:20%;
+  }
+}
+@media(max-Width:600px){
+  .tab-button {
+    margin: 0px 0.5rem;
+  }
 }
 
 

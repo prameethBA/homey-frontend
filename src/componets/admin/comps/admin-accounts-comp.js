@@ -75,7 +75,7 @@ export default class AdminAccount extends Base {
         `;
     // Deactivate
     this._qs(".users").innerHTML += data;
-    console.log(this.deactivate(user.userId));
+    this.deactivate(user.userId);
 
     //getprofilePicture
     this.getprofilePicture(user.userId);
@@ -242,4 +242,7 @@ export default class AdminAccount extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("admin-accounts-comp", AdminAccount);
+const elementName = "admin-accounts-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, AdminAccount)
+  : null;

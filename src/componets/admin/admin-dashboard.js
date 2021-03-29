@@ -133,4 +133,7 @@ export default class AdminDashboard extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("admin-dashboard", AdminDashboard);
+const elementName = "admin-dashboard";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, AdminDashboard)
+  : null;
