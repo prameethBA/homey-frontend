@@ -4,6 +4,8 @@ import CSS from "./property-view.css.js";
 export default class PropertyView extends Base {
   css = CSS;
 
+  data = this.decode(this.getAttribute("data-data"));
+
   confirmPropertyDelete = `
   <div>
       <div class="title">Do you really want to remove property?</div>
@@ -22,14 +24,18 @@ export default class PropertyView extends Base {
             <span class="toggle round"></span>
         </label>
     </div>
-
+  ${
+    this.data.property_status == 1
+      ? `
     <div class="boost-property toggle-menu">
         <span>Boost</span>
         <label class="switch">
             <input type="checkbox" id="boost"/>
             <span class="toggle round"></span>
         </label>
-    </div>
+    </div>`
+      : ""
+  }
 
     <div class="visibility toggle-menu">
         <span>Private</span>
@@ -114,8 +120,6 @@ export default class PropertyView extends Base {
     super();
     this.mount();
 
-    this.state = this.decode(this.getAttribute("data-data"));
-
     //getFavourite
     if (this.getAttribute("overview") != "true") this.getFavourite();
     if (this.getParam("admin") == "true") this.loadAdminContent();
@@ -124,11 +128,11 @@ export default class PropertyView extends Base {
 
   //SetValues
   setValues() {
-    this._qs(".title").innerHTML = this.state.title;
-    this._qs(".price").innerHTML = "Rs. " + this.state.price;
-    this._qs(".description").innerHTML = this.state.description;
+    this._qs(".title").innerHTML = this.data.title;
+    this._qs(".price").innerHTML = "Rs. " + this.data.price;
+    this._qs(".description").innerHTML = this.data.description;
 
-    switch (this.state.property_status) {
+    switch (this.data.property_status) {
       case "0":
         this._qs(".status").innerHTML =
           '<span title="Pending Approval">    <img src="/assets/icon/Available/Pending_24px.png">   </span>';
@@ -144,15 +148,17 @@ export default class PropertyView extends Base {
     }
 
     if (this.getAttribute("overview") == "true") {
-      this.state.boost == "1"
-        ? (this._qs("#boost").checked = true)
-        : (this._qs("#boost").checked = false);
+      this.data.property_status == 1
+        ? this.data.boost == "1"
+          ? (this._qs("#boost").checked = true)
+          : (this._qs("#boost").checked = false)
+        : false;
 
-      this.state.accept_online_payment == "1"
+      this.data.accept_online_payment == "1"
         ? (this._qs("#onlinePayment").checked = true)
         : (this._qs("#onlinePayment").checked = false);
 
-      this.state.privated == "0"
+      this.data.privated == "0"
         ? (this._qs("#private").checked = true)
         : (this._qs("#private").checked = false);
 
@@ -177,7 +183,7 @@ export default class PropertyView extends Base {
         {
           userId: this.getUserId(),
           token: this.getToken(),
-          propertyId: this.state._id,
+          propertyId: this.data._id,
         }
       );
 
@@ -204,22 +210,22 @@ export default class PropertyView extends Base {
   //image slider
   slider() {
     if (this._qsAll(".img").length >= 1) {
-      this.state.img = 0;
+      this.data.img = 0;
 
       const slideNext = () => {
-        this._qsAll(".img")[this.state.img].style.display = "none";
-        this._qsAll(".img").length - 1 > this.state.img
-          ? this.state.img++
-          : (this.state.img = 0);
-        this._qsAll(".img")[this.state.img].style.display = "block";
+        this._qsAll(".img")[this.data.img].style.display = "none";
+        this._qsAll(".img").length - 1 > this.data.img
+          ? this.data.img++
+          : (this.data.img = 0);
+        this._qsAll(".img")[this.data.img].style.display = "block";
       };
 
       const slidePrevious = () => {
-        this._qsAll(".img")[this.state.img].style.display = "none";
-        0 < this.state.img
-          ? this.state.img--
-          : (this.state.img = this._qsAll(".img").length - 1);
-        this._qsAll(".img")[this.state.img].style.display = "block";
+        this._qsAll(".img")[this.data.img].style.display = "none";
+        0 < this.data.img
+          ? this.data.img--
+          : (this.data.img = this._qsAll(".img").length - 1);
+        this._qsAll(".img")[this.data.img].style.display = "block";
       };
 
       this._qs(".slider-previous").addEventListener("click", () => {
@@ -243,8 +249,8 @@ export default class PropertyView extends Base {
         console.log(this.state);
         this._qs("#comment-box").innerHTML = `
                     <report-form 
-                        data-title="${this.state.title}" 
-                        id="${this.state._id}"
+                        data-title="${this.data.title}" 
+                        id="${this.data._id}"
                     >
                     </report-form>`;
         this.stopLoader();
@@ -318,7 +324,7 @@ export default class PropertyView extends Base {
         const res = await axios.patch(`${this.host}/property/${method}`, {
           userId: this.getUserId(),
           token: this.getToken(),
-          propertyId: this.state._id,
+          propertyId: this.data._id,
           ...data,
         });
         if (res.status == 200 && res.data.status == "204") {
@@ -455,13 +461,13 @@ export default class PropertyView extends Base {
 
   //checkReserve
   checkReserve() {
-    if (this.state.reserved == 1) {
+    if (this.data.reserved == 1) {
       this._qs(".reserve").innerHTML = "Reserved";
       this._qs(".reserve").disabled = true;
       this._qs(".reserve").classList.add("reserved");
       this._qs(".reserve").classList.remove("reserve");
     } else if (this.getParam("admin") == "true") {
-      this._qs(".reserve").style.display = 'none'
+      this._qs(".reserve").style.display = "none";
     }
   } //end of checkReserve
 
@@ -474,14 +480,14 @@ export default class PropertyView extends Base {
     //SetValues
     this.setValues();
 
-    // console.log(this.state.title)
-    // console.log(this.state._id)
+    // console.log(this.data.title)
+    // console.log(this.data._id)
 
     this._qs(".comment").addEventListener("click", async () => {
       import("/componets/universal/comment/comment-comp.js").then(
         (this._qs("#comment-box").innerHTML = `<comment-comp 
-                data-data="${this.encode(this.state.title)}" 
-                id="${this.state._id}"
+                data-data="${this.encode(this.data.title)}" 
+                id="${this.data._id}"
             >
             </comment-comp>`)
       );

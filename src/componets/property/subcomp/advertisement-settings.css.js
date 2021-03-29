@@ -10,6 +10,15 @@ export default CSS = `
   cursor: url(./assets/icon/remove-icon.png), auto;
 }
 
+#boost-message {
+    margin: 1rem 0;
+    color: red;
+}
+
+#share-pop {
+  display: none;
+}
+
 .feature_header {
   text-align: center;
   padding: 0.2em;
