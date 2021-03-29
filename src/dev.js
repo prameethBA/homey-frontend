@@ -1,7 +1,7 @@
-import Base from '/componets/Base.js'
+import Base from "/componets/Base.js";
 
 export default class Dev extends Base {
-    css = `
+  css = `
        .contanier {
             margin: 5rem 1rem;
         }
@@ -52,8 +52,8 @@ export default class Dev extends Base {
             color: black;
             box-shadow: 0 0 20px -5px;
         }
-    `
-    content = `
+    `;
+  content = `
         <div class="contanier">
             <div class="tabels">
             </div>
@@ -67,72 +67,75 @@ export default class Dev extends Base {
                 </tbody>
             </table>
         </div>
-`
-    constructor() {
-        super()
-        this.mount()
+`;
+  constructor() {
+    super();
+    this.mount();
 
-        this.getTables()
-    } //End of constructor
+    this.getTables();
+  } //End of constructor
 
-    async getTables() {
-        this.setLoader()
-        await axios
-            .get(`${this.host}/dev/tables`)
-            .then(res => {
-                res.data.forEach(element => {
-                    this._qs(
-                        '.tabels'
-                    ).innerHTML += `<button id="${element.Tables_in_homefbhr_homey}">${element.Tables_in_homefbhr_homey}</button>`
-                })
-                this.addListener()
-                this.stopLoader()
-            })
-            .catch(err => {
-                console.log(err)
-                this.stopLoader()
-            })
-    }
+  async getTables() {
+    this.setLoader();
+    await axios
+      .get(`${this.host}/dev/tables`)
+      .then((res) => {
+        res.data.forEach((element) => {
+          this._qs(
+            ".tabels"
+          ).innerHTML += `<button id="${element.Tables_in_homefbhr_homey}">${element.Tables_in_homefbhr_homey}</button>`;
+        });
+        this.addListener();
+        this.stopLoader();
+      })
+      .catch((err) => {
+        console.log(err);
+        this.stopLoader();
+      });
+  }
 
-    addListener() {
-        this._qsAll('button').forEach(item => {
-            item.addEventListener('click', () => this.getData(item.id))
-        })
-    }
+  addListener() {
+    this._qsAll("button").forEach((item) => {
+      item.addEventListener("click", () => this.getData(item.id));
+    });
+  }
 
-    async getData(table) {
-        this.setLoader()
-        await axios
-            .get(`${this.host}/dev/data/${table}`)
-            .then(res => {
-                let table = ''
-                res.data.forEach(element => {
-                    const head = Object.keys(element).map(key => [key])
-                    this._qs('.header').innerHTML = ''
-                    head.forEach(head => {
-                        this._qs('.header').innerHTML += `<th>${head[0]}</th>`
-                    })
-                    const data = Object.keys(element).map(key => [element[key]])
-                    table += `<tr>`
-                    data.forEach(row => {
-                        table += `<td>`
-                        row.forEach(cell => {
-                            table += cell
-                        })
-                        table += `</td>`
-                    })
-                    table += `</tr>`
-                })
-                this._qs('.tabel-data').innerHTML = table
-                this.stopLoader()
-            })
-            .catch(err => {
-                this.stopLoader()
-                console.log(err)
-            })
-    }
+  async getData(table) {
+    this.setLoader();
+    await axios
+      .get(`${this.host}/dev/data/${table}`)
+      .then((res) => {
+        let table = "";
+        res.data.forEach((element) => {
+          const head = Object.keys(element).map((key) => [key]);
+          this._qs(".header").innerHTML = "";
+          head.forEach((head) => {
+            this._qs(".header").innerHTML += `<th>${head[0]}</th>`;
+          });
+          const data = Object.keys(element).map((key) => [element[key]]);
+          table += `<tr>`;
+          data.forEach((row) => {
+            table += `<td>`;
+            row.forEach((cell) => {
+              table += cell;
+            });
+            table += `</td>`;
+          });
+          table += `</tr>`;
+        });
+        this._qs(".tabel-data").innerHTML = table;
+        this.stopLoader();
+      })
+      .catch((err) => {
+        this.stopLoader();
+        console.log(err);
+      });
+  }
 
-    connectedCallback() {} //End of connectedCallback
+  connectedCallback() {} //End of connectedCallback
 } //End of Class
 
-window.customElements.define('dev-dev', Dev)
+const elementName = "dev-dev";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Dev)
+  : null;

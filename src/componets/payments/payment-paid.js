@@ -62,3 +62,8 @@ export default class PaymentPaid extends Base {
 }
 
 window.customElements.define('payment-paid', PaymentPaid)
+
+const elementName = "payment-paid";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, PaymentPaid)
+  : null;

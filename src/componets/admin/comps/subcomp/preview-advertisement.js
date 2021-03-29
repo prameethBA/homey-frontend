@@ -1,10 +1,10 @@
-import Base from '../../../Base.js'
-import CSS from './preview-advertisement.css.js'
+import Base from "../../../Base.js";
+import CSS from "./preview-advertisement.css.js";
 
 export default class PreviewAdvertisement extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
     <div class="backdrop">
     </div>
     <div class="container">
@@ -36,19 +36,22 @@ export default class PreviewAdvertisement extends Base {
         </div>
     </div>
     
-`
-    constructor() {
-        super()
-        this.mount()
-    } //End of the constructor
+`;
+  constructor() {
+    super();
+    this.mount();
+  } //End of the constructor
 
-    //connectedCallback
-    connectedCallback() {
-        this._qs('#close-popup').addEventListener('click', () => {
-            this._qs('.container').style.display = 'none'
-            this._qs('.backdrop').style.backgroundColor = 'transparent'
-        })
-    } //End of connectedCallback()
+  //connectedCallback
+  connectedCallback() {
+    this._qs("#close-popup").addEventListener("click", () => {
+      this._qs(".container").style.display = "none";
+      this._qs(".backdrop").style.backgroundColor = "transparent";
+    });
+  } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define('preview-advertisement', PreviewAdvertisement)
+const elementName = "preview-advertisement";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, PreviewAdvertisement)
+  : null;

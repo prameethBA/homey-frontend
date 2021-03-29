@@ -80,4 +80,7 @@ export default class Share extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("share-comp", Share);
+const elementName = "share-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Share)
+  : null;

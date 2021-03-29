@@ -1,10 +1,10 @@
-import Base from './../Base.js'
-import CSS from './payment-history.css.js'
+import Base from "./../Base.js";
+import CSS from "./payment-history.css.js";
 
 export default class PaymentHistory extends Base {
-    css = CSS
+  css = CSS;
 
-    content = `
+  content = `
   <div class="payment-history-heading">
     <h1>Payment History</h1>
   </div>
@@ -87,11 +87,14 @@ export default class PaymentHistory extends Base {
  
   </div>
  
-  `
-    constructor() {
-        super()
-        this.mount()
-    }
+  `;
+  constructor() {
+    super();
+    this.mount();
+  }
 }
 
-window.customElements.define('payment-history', PaymentHistory)
+const elementName = "payment-history";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, PaymentHistory)
+  : null;

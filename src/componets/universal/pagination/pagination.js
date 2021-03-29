@@ -16,19 +16,19 @@ export default class Pagination extends Base {
         <div class='pagination'>
             <div class='previous'>First</div>
                 <div class="link">
-                    ${+this.getParam("data-current")-2}
+                    ${+this.getParam("data-current") - 2}
                 </div>
                 <div class="link">
-                    ${+this.getParam("data-current")-1}
+                    ${+this.getParam("data-current") - 1}
                 </div>
                 <div class="link active">
                     ${this.getParam("data-current")}
                 </div> 
                 <div class="link">
-                    ${+this.getParam("data-current")+1}
+                    ${+this.getParam("data-current") + 1}
                 </div>
                 <div class="link">
-                    ${+this.getParam("data-current")+2}
+                    ${+this.getParam("data-current") + 2}
                 </div>
             <div class='last'>Last</div>
         </div>
@@ -40,10 +40,12 @@ export default class Pagination extends Base {
 
   //connectedCallback
   connectedCallback() {
-      //setPagination
-      this.setPagination()
-      
+    //setPagination
+    this.setPagination();
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("pagination-comp", Pagination);
+const elementName = "pagination-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Pagination)
+  : null;

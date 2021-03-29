@@ -166,4 +166,7 @@ export default class Comment extends Base {
   } //End of connectedCallback
 } //End of class
 
-window.customElements.define("comment-comp", Comment);
+const elementName = "comment-comp";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, Comment)
+  : null;

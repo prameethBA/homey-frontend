@@ -98,6 +98,7 @@ export default class CreatePost extends Base {
       });
 
       if (res.data.action == "true") {
+        this.exitDock()
         dispatchEvent(
           new CustomEvent("new-post-added", {
             detail: {
@@ -131,4 +132,7 @@ export default class CreatePost extends Base {
   } //End of connectedCallback()
 } //End of Class
 
-window.customElements.define("create-post", CreatePost);
+const elementName = "create-post";
+customElements.get(elementName) == undefined
+  ? window.customElements.define(elementName, CreatePost)
+  : null;
