@@ -4,12 +4,15 @@ import CSS from "./popup-map.css.js";
 export default class MapView extends Base {
   css = CSS;
 
+  location = this.getParams("location");
+
   content = `
     <div class="backdrop">
         <div class="container">
         <span id="close-popup" title="close(Esc)">+</span>
             <div id="map"></map>
         </div>
+        <div id="direction">Get direction</div>
     </div>
     
 `;
@@ -18,18 +21,25 @@ export default class MapView extends Base {
     this.mount();
   } //End of the constructor
 
+  //open direction on GMap
+  getDirection() {
+    this._qs('#direction').addEventListener('click', () => {
+      window.open(`https://www.google.com/maps/search/?api=1&query=${this.location.lat},${this.location.lng}`)
+    })
+  }
+
   // Innitialize map
   async initMap() {
     const mapDiv = this._qs("#map");
 
     const map = new google.maps.Map(mapDiv, {
-      center: JSON.parse(decodeURIComponent(this.getAttribute("location"))),
+      center: this.location,
       zoom: 9,
       mapTypeId: google.maps.MapTypeId.HYBRID,
     });
 
     const marker = new google.maps.Marker({
-      position: JSON.parse(decodeURIComponent(this.getAttribute("location"))),
+      position: this.location,
       map: map,
     });
   } //End of initMap()
@@ -68,6 +78,9 @@ export default class MapView extends Base {
     this.close();
     // Exit with escape key
     this.exitWithEscape();
+
+    //open direction on GMap
+  this.getDirection()
   } //End of connectedCallback()
 } //End of Class
 
