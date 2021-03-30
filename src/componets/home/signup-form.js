@@ -233,7 +233,7 @@ export default class SignUpForm extends Base {
               "success",
               10
             );
-          } else throw res;
+          } else throw res.data;
         } catch (err) {
           this.stopLoader();
 

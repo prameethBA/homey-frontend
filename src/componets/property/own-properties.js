@@ -57,7 +57,6 @@ export default class OwnProperties extends Base {
       } else {
         this._qs(".content").innerHTML = "";
         res.data.forEach((item) => {
-          console.log(item);
           this._qs(".content").innerHTML += `
                     <property-view 
                       id="${item.property_id}"

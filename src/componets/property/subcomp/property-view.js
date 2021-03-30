@@ -95,7 +95,7 @@ export default class PropertyView extends Base {
 
             </div>
             <div class="type"><span class="type-card">${
-              this.getParam("data-type") == "undefined"
+              this.getParam("data-type") == "undefined" || this.getParam("data-type") == null
                 ? ""
                 : this.getParam("data-type")
             }</span></div>
@@ -246,7 +246,6 @@ export default class PropertyView extends Base {
     this.setLoader();
     await import("./report/report.js")
       .then(() => {
-        console.log(this.state);
         this._qs("#comment-box").innerHTML = `
                     <report-form 
                         data-title="${this.data.title}" 
