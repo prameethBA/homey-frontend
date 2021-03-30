@@ -50,4 +50,13 @@ export default CSS = `
     display: none;
   }
 
+  #direction {
+    font-size: 2rem;
+    width: 100%;
+    margin: auto;
+    text-decoration-line: underline;
+    color: blue;
+    position: inherit;
+  }
+
 `

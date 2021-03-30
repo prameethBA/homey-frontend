@@ -73,6 +73,7 @@ export default class AvalibaleProperty extends Base {
 		
 		<div class="nav_container column">
 				<button type="submit" class="filter-button">Filter</button>
+				<button type="reset" class="reset-button">Reset Filter</button>
 		</div>
 
     </div>
@@ -407,6 +408,16 @@ export default class AvalibaleProperty extends Base {
     this.unwait(".filter-button");
   } //End of filterProperty
 
+  //reset filter options
+  resetFilter() {
+    this._qs(".reset-filter").addEventListener("click", () => {
+      //Load ad preview cards
+      this.loadpropertyView();
+      // Toggle filter
+      this.toggleFilter();
+    });
+  }
+
   //loadSearch
   loadSearch() {
     this._qs(".search-button").addEventListener("click", () => {
@@ -449,6 +460,9 @@ export default class AvalibaleProperty extends Base {
 
     // Toggle filter
     this.toggleFilter();
+
+    //reset filter options
+    this.resetFilter();
   } //End of connected callback
 } //End of Class
 

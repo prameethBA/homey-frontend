@@ -1,5 +1,6 @@
 import Base from "./../Base.js";
 import CSS from "./add-new-property.css.js";
+import "./subcomp/advertisement-settings.js";
 
 export default class AddNewProperty extends Base {
   css = CSS;
@@ -552,7 +553,7 @@ export default class AddNewProperty extends Base {
         await this.sleep(101);
         // API call for get Districts
         const res = await axios.get(
-          `${this.host}/cities/districtId/${this._qs("#district").value}`
+          `${this.host}/cities/get-district/${this._qs("#district").value}`
         );
         this._qs("#city-list").innerHTML = "";
         if (res.status == "200")
@@ -599,14 +600,13 @@ export default class AddNewProperty extends Base {
               },
             }
           )
-          .then(async (res) => {
+          .then((res) => {
             if (res.status == 201) {
-              // Popup for enable add fetures
-              this.popup(res.data.message, "success");
-              await import("./subcomp/advertisement-settings.js");
               this._qs(
                 ".popup"
               ).innerHTML = `<advertisement-settings data-key="${res.data.propertyId}" data-available="${data.availableFrom}"></advertisement-settings>`;
+              // Popup for enable add fetures
+              this.popup(res.data.message, "success");
             } else throw res.data;
           });
       } catch (err) {

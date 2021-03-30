@@ -24,13 +24,14 @@ export default CSS = `
         background-color: #ffffff;
         min-width: 60%;
         min-height: 60%;
-        padding: 2rem;
+        padding: 2.5rem;
         border-radius: 2px;
         max-width: 90%;
         transition: all 0.5s ease-in-out;
         position: absolute;
-        top: 5rem;
+        
     }
+    
 
     #close-popup {
         color: #444444;
@@ -54,93 +55,28 @@ export default CSS = `
       flex-direction: column;
     }
 
-    .menu-title {
-      font-size: 2rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      font-family: monospace;
+    .report-app{
+      display:flex;
+      flex-direction:row;
+    }
+    .report-details{
+      padding: 3rem;
+      width:50%
     }
 
-    .sub-row {
+    .report-coloumn{
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin: 0.5rem auto;
+      padding: 1.5em;
+      flex-direction:coloumn;
+      border: solid 1px black;
+      
+    }
+    .property-details{
+      border: solid 1px red;
+      margin: 3rem;
+      width:50%
     }
 
-    .collapsible {
-      display: none;
-      width: 100%;
-      height: 0;
-      transition: all 1s ease-in-out;
-      flex-direction: column;
-    }
-
-    .collapsed {
-      display: flex;
-      height: auto;
-    }
-
-    .collapsible-row {
-      width: 100%;
-      justify-content: space-between;
-    }
-
-    .collapse {
-      width: 100%;
-    }
-
-    .collapse > .row {
-      justify-content: space-between;
-    }
-  
-    .expand {
-      font-size: 2rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.4s ease-in-out;
-    }
-
-    .expanded {
-      transform: rotate(45deg);
-    }
-
-    .display-picture {
-      width: 10rem;
-      height: 10rem;
-      border-radius: 50%;
-      border: solid #ffffff 2px;
-      box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
-    }
-  
-    .name {
-      font-size: 1.5rem;
-      font-weight: bold;
-      font-family: inherit;
-      display: flex;
-      flex-wrap: wrap;
-      margin: 0.5rem;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-  }
-  
-    .status {
-      font-size: 0.8rem;
-    }
-  
-    .email, .mobile {
-      margin: 0.2rem;
-      font-size: 0.9rem;
-    }
-  
-    .sub-row:last-child {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  
-    
     button {
       height: 2rem;
       border-radius: 2px;
@@ -150,55 +86,23 @@ export default CSS = `
       color: #fff;
       cursor: pointer;
       transition: all 1s;
-      width: 45%;
+      width: 25%;
     }
-  
-    .danger-button {
-      background-image: linear-gradient(to right top, #870f0f, #981010, #a91011, #ba1111, #cc1111);
+
+    .buttons{
+      display:flex;
+      flex-flexDirection: row;
+      justify-content: space-evenly;
     }
-  
-    .danger-button:hover {
-      box-shadow: 1px 1px 10px 3px rgba(204,17,17,1);
+
+    #ban{
+      background-color:orange;
     }
-  
-    .primary-button {
-        background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+    #delete{
+      background-color:red;
     }
-  
-    .primary-button:hover {
-        box-shadow: 1px 1px 10px 3px rgba(50,190,143,1);
-    }
-  
-    .button-group > button {
-        width: 10rem;
-        margin: 0.5rem auto;
-    }
-  
-    .button-group {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-    }
-  
-    .button-group-user {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-    }
-  
-    .button-group-user > button {
-      margin: 0.4rem auto;
-     }
-  
-    .profile{
-      margin: 1rem;
-      transition: all 1s ease-in-out;
-      background-color: #ffffff;
-    }
-  
-    .users {
-      display: flex;
-      flex-wrap: wrap;
+    #ignore{
+      background-color:green;
     }
   
 
