@@ -114,9 +114,13 @@ export default class Reserve extends Base {
 
   // Exit the dock
   exitDock() {
-    console.log('asasas')
     this._qs(".backdrop").style.opacity = "0";
     this._qs(".backdrop").style.pointerEvents = "none";
+    this.loadComp(
+      "/reserved-properties",
+      "/property/reserved-properties",
+      "reserved-properties"
+    );
   } // End of exitDock()
 
   //Exit with Escape key
@@ -131,12 +135,6 @@ export default class Reserve extends Base {
     payhere.onCompleted = function onCompleted(orderId) {
       popup("Property reserved. wait for the confirmation from the property owner", "success");
       exitDock();
-      loadComp(
-        "/reserved-properties",
-        "/property/reserved-properties",
-        "reserved-properties"
-      );
-
       //Note: validate the payment and show success or failure page to the customer
     };
 

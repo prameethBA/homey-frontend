@@ -29,7 +29,7 @@ export default class Nav extends Base {
           </div>
           <div class="row separator"></div>
           <div class="row nav-items">
-            <a data-path=""><img src="/assets/icon/Notification/notification_24px.png" id="notification"></a>
+            <a data-path=""><img src="/assets/icon/Notification/notification_24px.png" id="notification"><span id="notification-count"></span></a>
             <a data-path="property" id="property" class="nav-link">Properties</a>
             <a data-path="favourite" id="favourite" class="nav-link">Favourites</a>
 
@@ -437,6 +437,8 @@ export default class Nav extends Base {
                         <notification-comp>
                         </notification-comp>`;
           this.stopLoader();
+          //closeNotificationBar
+          this.closeNotification();
         })
         .catch((err) => {
           this.stopLoader();
@@ -447,9 +449,32 @@ export default class Nav extends Base {
   }
 
   closeNotification() {
-    // addEventListener("click",()=>{
-    //     this._qs("notification-comp").style.display="none";
-    // })
+    addEventListener("click", () => {
+      this._qs("notification-comp").style.display = "none";
+      this.removeEventListener("click", () => {});
+    });
+  }
+
+  //newNotification
+  newNotification() {
+    this.state.notification = 0
+    setInterval(async () => {
+      try {
+        const res = await axios.post(`${this.host}/notification/check-new`, {
+          ...this.authData(),
+        });
+
+        if (res.status == 200)
+          if (res.data.new == true) {
+            if (this.state.notification < res.data.count)
+              this.popup("New notification arrived.", "info", 5);
+            this.state.notification = res.data.count;
+            this._qs("#notification-count").innerHTML = res.data.count;
+          }
+      } catch (err) {
+        console.log("Newtwork call failed");
+      }
+    }, 10000);
   }
 
   connectedCallback() {
@@ -465,8 +490,8 @@ export default class Nav extends Base {
     //Notification Bar
     this.notificationBar();
 
-    //closeNotificationBar
-    this.closeNotification();
+    //newNotification
+    this.newNotification();
   } // End of connected callback
 } // End of Class
 

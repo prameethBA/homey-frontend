@@ -20,13 +20,13 @@ export default class users extends Base {
                     <label for="search"><img src="/assets/icon/Search/search_24px.png" class="search-icon"></label>
                 </form>
                 </span>
-                <div class="button-group">
+                <!-- <div class="button-group">
                     <button class="button-link reported danger-button" id="reported">Reported users</button>
                     <button class="button-link unconfiremed primary-button" id="unconfiremed">Unconfiremed Users</button>
                     <button class="button-link banned danger-button" id="banned">Banned Users</button>
                     <button class="button-link deactivated primary-button" id="deactivated">Deactivated Users</button>
                     <button class="button-link deleted danger-button" id="deleted">Deleted Users</button>
-                </div>
+                </div> -->
         </div>
         <div class="row users content">
         </div>

@@ -7,6 +7,7 @@ export default CSS = `
     background-color: rgb(31, 26, 26);
     box-shadow: 0 0 0 0.5em rgba(0, 0, 0, 0.1);
     transform: translate(-50%, -50%);
+    transition: 2s ease-in-out;
 }
 .notification {
     position: relative;

@@ -14,6 +14,12 @@ export default CSS = `
     box-shadow: 0 0 25px -5px;
 }
 
+.log-list {
+  font-size: 0.7rem;
+  margin: 0.5rem;
+  color: darkblue;
+}
+
 .block {
   display: grid;
   grid-template-columns: auto auto;
