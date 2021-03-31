@@ -156,8 +156,7 @@ export default class PropertyDetails extends Base {
           )}"></map-view>`;
         })
         .catch((err) => this.popup(err, "error"));
-    }
-    this.popup("Location does not specified", "info", 2);
+    } else this.popup("Location does not specified", "info", 2);
   } //End of mapView()
 
   //Load map view

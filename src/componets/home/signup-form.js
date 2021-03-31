@@ -224,6 +224,8 @@ export default class SignUpForm extends Base {
           });
 
           if (res.data.signup === "true" && res.status == 201) {
+            this.stopLoader();
+
             dispatchEvent(new Event("load-login-form"));
 
             this.popup(
@@ -231,15 +233,20 @@ export default class SignUpForm extends Base {
               "success",
               10
             );
-          } else throw res;
+          } else throw res.data;
         } catch (err) {
+          this.stopLoader();
+
           this.popup(err.message, "error", 10);
         }
-      } else
+      } else {
+        this.stopLoader();
+
         this.popup(
           "You should accept terms and conditions to continue.",
           "notice"
         );
+      }
     }; //End of signup
 
     //Exucute validation
