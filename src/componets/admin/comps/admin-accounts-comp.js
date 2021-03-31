@@ -68,8 +68,6 @@ export default class AdminAccount extends Base {
                       user.userId
                     }">Deactivate</button>
                     <button class="danger-button">Delete Account</button>
-                    <button class="danger-button">Transfer Account</button>
-                    <button class="danger-button">Give up admin</button>
                 </div>
             </div>
         `;
@@ -182,6 +180,62 @@ export default class AdminAccount extends Base {
       this.wait(".status");
       try {
         const button = this._qs(`#deactivate-${userId}`);
+
+        if (button.dataset.status == "active") {
+          const res = await axios.post(
+            `${this.host}/admin-users/deactivate/${userId}`,
+            {
+              ...this.authData(),
+            }
+          );
+          if (res.data.status == 200) {
+            button.innerHTML = "Activate";
+            button.dataset.status = "deactive";
+            button.classList.add("danger-button");
+            button.classList.remove("primary-button");
+            this.setStatus("2");
+            this.popup(
+              `${this.data.firstName + this.data.lastName}, ${
+                res.data.message
+              }`,
+              "info"
+            );
+          } else throw res.data;
+        } else if (button.dataset.status == "deactive") {
+          const res = await axios.post(
+            `${this.host}/admin-users/activate/${userId}`,
+            {
+              ...this.authData(),
+            }
+          );
+          if (res.data.status == 200) {
+            button.innerHTML = "Deactivate";
+            button.dataset.status = "active";
+            button.classList.add("primary-button");
+            button.classList.remove("danger-button");
+            this.setStatus("1");
+            this.popup(
+              `${this.data.firstName + this.data.lastName}, ${
+                res.data.message
+              }`,
+              "success"
+            );
+          } else throw res.data;
+        }
+      } catch (err) {
+        console.log(err);
+        this.popup(err.message, "error");
+      }
+      this.unwait(".status");
+    });
+  } //End of deactivate()
+
+  // Deactivate
+  deactivate(userId) {
+    this._qs("#deactivate-" + userId).addEventListener("click", async () => {
+      this.wait(".status");
+      try {
+        const button = this._qs("#deactivate-" + userId);
 
         if (button.dataset.status == "active") {
           const res = await axios.post(

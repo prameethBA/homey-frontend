@@ -10,30 +10,11 @@ export default class PaymentReceived extends Base {
           <div class="active"><a href="/payment/received">Received Payments</a></div>
           <div><a href="/payment/paid">Paying History</a></div>
           <div><a href="/payment/all">All payments</a></div>
-          <div><a href="/payment/cashout">Cash out</a></div>
+          <!-- <div><a href="/payment/cashout">Cash out</a></div> -->
           <div><a href="/payment/bank-account">Bank Account Details</a></div>
         </div>
       </div>
   `;
-
-  tr = `
-      <tr>
-          <td>91908091830</td>
-          <td>Boarding fee for <a>#293b24o82g9vh4o</a> Luxury Two Houses for Rent Short Term or Long Term</td>
-          <td>Rs. 17, 000</td>
-          <td>2020-10-12 12:45:23</td>
-          <td>⬇ received</td>
-      </tr>
-    `;
-  tr1 = `
-      <tr>
-          <td>91908091830</td>
-          <td>Boarding fee for <a>#293b24o82g9vh4o</a> Annexe For Rent -ethul Kotte</td>
-          <td>Rs. 17, 000</td>
-          <td>2020-10-12 12:45:23</td>
-          <td>⬇ received</td>
-      </tr>
-    `;
 
   content = `
     <div class="container row">
@@ -51,10 +32,6 @@ export default class PaymentReceived extends Base {
                     </tr>
                 </thead>
                 <tbody id="received-table-body">
-                    ${this.tr}
-                    ${this.tr1}
-                    ${this.tr}
-                    ${this.tr1}
                 </tbody>
             </table>
         </div>
@@ -66,7 +43,38 @@ export default class PaymentReceived extends Base {
     this.mount();
   } //End of constructor
 
-  connectedCallback() {} //End of connected callback
+  async getAll() {
+    const res = await axios.post(`${this.host}/payment/all-received`, {
+      ...this.authData(),
+    });
+
+    if (res.status == 200) {
+      res.data.forEach((item) => {
+        console.log(item);
+        this._qs("#received-table-body").innerHTML += `
+        <tr>
+            <td>${item.payment_id}</td>
+            <td>${item.payment_type} <a>#${item.property_id}</a></td>
+            <td>${item.payhere_currency} ${item.payhere_amount}</td>
+            <td>${item.updated}</td>
+            <td>${
+              item.status_code == 2
+                ? "🟢 Successfull"
+                : item.status_code == -1
+                ? "🔴 Rejected"
+                : item.status_code == 0
+                ? "🟠 Pending"
+                : "🔴 Canceled by user"
+            }</td>
+        </tr>
+      `;
+      });
+    }
+  }
+
+  connectedCallback() {
+    this.getAll();
+  } //End of connected callback
 }
 
 const elementName = "payment-received";

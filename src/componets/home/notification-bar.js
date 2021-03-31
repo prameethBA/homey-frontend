@@ -6,24 +6,6 @@ export default class Notification extends Base {
 
   content = `
     <div class="notifications">
-        <div class="notification">
-                Notification 1
-                    <div class="date">
-                        Date and Time
-                    </div>
-        </div>
-        <div class="notification">
-                Notification 2
-                    <div class="date">
-                        Date and Time
-                    </div>
-        </div>
-        <div class="notification">
-                 Notification 3
-                    <div class="date">
-                        Date and Time
-                    </div>
-        </div>
     </div>
     `;
 
@@ -32,8 +14,38 @@ export default class Notification extends Base {
     this.mount();
   } //End of the constructor
 
+  //get notifications
+  async getNotification() {
+    try {
+      const res = await axios.post(`${this.host}/notification/all-new`, {
+        ...this.authData(),
+      });
+      if (res.status == 200) {
+        res.data.forEach((item) => {
+          this._qs(".notifications").innerHTML += `
+            <div class="notification">
+              ${item.message}
+                <div class="date">
+                    ${item.created}
+                </div>
+            </div>`;
+        });
+      } else throw res;
+    } catch (err) {
+      this._qs(".notifications").innerHTML = `
+            <div class="notification">
+              No notofications
+                <div class="date">
+                </div>
+            </div>`;
+    }
+  }
+
   //connectedCallback
-  connectedCallback() {} //End of connectedCallback()
+  connectedCallback() {
+    //get notifications
+  this.getNotification() 
+  } //End of connectedCallback()
 } //End of Class
 
 const elementName = "notification-comp";

@@ -194,6 +194,12 @@ export default CSS = `
     right: 0;
   } 
 
+  .notification-count {
+    background-color: red;
+    padding: 0.4rem;
+    border-radius: 50%;
+  }
+
   .responsive-dropdown{
     display: block;
     text-align: center;

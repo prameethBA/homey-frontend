@@ -34,7 +34,7 @@ export default class LoginForm extends Base {
                 <a title="Create new Account" id="signup"> Sign Up </a>
             </div>
 
-            <div class="hr-separator">
+          <!--  <div class="hr-separator">
             </div>
 
             <div class="or-separator"> or </div>
@@ -44,7 +44,7 @@ export default class LoginForm extends Base {
             </div>
             <div>
                 <button class="facebook"><img src="../assets/img/facebook.svg">Continue with Facebook</button>
-            </div>
+            </div> -->
 
         </div>
     </div>
