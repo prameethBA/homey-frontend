@@ -8,6 +8,12 @@ export default CSS = `
     flex-direction: row;
   }
 
+  .log-list {
+    font-size: 0.7rem;
+    margin: 0.5rem;
+    color: darkblue;
+  }
+
   .column {
     display: flex;
     flex-direction: column;

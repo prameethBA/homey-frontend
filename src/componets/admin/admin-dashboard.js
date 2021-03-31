@@ -16,7 +16,7 @@ export default class AdminDashboard extends Base {
     <li><a id="pending">Pendings</a></li>
     <li><a id="properties">Properties</a></li>
     <li><a id="users">Users</a></li>
-    <li><a id="payments">Payments</a></li>
+    <li><a id="logs">Logs</a></li>
     <li><a id="admin-accounts">Admin Accounts</a></li>
     <li><a id="report">Reports</a></li>
     </ul>
@@ -113,7 +113,7 @@ export default class AdminDashboard extends Base {
       { link: "#pending", comp: "pending-comp" },
       { link: "#properties", comp: "properties-comp" },
       { link: "#users", comp: "users-comp" },
-      { link: "#payments", comp: "payments-comp" },
+      { link: "#logs", comp: "logs-comp" },
       { link: "#admin-accounts", comp: "admin-accounts-comp" },
       { link: "#report", comp: "report-comp" },
     ];

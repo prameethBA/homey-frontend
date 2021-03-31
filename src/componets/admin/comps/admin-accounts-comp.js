@@ -64,10 +64,10 @@ export default class AdminAccount extends Base {
     }</a></span>
                 </div>
                 <div class="sub-row button-group-user">
-                    <button class="primary-button" id="deactivate-${
+                     <button class="" id="deactivate-${
                       user.userId
-                    }">Deactivate</button>
-                    <button class="danger-button">Delete Account</button>
+                    }"></button>
+                    <button class=""></button>
                 </div>
             </div>
         `;
