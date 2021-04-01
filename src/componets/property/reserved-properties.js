@@ -49,7 +49,7 @@ export default class ReservedProperties extends Base {
         this._qs(".content").innerHTML = this.notFound;
       } else {
         this._qs(
-          ".pagination"
+          "#pagination"
         ).innerHTML = `<pagination-comp data-pages="10" data-current="5"></pagination-comp>`;
         this._qs(".content").innerHTML = "";
         res.data.forEach((item) => {

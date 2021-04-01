@@ -96,10 +96,8 @@ export default class Profile extends Base {
                 <div class="last-login-container">
                     <span class="last-login-title">Last Login </span>
                     <div class="row last-login-data">
-                        <span class="last-login-loader"><div class="loader"></div></span>
                     </div>
-                    <span class="last-location">From Sri Lanka</span>
-                    <span class="show-more"><a>Show More...</a></span>
+                    <span class="last-location"></span>
                 </div>
             </div>
             <div class="column">
@@ -183,7 +181,7 @@ export default class Profile extends Base {
                         <hr/>
                     </div>
                     
-                    ${this.dangerZone}
+                    <!-- ${this.dangerZone} -->
 
                 </div>
             </div>
@@ -211,6 +209,8 @@ export default class Profile extends Base {
 
     //Get profile info
     this.getProfileInfo();
+    //get logs
+    this.getLogs();
   } //End of constructor
 
   //Get profile info
@@ -224,30 +224,7 @@ export default class Profile extends Base {
         this._qs(
           ".name"
         ).innerHTML = `${res.data.userData.firstName} ${res.data.userData.lastName}`;
-        const lastLogin = res.data.authData.lastLogin.split(" ");
-        let lastLoginTime = new Date(res.data.authData.lastLogin);
-        lastLoginTime.setMinutes(lastLoginTime.getMinutes() - 90);
-        this._qs(".last-login-data").innerHTML = `
-                    <span>${lastLogin[0]}</span>
-                    @ 
-                    <span>
-                        ${
-                          lastLoginTime.getHours() < 10
-                            ? "0" + lastLoginTime.getHours()
-                            : lastLoginTime.getHours()
-                        }:
-                        ${
-                          lastLoginTime.getMinutes() < 10
-                            ? "0" + lastLoginTime.getMinutes()
-                            : lastLoginTime.getMinutes()
-                        }:
-                        ${
-                          lastLoginTime.getSeconds() < 10
-                            ? "0" + lastLoginTime.getSeconds()
-                            : lastLoginTime.getSeconds()
-                        }
-                    </span>
-                `;
+
         this._qs("#firstName").value = res.data.userData.firstName;
         this._qs("#lastName").value = res.data.userData.lastName;
         this._qs("#email").value = res.data.authData.email;
@@ -270,6 +247,24 @@ export default class Profile extends Base {
         this.stopLoader();
       });
   } //End of getProfileInfo()
+
+  //get logs
+  async getLogs() {
+    await axios
+      .post(`${this.host}/profile/get-login-logs`, {
+        ...this.authData(),
+      })
+      .then((res) => {
+        res.data.forEach((item) => {
+          this._qs(
+            ".last-location"
+          ).innerHTML += `<div class="log-list">${item.created} - ${item.type}</div>`;
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   //clear inputs
   clearInputs() {
@@ -500,7 +495,7 @@ export default class Profile extends Base {
   async getprofilePicture() {
     await axios
       .post(`${this.host}/images/get-profile-image`, {
-        ...this.authData()
+        ...this.authData(),
       })
       .then((res) => {
         this._qs(".profile-picture").innerHTML = `<img 

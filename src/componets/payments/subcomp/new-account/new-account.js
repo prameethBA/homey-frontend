@@ -61,11 +61,19 @@ export default class NewAccount extends Base {
     );
   } // End of exitWithEscape()
 
+  //cancelbutton
+  cancelButton() {
+    this._qs("#cancel").addEventListener("click", () => this.exitDock());
+  }
+
   connectedCallback() {
     // close the dock
     this.close();
     // Exit with escape key
     this.exitWithEscape();
+
+    //cancelbutton
+    this.cancelButton();
   } //End of connectedCallback
 } //End of Class
 

@@ -58,13 +58,14 @@ export default class ViewUser extends Base {
                         </div>
                     </div>
                 </div>
-
+                <!--
                 <div class="sub-row button-group-user">
                     <button class="primary-button">Deactivate</button>
-                    <!-- <button class="danger-button">Temporaly Block</button>
-                    <button class="danger-button">Permenatly Ban</button> -->
+                     <button class="danger-button">Temporaly Block</button>
+                    <button class="danger-button">Permenatly Ban</button>
                     <button class="danger-button">Make confirm contacts</button>
                 </div>
+                -->
             </div>
 
         </div>

@@ -8,23 +8,13 @@ export default class PaymentPaid extends Base {
       <div class="column left-nav-container">
         <div class="column left-nav">
           <div><a href="/payment/received">Received Payments</a></div>
-          <div><a href="/payment/paid">Paying History</a></div>
-          <div class="active"><a href="/payment/all">All payments</a></div>
-          <div><a href="/payment/cashout">Cash out</a></div>
+          <div class="active"><a href="/payment/paid">Paying History</a></div>
+          <div><a href="/payment/all">All payments</a></div>
+          <!-- <div><a href="/payment/cashout">Cash out</a></div> -->
           <div><a href="/payment/bank-account">Bank Account Details</a></div>
         </div>
       </div>
   `
-
-    tr = `
-      <tr>
-          <td>91908091830</td>
-          <td>Boarding fee for <a>#293b24o82g9vh4o</a></td>
-          <td>Rs. 27, 000</td>
-          <td>2020-10-12 12:45:23</td>
-          <td>🟠 Pending</td>
-      </tr>
-    `
 
     content = `
     <div class="container row">
@@ -42,11 +32,6 @@ export default class PaymentPaid extends Base {
                     </tr>
                 </thead>
                 <tbody id="received-table-body">
-                    ${this.tr}
-                    ${this.tr}
-                    ${this.tr}
-                    ${this.tr}
-                    ${this.tr}
                 </tbody>
             </table>
         </div>
@@ -58,7 +43,38 @@ export default class PaymentPaid extends Base {
         this.mount()
     } //End of constructor
 
-    connectedCallback() {} //End of connected callback
+    async getAll() {
+      const res = await axios.post(`${this.host}/payment/all-paid`, {
+        ...this.authData(),
+      });
+  
+      if (res.status == 200) {
+        res.data.forEach((item) => {
+          console.log(item);
+          this._qs("#received-table-body").innerHTML += `
+          <tr>
+              <td>${item.payment_id}</td>
+              <td>${item.payment_type} <a>#${item.property_id}</a></td>
+              <td>${item.payhere_currency} ${item.payhere_amount}</td>
+              <td>${item.updated}</td>
+              <td>${
+                item.status_code == 2
+                  ? "🟢 Successfull"
+                  : item.status_code == -1
+                  ? "🔴 Rejected"
+                  : item.status_code == 0
+                  ? "🟠 Pending"
+                  : "🔴 Canceled by user"
+              }</td>
+          </tr>
+        `;
+        });
+      }
+    }
+
+    connectedCallback() {
+      this.getAll()
+    } //End of connected callback
 }
 
 window.customElements.define('payment-paid', PaymentPaid)

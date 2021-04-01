@@ -33,7 +33,7 @@ export default class Pagination extends Base {
             <div class='last'>Last</div>
         </div>
     `;
-    this._qs("#pagination").innerHTML = content;
+    this._qs("#pagination").innerHTML = '';
   } //End of setPagination()
 
   //

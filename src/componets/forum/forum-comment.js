@@ -4,14 +4,14 @@ import CSS from "./forum.css.js";
 export default class ForumComment extends Base {
   css = CSS;
 
-    data = this.getParams("data-data");
+  data = this.getParams("data-data");
 
-    content = `
+  content = `
     <div class="conatiner">
         <div class="post-row">
             <h3 class="post-username" id="">${this.data.firstName} ${
-              this.data.lastName
-              }   
+    this.data.lastName
+  }   
             </h3>
             <h5 class="post-creadted">${this.data.created}</h5>
             <div class="delete-btn">${
@@ -34,34 +34,53 @@ export default class ForumComment extends Base {
     this.mount();
   } //End of constructor
 
+
+  //delete the comment
+  deleteComment() {
+    this._qs(".delete-btn").addEventListener("click", async () => {
+      this.wait(".conatiner");
+
+      try {
+        const res = await axios.post(
+          `${this.host}/forum/remove-comment/${this.data.id}`,
+          {
+            ...this.authData(),
+          }
+        );
+        if (res.status == 200) {
+          this.popup(res.data.message, "notice");
+          this._qs(".conatiner").innerHTML = "";
+        } else throw res.data;
+      } catch (err) {
+        this.popup(err.message, "error");
+        this.unwait(".conatiner");
+      }
+    });
+  } //end of delete comment
+
+
+  //updateComment
+  // <input id="comment-input-box" value="${this.data.comment}" />
+  //               <button id="comment-update">update</button>
+  // updateComment() {
+  //   this._qs("#comment-update").addEventListener("click", async () => {
+  //     const res = await axios.post(`${this.host}/forum/update-comment/${this.data.id}`, {
+  //       ...this.authData(),
+  //       comment: this._qs('#comment-input-box').value
+  //     });
+
+  //     if (res.status == 200) {
+  //       this.popup("Comment updated", "success", 10);
+  //     } else this.popup("Comment update failed", "Error", 10);
+  //   });
+  // }
+
+  connectedCallback() {
     //delete the comment
-    deleteComment() {
-            this._qs(".delete-btn").addEventListener("click", async() => {
-                this.wait(".conatiner");
-
-                try {
-                    const res = await axios.post(
-                        `${this.host}/forum/remove-comment/${this.data.id}`, {
-                            ...this.authData(),
-                        }
-                    );
-                    if (res.status == 200) {
-                        this.popup(res.data.message, "notice");
-                        this._qs(".conatiner").innerHTML = "";
-                    } else throw res.data;
-                } catch (err) {
-                    this.popup(err.message, "error");
-                    this.unwait(".conatiner");
-                }
-            });
-        } //end of delete comment
-
-    connectedCallback() {
-            //delete the comment
-            this.data.id == this.getUserId() || this.getUserType() == 1 ?
-                this.deleteComment() :
-                false;
-        } //End of connectedCallback()
+    this.data.id == this.getUserId() || this.getUserType() == 1
+      ? this.deleteComment()
+      : false;
+  } //End of connectedCallback()
 } //End of class
 
 const elementName = "forum-comment";

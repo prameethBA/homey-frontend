@@ -53,9 +53,9 @@ export default class SignUpForm extends Base {
                 <button title="Log in" class="load-login-form login-button"> Login </button>
             </div>
 
+            <!--
             <div class="hr-separator">
             </div>
-
             <div class="or-separator">
                 <span>or</span>
             </div>
@@ -65,7 +65,7 @@ export default class SignUpForm extends Base {
             </div>
             <div class="row api-login">
                 <button class="facebook"><img class="img2" src="../assets/img/facebook.svg">SignUp with Facebook</button>
-            </div>
+            </div> -->
 
         </div>
     </div>
