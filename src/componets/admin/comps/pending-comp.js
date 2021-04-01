@@ -143,7 +143,7 @@ export default class Pendings extends Base {
 
       if (res.data.status == "204") {
         // get summary about pendin approvals
-        this.getSummary();
+        // this.getSummary();
 
         this.popup(res.data.message, "success", 5);
       } else throw res.data;
@@ -158,7 +158,9 @@ export default class Pendings extends Base {
       item.addEventListener("click", async () => {
         this.wait(item);
         await this.approve(item.dataset.id);
-        this.unwait(item);
+        item.innerHTML = "Approved"
+        item.classList.add("decline-button")
+        item.classList.remove("approve-button")
       });
     });
   } //end of makeApprove()
