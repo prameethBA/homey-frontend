@@ -135,6 +135,12 @@ button{
     border-radius:0;
     margin: 1.5em 1em 0em 0em;
   }
+
+  .url-class {
+    color: blue;
+    cursor: pointer;
+  }
+
 @media(max-Width:800px){
   .forum-post {
     margin: 1em 1em 1em 1em;
