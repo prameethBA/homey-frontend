@@ -13,6 +13,12 @@ export default CSS = `
       font-size: 1em;
       margin: 1.5em 1em 0em 0em;
     }
+
+    .url-class {
+      color: blue;
+      cursor: pointer;
+    }
+
     @media(max-Width:500px){
         .forum-row{
           flex-direction:coloumn;

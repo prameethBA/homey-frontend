@@ -3,11 +3,11 @@ import CSS from "./forum-post.css.js";
 import "./forum-comment.js";
 
 export default class Forum extends Base {
-  css = CSS;
+    css = CSS;
 
-  data = this.getParams("data-data");
+    data = this.getParams("data-data");
 
-  content = `
+    content = `
     <div class="posts" id="${this.data._id}">
         <div class="post-container">
             <div class="post-row">
@@ -23,6 +23,11 @@ export default class Forum extends Base {
             <div class="post-row">
                 <textarea class="textarea" rows="4" cols="60" id="comment" name="comment" placeholder="Write comment"></textarea>
             </div>
+
+            <div class="post-row">
+                <textarea class="textarea" rows="4" cols="60" id="url" name="comment" placeholder="Enter Url"></textarea>
+            </div>
+
             <div class="form-row">
               <button id="submit">Add Comment</button>
               <div class="delete-btn">${
@@ -115,10 +120,12 @@ export default class Forum extends Base {
         }
         this.wait("#submit");
         const comment = this._qs("#comment");
+        const url = this._qs("#url");//new
         const res = await axios.post(`${this.host}/forum/add-new-comment`, {
           ...this.authData(),
           forumId: this.data._id,
           comment: comment.value,
+          url: url.value,//new
         });
         if (res.status == 201) {
           this.popup(res.data.message, "success");

@@ -2,11 +2,11 @@ import Base from "../Base.js";
 import CSS from "./forum.css.js";
 
 export default class ForumComment extends Base {
-  css = CSS;
+    css = CSS;
 
-  data = this.getParams("data-data");
+    data = this.getParams("data-data");
 
-  content = `
+    content = `
     <div class="conatiner">
         <div class="post-row">
             <h3 class="post-username" id="">${this.data.firstName} ${
@@ -23,6 +23,9 @@ export default class ForumComment extends Base {
         </div>
         <div class="post-row">
                 <p class="justify-text">${this.data.comment}</p>
+        </div>
+        <div class="post-row">
+                <div class="justify-text url-class">${this.data.url}</div>
         </div>
         <hr/>
        
@@ -80,6 +83,11 @@ export default class ForumComment extends Base {
     this.data.id == this.getUserId() || this.getUserType() == 1
       ? this.deleteComment()
       : false;
+
+      this._qs('.url-class').addEventListener('click', () => {
+        window.open(`http://${this.data.url}`) //new
+      })
+      
   } //End of connectedCallback()
 } //End of class
 

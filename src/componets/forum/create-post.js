@@ -2,9 +2,9 @@ import Base from "/componets/Base.js";
 import CSS from "./create-post.css.js";
 
 export default class CreatePost extends Base {
-  css = CSS;
+    css = CSS;
 
-  content = `
+    content = `
     <div class="backdrop">
         <div class="report-container">
             <span id="close-popup" title="close(Esc)">+</span>
@@ -22,6 +22,15 @@ export default class CreatePost extends Base {
                             <label>Forum title</label>
                         </div>
                     </div>
+
+                    <!-- new -->
+                    <div class="col-xs-12">
+                    <div class="styled-input wide">
+                        <input id="url" type="text" required />
+                        <label>Enter Link</label>
+                      </div>
+                  </div>
+
                     <div class="">
                         <div class="styled-input wide">
                             <textarea id="content" required></textarea>
@@ -38,101 +47,105 @@ export default class CreatePost extends Base {
     
 `;
 
-  constructor() {
-    super();
-    this.mount();
-  } //End of the constructor
+    constructor() {
+            super();
+            this.mount();
+        } //End of the constructor
 
-  //close the dock
-  close() {
-    this._qs("#close-popup").addEventListener("click", () => {
-      this.exitDock();
-    });
-  } //End of the close()
+    //close the dock
+    close() {
+            this._qs("#close-popup").addEventListener("click", () => {
+                this.exitDock();
+            });
+        } //End of the close()
 
-  // Exit the dock
-  exitDock() {
-    this._qs(".backdrop").style.opacity = "0";
-    this._qs(".backdrop").style.pointerEvents = "none";
-  } // End of exitDock()
+    // Exit the dock
+    exitDock() {
+            this._qs(".backdrop").style.opacity = "0";
+            this._qs(".backdrop").style.pointerEvents = "none";
+        } // End of exitDock()
 
-  //Exit with Escape key
-  exitWithEscape() {
-    addEventListener("keyup", ({ key }) =>
-      key === "Escape" ? this.exitDock() : null
-    );
-  } // End of exitWithEscape()
+    //Exit with Escape key
+    exitWithEscape() {
+            addEventListener("keyup", ({ key }) =>
+                key === "Escape" ? this.exitDock() : null
+            );
+        } // End of exitWithEscape()
 
-  //listenButton
-  listenButton() {
-    this._qs(".submit-btn").addEventListener("click", () => {
-      if (this.validate()) this.submitPost(); //submitPost
-    });
-  } //End of listenButton()
-
-  //validate data
-  validate() {
-    try {
-      const reason = this._qs("#title");
-      const message = this._qs("#content");
-
-      if (/^ *$|^$/.test(reason.value))
-        throw { message: "Title cannot be empty" };
-      if (/^ *$|^$/.test(message.value))
-        throw { message: "Content cannot be empty" };
-      return true;
-    } catch (err) {
-      this.popup(err.message, "error", 10);
-      return false;
-    }
-  } //End of validate()
-
-  //SubmitPost
-  async submitPost() {
-    this.wait(".submit-btn");
-    try {
-      const res = await axios.post(`${this.host}/forum/create`, {
-        ...this.authData(),
-        title: this._qs("#title").value,
-        content: this._qs("#content").value,
-      });
-
-      if (res.data.action == "true") {
-        this.exitDock()
-        dispatchEvent(
-          new CustomEvent("new-post-added", {
-            detail: {
-              title: this._qs("#title").value,
-              content: this._qs("#content").value,
-              user_id: this.getUserId(),
-              _id: 0,
-              created: "just now",
-            },
-          })
-        );
-        this.popup(res.data.message, "success");
-      } else {
-        this.popup(res.data.message, "error");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    this.exitDock();
-    this.unwait(".submit-btn");
-  } //End of submitPost
-
-  //connectedCallback
-  connectedCallback() {
-    // close the dock
-    this.close();
-    // Exit with escape key
-    this.exitWithEscape();
     //listenButton
-    this.listenButton();
-  } //End of connectedCallback()
+    listenButton() {
+            this._qs(".submit-btn").addEventListener("click", () => {
+                if (this.validate()) this.submitPost(); //submitPost
+            });
+        } //End of listenButton()
+
+    //validate data
+    validate() {
+            try {
+                const reason = this._qs("#title");
+                const message = this._qs("#content");
+                const url = this._qs("#url"); //new
+
+                if (/^ *$|^$/.test(reason.value))
+                    throw { message: "Title cannot be empty" };
+                if (/^ *$|^$/.test(message.value))
+                    throw { message: "Content cannot be empty" };
+                if (/^ *$|^$/.test(url.value))
+                    throw { message: "Link cannot be empty" }; //new
+                return true;
+            } catch (err) {
+                this.popup(err.message, "error", 10);
+                return false;
+            }
+        } //End of validate()
+
+    //SubmitPost
+    async submitPost() {
+            this.wait(".submit-btn");
+            try {
+                const res = await axios.post(`${this.host}/forum/create`, {
+                    ...this.authData(),
+                    title: this._qs("#title").value,
+                    content: this._qs("#content").value,
+                    url: this._qs("#url").value, //new
+                });
+
+                if (res.data.action == "true") {
+                    this.exitDock()
+                    dispatchEvent(
+                        new CustomEvent("new-post-added", {
+                            detail: {
+                                title: this._qs("#title").value,
+                                content: this._qs("#content").value,
+                                user_id: this.getUserId(),
+                                _id: 0,
+                                created: "just now",
+                            },
+                        })
+                    );
+                    this.popup(res.data.message, "success");
+                } else {
+                    this.popup(res.data.message, "error");
+                }
+            } catch (err) {
+                console.log(err);
+            }
+            this.exitDock();
+            this.unwait(".submit-btn");
+        } //End of submitPost
+
+    //connectedCallback
+    connectedCallback() {
+            // close the dock
+            this.close();
+            // Exit with escape key
+            this.exitWithEscape();
+            //listenButton
+            this.listenButton();
+        } //End of connectedCallback()
 } //End of Class
 
 const elementName = "create-post";
-customElements.get(elementName) == undefined
-  ? window.customElements.define(elementName, CreatePost)
-  : null;
+customElements.get(elementName) == undefined ?
+    window.customElements.define(elementName, CreatePost) :
+    null;
